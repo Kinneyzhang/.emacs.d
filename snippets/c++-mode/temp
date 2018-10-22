@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: template
+# key: temp
+# --
+template <class T,${1:cond}>
+$0

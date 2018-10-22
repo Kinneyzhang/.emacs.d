@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: include
+# key: # 
+# --
+#include<${1:libname}>
