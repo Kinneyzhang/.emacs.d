@@ -15,10 +15,11 @@
  '(custom-enabled-themes (quote (leuven)))
  '(custom-safe-themes
    (quote
-    ("9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
+    ("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
  '(evil-leader/leader "SPC")
  '(evil-want-C-u-scroll t)
  '(fci-rule-color "#3C3D37")
+ '(frame-background-mode nil)
  '(fringe-mode 0 nil (fringe))
  '(gdb-enable-debug t)
  '(gdb-many-windows t)
@@ -35,18 +36,17 @@
      ("#A75B00" . 70)
      ("#F309DF" . 85)
      ("#3C3D37" . 100))))
+ '(hl-sexp-background-color "#efebe9")
  '(magit-diff-use-overlays nil)
  '(menu-bar-mode t)
  '(org-agenda-files nil)
  '(org-agenda-window-setup (quote current-window))
- '(org-mobile-directory "")
- '(org-mobile-encryption-password "nrkinney666")
  '(org-pomodoro-ask-upon-killing t)
  '(org-pomodoro-length 50)
  '(org-pomodoro-long-break-length 20)
  '(package-selected-packages
    (quote
-    (ccls auto-complete-clang auto-complete evil-nerd-commenter window-numbering powerline-evil powerline which-key diary-manager fcitx csharp-mode abc-mode org-projectile leuven-theme company-ycmd company-anaconda use-package evil evil-leader exec-path-from-shell expand-region flycheck goto-chg helm-ag helm-core hungry-delete iedit js2-refactor memoize multiple-cursors nodejs-repl org-pomodoro pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax s shell-pop shut-up smartparens swiper web-mode yasnippet pallet dictionary color-theme color-theme-sanityinc-tomorrow monokai-theme company)))
+    (ccls auto-complete-clang auto-complete evil-nerd-commenter window-numbering powerline-evil powerline which-key diary-manager fcitx csharp-mode abc-mode org-projectile leuven-theme company-ycmd company-anaconda use-package evil evil-leader exec-path-from-shell expand-region flycheck goto-chg helm-ag helm-core hungry-delete iedit js2-refactor memoize multiple-cursors nodejs-repl org-pomodoro pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax s shell-pop shut-up smartparens swiper web-mode yasnippet pallet dictionary color-theme-sanityinc-tomorrow monokai-theme company)))
  '(popwin:popup-window-position (quote right))
  '(popwin:popup-window-width 80)
  '(pos-tip-background-color "#FFFACE")
@@ -63,6 +63,13 @@
  '(shell-pop-window-position "right")
  '(shell-pop-window-size 40)
  '(show-paren-mode t)
+ '(solarized-bold nil)
+ '(solarized-broken-srgb t)
+ '(solarized-contrast (quote normal))
+ '(solarized-degrade nil)
+ '(solarized-italic nil)
+ '(solarized-termcolors 16)
+ '(solarized-underline nil)
  '(tool-bar-mode nil)
  '(tooltip-mode nil)
  '(vc-annotate-background nil)
@@ -95,6 +102,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(error ((t (:background "black" :foreground "#c60007" :inverse-video t))))
  '(hl-line ((t (:background "gray91"))))
  '(js2-external-variable ((t (:foreground "dark gray"))))
  '(web-mode-html-attr-name-face ((t (:foreground "light green"))))

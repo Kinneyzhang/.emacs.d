@@ -1,4 +1,5 @@
 ;;全局默认设置
+(setq inhibit-startup-message t)
 
 (setq ring-bell-function 'ignore);;消除滑动到底部或顶部时的声音
 
@@ -89,8 +90,4 @@
   (call-interactively 'occur))
 (global-set-key (kbd "M-s o") 'occur-dwim)
 
-(setq browse-url-browser-function 'browse-url-default-macosx-browser)
-(global-set-key (kbd "M-s M-s") 'browse-url-default-macosx-browser)
-
-								      
 (provide 'init-better-defaults)

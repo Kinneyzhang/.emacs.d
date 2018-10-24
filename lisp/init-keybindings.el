@@ -20,6 +20,7 @@
   "ww" 'delete-other-windows
 
   ;;打开配置文件
+  "em" 'open-my-packages-manage-file
   "ep" 'open-my-init-packages-file
   "ei" 'open-my-init-file
   "eb" 'open-my-init-better-defaults-file
@@ -35,8 +36,10 @@
   "as" 'org-agenda-schedule
   "ad" 'org-agenda-deadline
   "az" 'org-agenda-add-note
+  
   "osi" 'org-insert-src-block
   "ose" 'org-edit-src-code
+  "oo" 'org-open-at-point
   
   "ee" 'eval-last-sexp
   "q" 'save-buffers-kill-terminal
@@ -50,10 +53,10 @@
   "hf" 'counsel-describe-function
 
   "ss" 'save-buffer
-  "se" 'swiper
-  "sc" 'aya-create
-  "se" 'aya-expand
-  "sp" 'aya-persist-snippet
+  "sw" 'swiper
+  "snc" 'aya-create
+  "sne" 'aya-expand
+  "snp" 'aya-persist-snippet
 
   "cg" 'customize-group
   

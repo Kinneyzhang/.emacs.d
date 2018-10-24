@@ -15,36 +15,51 @@
 	 "* %?\nEntered on %U\n %i\n")
 	))
 
-;;(setq org-capture-templates 'init-org)
+(setq org-capture-templates 'init-org)
 
-;;config for org-projectile
-(use-package org-projectile
-  :bind (("C-c n p" . org-projectile-project-todo-completing-read)
-         ("C-c c" . org-capture))
-  :config
+(defun org-insert-src-block (src-code-type)
+  "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
+  (interactive
+   (let ((src-code-types
+          '("emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
+            "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
+            "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
+            "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
+            "scheme" "sqlite")))
+     (list (ido-completing-read "Source code type: " src-code-types))))
   (progn
-    (setq org-projectile-projects-file
-          "~/org/gtd.org")
-    (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
-    (push (org-projectile-project-todo-entry) org-capture-templates))
-  :ensure t)
+    (newline-and-indent)
+    (insert (format "#+BEGIN_SRC %s\n" src-code-type))
+    (newline-and-indent)
+    (insert "#+END_SRC\n")
+    (previous-line 2)
+    (org-edit-src-code)))
 
-;;获取当前浏
-(defun kinney/retrieve-chrome-current-tab-url()
-  "Get the URL of the active tab of the first window"
-  (interactive)
-  (let ((result (do-applescript
-		 (concat
-		  "set frontmostApplication to path to frontmost application\n"
-		  "tell application \"Google Chrome\"\n"
-		  " set theUrl to get URL of active tab of first window\n"
-		  " set theResult to (get theUrl) \n"
-		  "end tell\n"
-		  "activate application (frontmostApplication as text)\n"
-		  "set links to {}\n"
-		  "copy theResult to the end of links\n"
-		  "return links as string\n"))))
-    (format "%s" (s-chop-suffix "\"" (s-chop-prefix "\"" result)))))
+(add-hook 'org-mode-hook '(lambda ()
+                            ;; turn on flyspell-mode by default
+                            (flyspell-mode 1)
+                            ;; C-TAB for expanding
+                            (local-set-key (kbd "C-<tab>")
+                                           'yas/expand-from-trigger-key)
+                            ;; keybinding for editing source code blocks
+                            (local-set-key (kbd "C-c s e")
+                                           'org-edit-src-code)
+                            ;; keybinding for inserting code blocks
+                            (local-set-key (kbd "C-c s i")
+                                           'org-insert-src-block)
+                            ))
+
+;; ;;config for org-projectile
+;; (use-package org-projectile
+;;   :bind (("C-c n p" . org-projectile-project-todo-completing-read)
+;;          ("C-c c" . org-capture))
+;;   :config
+;;   (progn
+;;     (setq org-projectile-projects-file
+;;           "~/org/gtd.org")
+;;     (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
+;;     (push (org-projectile-project-todo-entry) org-capture-templates))
+;;   :ensure t)
 
 ;;设置换行
 (setq truncate-lines t)
@@ -52,20 +67,5 @@
   (setq truncate-lines nil)
   )
 (add-hook 'org-mode-hook 'my-org-mode)
-
-;;插入图片
-(defun my-org-screenshot ()
-  "Take a screenshot into a time stamped unique-named file in the
-same directory as the org-buffer and insert a link to this file."
-  (interactive)
-  (setq filename
-        (concat
-         (make-temp-name
-          (concat (file-name-nondirectory (buffer-file-name))
-                  "_"
-                  (format-time-string "%Y%m%d_%H%M%S_")) ) ".png"))
-  (call-process "screencapture" nil nil nil "-i" filename)
-  (insert (concat "[[./" filename "]]"))
-  (org-display-inline-images))
 
 (provide 'init-org)

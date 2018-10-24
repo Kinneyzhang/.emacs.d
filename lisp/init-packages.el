@@ -1,83 +1,29 @@
-;;包安装设置
-(when (>= emacs-major-version 24)
-  (require 'package)
-  (package-initialize)
-  (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-			   ("melpa" . "http://elpa.emacs-china.org/melpa/"))))
-;; cl - Common Lisp Extension
-(require 'cl)
-;; Add Packages
-(defvar kinney/packages '(
-			  alert
-			  async
-			  auto-complete
-			  auto-yasnippet
-			  ccls
-			  company
-			  company-anaconda
-			  company-ycmd
-			  counsel
-			  csharp-mode
-			  dash
-			  epl
-			  evil
-			  evil-leader
-			  evil-nerd-commenter
-			  exec-path-from-shell
-			  expand-region
-			  flycheck
-			  gntp
-			  goto-chg
-			  helm
-			  helm-ag
-			  helm-core
-			  hungry-delete
-			  iedit
-			  ivy
-			  js2-mode
-			  js2-refactor
-			  leuven-theme
-			  log4e
-			  memoize
-			  monokai-theme
-			  multiple-cursors
-			  nodejs-repl
-			  org-pomodoro
-			  org-projectile
-			  package-build
-			  pkg-info
-			  popup
-			  popwin
-			  powerline
-			  powerline-evil
-			  reveal-in-osx-finder
-			  ruby-hash-syntax
-			  shell-pop
-			  shut-up
-			  smartparens
-			  swiper
-			  use-package
-			  web-mode
-			  which-key
-			  window-numbering
-			  yasnippet
-			  sr-speedbar
-			  ) "Default packages")
-
-(setq package-selected-packages kinney/packages)
-
-(defun kinney/packages-installed-p ()
-  (loop for pkg in kinney/packages
-	when (not (package-installed-p pkg)) do (return nil)
-	finally (return t)))
-
-(unless (kinney/packages-installed-p)
-  (message "%s" "Refreshing package database...")
-  (package-refresh-contents)
-  (dolist (pkg kinney/packages)
-    (when (not (package-installed-p pkg))
-      (package-install pkg))))
 ;;============================================================================
+;;functions to find my init files
+(defun open-my-packages-manage-file()
+  (interactive)
+  (find-file "~/.emacs.d/lisp/packages-manage.el"))
+(defun open-my-init-file()
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+(defun open-my-init-packages-file()
+  (interactive)
+  (find-file "~/.emacs.d/lisp/init-packages.el"))
+(defun open-my-init-better-defaults-file()
+  (interactive)
+  (find-file "~/.emacs.d/lisp/init-better-defaults.el"))
+(defun open-my-init-keybindings-file()
+  (interactive)
+  (find-file "~/.emacs.d/lisp/init-keybindings.el"))
+(defun open-my-init-ui-file()
+  (interactive)
+  (find-file "~/.emacs.d/lisp/init-ui.el"))
+(defun open-my-init-custom-file()
+  (interactive)
+  (find-file "~/.emacs.d/lisp/init-custom.el"))
+(defun open-my-init-org-file()
+  (interactive)
+  (find-file "~/.emacs.d/lisp/init-org.el"))
 
 ;;let emacs could find the exe
 (when (memq window-system '(mac ns))
@@ -287,5 +233,13 @@
 (require 'ccls)
 ;;(setq ccls-executable "")
 
+;;org-mode stuff
+(use-package org-bullets
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook 'org-bullets-mode))
+
+;;config for color-theme-solarized
+;; (require 'color-theme-solarized)
 
 (provide 'init-packages)

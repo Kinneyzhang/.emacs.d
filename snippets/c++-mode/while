@@ -1,6 +1,8 @@
 # -*- mode: snippet -*-
 # contributor: Kinney凯
-# name: include
-# key: #
+# name: while
+# key: while
 # --
-#include<${1:libname}>
+while(${1:cond}){
+	$0
+}

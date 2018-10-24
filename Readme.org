@@ -1,0 +1,5 @@
+#+STARTUP: showall hidestars
+
+* Link
+  - [[https://github.com/Kinneyzhang][my github address]]
+ 
