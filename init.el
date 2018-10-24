@@ -23,7 +23,4 @@
 (setq custom-file (expand-file-name "lisp/init-custom.el" user-emacs-directory))
 (load-file custom-file)
 
-(load-theme 'solarized t)
-(set-frame-parameter nil 'background-mode 'light)
-
 (setq org-agenda-files '("~/org"))

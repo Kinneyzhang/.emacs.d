@@ -12,10 +12,10 @@
  '(company-idle-delay 0.1)
  '(company-minimum-prefix-length 2)
  '(compilation-message-face (quote default))
- '(custom-enabled-themes (quote (leuven)))
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-day)))
  '(custom-safe-themes
    (quote
-    ("8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
+    ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
  '(evil-leader/leader "SPC")
  '(evil-want-C-u-scroll t)
  '(fci-rule-color "#3C3D37")
@@ -102,8 +102,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(error ((t (:background "black" :foreground "#c60007" :inverse-video t))))
- '(hl-line ((t (:background "gray91"))))
+ '(error ((t (:foreground "#c60007" :inverse-video t))))
+ '(hl-line ((t nil)))
  '(js2-external-variable ((t (:foreground "dark gray"))))
  '(web-mode-html-attr-name-face ((t (:foreground "light green"))))
  '(web-mode-html-tag-bracket-face ((t (:foreground "keyboardFocusIndicatorColor"))))

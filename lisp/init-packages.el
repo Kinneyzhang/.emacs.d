@@ -239,7 +239,7 @@
   :config
   (add-hook 'org-mode-hook 'org-bullets-mode))
 
-;;config for color-theme-solarized
-;; (require 'color-theme-solarized)
+;;config for color-theme-sanityinc-tomorrow 
+(require 'color-theme-sanityinc-tomorrow)
 
 (provide 'init-packages)

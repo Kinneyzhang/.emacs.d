@@ -13,7 +13,7 @@
 			  auto-complete
 			  auto-yasnippet
 			  ccls
-			  color-theme-solarized
+			  color-theme-sanityinc-tomorrow
 			  company
 			  company-anaconda
 			  company-ycmd
