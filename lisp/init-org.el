@@ -2,7 +2,7 @@
 
 (setq org-src-fontify-natively t)
 
-(setq org-agenda-files '("~/org"))
+;; (setq org-agenda-files '("~/org"))
 
 ;;启动时加载org-agenda
 ;; (add-hook 'after-init-hook 'org-agenda-list)

@@ -59,7 +59,7 @@
   "snp" 'aya-persist-snippet
 
   "cg" 'customize-group
-  
+  "cf" 'customize-face
   "v" 'er/expand-region
   )
 

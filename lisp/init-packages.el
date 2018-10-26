@@ -122,13 +122,13 @@
 (add-hook 'c++-mode-hook 'vlad-cc-style)
 (add-hook 'c-mode-hook 'vlad-cc-style)
 
-;;show parens anywhere
+;; Highlight parens when inside it
 (define-advice show-paren-function (:around (fn) fix-show-paren-function)
   "Highlight enclosing parens."
   (cond ((looking-at-p "\\s(") (funcall fn))
-	(t (save-excursion
-	     (ignore-errors (backward-up-list))
-	     (funcall fn)))))
+        (t (save-excursion
+             (ignore-errors (backward-up-list))
+             (funcall fn)))))
 
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 ;; indent setting
@@ -213,7 +213,6 @@
 (add-hook 'c++-mode-hook
 	  (lambda()
 	    (set (make-local-variable 'company-backends) '(company-ycmd) )))
-
 
 ;;config for whick-key
 (require 'which-key)
