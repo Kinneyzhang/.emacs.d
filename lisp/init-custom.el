@@ -46,7 +46,7 @@
  '(org-pomodoro-long-break-length 20)
  '(package-selected-packages
    (quote
-    (company-irony irony-eldoc company-jedi ggtags ccls auto-complete-clang auto-complete evil-nerd-commenter window-numbering powerline-evil powerline which-key diary-manager fcitx csharp-mode abc-mode org-projectile leuven-theme company-ycmd company-anaconda use-package evil evil-leader exec-path-from-shell expand-region flycheck goto-chg helm-ag helm-core hungry-delete iedit js2-refactor memoize multiple-cursors nodejs-repl org-pomodoro pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax s shell-pop shut-up smartparens swiper web-mode yasnippet pallet dictionary color-theme-sanityinc-tomorrow monokai-theme company)))
+    (company-irony irony-eldoc company-jedi ggtags ccls auto-complete evil-nerd-commenter window-numbering which-key diary-manager fcitx abc-mode org-projectile leuven-theme use-package evil evil-leader exec-path-from-shell expand-region flycheck helm-ag helm-core hungry-delete iedit js2-refactor memoize multiple-cursors nodejs-repl org-pomodoro pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax s shell-pop shut-up smartparens swiper web-mode yasnippet pallet dictionary color-theme-sanityinc-tomorrow company)))
  '(popwin:popup-window-position (quote right))
  '(popwin:popup-window-width 80)
  '(pos-tip-background-color "#FFFACE")

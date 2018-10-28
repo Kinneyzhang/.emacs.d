@@ -15,10 +15,7 @@
 			  ccls
 			  color-theme-sanityinc-tomorrow
 			  company
-			  company-anaconda
-			  company-ycmd
 			  counsel
-			  csharp-mode
 			  dash
 			  epl
 			  evil
@@ -27,8 +24,6 @@
 			  exec-path-from-shell
 			  expand-region
 			  flycheck
-			  gntp
-			  goto-chg
 			  helm
 			  helm-ag
 			  helm-core
@@ -38,10 +33,6 @@
 			  js2-mode
 			  js2-refactor
 			  leuven-theme
-			  log4e
-			  memoize
-			  monokai-theme
-			  multiple-cursors
 			  nodejs-repl
 			  org-pomodoro
 			  org-projectile
@@ -50,12 +41,9 @@
 			  pkg-info
 			  popup
 			  popwin
-			  powerline
-			  powerline-evil
 			  reveal-in-osx-finder
 			  ruby-hash-syntax
 			  shell-pop
-			  shut-up
 			  smartparens
 			  swiper
 			  use-package

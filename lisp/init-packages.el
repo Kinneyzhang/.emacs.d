@@ -261,27 +261,9 @@
 ;;:hook (company-mode . company-box-mode)) 
 ;;===============================================================
 
-;;;config for company-anaconda
-;; (add-hook 'python-mode-hook
-;; 	  (lambda()
-;; 	    (set (make-local-variable 'company-backends) '(company-anaconda))))
-
-;;;config for company-ycmd
-;; (require 'company-ycmd)
-;; (add-hook 'c++-mode-hook
-;; 	  (lambda()
-;; 	    (set (make-local-variable 'company-backends) '(company-ycmd) )))
-
-
-
 ;;config for whick-key
 (require 'which-key)
 (which-key-mode)
-
-;;config for powerline
-(require 'powerline)
-(powerline-revert)
-(require 'powerline-evil)
 
 ;;config for window-numbering
 (window-numbering-mode 1)

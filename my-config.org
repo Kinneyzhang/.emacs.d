@@ -1,0 +1,6 @@
+#+STARTUP: overview
+* repos
+  #+BEGIN_SRC emacs-lisp
+    (add-to-list 'package-archives '("gnu" . "http://elpa.emacs-china.org/gnu/") t)
+    (add-to-list 'package-archives '("melpa" . "http://elpa.emacs-china.org/melpa/") t)
+  #+END_SRC
