@@ -4,3 +4,7 @@ recentf
 elpa
 bookmarks
 abbrev_defs
+\#*
+*~
+.python-environments
+irony

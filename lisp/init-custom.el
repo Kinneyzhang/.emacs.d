@@ -12,7 +12,7 @@
  '(company-idle-delay 0.1)
  '(company-minimum-prefix-length 2)
  '(compilation-message-face (quote default))
- '(custom-enabled-themes (quote (sanityinc-tomorrow-day)))
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-eighties)))
  '(custom-safe-themes
    (quote
     ("628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
@@ -46,7 +46,7 @@
  '(org-pomodoro-long-break-length 20)
  '(package-selected-packages
    (quote
-    (ccls auto-complete-clang auto-complete evil-nerd-commenter window-numbering powerline-evil powerline which-key diary-manager fcitx csharp-mode abc-mode org-projectile leuven-theme company-ycmd company-anaconda use-package evil evil-leader exec-path-from-shell expand-region flycheck goto-chg helm-ag helm-core hungry-delete iedit js2-refactor memoize multiple-cursors nodejs-repl org-pomodoro pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax s shell-pop shut-up smartparens swiper web-mode yasnippet pallet dictionary color-theme-sanityinc-tomorrow monokai-theme company)))
+    (company-irony irony-eldoc company-jedi ggtags ccls auto-complete-clang auto-complete evil-nerd-commenter window-numbering powerline-evil powerline which-key diary-manager fcitx csharp-mode abc-mode org-projectile leuven-theme company-ycmd company-anaconda use-package evil evil-leader exec-path-from-shell expand-region flycheck goto-chg helm-ag helm-core hungry-delete iedit js2-refactor memoize multiple-cursors nodejs-repl org-pomodoro pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax s shell-pop shut-up smartparens swiper web-mode yasnippet pallet dictionary color-theme-sanityinc-tomorrow monokai-theme company)))
  '(popwin:popup-window-position (quote right))
  '(popwin:popup-window-width 80)
  '(pos-tip-background-color "#FFFACE")

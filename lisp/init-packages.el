@@ -122,6 +122,16 @@
 (add-hook 'c++-mode-hook 'vlad-cc-style)
 (add-hook 'c-mode-hook 'vlad-cc-style)
 
+;;config for c++
+(use-package ggtags
+  :ensure 
+  :config 
+  (add-hook 'c-mode-common-hook
+            (lambda ()
+              (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
+		(ggtags-mode 1))))
+  )
+
 ;; Highlight parens when inside it
 (define-advice show-paren-function (:around (fn) fix-show-paren-function)
   "Highlight enclosing parens."
@@ -148,9 +158,6 @@
 
 (eval-after-load "web-mode"
   '(web-mode-keybinding-settings))
-
-;;自动补全
-(global-company-mode t)
 
 ;;config for popwin
 (require 'popwin)
@@ -203,16 +210,69 @@
  '(shell-pop-full-span t)
  '(shell-pop-window-position "right"))
 
-;;config for company-anaconda
-(add-hook 'python-mode-hook
-	  (lambda()
-	    (set (make-local-variable 'company-backends) '(company-anaconda))))
+;;===============================================================
+;;config for company
+(use-package company
+  :ensure t
+  :config
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 3)
 
-;;config for company-ycmd
-(require 'company-ycmd)
-(add-hook 'c++-mode-hook
-	  (lambda()
-	    (set (make-local-variable 'company-backends) '(company-ycmd) )))
+  (global-company-mode t)
+  )
+
+(use-package company-irony
+  :ensure t
+  :config 
+  (add-to-list 'company-backends 'company-irony)
+  )
+
+(use-package irony
+  :ensure t
+  :config
+  (add-hook 'c++-mode-hook 'irony-mode)
+  (add-hook 'c-mode-hook 'irony-mode)
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  )
+
+(use-package irony-eldoc
+  :ensure t
+  :config
+  (add-hook 'irony-mode-hook #'irony-eldoc))
+
+(defun my/python-mode-hook ()
+  (add-to-list 'company-backends 'company-jedi))
+
+(add-hook 'python-mode-hook 'my/python-mode-hook)
+(use-package company-jedi
+  :ensure t
+  :config
+  (add-hook 'python-mode-hook 'jedi:setup)
+  )
+
+(defun my/python-mode-hook ()
+  (add-to-list 'company-backends 'company-jedi))
+
+(add-hook 'python-mode-hook 'my/python-mode-hook)
+
+;;; company box mode
+;;(use-package company-box
+;;:ensure t
+;;:hook (company-mode . company-box-mode)) 
+;;===============================================================
+
+;;;config for company-anaconda
+;; (add-hook 'python-mode-hook
+;; 	  (lambda()
+;; 	    (set (make-local-variable 'company-backends) '(company-anaconda))))
+
+;;;config for company-ycmd
+;; (require 'company-ycmd)
+;; (add-hook 'c++-mode-hook
+;; 	  (lambda()
+;; 	    (set (make-local-variable 'company-backends) '(company-ycmd) )))
+
+
 
 ;;config for whick-key
 (require 'which-key)
