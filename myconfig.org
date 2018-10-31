@@ -27,6 +27,7 @@
 			      exec-path-from-shell
 			      expand-region
 			      flycheck
+			      ggtags
 			      helm
 			      helm-ag
 			      helm-core
@@ -142,6 +143,7 @@
   #+END_SRC
 * Keybindings
   #+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-x p") 'compile)
     (global-set-key (kbd "<f5>") 'revert-buffer)
     (global-set-key "\C-s" 'swiper)
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
@@ -276,7 +278,7 @@
 * Ui-settings
   #+BEGIN_SRC emacs-lisp
     (tool-bar-mode -1)
-    (scroll-bar-mode nil)
+    (scroll-bar-mode -1)
     (menu-bar-mode t)
     (set-default-font "-*-Monaco-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1")
     (global-hl-line-mode t);;光标行高亮
