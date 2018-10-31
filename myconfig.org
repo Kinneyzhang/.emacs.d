@@ -209,7 +209,7 @@
     (setq auto-save-default nil);;不允许自动保存
     (recentf-mode 1)
     (setq recentf-max-menu-items 25)
-    (add-hook 'prog-mode-hook 'linum-mode);;显示行号
+    (add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
     (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
     (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
     (fset 'yes-or-no-p 'y-or-n-p);;用y/s 代替yes/no
@@ -276,7 +276,7 @@
 * Ui-settings
   #+BEGIN_SRC emacs-lisp
     (tool-bar-mode -1)
-    (scroll-bar-mode -1)
+    (scroll-bar-mode nil)
     (menu-bar-mode t)
     (set-default-font "-*-Monaco-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1")
     (global-hl-line-mode t);;光标行高亮
@@ -611,5 +611,13 @@
 * Ccls
   #+BEGIN_SRC emacs-lisp
     (use-package ccls
+      :ensure t)
+  #+END_SRC
+
+* Music
+  #+BEGIN_SRC emacs-lisp
+    (use-package simple-mpc
+      :ensure t)
+    (use-package mingus
       :ensure t)
   #+END_SRC
