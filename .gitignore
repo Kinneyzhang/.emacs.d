@@ -7,6 +7,5 @@ abbrev_defs
 \#*
 *~
 .python-environments
-irony
 myconfig.el
 eshell

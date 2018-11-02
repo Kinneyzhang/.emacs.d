@@ -143,6 +143,9 @@
   #+END_SRC
 * Keybindings
   #+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-x -") 'split-window-below)
+    (global-set-key (kbd "C-x /") 'split-window-right)
+
     (global-set-key (kbd "C-x p") 'compile)
     (global-set-key (kbd "<f5>") 'revert-buffer)
     (global-set-key "\C-s" 'swiper)
