@@ -3,5 +3,5 @@
 # name: template
 # key: temp
 # --
-template <class T,${1:cond}>
+template <class T>
 $0
