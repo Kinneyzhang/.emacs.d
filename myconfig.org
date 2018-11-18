@@ -141,12 +141,10 @@
     (define-key evil-visual-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
 
   #+END_SRC
-* Keybindings
+* Key bindings
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x -") 'split-window-below)
     (global-set-key (kbd "C-x /") 'split-window-right)
-
-    (global-set-key (kbd "C-x p") 'compile)
     (global-set-key (kbd "<f5>") 'revert-buffer)
     (global-set-key "\C-s" 'swiper)
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
@@ -155,26 +153,18 @@
     (global-set-key (kbd "C-h f") 'counsel-describe-function)
     (global-set-key (kbd "C-h v") 'counsel-describe-variable)
 
-    (global-set-key (kbd "C-h C-f") 'find-function)
-    (global-set-key (kbd "C-h C-v") 'find-variable)
-    (global-set-key (kbd "C-h C-k") 'find-fuction-on-key)
-
-    (global-set-key "\C-x\ \C-r" 'recentf-open-files)
-
-    (global-set-key (kbd "<f1>") 'open-my-init-file)
-    (global-set-key (kbd "<f2>") 'open-my-packages-file)
-
-    ;;(global-set-key (kbd "C-c p f") 'counsel-git);;从默认git仓库中查找文件
+;;    (global-set-key (kbd "C-c p f") 'counsel-git);;从默认git仓库中查找文件
 
     (global-set-key (kbd "C-c a") 'org-agenda)
+    (global-set-key (kbd "C-c c") 'org-capture)
 
-    ;; 设置C->键作为窗口之间的切换，默认的是C-x-o,比较麻烦 
-    (global-set-key (kbd "C-.") 'other-window)
+    (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
 
     ;; 把C-j绑定到到达指定行上 
     (global-set-key (kbd "C-j") 'goto-line)
 
-    ;;设置M-/作为标志位，默认C-@来setmark,C-@不太好用 
+    ;;设置M-/作为标志位，默认C-@来setmark,C-@不太好用
+
     ;;M-/本来对应zap-to-char，这里占用了
     (global-set-key (kbd "M-/") 'set-mark-command)
 
@@ -193,6 +183,13 @@
     (global-set-key (kbd "C-=") 'er/expand-region)
 
     (global-set-key (kbd "M-p") 'my-org-screenshot)
+
+    (global-set-key (kbd "<f1>") 'open-my-init-file)
+    (global-set-key (kbd "<f2>") 'open-my-config-file)
+
+    (global-set-key (kbd "C-c f r") 'sr-speedbar-open)
+    (global-set-key (kbd "C-c f e") 'sr-speedbar-close)
+    (require 'sr-speedbar)
 
     (defun open-my-init-file()
       (interactive)
@@ -310,7 +307,7 @@
     (setq org-agenda-files '("~/org"))
 
     ;;启动时加载org-agenda
-    ;; (add-hook 'after-init-hook 'org-agenda-list)
+    (add-hook 'after-init-hook 'org-agenda-list)
 
     (setq org-capture-templates 'myconfig)
     (setq org-capture-templates
@@ -600,7 +597,7 @@
     (use-package popwin
       :ensure t)
   #+END_SRC
-
+  
 * Window-numbering 
   #+BEGIN_SRC emacs-lisp
     (use-package window-numbering
@@ -627,10 +624,10 @@
   #+END_SRC
 * Projectile
   #+BEGIN_SRC emacs-lisp
-    (use-package projectile
-      :ensure t
-      :config
-      (projectile-mode +1)
-      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-      )
-  #+END_SRC
+  (use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  )
+  #+END_
