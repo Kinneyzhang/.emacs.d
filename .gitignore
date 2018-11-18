@@ -9,3 +9,4 @@ abbrev_defs
 .python-environments
 myconfig.el
 eshell
+projectile-bookmarks.eld
