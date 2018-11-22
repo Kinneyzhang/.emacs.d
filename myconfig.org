@@ -86,8 +86,8 @@
       (global-evil-leader-mode t)
       (evil-leader/set-key
 	"ff" 'find-file
-	"fr" 'sr-speedbar-open
-	"fe" 'sr-speedbar-close
+	"fr" 'speedbar
+	;; "fe" 'sr-speedbar-close
 
 	"bb" 'switch-to-buffer
 	"1"  'select-window-1
@@ -624,10 +624,18 @@
   #+END_SRC
 * Projectile
   #+BEGIN_SRC emacs-lisp
-  (use-package projectile
-  :ensure t
-  :config
-  (projectile-mode +1)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  )
-  #+END_
+    (use-package projectile
+      :ensure t
+      :config
+      (projectile-mode +1)
+      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+      )
+  #+END_SRC
+* Python
+  #+BEGIN_SRC emacs-lisp
+    (use-package elpy
+      :ensure t
+      :config
+      (elpy-enable)
+      )
+  #+END_SRC
