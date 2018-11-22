@@ -37,7 +37,7 @@
  '(org-agenda-window-setup (quote current-window))
  '(package-selected-packages
    (quote
-    (mingus simple-mpc alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl evil evil-leader evil-nerd-commenter exec-path-from-shell expand-region flycheck helm helm-ag helm-core hungry-delete iedit ivy js2-mode js2-refactor leuven-theme nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+    (python-django django-mode mingus simple-mpc alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl evil evil-leader evil-nerd-commenter exec-path-from-shell expand-region flycheck helm helm-ag helm-core hungry-delete iedit ivy js2-mode js2-refactor leuven-theme nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote

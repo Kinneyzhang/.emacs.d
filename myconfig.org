@@ -484,6 +484,12 @@
 
       (setq indent-tabs-mode nil))
 
+    (require 'django-html-mode)
+    (require 'django-mode)
+   ;; (yas/load-directory "path-to/django-mode/snippets")
+    (add-to-list 'auto-mode-alist '("\\.djhtml$" . django-html-mode))
+    (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mode))
+
   #+END_SRC
 
 * C++ 
@@ -636,6 +642,15 @@
     (use-package elpy
       :ensure t
       :config
+      (add-to-list 'package-archives
+		   '("elpy" . "https://jorgenschaefer.github.io/packages/"))
+      (package-initialize)
       (elpy-enable)
+      )
+
+    (use-package python-django
+      :ensure t
+      :config
+      (require 'python-django)
       )
   #+END_SRC
