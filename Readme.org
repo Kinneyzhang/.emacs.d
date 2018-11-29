@@ -1,5 +1,18 @@
 #+STARTUP: showall hidestars
+* my configuration for emacs
+** install
+   * clone this repo to your ~/.emacs.d directory
+     #+BEGIN_SRC sh
+       git clone https://github.com/Kinneyzhang/.emacs.d.git ~/.emacs.d
+     #+END_SRC
+   * open emacs and wait for some minutes to install all the packages
 
-* Link
-  - [[https://github.com/Kinneyzhang][my github address]]
- 
+** file structure
+   | file         | function                                                                    |
+   |--------------+-----------------------------------------------------------------------------|
+   | init.el      | this is the initialize file, after emacs staeted, this file will be loaded. |
+   | myconfig.org | this is the configuration file. It will be compiled to myconfig.el.         |
+   | snippets     | this is the snippets for my programming.                                    |
+   | .gitignore   | file will be ignored when commited to github.                               |
+   | irony        | the irony server                                                            |
+   
