@@ -1,4 +1,5 @@
-* my configuration for emacs
+#+STARTUP: showall hidestars
+* emacs配置
 ** install
    * clone this repo to your ~/.emacs.d directory
      #+BEGIN_SRC sh
@@ -7,11 +8,17 @@
    * open emacs and wait for some minutes to install all the packages
 
 ** file structure
-   | file         | function                                                                    |
-   |--------------+-----------------------------------------------------------------------------|
-   | init.el      | this is the initialize file, after emacs started, this file will be loaded. |
-   | myconfig.org | this is the configuration file. It will be compiled to myconfig.el.         |
-   | snippets     | this is the snippets for my programming.                                    |
-   | .gitignore   | file will be ignored when commited to github.                               |
-   | irony        | the irony server                                                            |
+   | file         | function                                 |
+   |--------------+------------------------------------------|
+   | init.el      | emacs的初始加载文件                      |
+   | myconfig.org | emacs配置文件，运行时自动生成myconfig.el |
+   | snippets     | 不同编程语言的snippets                   |
+   | .gitignore   | github忽略提交的文件                     |
+   | irony        | irony服务器                                |
    
+** keybindings
+   * 本配置使用了两种按键绑定，evil和emacs系统按键配置。在myconfig.org的Evil和Keybindings中可以查看。evil按键需加上“;”为leaderkey。
+   * evil
+     * 
+   * emacs
+     * 
