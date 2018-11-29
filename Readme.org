@@ -17,7 +17,7 @@
    | irony        | irony服务器                                |
    
 ** keybindings
-   * 本配置使用了两种按键绑定，evil和emacs系统按键配置。在myconfig.org的Evil和Keybindings中可以查看。evil按键需加上“;”为leaderkey。
+   * 本配置使用了两种按键绑定，evil和emacs系统按键配置。leader = ";", 可在init.el中修改。
    * evil
     | keybindings      | function           |
     |------------------+--------------------|
@@ -53,5 +53,3 @@
     | <leader-key> cg  | customize-group    |
     | <leader-key> cf  | customize-face     |
      
-   * emacs
-     * 
