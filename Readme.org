@@ -19,6 +19,39 @@
 ** keybindings
    * 本配置使用了两种按键绑定，evil和emacs系统按键配置。在myconfig.org的Evil和Keybindings中可以查看。evil按键需加上“;”为leaderkey。
    * evil
-     * 
+    | keybindings      | function           |
+    |------------------+--------------------|
+    | <leader-key> ff  | 查找文件           |
+    | <leader-key> fr  | speedbar           |
+    | <leader-key> bb  | 切换buffer         |
+    | <leader-key> ee  | 加载配置           |
+    | <leader-key> ss  | 保存buffer         |
+    |                  |                    |
+    | <leader-key> em  | 切换到myconfig.org |
+    | <leader-key> ei  | 切换到init.el      |
+    |                  |                    |
+    | <leader-key> w-  | 垂直分割窗口       |
+    | <leader-key> w/  | 水平分割窗口       |
+    | <leader-key> ww  | 仅保留当前窗口     |
+    | <leader-key> wd  | 删除当前窗口       |
+    | <leader-key> wj  | 切换窗口           |
+    | <leader-key> 1   | 切换窗口1          |
+    | <leader-key> 2   | 切换窗口2          |
+    | <leader-key> 3   | 切换窗口3          |
+    | <leader-key> 4   | 切换窗口4          |
+    |                  |                    |
+    | <leader-key> osi | 插入代码块         |
+    | <leader-key> ose | 编辑代码块         |
+    | <leader-key> aa  | org-agenda         |
+    | <leader-key> cc  | org-capture        |
+    |                  |                    |
+    | <leader-key> hk  | 按键描述           |
+    | <leader-key> hv  | 变量描述           |
+    | <leader-key> hf  | 函数描述           |
+    |                  |                    |
+    | <leader-key> sw  | swiper             |
+    | <leader-key> cg  | customize-group    |
+    | <leader-key> cf  | customize-face     |
+     
    * emacs
      * 
