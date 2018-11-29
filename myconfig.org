@@ -20,6 +20,7 @@
 			      company
 			      counsel
 			      dash
+			      elfeed
 			      epl
 			      evil
 			      evil-leader
@@ -87,7 +88,7 @@
       (evil-leader/set-key
 	"ff" 'find-file
 	"fr" 'speedbar
-	;; "fe" 'sr-speedbar-close
+	;;"fe" 'sr-speedbar-close
 
 	"bb" 'switch-to-buffer
 	"1"  'select-window-1
@@ -189,7 +190,6 @@
 
     (global-set-key (kbd "C-c f r") 'sr-speedbar-open)
     (global-set-key (kbd "C-c f e") 'sr-speedbar-close)
-    (require 'sr-speedbar)
 
     (defun open-my-init-file()
       (interactive)
@@ -211,7 +211,7 @@
     (setq auto-save-default nil);;不允许自动保存
     (recentf-mode 1)
     (setq recentf-max-menu-items 25)
-    (add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
+    ;;(add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
     (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
     (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
     (fset 'yes-or-no-p 'y-or-n-p);;用y/s 代替yes/no
@@ -284,13 +284,12 @@
     (global-hl-line-mode t);;光标行高亮
     (setq inhibit-splash-screen t);取消默认启动窗口
     (setq-default cursor-type 'bar);变光标, setq-default设置全局
-    (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
+    ;;(setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
     ;;设置窗口位置为屏库左上角(0,0)
-    ;;(set-frame-position (selected-frame) 160 70)
+    (set-frame-position (selected-frame) 150 0)
     ;;设置宽和高
-    ;;(set-frame-width (selected-frame) 140)
-    ;;(set-frame-height (selected-frame) 45)
-
+    (set-frame-width (selected-frame) 139)
+    (set-frame-height (selected-frame) 36)
   #+END_SRC
 
 * Org-mode 
@@ -484,12 +483,22 @@
 
       (setq indent-tabs-mode nil))
 
-    (require 'django-html-mode)
-    (require 'django-mode)
-   ;; (yas/load-directory "path-to/django-mode/snippets")
-    (add-to-list 'auto-mode-alist '("\\.djhtml$" . django-html-mode))
-    (add-to-list 'auto-mode-alist '("\\.html$" . django-html-mode))
+    (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 
+    (setq web-mode-engines-alist
+	  '(("php"    . "\\.phtml\\'")
+	    ("blade"  . "\\.blade\\.")
+	    ("django"  . "\\.djhtml\\'")
+	    ("django"  . "\\.html?\\'"))
+	  )
+   
   #+END_SRC
 
 * C++ 
@@ -550,7 +559,7 @@
       ;; (setq shell-pop-universal-key "C-t")
       (setq shell-pop-window-size 40)
       (setq shell-pop-full-span t)
-      (setq shell-pop-window-position "right")
+      (setq shell-pop-window-position "bottom")
 
       ;; need to do this manually or not picked up by shell-pop
       (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type))
@@ -563,6 +572,7 @@
       :ensure t
       :config
       (electric-pair-mode t)
+      ;;(add-hook 'web-mode-hook (lambda () (electric-pair-mode -1))) 
       (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
   #+END_SRC
 
@@ -653,4 +663,24 @@
       :config
       (require 'python-django)
       )
+  #+END_SRC
+* Elfeed
+  #+BEGIN_SRC emacs-lisp
+    (use-package elfeed
+      :ensure t
+      :config
+      (setq elfeed-feeds
+	    '("https://rsshub.app/jianshu/trending/weekly"
+	      "http://www.zhihu.com/rss"
+	      ))
+      (setf url-queue-timeout 30)
+      (global-set-key (kbd "C-x w") 'elfeed)
+      )
+
+    (use-package elfeed-goodies
+      :ensure t
+      :config
+      (elfeed-goodies/setup)
+      )
+
   #+END_SRC

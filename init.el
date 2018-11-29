@@ -34,10 +34,19 @@
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(frame-background-mode (quote dark))
  '(hl-sexp-background-color "#efebe9")
+ '(menu-bar-mode nil)
  '(org-agenda-window-setup (quote current-window))
  '(package-selected-packages
    (quote
-    (python-django django-mode mingus simple-mpc alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl evil evil-leader evil-nerd-commenter exec-path-from-shell expand-region flycheck helm helm-ag helm-core hungry-delete iedit ivy js2-mode js2-refactor leuven-theme nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+    (elfeed-goodies elfeed hackernews python-django django-mode mingus simple-mpc alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl evil evil-leader evil-nerd-commenter exec-path-from-shell expand-region flycheck helm helm-ag helm-core hungry-delete iedit ivy js2-mode js2-refactor leuven-theme nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+ '(show-paren-mode t)
+ '(speedbar-default-position (quote right))
+ '(speedbar-show-unknown-files t)
+ '(sr-speedbar-auto-refresh nil)
+ '(sr-speedbar-default-width 20)
+ '(sr-speedbar-max-width 20)
+ '(sr-speedbar-right-side nil)
+ '(tool-bar-mode nil)
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
@@ -65,4 +74,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(web-mode-html-attr-name-face ((t (:foreground "#FF9900"))))
+ '(web-mode-html-tag-bracket-face ((t (:foreground "#408CFF"))))
+ '(web-mode-html-tag-face ((t (:foreground "#408CFF")))))
