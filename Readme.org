@@ -1,6 +1,6 @@
 #+STARTUP: showall hidestars
-* my emacs configuration
-** install
+* Emacs Configuration
+** Install
    * Clone this repo to your ~/.emacs.d directory. If you already have .emacs.d, back-up it!
      #+BEGIN_SRC sh
        mv ~/.emacs.d ~/.emacs.d.bak
@@ -8,17 +8,17 @@
      #+END_SRC
    * Start emacs and wait for a while to install all the packages.
 
-** attention
+** Attention
    * The config file is myconfig.org. After you start emacs, emacs will load init.el at first.
    * In init.el, the config "(org-babel-load-file (expand-file-name "~/.emacs.d/myconfig.org"))" is important which will compile myconfig as myconfig.el.
    * myconfig.el is the real one emacs will load, but you only have to manage the org file.
    * How to install packages? use "M-x package-install", and add "use package" config in myconfig.org file.
    
-** keybindings
+** Keybindings
    * The package 'Evil' enables us to use the keybindings like Vim. If you are also a vim user, it will be much convenient.
    * The leader-key is ";". Of course, you can change it in init.el.
    * You can also use emacs's default keybindings. Learn more details in myconfig.org.
-
+---------------------------------------------------------------------------------------------------------------------------------------
     | keybindings      | function                  |
     |------------------+---------------------------|
     | <leader-key> ff  | find file                 |
