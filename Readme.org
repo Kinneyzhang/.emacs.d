@@ -1,55 +1,54 @@
 #+STARTUP: showall hidestars
-* emacs配置
+* my emacs configuration
 ** install
-   * clone this repo to your ~/.emacs.d directory
+   * Clone this repo to your ~/.emacs.d directory. If you already have .emacs.d, back-up it!
      #+BEGIN_SRC sh
+       mv ~/.emacs.d ~/.emacs.d.bak
        git clone https://github.com/Kinneyzhang/.emacs.d.git ~/.emacs.d
      #+END_SRC
-   * open emacs and wait for some minutes to install all the packages
+   * Start emacs and wait for a while to install all the packages.
 
-** file structure
-   | file         | function                                 |
-   |--------------+------------------------------------------|
-   | init.el      | emacs的初始加载文件                      |
-   | myconfig.org | emacs配置文件，运行时自动生成myconfig.el |
-   | snippets     | 不同编程语言的snippets                   |
-   | .gitignore   | github忽略提交的文件                     |
-   | irony        | irony服务器                                |
+** attention
+   * The config file is myconfig.org. After you start emacs, emacs will load init.el at first.
+   * In init.el, the config "(org-babel-load-file (expand-file-name "~/.emacs.d/myconfig.org"))" is important which will compile myconfig as myconfig.el.
+   * myconfig.el is the real one emacs will load, but you only have to manage the org file.
+   * How to install packages? use "M-x package-install", and add "use package" config in myconfig.org file.
    
 ** keybindings
-   * 本配置使用了两种按键绑定，evil和emacs系统按键配置。leader = ";", 可在init.el中修改。
-   * evil
-    | keybindings      | function           |
-    |------------------+--------------------|
-    | <leader-key> ff  | 查找文件           |
-    | <leader-key> fr  | speedbar           |
-    | <leader-key> bb  | 切换buffer         |
-    | <leader-key> ee  | 加载配置           |
-    | <leader-key> ss  | 保存buffer         |
-    |                  |                    |
-    | <leader-key> em  | 切换到myconfig.org |
-    | <leader-key> ei  | 切换到init.el      |
-    |                  |                    |
-    | <leader-key> w-  | 垂直分割窗口       |
-    | <leader-key> w/  | 水平分割窗口       |
-    | <leader-key> ww  | 仅保留当前窗口     |
-    | <leader-key> wd  | 删除当前窗口       |
-    | <leader-key> wj  | 切换窗口           |
-    | <leader-key> 1   | 切换窗口1          |
-    | <leader-key> 2   | 切换窗口2          |
-    | <leader-key> 3   | 切换窗口3          |
-    | <leader-key> 4   | 切换窗口4          |
-    |                  |                    |
-    | <leader-key> osi | 插入代码块         |
-    | <leader-key> ose | 编辑代码块         |
-    | <leader-key> aa  | org-agenda         |
-    | <leader-key> cc  | org-capture        |
-    |                  |                    |
-    | <leader-key> hk  | 按键描述           |
-    | <leader-key> hv  | 变量描述           |
-    | <leader-key> hf  | 函数描述           |
-    |                  |                    |
-    | <leader-key> sw  | swiper             |
-    | <leader-key> cg  | customize-group    |
-    | <leader-key> cf  | customize-face     |
-     
+   * The package 'Evil' enables us to use the keybindings like Vim. If you are also a vim user, it will be much convenient.
+   * The leader-key is ";". Of course, you can change it in init.el.
+   * You can also use emacs's default keybindings. Learn more details in myconfig.org.
+
+    | keybindings      | function                  |
+    |------------------+---------------------------|
+    | <leader-key> ff  | find file                 |
+    | <leader-key> fr  | speedbar                  |
+    | <leader-key> bb  | change buffer             |
+    | <leader-key> ee  | load config               |
+    | <leader-key> ss  | save buffer               |
+    |                  |                           |
+    | <leader-key> em  | change to myconfig.org    |
+    | <leader-key> ei  | change to init.el         |
+    |                  |                           |
+    | <leader-key> w-  | split window vertically   |
+    | <leader-key> w/  | split window horizontally |
+    | <leader-key> ww  | only show current window  |
+    | <leader-key> wd  | delete current window     |
+    | <leader-key> wj  | change to other window    |
+    | <leader-key> 1   | change to window1         |
+    | <leader-key> 2   | change to window2         |
+    | <leader-key> 3   | change to window3         |
+    | <leader-key> 4   | change to window4         |
+    |                  |                           |
+    | <leader-key> osi | insert code block         |
+    | <leader-key> ose | edit code block           |
+    | <leader-key> aa  | org-agenda                |
+    | <leader-key> cc  | org-capture               |
+    |                  |                           |
+    | <leader-key> hk  | describe keybindings      |
+    | <leader-key> hv  | describe variate          |
+    | <leader-key> hf  | describe function         |
+    |                  |                           |
+    | <leader-key> sw  | swiper                    |
+    | <leader-key> cg  | customize-group           |
+    | <leader-key> cf  | customize-face            |
