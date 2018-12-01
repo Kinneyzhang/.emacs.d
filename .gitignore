@@ -10,3 +10,5 @@ abbrev_defs
 myconfig.el
 eshell
 projectile-bookmarks.eld
+.org-id-locations
+irony

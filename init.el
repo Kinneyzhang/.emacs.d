@@ -42,7 +42,7 @@
  '(org-agenda-window-setup (quote current-window))
  '(package-selected-packages
    (quote
-    (elfeed-goodies elfeed hackernews python-django django-mode mingus simple-mpc alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl evil evil-leader evil-nerd-commenter exec-path-from-shell expand-region flycheck helm helm-ag helm-core hungry-delete iedit ivy js2-mode js2-refactor leuven-theme nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+    (elfeed-goodies elfeed hackernews python-django django-mode alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl evil evil-leader evil-nerd-commenter exec-path-from-shell expand-region flycheck helm helm-ag helm-core hungry-delete iedit ivy js2-mode js2-refactor leuven-theme nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
  '(show-paren-mode t)
  '(speedbar-default-position (quote right))
  '(speedbar-show-unknown-files t)
