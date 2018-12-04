@@ -206,6 +206,7 @@
   #+BEGIN_SRC emacs-lisp
     ;;"some better defaults"
     (setq inhibit-startup-message t)
+    (setq inhibit-startup-screen t)
     (setq ring-bell-function 'ignore);;消除滑动到底部或顶部时的声音
     (global-auto-revert-mode t);;自动加载更新内容
     (setq make-backup-files nil);;不允许备份
@@ -285,12 +286,12 @@
     (global-hl-line-mode t);;光标行高亮
     (setq inhibit-splash-screen nil);取消默认启动窗口
     (setq-default cursor-type 'bar);变光标, setq-default设置全局
-    ;;(setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
+    (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
     ;;设置窗口位置为屏库左上角(0,0)
-    (set-frame-position (selected-frame) 150 0)
+    ;;(set-frame-position (selected-frame) 150 0)
     ;;设置宽和高
-    (set-frame-width (selected-frame) 139)
-    (set-frame-height (selected-frame) 36)
+    ;;(set-frame-width (selected-frame) 139)
+    ;;(set-frame-height (selected-frame) 36)
   #+END_SRC
 
 * Org-mode 
@@ -683,4 +684,18 @@
       (elfeed-goodies/setup)
       )
 
+  #+END_SRC
+* Dashboard
+  #+BEGIN_SRC emacs-lisp
+    (use-package dashboard
+      :ensure t
+      :config
+      (dashboard-setup-startup-hook))
+
+    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+    (setq dashboard-banner-logo-title "Happy hacking emacs!")
+    (setq dashboard-startup-banner "~/.emacs.d/img/ying.png")
+    (setq dashboard-items '((recents  . 5)
+			    (projects . 5)
+			    ))
   #+END_SRC
