@@ -134,6 +134,7 @@
 
 	"cg" 'customize-group
 	"cf" 'customize-face
+	"ce" 'toggle-company-english-helper
 	"v" 'er/expand-region
 	))
 
@@ -408,11 +409,10 @@
       (add-to-list 'company-backends 'company-jedi))
 
     (add-hook 'python-mode-hook 'my/python-mode-hook)
-
-    ;;; company box mode
-    ;;(use-package company-box
-    ;;:ensure t
-    ;;:hook (company-mode . company-box-mode))  
+    
+    ;; auto company English words 
+    (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
+    (require 'company-english-helper)
 
   #+END_SRC
 
