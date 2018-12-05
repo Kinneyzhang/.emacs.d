@@ -73,6 +73,22 @@
 	(when (not (package-installed-p pkg))
 	  (package-install pkg))))
   #+END_SRC
+* my-packages
+** package-management 
+   #+BEGIN_SRC emacs-lisp
+     (package-initialize)
+     (add-to-list 'load-path "~/.emacs.d/site-lisp/")
+   #+END_SRC
+** auto-save
+   #+BEGIN_SRC emacs-lisp
+     (require 'auto-save)            ;; 加载自动保存模块
+     (auto-save-enable)              ;; 开启自动保存功能
+     (setq auto-save-slient t)       ;; 自动保存的时候静悄悄的， 不要打扰我
+   #+END_SRC
+** company-english-word
+   #+BEGIN_SRC emacs-lisp
+     (require 'company-english-helper) 
+   #+END_SRC
 
 * Evil
   #+BEGIN_SRC emacs-lisp
@@ -210,9 +226,9 @@
     (setq ring-bell-function 'ignore);;消除滑动到底部或顶部时的声音
     (global-auto-revert-mode t);;自动加载更新内容
     (setq make-backup-files nil);;不允许备份
-    (setq auto-save-default nil);;不允许自动保存
+    (setq auto-save-default t);;不允许自动保存
     (recentf-mode 1)
-    (setq recentf-max-menu-items 25)
+    (setq recentf-max-menu-items 10)
     ;;(add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
     (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
     (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
@@ -282,7 +298,7 @@
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
     (menu-bar-mode t)
-    (set-default-font "-*-Monaco-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1")
+    (set-default-font "-*-Monaco-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
     (global-hl-line-mode t);;光标行高亮
     (setq inhibit-splash-screen nil);取消默认启动窗口
     (setq-default cursor-type 'bar);变光标, setq-default设置全局
@@ -411,9 +427,6 @@
 
     (add-hook 'python-mode-hook 'my/python-mode-hook)
     
-    ;; auto company English words 
-    (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
-    (require 'company-english-helper)
 
   #+END_SRC
 
@@ -695,7 +708,7 @@
     (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
     (setq dashboard-banner-logo-title "Happy hacking emacs!")
     (setq dashboard-startup-banner "~/.emacs.d/img/ying.png")
-    (setq dashboard-items '((recents  . 5)
+    (setq dashboard-items '((recents  . 8)
 			    (projects . 5)
 			    ))
   #+END_SRC
