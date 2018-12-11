@@ -706,7 +706,7 @@
       (dashboard-setup-startup-hook))
 
     (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-    (setq dashboard-banner-logo-title "Happy hacking emacs!")
+    (setq dashboard-banner-logo-title "Happy hacking emacs!  [Author:Kinney]  [Email:kinneyzhang666@gmail.com]")
     (setq dashboard-startup-banner "~/.emacs.d/img/ying.png")
     (setq dashboard-items '((recents  . 8)
 			    (projects . 5)
