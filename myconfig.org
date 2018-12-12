@@ -147,6 +147,8 @@
 	"snc" 'aya-create
 	"sne" 'aya-expand
 	"snp" 'aya-persist-snippet
+	
+	"yy" 'youdao-dictionary-search-at-point+
 
 	"cg" 'customize-group
 	"cf" 'customize-face
@@ -711,4 +713,14 @@
     (setq dashboard-items '((recents  . 8)
 			    (projects . 5)
 			    ))
+  #+END_SRC
+* Dictionary
+  #+BEGIN_SRC emacs-lisp
+    (use-package youdao-dictionary
+      :ensure t
+      :config
+      ;; Enable Cache
+      (setq url-automatic-caching t)
+      (global-set-key (kbd "C-c y") 'youdao-dictionary-search-at-point+)
+      )
   #+END_SRC
