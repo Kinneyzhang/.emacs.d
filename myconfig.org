@@ -1,5 +1,5 @@
 #+STARTUP: overview
-* packages 
+* packages
   #+BEGIN_SRC emacs-lisp
     ;;this is the packages that i have installed
     (when (>= emacs-major-version 24)
@@ -69,6 +69,7 @@
       (dolist (pkg kinney/packages)
 	(when (not (package-installed-p pkg))
 	  (package-install pkg))))
+
   #+END_SRC
 
 * my-packages
@@ -87,7 +88,11 @@
    #+BEGIN_SRC emacs-lisp
      (require 'company-english-helper) 
    #+END_SRC
-
+** aweshell
+   #+BEGIN_SRC emacs-lisp
+     (add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/aweshell"))
+     (require 'aweshell)
+   #+END_SRC
 * Evil
   #+BEGIN_SRC emacs-lisp
     (use-package evil
@@ -574,7 +579,7 @@
       (setq shell-pop-shell-type (quote ("ehell" "eshell" (lambda nil (eshell)))))
       (setq shell-pop-term-shell "eshell")
       ;; (setq shell-pop-universal-key "C-t")
-      (setq shell-pop-window-size 40)
+      (setq shell-pop-window-size 50)
       (setq shell-pop-full-span t)
       (setq shell-pop-window-position "bottom")
 
