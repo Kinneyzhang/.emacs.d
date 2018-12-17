@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: ul
+# key: ul
+# --
+<ul class="$1">
+    <li class="$2"></li>
+</ul>

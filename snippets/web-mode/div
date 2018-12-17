@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: div
+# key: div 
+# --
+<div class="$1">
+     $0
+</div>

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: a
+# key: a
+# --
+<a href="$1">$2</a>

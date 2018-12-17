@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: span
+# key: span
+# --
+<span>$1</span>

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: button
+# key: button
+# --
+<button type="button" class="$1">
+	$2
+</button>

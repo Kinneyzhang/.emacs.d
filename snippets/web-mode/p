@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: p
+# key: p
+# --
+<p>$1</p>

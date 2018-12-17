@@ -1,5 +1,5 @@
 #+STARTUP: overview
-* Packages
+* packages 
   #+BEGIN_SRC emacs-lisp
     ;;this is the packages that i have installed
     (when (>= emacs-major-version 24)
@@ -19,8 +19,6 @@
 			      color-theme-sanityinc-tomorrow
 			      company
 			      counsel
-			      dash
-			      elfeed
 			      epl
 			      evil
 			      evil-leader
@@ -56,7 +54,6 @@
 			      which-key
 			      window-numbering
 			      yasnippet
-			      sr-speedbar
 			      ) "Default packages")
 
     (setq package-selected-packages kinney/packages)
@@ -73,8 +70,9 @@
 	(when (not (package-installed-p pkg))
 	  (package-install pkg))))
   #+END_SRC
+
 * my-packages
-** package-management 
+** load-path
    #+BEGIN_SRC emacs-lisp
      (package-initialize)
      (add-to-list 'load-path "~/.emacs.d/site-lisp/")
@@ -104,7 +102,6 @@
       (evil-leader/set-key
 	"ff" 'find-file
 	"fr" 'speedbar
-	;;"fe" 'sr-speedbar-close
 
 	"bb" 'switch-to-buffer
 	"1"  'select-window-1
@@ -147,7 +144,7 @@
 	"snc" 'aya-create
 	"sne" 'aya-expand
 	"snp" 'aya-persist-snippet
-	
+
 	"yy" 'youdao-dictionary-search-at-point+
 
 	"cg" 'customize-group
@@ -159,8 +156,8 @@
     (evilnc-default-hotkeys)
     (define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
     (define-key evil-visual-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
-
   #+END_SRC
+   
 * Key bindings
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x -") 'split-window-below)
@@ -206,9 +203,6 @@
 
     (global-set-key (kbd "<f1>") 'open-my-init-file)
     (global-set-key (kbd "<f2>") 'open-my-config-file)
-
-    (global-set-key (kbd "C-c f r") 'sr-speedbar-open)
-    (global-set-key (kbd "C-c f e") 'sr-speedbar-close)
 
     (defun open-my-init-file()
       (interactive)
@@ -680,26 +674,6 @@
       (require 'python-django)
       )
   #+END_SRC
-* Elfeed
-  #+BEGIN_SRC emacs-lisp
-    (use-package elfeed
-      :ensure t
-      :config
-      (setq elfeed-feeds
-	    '("https://rsshub.app/jianshu/trending/weekly"
-	      "http://www.zhihu.com/rss"
-	      ))
-      (setf url-queue-timeout 30)
-      (global-set-key (kbd "C-x w") 'elfeed)
-      )
-
-    (use-package elfeed-goodies
-      :ensure t
-      :config
-      (elfeed-goodies/setup)
-      )
-
-  #+END_SRC
 * Dashboard
   #+BEGIN_SRC emacs-lisp
     (use-package dashboard
@@ -724,3 +698,4 @@
       (global-set-key (kbd "C-c y") 'youdao-dictionary-search-at-point+)
       )
   #+END_SRC
+  

@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: h5
+# key: h5
+# --
+<h5>$1</h5>
