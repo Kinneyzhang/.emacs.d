@@ -301,6 +301,10 @@
     (menu-bar-mode t)
     (set-default-font "-*-Monaco-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
     (global-hl-line-mode t);;光标行高亮
+
+    (global-hi-lock-mode 1) ;;使能高亮
+    (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
+
     (setq inhibit-splash-screen nil);取消默认启动窗口
     (setq-default cursor-type 'bar);变光标, setq-default设置全局
     (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
@@ -382,6 +386,15 @@
       )
     (add-hook 'org-mode-hook 'my-org-mode)
 
+    ;;hi-lock-mode
+    (defface hi-red-b '((t (:foreground "#e50062"))) t)
+
+    (defun org-bold-highlight ()
+      (interactive)
+      (hi-lock-mode)
+      (highlight-regexp "[ \\t]\\(\\*\\(\\S-[^*]+\\S-\\|[^*]\\{1,2\\}\\)\\*\\)[ \\t\\n]*" 'hi-red-b))
+
+    (add-hook 'org-mode-hook 'org-bold-highlight)
   #+END_SRC
 
 * Company
