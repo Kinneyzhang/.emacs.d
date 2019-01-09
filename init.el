@@ -30,7 +30,7 @@
  '(ansi-color-names-vector
    (vector "#424242" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8" "#70c0b1" "#eaeaea"))
  '(beacon-color "#cc6666")
- '(custom-enabled-themes (quote (sanityinc-tomorrow-bright)))
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-blue)))
  '(custom-safe-themes
    (quote
     ("82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" default)))
@@ -47,6 +47,8 @@
  '(package-selected-packages
    (quote
     (pdf-tools youdao-dictionary dashboard elfeed-goodies elfeed hackernews python-django django-mode alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl evil evil-leader evil-nerd-commenter exec-path-from-shell expand-region flycheck helm helm-ag helm-core hungry-delete iedit ivy js2-mode js2-refactor leuven-theme nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+ '(popwin-mode t)
+ '(popwin:adjust-other-windows nil)
  '(show-paren-mode t)
  '(speedbar-default-position (quote right))
  '(speedbar-show-unknown-files t)
@@ -84,6 +86,7 @@
  ;; If there is more than one, they won't work right.
  '(dashboard-banner-logo-title-face ((t (:inherit default :foreground "#65C4EB"))))
  '(dashboard-heading-face ((t (:inherit default :foreground "#65C4EB"))))
+ '(org-block ((t (:inherit shadow :foreground "white"))))
  '(web-mode-html-attr-name-face ((t (:foreground "#FF9900"))))
  '(web-mode-html-tag-bracket-face ((t (:foreground "#408CFF"))))
  '(web-mode-html-tag-face ((t (:foreground "#408CFF")))))
