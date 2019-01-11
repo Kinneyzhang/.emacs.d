@@ -39,6 +39,7 @@
 			      nodejs-repl
 			      org-pomodoro
 			      org-bullets
+			      org-journal
 			      package-build
 			      pkg-info
 			      popup
@@ -324,15 +325,14 @@
     (use-package org-pomodoro
       :ensure t)
 
+    (use-package org-journal
+      :ensure t)
+
     (setq org-src-fontify-natively t)
     (setq org-agenda-files '("~/org"))
 
     ;; Set to the location of your Org files on your local system
     (setq org-directory "~/org")
-    ;; Set to the name of the file where new notes will be stored
-    (setq org-mobile-inbox-for-pull "~/org/gtd.org")
-    ;; Set to <your Dropbox root directory>/MobileOrg.
-    (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
 
     ;;启动时加载org-agenda
     ;; (add-hook 'after-init-hook 'org-agenda-list)
@@ -344,7 +344,20 @@
 	     :empty-lines 1)
 	    ("j" "Journal" entry (file+datetree "~/org/journal.org")
 	     "* %?\nEntered on %U\n %i\n")
+	    ("e" "entry" entry (function org-journal-find-location)
+	     "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
+	     :empty-lines 1)
 	    ))
+
+
+    (defun org-journal-find-location ()
+      ;; Open today's journal, but specify a non-nil prefix argument in order to
+      ;; inhibit inserting the heading; org-capture will insert the heading.
+      (org-journal-new-entry t)
+      ;; Position point on the journal's top-level heading so that org-capture
+      ;; will add the new entry as a child entry.
+      (goto-char (point-min)))
+
 
     (defun org-insert-src-block (src-code-type)
       "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
