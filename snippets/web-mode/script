@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: script
+# key: script
+# --
+<script>
+	$1
+</script>

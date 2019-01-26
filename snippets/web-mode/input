@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: input
+# key: input
+# --
+<input type="$1" $2 />

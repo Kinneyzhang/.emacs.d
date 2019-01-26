@@ -342,7 +342,7 @@
 	  '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
 	     "* TODO [#B] %?\n  %i\n"
 	     :empty-lines 1)
-	    ("j" "Journal" entry (file+datetree "~/org/journal.org")
+	    ("d" "Diary" entry (file+datetree "~/org/diary.org")
 	     "* %?\nEntered on %U\n %i\n")
 	    ("e" "entry" entry (function org-journal-find-location)
 	     "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
@@ -438,21 +438,15 @@
       :config
       (add-hook 'irony-mode-hook #'irony-eldoc))
 
-    (defun my/python-mode-hook ()
-      (add-to-list 'company-backends 'company-jedi))
+    ;; (defun my/python-mode-hook ()
+    ;;   (add-to-list 'company-backends 'company-jedi))
 
-    (add-hook 'python-mode-hook 'my/python-mode-hook)
-    (use-package company-jedi
-      :ensure t
-      :config
-      (add-hook 'python-mode-hook 'jedi:setup)
-      )
-
-    (defun my/python-mode-hook ()
-      (add-to-list 'company-backends 'company-jedi))
-
-    (add-hook 'python-mode-hook 'my/python-mode-hook)
-    
+    ;; (add-hook 'python-mode-hook 'my/python-mode-hook)
+    ;; (use-package company-jedi
+    ;;   :ensure t
+    ;;   :config
+    ;;   (add-hook 'python-mode-hook 'jedi:setup)
+    ;;   )
 
   #+END_SRC
 
@@ -619,7 +613,6 @@
       :ensure t
       :config
       (electric-pair-mode t)
-      ;;(add-hook 'web-mode-hook (lambda () (electric-pair-mode -1))) 
       (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
   #+END_SRC
 
