@@ -94,88 +94,135 @@
      (add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/aweshell"))
      (require 'aweshell)
    #+END_SRC
+** switch other window backward
+   #+BEGIN_SRC emacs-lisp
+     (defun other-window-backward()
+       "select the previous window"
+       (interactive)
+       (other-window -1)
+       )
+
+   #+END_SRC
+
+** print special symbol
+   #+BEGIN_SRC emacs-lisp
+     (defun print-tick ()
+	 (interactive)
+	 (insert "√"))
+
+     (defun print-dot ()
+       (interactive)
+       (insert "●"))
+
+     (defun print-hollow-dot ()
+       (interactive)
+       (insert "○"))
+
+     (defun print-star ()
+       (interactive)
+       (insert "★"))
+
+     (global-set-key (kbd "C-c s ot") 'print-tick)
+     (global-set-key (kbd "C-c s d") 'print-dot)
+     (global-set-key (kbd "C-c s h") 'print-hollow-dot)
+     (global-set-key (kbd "C-c s s") 'print-star)
+   #+END_SRC
+** org-shift-left/org-shift-right
+   #+BEGIN_SRC emacs-lisp
+   
+   #+END_SRC
+
 * Evil
   #+BEGIN_SRC emacs-lisp
-    (use-package evil
-      :ensure t
-      :config 
-      (evil-mode 1))
+     (use-package evil
+       :ensure t
+       :config 
+      (evil-mode -1))
 
-    (use-package evil-leader
-      :ensure t
-      :config
-      (global-evil-leader-mode t)
-      (evil-leader/set-key
-	"ff" 'find-file
-	"fr" 'speedbar
+     (use-package evil-leader
+       :ensure t
+       :config
+       (global-evil-leader-mode t)
+       (evil-leader/set-key
+	 "ff" 'helm-find-files
+	 "fr" 'speedbar
 
-	"bb" 'switch-to-buffer
-	"1"  'select-window-1
-	"2"  'select-window-2
-	"3"  'select-window-3
-	"4"  'select-window-4
-	"w/" 'split-window-right
-	"w-" 'split-window-below
-	"wd" 'delete-window
-	"wj" 'other-window
-	"ww" 'delete-other-windows
+	 "bb" 'switch-to-buffer
+	 "1"  'select-window-1
+	 "2"  'select-window-2
+	 "3"  'select-window-3
+	 "4"  'select-window-4
+	 "w/" 'split-window-right
+	 "w-" 'split-window-below
+	 "wd" 'delete-window
+	 "wj" 'other-window
+	 "ww" 'delete-other-windows
 
-	"em" 'open-my-config-file
-	"ei" 'open-my-init-file
+	 "em" 'open-my-config-file
+	 "ei" 'open-my-init-file
 
-	"<SPC>"  'counsel-M-x
-	"cc"  'org-capture
-	"aa" 'org-agenda
-	"as" 'org-agenda-schedule
-	"ad" 'org-agenda-deadline
-	"az" 'org-agenda-add-note
+	 "<SPC>"  'helm-M-x
+	 "cc"  'org-capture
+	 "aa" 'org-agenda
+	 "as" 'org-agenda-schedule
+	 "ad" 'org-agenda-deadline
+	 "az" 'org-agenda-add-note
 
-	"osi" 'org-insert-src-block
-	"ose" 'org-edit-src-code
-	"oo" 'org-open-at-point
+	 "osi" 'org-insert-src-block
+	 "ose" 'org-edit-src-code
+	 "oo" 'org-open-at-point
 
-	"ee" 'eval-last-sexp
-	"q" 'save-buffers-kill-terminal
-	"pf" 'counsel-git
-	"t" 'shell-pop
-	"/" 'evilnc-comment-or-uncomment-lines
-	"d" 'dired
-	"j" 'goto-line
-	"hk" 'describe-key
-	"hv" 'counsel-describe-variable
-	"hf" 'counsel-describe-function
+	 "ee" 'eval-last-sexp
+	 "q" 'save-buffers-kill-terminal
+	 "pf" 'counsel-git
+	 "t" 'shell-pop
+	 "/" 'evilnc-comment-or-uncomment-lines
+	 "d" 'dired
+	 "j" 'goto-line
+	 "hk" 'describe-key
+	 "hv" 'counsel-describe-variable
+	 "hf" 'counsel-describe-function
 
-	"ss" 'save-buffer
-	"sw" 'swiper
-	"snc" 'aya-create
-	"sne" 'aya-expand
-	"snp" 'aya-persist-snippet
+	 "ss" 'save-buffer
+	 "sw" 'swiper
+	 "snc" 'aya-create
+	 "sne" 'aya-expand
+	 "snp" 'aya-persist-snippet
 
-	"yy" 'youdao-dictionary-search-at-point+
+	 "yy" 'youdao-dictionary-search-at-point+
 
-	"cg" 'customize-group
-	"cf" 'customize-face
-	"ce" 'toggle-company-english-helper
-	"v" 'er/expand-region
-	))
+	 "cg" 'customize-group
+	 "cf" 'customize-face
+	 "ce" 'toggle-company-english-helper
+	 "v" 'er/expand-region
+	 ))
 
-    (evilnc-default-hotkeys)
-    (define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
-    (define-key evil-visual-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
+     (evilnc-default-hotkeys)
+     (define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
+     (define-key evil-visual-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
   #+END_SRC
-   
+
 * Key bindings
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x -") 'split-window-below)
     (global-set-key (kbd "C-x /") 'split-window-right)
+    (global-set-key "\C-x\C-p" 'other-window-backward)
+    (global-set-key "\C-x\C-n" 'other-window)
+
     (global-set-key (kbd "<f5>") 'revert-buffer)
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
-    (global-set-key (kbd "M-x") 'counsel-M-x)
-    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+    (global-set-key (kbd "M-x") 'helm-M-x)
+    (global-set-key (kbd "C-x C-f") 'helm-find-files)
     (global-set-key (kbd "C-h f") 'counsel-describe-function)
     (global-set-key (kbd "C-h v") 'counsel-describe-variable)
 
-    ;; (global-set-key (kbd "C-c p f") 'counsel-git);;从默认git仓库中查找文件
+    (global-set-key "\C-csnc" 'aya-create)
+    (global-set-key "\C-csnp" 'aya-persist-snippet)
+    (global-set-key "\C-csne" 'aya-expand)
+
+    (global-set-key "\C-cfr" 'speedbar)
+
+    ;;(global-set-key (kbd "C-c p f") 'counsel-git);;从默认git仓库中查找文件
 
     (global-set-key (kbd "C-c a") 'org-agenda)
     (global-set-key (kbd "C-c c") 'org-capture)
@@ -185,10 +232,10 @@
     ;; 把C-j绑定到到达指定行上 
     (global-set-key (kbd "C-j") 'goto-line)
 
-    ;;设置M-/作为标志位，默认C-@来setmark,C-@不太好用
-
+    ;;设置M-/作为标志位，默认C-@来setmark,C-@
     ;;M-/本来对应zap-to-char，这里占用了
-    (global-set-key (kbd "M-/") 'set-mark-command)
+
+    (global-set-key (kbd "C-c m") 'set-mark-command)
 
     (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer);;代码缩进
 
@@ -230,7 +277,8 @@
     (setq auto-save-default t);;不允许自动保存
     (recentf-mode 1)
     (setq recentf-max-menu-items 10)
-    ;;(add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
+    (add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
+    (add-hook 'org-mode-hook 'display-line-numbers-mode);;显示行号
     (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
     (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
     (fset 'yes-or-no-p 'y-or-n-p);;用y/s 代替yes/no
@@ -271,16 +319,16 @@
 	    (message "Indent buffer.")))))
 
     ;;better code company
-    (setq hippie-expand-try-function-list '(try-expand-debbrev
-					    try-expand-debbrev-all-buffers
-					    try-expand-debbrev-from-kill
-					    try-complete-file-name-partially
-					    try-complete-file-name
-					    try-expand-all-abbrevs
-					    try-expand-list
-					    try-expand-line
-					    try-complete-lisp-symbol-partially
-					    try-complete-lisp-symbol))
+    ;; (setq hippie-expand-try-function-list '(try-expand-debbrev
+    ;; 					try-expand-debbrev-all-buffers
+    ;; 					try-expand-debbrev-from-kill
+    ;; 					try-complete-file-name-partially
+    ;; 					try-complete-file-name
+    ;; 					try-expand-all-abbrevs
+    ;; 					try-expand-list
+    ;; 					try-expand-line
+    ;; 					try-complete-lisp-symbol-partially
+    ;; 					try-complete-lisp-symbol))
 
   #+END_SRC
 
@@ -308,6 +356,7 @@
     (setq inhibit-splash-screen nil);取消默认启动窗口
     (setq-default cursor-type 'bar);变光标, setq-default设置全局
     (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
+
     ;;设置窗口位置为屏库左上角(0,0)
     ;;(set-frame-position (selected-frame) 150 0)
     ;;设置宽和高
@@ -343,22 +392,18 @@
 	     "* TODO [#B] %?\n  %i\n"
 	     :empty-lines 1)
 	    ("d" "Diary" entry (file+datetree "~/org/diary.org")
-	     "* %?\nEntered on %U\n %i\n")
-	    ("e" "entry" entry (function org-journal-find-location)
+	     "* %?\nEntered on %U\n %i\n"
+	     :empty-lines 1)
+	    ("e" "Entry" entry (file+datetree "~/org/entry.org")
 	     "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
+	     :empty-lines 1)
+	     ("w" "New Words" item (file+headline "~/org/new_words.org" "New Words")
+	     "%i%?"
 	     :empty-lines 1)
 	    ))
 
 
-    (defun org-journal-find-location ()
-      ;; Open today's journal, but specify a non-nil prefix argument in order to
-      ;; inhibit inserting the heading; org-capture will insert the heading.
-      (org-journal-new-entry t)
-      ;; Position point on the journal's top-level heading so that org-capture
-      ;; will add the new entry as a child entry.
-      (goto-char (point-min)))
-
-
+    ;; org code block
     (defun org-insert-src-block (src-code-type)
       "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
       (interactive
@@ -407,6 +452,15 @@
       (highlight-regexp "[ \\t]\\(\\*\\(\\S-[^*]+\\S-\\|[^*]\\{1,2\\}\\)\\*\\)[ \\t\\n]*" 'hi-red-b))
 
     (add-hook 'org-mode-hook 'org-bold-highlight)
+  #+END_SRC
+
+* Helm
+  #+BEGIN_SRC emacs-lisp
+    (use-package helm
+      :ensure t
+      :config
+      (helm-mode 1)
+      )
   #+END_SRC
 
 * Company
