@@ -222,6 +222,10 @@
 
     (global-set-key "\C-cfr" 'speedbar)
 
+    ;; customize group and face
+    (global-set-key (kbd "C-x c g") 'customize-group)
+    (global-set-key (kbd "C-x c f") 'customize-face)
+
     ;;(global-set-key (kbd "C-c p f") 'counsel-git);;从默认git仓库中查找文件
 
     (global-set-key (kbd "C-c a") 'org-agenda)
@@ -237,7 +241,10 @@
 
     (global-set-key (kbd "C-c m") 'set-mark-command)
 
-    (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer);;代码缩进
+    ;;代码缩进
+    (add-hook 'prog-mode-hook '(lambda ()
+				 (local-set-key (kbd "C-M-\\")
+						'indent-region-or-buffer)))
 
     ;; (global-set-key (kbd "s-/") 'hippie-expand);;补全功能
 
@@ -397,7 +404,7 @@
 	    ("e" "Entry" entry (file+datetree "~/org/entry.org")
 	     "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
 	     :empty-lines 1)
-	     ("w" "New Words" item (file+headline "~/org/new_words.org" "New Words")
+	    ("w" "New Words" item (file+headline "~/org/new_words.org" "New Words")
 	     "%i%?"
 	     :empty-lines 1)
 	    ))
@@ -424,16 +431,20 @@
 
     (add-hook 'org-mode-hook '(lambda ()
 				;; turn on flyspell-mode by default
-				(flyspell-mode 1)
+					    ; (flyspell-mode 1)
+			    
 				;; C-TAB for expanding
 				(local-set-key (kbd "C-<tab>")
 					       'yas/expand-from-trigger-key)
 				;; keybinding for editing source code blocks
-				(local-set-key (kbd "C-c s e")
+				(local-set-key (kbd "C-c o s e")
 					       'org-edit-src-code)
 				;; keybinding for inserting code blocks
-				(local-set-key (kbd "C-c s i")
+				(local-set-key (kbd "C-c o s i")
 					       'org-insert-src-block)
+				;; keybinding for org-pomodoro
+				(local-set-key (kbd "C-c o p")
+					       'org-pomodoro)
 				))
 
     ;;设置换行
@@ -452,6 +463,16 @@
       (highlight-regexp "[ \\t]\\(\\*\\(\\S-[^*]+\\S-\\|[^*]\\{1,2\\}\\)\\*\\)[ \\t\\n]*" 'hi-red-b))
 
     (add-hook 'org-mode-hook 'org-bold-highlight)
+
+    ;; add font-config for chinese double-width fonts issue 
+    ;; cnfonts-edit-profile	调整字体设置
+    (use-package cnfonts
+      :ensure t
+      :config
+      (require 'cnfonts)
+      (cnfonts-enable)
+      (setq cnfonts-profiles
+	    '("program" "org-mode" "read-book")))
   #+END_SRC
 
 * Helm
