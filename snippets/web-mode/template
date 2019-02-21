@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: template
+# key: template
+# --
+<template>$1</template>

@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# contributor: Kinney凯
+# name: table
+# key: table 
+# -- 
+<table class="$1">
+       <thead>
+	<tr>
+	<td></td>
+	<td></td>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+	<td></td>
+	<td></td>
+	</tr>
+	</tbody>
+</table>

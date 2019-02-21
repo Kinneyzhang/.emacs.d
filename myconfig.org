@@ -106,30 +106,55 @@
 
 ** print special symbol
    #+BEGIN_SRC emacs-lisp
-     (defun print-tick ()
-	 (interactive)
-	 (insert "√"))
-
-     (defun print-dot ()
+     (defun print-symbol-todo ()
        (interactive)
        (insert "●"))
 
-     (defun print-hollow-dot ()
+     (defun print-symbol-done ()
+       (interactive)
+       (insert "×"))
+
+     (defun print-symbol-migrated ()
+       (interactive)
+       (insert ">"))
+
+     (defun print-symbol-scheduled ()
+       (interactive)
+       (insert "<"))
+
+     (defun print-symbol-event ()
        (interactive)
        (insert "○"))
 
-     (defun print-star ()
+     (defun print-symbol-note ()
+       (interactive)
+       (insert "─"))
+
+     (defun print-symbol-important ()
        (interactive)
        (insert "★"))
 
-     (global-set-key (kbd "C-c s ot") 'print-tick)
-     (global-set-key (kbd "C-c s d") 'print-dot)
-     (global-set-key (kbd "C-c s h") 'print-hollow-dot)
-     (global-set-key (kbd "C-c s s") 'print-star)
-   #+END_SRC
-** org-shift-left/org-shift-right
-   #+BEGIN_SRC emacs-lisp
-   
+     (defun print-symbol-interval ()
+       (interactive)
+       (insert "◔"))
+
+     (defun print-symbol-award ()
+       (interactive)
+       (insert "✪"))
+
+     (defun print-tick ()
+       (interactive)
+       (insert "√"))
+
+     (global-set-key (kbd "C-c s t") 'print-symbol-todo)
+     (global-set-key (kbd "C-c s d") 'print-symbol-done)
+     (global-set-key (kbd "C-c s m") 'print-symbol-migrated)
+     (global-set-key (kbd "C-c s s") 'print-symbol-scheduled)
+     (global-set-key (kbd "C-c s e") 'print-symbol-event)
+     (global-set-key (kbd "C-c s n") 'print-symbol-note)
+     (global-set-key (kbd "C-c s 1") 'print-symbol-important)
+     (global-set-key (kbd "C-c s i") 'print-symbol-interval)
+     (global-set-key (kbd "C-c s a") 'print-symbol-award)
    #+END_SRC
 
 * Evil
@@ -216,15 +241,19 @@
     (global-set-key (kbd "C-h f") 'counsel-describe-function)
     (global-set-key (kbd "C-h v") 'counsel-describe-variable)
 
-    (global-set-key "\C-csnc" 'aya-create)
-    (global-set-key "\C-csnp" 'aya-persist-snippet)
-    (global-set-key "\C-csne" 'aya-expand)
+    (global-set-key "\C-cysc" 'aya-create)
+    (global-set-key "\C-cysp" 'aya-persist-snippet)
+    (global-set-key "\C-cyse" 'aya-expand)
 
     (global-set-key "\C-cfr" 'speedbar)
+
+    ;; org-store-link
+    (global-set-key (kbd "C-c o l") 'org-store-link)
 
     ;; customize group and face
     (global-set-key (kbd "C-x c g") 'customize-group)
     (global-set-key (kbd "C-x c f") 'customize-face)
+    (global-set-key (kbd "C-x c t") 'customize-themes)
 
     ;;(global-set-key (kbd "C-c p f") 'counsel-git);;从默认git仓库中查找文件
 
@@ -289,6 +318,10 @@
     (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
     (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
     (fset 'yes-or-no-p 'y-or-n-p);;用y/s 代替yes/no
+
+    ;; 默认分割成左右两个窗口
+    (setq split-height-threshold nil)
+    (setq split-width-threshold 0)
 
     (setq dired-recursive-deletes 'always)
     (setq dired-recursive-copies 'always);;全部递归拷贝删除文件夹中的文件
@@ -385,7 +418,7 @@
       :ensure t)
 
     (setq org-src-fontify-natively t)
-    (setq org-agenda-files '("~/org"))
+    (setq org-agenda-files (list "~/org/gtd.org" "~/program_org/BuJo-2019.org"))
 
     ;; Set to the location of your Org files on your local system
     (setq org-directory "~/org")
@@ -432,7 +465,7 @@
     (add-hook 'org-mode-hook '(lambda ()
 				;; turn on flyspell-mode by default
 					    ; (flyspell-mode 1)
-			    
+
 				;; C-TAB for expanding
 				(local-set-key (kbd "C-<tab>")
 					       'yas/expand-from-trigger-key)
@@ -447,6 +480,20 @@
 					       'org-pomodoro)
 				))
 
+    ;; org todo keywords
+    (setq org-todo-keywords
+	  '((type "●(t)" "○(e)" "-(n)" "|")
+	    (sequence "●(t)" "|" "×(d)" ">(m)" "<(s)")))
+
+    (setq org-todo-keyword-faces
+	  '(("●" . (:foreground "DarkOrange" :weight bold))
+	    ("×" . (:foreground "grey" :weight bold))
+	    (">" . (:foreground "black" :weight bold))
+	    ("<" . (:foreground "black" :weight bold))
+	    ("○" . (:foreground "Darkgreen" :weight bold))
+	    ("-" . (:foreground "blue" :weight blod))
+	    ))
+
     ;;设置换行
     (setq truncate-lines t)
     (defun my-org-mode ()
@@ -454,25 +501,14 @@
       )
     (add-hook 'org-mode-hook 'my-org-mode)
 
-    ;;hi-lock-mode
-    (defface hi-red-b '((t (:foreground "#e50062"))) t)
-
-    (defun org-bold-highlight ()
-      (interactive)
-      (hi-lock-mode)
-      (highlight-regexp "[ \\t]\\(\\*\\(\\S-[^*]+\\S-\\|[^*]\\{1,2\\}\\)\\*\\)[ \\t\\n]*" 'hi-red-b))
-
-    (add-hook 'org-mode-hook 'org-bold-highlight)
-
-    ;; add font-config for chinese double-width fonts issue 
-    ;; cnfonts-edit-profile	调整字体设置
-    (use-package cnfonts
-      :ensure t
-      :config
-      (require 'cnfonts)
-      (cnfonts-enable)
-      (setq cnfonts-profiles
-	    '("program" "org-mode" "read-book")))
+    ;; cnfonts-edit-profile	调整字体设置, 表格中英文对齐
+    ;; (use-package cnfonts
+    ;;   :ensure t
+    ;;   :config
+    ;;   (require 'cnfonts)
+    ;;   (cnfonts-enable)
+    ;;   (setq cnfonts-profiles
+    ;; 	'("program" "org-mode" "read-book")))
   #+END_SRC
 
 * Helm
@@ -607,6 +643,7 @@
     (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
     (setq web-mode-engines-alist
 	  '(("php"    . "\\.phtml\\'")
@@ -617,6 +654,11 @@
    
   #+END_SRC
 
+* Vue
+  #+BEGIN_SRC emacs-lisp
+    (use-package vue-mode
+      :ensure t)
+  #+END_SRC
 * C++ 
   #+BEGIN_SRC emacs-lisp 
     (use-package ggtags
@@ -793,7 +835,7 @@
       :config
       ;; Enable Cache
       (setq url-automatic-caching t)
-      (global-set-key (kbd "C-c y") 'youdao-dictionary-search-at-point+)
+      (global-set-key (kbd "C-c y y") 'youdao-dictionary-search-at-point+)
       )
   #+END_SRC
   

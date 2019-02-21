@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # contributor: Kinney凯
-# name: input
-# key: input
+# name: label
+# key: label
 # --
-<input type="$1" $2>
+<label>$1</label>

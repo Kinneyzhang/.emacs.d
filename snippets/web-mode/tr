@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
 # contributor: Kinney凯
-# name: input
-# key: input
+# name: tr
+# key: tr
 # --
-<input type="$1" $2>
+<tr>$1</tr>

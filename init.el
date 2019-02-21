@@ -52,12 +52,15 @@
      mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
      (vc-mode vc-mode)
      "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
+ '(org-agenda-files
+   (quote
+    ("~/program_org/BuJo-2019.org" "/Users/kinney/org/diary.org" "/Users/kinney/org/entry.org" "/Users/kinney/org/gtd.org" "/Users/kinney/org/new_words.org")))
  '(org-agenda-window-setup (quote current-window))
  '(org-journal-dir "~/org/entries")
  '(org-pomodoro-ask-upon-killing nil)
  '(package-selected-packages
    (quote
-    (cnfonts chinese-fonts-setup org-journal pdf-tools youdao-dictionary dashboard elfeed-goodies elfeed hackernews python-django django-mode alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl evil evil-leader evil-nerd-commenter exec-path-from-shell expand-region flycheck helm helm-ag helm-core hungry-delete iedit ivy js2-mode js2-refactor leuven-theme nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+    (smex vue-mode vue-html-mode cnfonts chinese-fonts-setup org-journal pdf-tools youdao-dictionary dashboard elfeed-goodies elfeed hackernews python-django django-mode alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl evil evil-leader evil-nerd-commenter exec-path-from-shell expand-region flycheck helm helm-ag helm-core hungry-delete iedit ivy js2-mode js2-refactor leuven-theme nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
  '(popwin-mode t)
  '(popwin:adjust-other-windows nil)
  '(show-paren-mode t)
