@@ -74,26 +74,40 @@
   #+END_SRC
 
 * my-packages
-** load-path
-   #+BEGIN_SRC emacs-lisp
-     (package-initialize)
-     (add-to-list 'load-path "~/.emacs.d/site-lisp/")
-   #+END_SRC
 ** auto-save
    #+BEGIN_SRC emacs-lisp
      (require 'auto-save)            ;; 加载自动保存模块
      (auto-save-enable)              ;; 开启自动保存功能
      (setq auto-save-slient t)       ;; 自动保存的时候静悄悄的， 不要打扰我
    #+END_SRC
+
 ** company-english-word
    #+BEGIN_SRC emacs-lisp
-     (require 'company-english-helper) 
+     (use-package company-english-helper
+       :load-path "~/.emacs.d/site-lisp/company-english")
    #+END_SRC
+
 ** aweshell
    #+BEGIN_SRC emacs-lisp
-     (add-to-list 'load-path (expand-file-name "~/.emacs.d/site-lisp/aweshell"))
-     (require 'aweshell)
+     (use-package aweshell
+       :load-path "~/.emacs.d/site-lisp/aweshell"
+       )
    #+END_SRC
+
+** awesome-tab
+   #+BEGIN_SRC emacs-lisp
+	  (use-package awesome-tab
+	    :load-path "~/.emacs.d/site-lisp/awesome-tab"
+	    :bind (("C-c <right>" . awesome-tab-forward)
+		   ("C-c <left>" . awesome-tab-backward)
+		   ("C-c <down>" . awesome-tab-forward-group)
+		   ("C-c <up>" . awesome-tab-backward-group)
+		   )
+	    :config
+	    (awesome-tab-mode t)
+	  )
+   #+END_SRC
+
 ** switch other window backward
    #+BEGIN_SRC emacs-lisp
      (defun other-window-backward()
@@ -113,7 +127,7 @@
      (defun print-symbol-done ()
        (interactive)
        (insert "×"))
-
+       
      (defun print-symbol-migrated ()
        (interactive)
        (insert ">"))
