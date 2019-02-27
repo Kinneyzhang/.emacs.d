@@ -100,4 +100,7 @@
  ;; If there is more than one, they won't work right.
  '(dashboard-banner-logo-title-face ((t (:inherit default :foreground "#65C4EB"))))
  '(dashboard-heading-face ((t (:inherit default :foreground "#65C4EB"))))
+ '(magit-blame-highlight ((t (:background "grey52"))))
+ '(magit-diff-context-highlight ((t (:background "grey70" :foreground "grey70"))))
+ '(magit-section-highlight ((t (:background "#0086ce"))))
  '(org-block ((t (:inherit shadow :background "#FFFFE0" :foreground "default")))))
