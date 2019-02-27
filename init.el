@@ -19,8 +19,6 @@
 (read-only-mode 1)
 (org-babel-load-file (expand-file-name "~/.emacs.d/myconfig.org"))
 
-
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

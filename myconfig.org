@@ -111,7 +111,7 @@
 ** awesome-pair
 
    #+BEGIN_SRC emacs-lisp
-     use-package awesome-pair
+     (use-package awesome-pair
      :load-path "~/.emacs.d/site-lisp/awesome-pair"
      :config
      (dolist (hook (list
@@ -167,7 +167,7 @@
      (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-right)
      (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-left)
      (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline)
-
+)
    #+END_SRC
 
 ** switch other window backward
@@ -332,7 +332,7 @@
     (global-set-key (kbd "C-x c f") 'customize-face)
     (global-set-key (kbd "C-x c t") 'customize-themes)
 
-    ;;(global-set-key (kbd "C-c p f") 'counsel-git);;从默认git仓库中查找文件
+    (global-set-key (kbd "C-c e") 'counsel-git);;从默认git仓库中查找文件
 
     (global-set-key (kbd "C-c a") 'org-agenda)
     (global-set-key (kbd "C-c c") 'org-capture)
