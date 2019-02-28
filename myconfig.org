@@ -75,6 +75,7 @@
 
 * my-packages
 ** auto-save
+
    #+BEGIN_SRC emacs-lisp
    (use-package auto-save
    :load-path "~/.emacs.d/site-lisp/auto-save"
@@ -82,13 +83,16 @@
     (auto-save-enable)  ;; 开启自动保存功能
     (setq auto-save-slient t)) ;; 自动保存的时候静悄悄的， 不要打扰我      
    #+END_SRC
+
 ** company-english-helper
+
     #+BEGIN_SRC emacs-lisp
       (use-package company-english-helper
 	:load-path "~/.emacs.d/site-lisp/company-english-helper")
     #+END_SRC
 
 ** aweshell
+
     #+BEGIN_SRC emacs-lisp
       (use-package aweshell
 	:load-path "~/.emacs.d/site-lisp/aweshell"
@@ -96,6 +100,7 @@
     #+END_SRC
 
 ** awesome-tab
+
    #+BEGIN_SRC emacs-lisp
      (use-package awesome-tab
        :load-path "~/.emacs.d/site-lisp/awesome-tab"
@@ -168,16 +173,6 @@
      (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline)
 )
    #+END_SRC
-** switch other window backward
-   #+BEGIN_SRC emacs-lisp
-     (defun other-window-backward()
-       "select the previous window"
-       (interactive)
-       (other-window -1)
-       )
-
-   #+END_SRC
-
 ** print special symbol
    #+BEGIN_SRC emacs-lisp
      (defun print-symbol-todo ()
@@ -232,6 +227,7 @@
    #+END_SRC
 
 ** all-the-icons
+
    #+BEGIN_SRC emacs-lisp
      (use-package all-the-icons
        :load-path "~/.emacs.d/site-lisp/all-the-icons")
@@ -399,6 +395,8 @@
     (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
     (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
     (fset 'yes-or-no-p 'y-or-n-p);;用y/s 代替yes/no
+    (setq default-buffer-file-coding-system 'utf-8) ;;emacs编码设置
+    (prefer-coding-system 'utf-8)
 
     ;; 默认分割成左右两个窗口
     (setq split-height-threshold nil)
@@ -463,32 +461,21 @@
 
     (require 'spacemacs-dark-theme)
 
-    ;; (use-package doom-modeline
-    ;;   :ensure t
-    ;;   :hook (after-init . doom-modeline-mode))
+    (use-package doom-modeline
+      :ensure t
+      :hook (after-init . doom-modeline-mode))
 
     (use-package all-the-icons-dired
       :ensure t
       :config
-      (require 'all-the-icons-dired))
+      (require 'all-the-icons-dired)
+      (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
     (use-package neotree
       :ensure t
       :bind (("<f8>" . neotree-toggle))
       :config
       (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
-
-    (use-package spaceline-all-the-icons
-      :ensure t
-      :after spaceline
-      :load-path "~/.emacs.d/site-lisp"
-      :config 
-      (require 'spaceline-all-the-icons))
-
-    (use-package spaceline
-      :after powerline
-      :config
-      (setq-default mode-line-format '("%e" (:eval (spaceline-ml-ati)))))
   #+END_SRC
 
 * Ui-settings
