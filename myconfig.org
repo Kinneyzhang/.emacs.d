@@ -83,10 +83,10 @@
     (setq auto-save-slient t)) ;; 自动保存的时候静悄悄的， 不要打扰我      
    #+END_SRC
 
-** company-english-word
+** company-english-helper
     #+BEGIN_SRC emacs-lisp
       (use-package company-english-helper
-	:load-path "~/.emacs.d/site-lisp/company-english")
+	:load-path "~/.emacs.d/site-lisp/company-english-helper")
     #+END_SRC
 
 ** aweshell
@@ -604,7 +604,6 @@
       (helm-mode 1)
       )
   #+END_SRC
-
 * Company
   #+BEGIN_SRC emacs-lisp
     (use-package company

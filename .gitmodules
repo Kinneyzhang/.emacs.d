@@ -1,3 +1,3 @@
-[submodule "site-lisp/awesome-pair"]
-	path = site-lisp/awesome-pair
-	url = https://github.com/manateelazycat/awesome-pair.git
+[submodule "company-english-helper"]
+	path = site-lisp/company-english-helper
+	url = https://github.com/manateelazycat/company-english-helper.git
