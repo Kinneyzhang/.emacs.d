@@ -82,7 +82,6 @@
     (auto-save-enable)  ;; 开启自动保存功能
     (setq auto-save-slient t)) ;; 自动保存的时候静悄悄的， 不要打扰我      
    #+END_SRC
-
 ** company-english-helper
     #+BEGIN_SRC emacs-lisp
       (use-package company-english-helper
@@ -169,7 +168,6 @@
      (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline)
 )
    #+END_SRC
-
 ** switch other window backward
    #+BEGIN_SRC emacs-lisp
      (defun other-window-backward()
@@ -231,6 +229,12 @@
      (global-set-key (kbd "C-c s 1") 'print-symbol-important)
      (global-set-key (kbd "C-c s i") 'print-symbol-interval)
      (global-set-key (kbd "C-c s a") 'print-symbol-award)
+   #+END_SRC
+
+** all-the-icons
+   #+BEGIN_SRC emacs-lisp
+     (use-package all-the-icons
+       :load-path "~/.emacs.d/site-lisp/all-the-icons")
    #+END_SRC
 
 * Evil
@@ -312,17 +316,17 @@
 
     (global-set-key (kbd "<f5>") 'revert-buffer)
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
-    (global-set-key (kbd "M-x") 'helm-M-x)
-    (global-set-key (kbd "C-x C-f") 'helm-find-files)
+    ;;(global-set-key (kbd "M-x") 'helm-M-x)
+    ;;(global-set-key (kbd "C-x C-f") 'helm-find-files)
     (global-set-key (kbd "C-h f") 'counsel-describe-function)
     (global-set-key (kbd "C-h v") 'counsel-describe-variable)
     (global-set-key (kbd "C-x <f10>") 'eval-last-sexp)
 
-    (global-set-key "\C-cysc" 'aya-create)
-    (global-set-key "\C-cysp" 'aya-persist-snippet)
-    (global-set-key "\C-cyse" 'aya-expand)
+    (global-set-key (kbd "C-c y s c") 'aya-create)
+    (global-set-key (kbd "C-c y s p") 'aya-persist-snippet)
+    (global-set-key (kbd "C-c y s e") 'aya-expand)
 
-    (global-set-key "\C-cfr" 'speedbar)
+    (global-set-key (kbd "C-c f r") 'speedbar)
 
     ;; org-store-link
     (global-set-key (kbd "C-c o l") 'org-store-link)
@@ -331,6 +335,7 @@
     (global-set-key (kbd "C-x c g") 'customize-group)
     (global-set-key (kbd "C-x c f") 'customize-face)
     (global-set-key (kbd "C-x c t") 'customize-themes)
+    (global-set-key (kbd "C-x c e") 'toggle-company-english-helper)
 
     (global-set-key (kbd "C-c e") 'counsel-git);;从默认git仓库中查找文件
 
@@ -378,7 +383,6 @@
       (find-file "~/.emacs.d/myconfig.org"))
 
   #+END_SRC
-
 * Better-defaults
   #+BEGIN_SRC emacs-lisp
     ;;"some better defaults"
@@ -457,6 +461,34 @@
     (use-package color-theme-sanityinc-tomorrow
       :ensure t)
 
+    (require 'spacemacs-dark-theme)
+
+    ;; (use-package doom-modeline
+    ;;   :ensure t
+    ;;   :hook (after-init . doom-modeline-mode))
+
+    (use-package all-the-icons-dired
+      :ensure t
+      :config
+      (require 'all-the-icons-dired))
+
+    (use-package neotree
+      :ensure t
+      :bind (("<f8>" . neotree-toggle))
+      :config
+      (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+
+    (use-package spaceline-all-the-icons
+      :ensure t
+      :after spaceline
+      :load-path "~/.emacs.d/site-lisp"
+      :config 
+      (require 'spaceline-all-the-icons))
+
+    (use-package spaceline
+      :after powerline
+      :config
+      (setq-default mode-line-format '("%e" (:eval (spaceline-ml-ati)))))
   #+END_SRC
 
 * Ui-settings
@@ -466,7 +498,7 @@
     (menu-bar-mode t)
     (set-default-font "-*-Monaco-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
     (global-hl-line-mode t);;光标行高亮
-
+    
     (global-hi-lock-mode 1) ;;使能高亮
     (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
 
@@ -598,11 +630,11 @@
 
 * Helm
   #+BEGIN_SRC emacs-lisp
-    (use-package helm
-      :ensure t
-      :config
-      (helm-mode 1)
-      )
+    ;; (use-package helm
+    ;;   :ensure t
+    ;;   :config
+    ;;   (helm-mode 1)
+    ;;   )
   #+END_SRC
 * Company
   #+BEGIN_SRC emacs-lisp
@@ -805,7 +837,6 @@
 
       ;; need to do this manually or not picked up by shell-pop
       (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type))
-
   #+END_SRC
 
 * Smartparens 
@@ -830,6 +861,45 @@
   #+BEGIN_SRC emacs-lisp
     (use-package flycheck
       :ensure t
+      :init
+      (progn
+	(define-fringe-bitmap 'my-flycheck-fringe-indicator
+	  (vector #b00000000
+		  #b00000000
+		  #b00000000
+		  #b00000000
+		  #b00000000
+		  #b00000000
+		  #b00000000
+		  #b00011100
+		  #b00111110
+		  #b00111110
+		  #b00111110
+		  #b00011100
+		  #b00000000
+		  #b00000000
+		  #b00000000
+		  #b00000000
+		  #b00000000))
+
+	(flycheck-define-error-level 'error
+	  :severity 2
+	  :overlay-category 'flycheck-error-overlay
+	  :fringe-bitmap 'my-flycheck-fringe-indicator
+	  :fringe-face 'flycheck-fringe-error)
+
+	(flycheck-define-error-level 'warning
+	  :severity 1
+	  :overlay-category 'flycheck-warning-overlay
+	  :fringe-bitmap 'my-flycheck-fringe-indicator
+	  :fringe-face 'flycheck-fringe-warning)
+
+	(flycheck-define-error-level 'info
+	  :severity 0
+	  :overlay-category 'flycheck-info-overlay
+	  :fringe-bitmap 'my-flycheck-fringe-indicator
+	  :fringe-face 'flycheck-fringe-info))
+  
       :config
       (add-hook 'c++-mode-hook 'flycheck-mode)
       (add-hook 'python-mode-hook 'flycheck-mode)
@@ -929,3 +999,4 @@
       :ensure t
       )
   #+END_SRC
+

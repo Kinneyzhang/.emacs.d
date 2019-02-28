@@ -4,6 +4,6 @@
    * Clone this repo to your ~/.emacs.d directory. If you already have .emacs.d, back-up it!
      #+BEGIN_SRC sh
        mv ~/.emacs.d ~/.emacs.d.bak
-       git clone https://github.com/Kinneyzhang/.emacs.d.git ~/.emacs.d
+       git clone --depth=1 https://github.com/Kinneyzhang/.emacs.d.git ~/.emacs.d --recursive
      #+END_SRC
    * Start emacs and wait for a while to install all the packages.
