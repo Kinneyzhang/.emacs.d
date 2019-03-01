@@ -55,7 +55,7 @@
 			      which-key
 			      window-numbering
 			      yasnippet
-			      image+
+			      spacemacs-theme
 			      ) "Default packages")
 
     (setq package-selected-packages kinney/packages)
@@ -398,9 +398,6 @@
     (fset 'yes-or-no-p 'y-or-n-p);;用y/s 代替yes/no
     (setq default-buffer-file-coding-system 'utf-8) ;;emacs编码设置
     (prefer-coding-system 'utf-8)
-
-    ;; image+ 调整图片大小
-    (eval-after-load 'image '(require 'image+))
 
     ;; 默认分割成左右两个窗口
     (setq split-height-threshold nil)
