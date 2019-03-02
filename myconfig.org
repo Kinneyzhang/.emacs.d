@@ -477,6 +477,7 @@
       :bind (("<f8>" . neotree-toggle))
       :config
       (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
+
   #+END_SRC
 
 * Ui-settings
