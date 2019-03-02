@@ -500,7 +500,7 @@
     ;;(set-frame-width (selected-frame) 139)
     ;;(set-frame-height (selected-frame) 36)
   #+END_SRC
-
+  
 * Org-mode 
   #+BEGIN_SRC emacs-lisp
     (use-package org-bullets
@@ -567,10 +567,10 @@
 				(local-set-key (kbd "C-<tab>")
 					       'yas/expand-from-trigger-key)
 				;; keybinding for editing source code blocks
-				(local-set-key (kbd "C-c o s e")
+				(local-set-key (kbd "C-c o e")
 					       'org-edit-src-code)
 				;; keybinding for inserting code blocks
-				(local-set-key (kbd "C-c o s i")
+				(local-set-key (kbd "C-c o i")
 					       'org-insert-src-block)
 				;; keybinding for org-pomodoro
 				(local-set-key (kbd "C-c o p")
