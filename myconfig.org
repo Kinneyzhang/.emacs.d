@@ -2,12 +2,15 @@
 * packages
   #+BEGIN_SRC emacs-lisp
     ;;this is the packages that i have installed
-    (when (>= emacs-major-version 24)
-      (require 'package)
-      (package-initialize)
-      (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-			       ("melpa" . "http://elpa.emacs-china.org/melpa/"))))
-    ;; cl - Common Lisp Extension
+
+    ;; (when (>= emacs-major-version 24)
+    ;;   (require 'package)
+    ;;   (package-initialize)
+    ;;   (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
+    ;; 			   ("melpa" . "http://elpa.emacs-china.org/melpa/"))))
+
+    ;; cl - Common 
+    ;; Lisp Extension
     (require 'cl)
     ;; Add Packages
     (defvar kinney/packages '(
@@ -20,16 +23,10 @@
 			      company
 			      counsel
 			      epl
-			      evil
-			      evil-leader
-			      evil-nerd-commenter
 			      exec-path-from-shell
 			      expand-region
 			      flycheck
 			      ggtags
-			      helm
-			      helm-ag
-			      helm-core
 			      hungry-delete
 			      iedit
 			      ivy
@@ -236,72 +233,70 @@
 
 * Evil
   #+BEGIN_SRC emacs-lisp
-     (use-package evil
-       :ensure t
-       :config 
-      (evil-mode -1))
+    ;; (use-package evil
+    ;;   :ensure t
+    ;;   :config 
+    ;;  (evil-mode -1))
 
-     (use-package evil-leader
-       :ensure t
-       :config
-       (global-evil-leader-mode t)
-       (evil-leader/set-key
-	 "ff" 'helm-find-files
-	 "fr" 'speedbar
+    ;; (use-package evil-leader
+    ;;   :ensure t
+    ;;   :config
+    ;;   (global-evil-leader-mode t)
+    ;;   (evil-leader/set-key
+    ;;     "fr" 'speedbar
 
-	 "bb" 'switch-to-buffer
-	 "1"  'select-window-1
-	 "2"  'select-window-2
-	 "3"  'select-window-3
-	 "4"  'select-window-4
-	 "w/" 'split-window-right
-	 "w-" 'split-window-below
-	 "wd" 'delete-window
-	 "wj" 'other-window
-	 "ww" 'delete-other-windows
+    ;;     "bb" 'switch-to-buffer
+    ;;     "1"  'select-window-1
+    ;;     "2"  'select-window-2
+    ;;     "3"  'select-window-3
+    ;;     "4"  'select-window-4
+    ;;     "w/" 'split-window-right
+    ;;     "w-" 'split-window-below
+    ;;     "wd" 'delete-window
+    ;;     "wj" 'other-window
+    ;;     "ww" 'delete-other-windows
 
-	 "em" 'open-my-config-file
-	 "ei" 'open-my-init-file
+    ;;     "em" 'open-my-config-file
+    ;;     "ei" 'open-my-init-file
 
-	 "<SPC>"  'helm-M-x
-	 "cc"  'org-capture
-	 "aa" 'org-agenda
-	 "as" 'org-agenda-schedule
-	 "ad" 'org-agenda-deadline
-	 "az" 'org-agenda-add-note
+    ;;     "cc"  'org-capture
+    ;;     "aa" 'org-agenda
+    ;;     "as" 'org-agenda-schedule
+    ;;     "ad" 'org-agenda-deadline
+    ;;     "az" 'org-agenda-add-note
 
-	 "osi" 'org-insert-src-block
-	 "ose" 'org-edit-src-code
-	 "oo" 'org-open-at-point
+    ;;     "osi" 'org-insert-src-block
+    ;;     "ose" 'org-edit-src-code
+    ;;     "oo" 'org-open-at-point
 
-	 "ee" 'eval-last-sexp
-	 "q" 'save-buffers-kill-terminal
-	 "pf" 'counsel-git
-	 "t" 'shell-pop
-	 "/" 'evilnc-comment-or-uncomment-lines
-	 "d" 'dired
-	 "j" 'goto-line
-	 "hk" 'describe-key
-	 "hv" 'counsel-describe-variable
-	 "hf" 'counsel-describe-function
+    ;;     "ee" 'eval-last-sexp
+    ;;     "q" 'save-buffers-kill-terminal
+    ;;     "pf" 'counsel-git
+    ;;     "t" 'shell-pop
+    ;;     "/" 'evilnc-comment-or-uncomment-lines
+    ;;     "d" 'dired
+    ;;     "j" 'goto-line
+    ;;     "hk" 'describe-key
+    ;;     "hv" 'counsel-describe-variable
+    ;;     "hf" 'counsel-describe-function
 
-	 "ss" 'save-buffer
-	 "sw" 'swiper
-	 "snc" 'aya-create
-	 "sne" 'aya-expand
-	 "snp" 'aya-persist-snippet
+    ;;     "ss" 'save-buffer
+    ;;     "sw" 'swiper
+    ;;     "snc" 'aya-create
+    ;;     "sne" 'aya-expand
+    ;;     "snp" 'aya-persist-snippet
 
-	 "yy" 'youdao-dictionary-search-at-point+
+    ;;     "yy" 'youdao-dictionary-search-at-point+
 
-	 "cg" 'customize-group
-	 "cf" 'customize-face
-	 "ce" 'toggle-company-english-helper
-	 "v" 'er/expand-region
-	 ))
+    ;;     "cg" 'customize-group
+    ;;     "cf" 'customize-face
+    ;;     "ce" 'toggle-company-english-helper
+    ;;     "v" 'er/expand-region
+    ;;     ))
 
-     (evilnc-default-hotkeys)
-     (define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
-     (define-key evil-visual-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
+    ;; (evilnc-default-hotkeys)
+    ;; (define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
+    ;; (define-key evil-visual-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
   #+END_SRC
 
 * Key bindings
@@ -339,10 +334,9 @@
     (global-set-key (kbd "C-c a") 'org-agenda)
     (global-set-key (kbd "C-c c") 'org-capture)
 
-    (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
+    (global-set-key (kbd "C-c s w") 'swiper)
 
-    ;; 把C-j绑定到到达指定行上 
-    (global-set-key (kbd "C-j") 'goto-line)
+    (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
 
     ;;设置M-/作为标志位，默认C-@来setmark,C-@
     ;;M-/本来对应zap-to-char，这里占用了
