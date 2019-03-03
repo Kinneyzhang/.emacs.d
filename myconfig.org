@@ -23,7 +23,6 @@
 			      company
 			      counsel
 			      epl
-			      exec-path-from-shell
 			      expand-region
 			      flycheck
 			      ggtags
@@ -32,7 +31,6 @@
 			      ivy
 			      js2-mode
 			      js2-refactor
-			      leuven-theme
 			      nodejs-repl
 			      org-pomodoro
 			      org-bullets
@@ -84,18 +82,18 @@
 
 ** company-english-helper
 
-    #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
       (use-package company-english-helper
 	:load-path "~/.emacs.d/site-lisp/company-english-helper")
-    #+END_SRC
+   #+END_SRC
 
 ** aweshell
 
-    #+BEGIN_SRC emacs-lisp
+   #+BEGIN_SRC emacs-lisp
       (use-package aweshell
 	:load-path "~/.emacs.d/site-lisp/aweshell"
 	)
-    #+END_SRC
+   #+END_SRC
 
 ** awesome-tab
 
@@ -392,6 +390,7 @@
     (fset 'yes-or-no-p 'y-or-n-p);;用y/s 代替yes/no
     (setq default-buffer-file-coding-system 'utf-8) ;;emacs编码设置
     (prefer-coding-system 'utf-8)
+    (setq ad-redefinition-action 'accept)
 
     ;; 默认分割成左右两个窗口
     (setq split-height-threshold nil)
@@ -433,16 +432,16 @@
 	    (message "Indent buffer.")))))
 
     ;;better code company
-    ;; (setq hippie-expand-try-function-list '(try-expand-debbrev
-    ;; 					try-expand-debbrev-all-buffers
-    ;; 					try-expand-debbrev-from-kill
-    ;; 					try-complete-file-name-partially
-    ;; 					try-complete-file-name
-    ;; 					try-expand-all-abbrevs
-    ;; 					try-expand-list
-    ;; 					try-expand-line
-    ;; 					try-complete-lisp-symbol-partially
-    ;; 					try-complete-lisp-symbol))
+    (setq hippie-expand-try-function-list '(try-expand-debbrev
+					    try-expand-debbrev-all-buffers
+					    try-expand-debbrev-from-kill
+					    try-complete-file-name-partially
+					    try-complete-file-name
+					    try-expand-all-abbrevs
+					    try-expand-list
+					    try-expand-line
+					    try-complete-lisp-symbol-partially
+					    try-complete-lisp-symbol))
 
   #+END_SRC
 
@@ -790,6 +789,8 @@
   #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
       :ensure t
+      :init (setq yas-snippet-dirs
+		  '("~/.emacs.d/snippets"))
       :config
       (yas-reload-all)
       (add-hook 'prog-mode-hook #'yas-minor-mode))
