@@ -749,7 +749,13 @@
 	    ("django"  . "\\.djhtml\\'")
 	    ("django"  . "\\.html?\\'"))
 	  )
-   
+
+    (use-package emmet-mode
+      :ensure t
+      :bind (("C-j" . emmet-expand-line))
+      :config 
+      (add-hook 'web-mode-hook 'emmet-mode))
+
   #+END_SRC
 
 * Vue
