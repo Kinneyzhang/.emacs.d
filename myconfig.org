@@ -391,6 +391,7 @@
     (setq default-buffer-file-coding-system 'utf-8) ;;emacs编码设置
     (prefer-coding-system 'utf-8)
     (setq ad-redefinition-action 'accept)
+    
 
     ;; 默认分割成左右两个窗口
     (setq split-height-threshold nil)
@@ -593,13 +594,13 @@
     (add-hook 'org-mode-hook 'my-org-mode)
 
     ;; cnfonts-edit-profile	调整字体设置, 表格中英文对齐
-    ;; (use-package cnfonts
-    ;;   :ensure t
-    ;;   :config
-    ;;   (require 'cnfonts)
-    ;;   (cnfonts-enable)
-    ;;   (setq cnfonts-profiles
-    ;; 	'("program" "org-mode" "read-book")))
+    (use-package cnfonts
+      :ensure t
+      :config
+      (require 'cnfonts)
+      (cnfonts-enable)
+      (setq cnfonts-profiles
+	    '("program" "org-mode" "read-book")))
   #+END_SRC
 
 * Magit
