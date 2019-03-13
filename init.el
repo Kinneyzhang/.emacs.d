@@ -95,6 +95,7 @@
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(popwin-mode t)
  '(popwin:adjust-other-windows nil)
+ '(pyim-page-length 8)
  '(show-paren-mode t)
  '(smiley-style (quote medium))
  '(speedbar-default-position (quote right))
