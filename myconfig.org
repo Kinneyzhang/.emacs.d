@@ -178,7 +178,7 @@
      (defun print-symbol-done ()
        (interactive)
        (insert "×"))
-       
+
      (defun print-symbol-migrated ()
        (interactive)
        (insert ">"))
@@ -211,6 +211,14 @@
        (interactive)
        (insert "√"))
 
+     (defun print-symbol-upper-limit ()
+	 (interactive)
+	 (insert "≤"))
+
+     (defun print-symbol-lower-limit ()
+	 (interactive)
+	 (insert "≥"))
+
      (global-set-key (kbd "C-c s t") 'print-symbol-todo)
      (global-set-key (kbd "C-c s d") 'print-symbol-done)
      (global-set-key (kbd "C-c s m") 'print-symbol-migrated)
@@ -220,6 +228,8 @@
      (global-set-key (kbd "C-c s 1") 'print-symbol-important)
      (global-set-key (kbd "C-c s i") 'print-symbol-interval)
      (global-set-key (kbd "C-c s a") 'print-symbol-award)
+     (global-set-key (kbd "C-c s u") 'print-symbol-upper-limit)
+     (global-set-key (kbd "C-c s l") 'print-symbol-lower-limit)
    #+END_SRC
 
 ** all-the-icons
