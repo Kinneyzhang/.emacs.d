@@ -20,7 +20,7 @@ ask
   "this is a function to calculate circle's area"
   (let* ((pi 3.14)
 	 (area (* pi radix radix)))
-    (message "半径为 %.2f 的圆的面积为 %.2f " radix area)))e
+    (message "半径为 %.2f 的圆的面积为 %.2f " radix area)))
 (circle-area 2)
 "半径为 2 的圆的面积为 13 "
 
@@ -100,3 +100,30 @@ ask
 (97 98 99 100)
 
 ;;正则查找
+
+;;cons cell and lis
+;;cons cell由两部分组成: car cdr
+;引用列表只返回，不求值
+'((+ 1 2) 4)
+((+ 1 2) 4)
+;;按cdr可把列表分为三类
+'(1 2 3)
+'(1 2 . 3)
+'(1 . #1=(2 3 . #1#))
+;;列表当数组，堆栈，集合，关联表，树....
+
+;;序列：列表和数组(向量，字符串...)的统称
+(safe-length '( 1 2 3 4))
+4
+; 列表取值nth, 数组取值 aref, 序列通用：elt
+(nth 4 '(2 3 4 5 6 7))
+6
+(aref [1 2 3 4] 2)
+3
+(aref "emacs" 2)
+97
+(elt '(a b c d) 2)
+c
+
+;;符号...
+
