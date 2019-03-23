@@ -8,6 +8,7 @@ abbrev_defs
 *~
 .python-environments
 myconfig.el
+scratch.el
 eshell
 projectile-bookmarks.eld
 .org-id-locations
