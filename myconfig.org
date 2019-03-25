@@ -584,16 +584,16 @@
 
     ;; org todo keywords
     (setq org-todo-keywords
-	  '((type "●(t)" "○(e)" "-(n)" "|")
+	  '((type "●(t)" "○(e)" "─(n)" "|")
 	    (sequence "●(t)" "|" "×(d)" ">(m)" "<(s)")))
 
     (setq org-todo-keyword-faces
 	  '(("●" . (:foreground "DarkOrange" :weight bold))
-	    ("×" . (:foreground "grey" :weight bold))
-	    (">" . (:foreground "black" :weight bold))
-	    ("<" . (:foreground "black" :weight bold))
-	    ("○" . (:foreground "Darkgreen" :weight bold))
-	    ("-" . (:foreground "blue" :weight blod))
+	    ("×" . (:foreground "red" :weight bold))
+	    (">" . (:weight bold))
+	    ("<" . (:weight bold))
+	    ("○" . (:foreground "green" :weight bold))
+	    ("─" . (:foreground "DeepSkyBlue" :weight blod))
 	    ))
 
     ;;设置换行
