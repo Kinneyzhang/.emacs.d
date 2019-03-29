@@ -91,11 +91,19 @@
  '(org-pomodoro-ask-upon-killing nil)
  '(package-selected-packages
    (quote
-    (guess-word emmet-mode neotree all-the-icons-dired doom-modeline spacemacs-theme magit smex vue-mode vue-html-mode cnfonts chinese-fonts-setup org-journal pdf-tools youdao-dictionary dashboard elfeed-goodies elfeed python-django django-mode alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+    (search-web guess-word emmet-mode neotree all-the-icons-dired doom-modeline spacemacs-theme magit smex vue-mode vue-html-mode cnfonts chinese-fonts-setup org-journal pdf-tools youdao-dictionary dashboard elfeed-goodies elfeed python-django django-mode alert async auto-complete auto-yasnippet ccls color-theme-sanityinc-tomorrow company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(popwin-mode t)
  '(popwin:adjust-other-windows nil)
  '(pyim-page-length 8)
+ '(search-web-default-browser (quote browse-url-default-macosx-browser))
+ '(search-web-engines
+   (quote
+    (("github" "https://github.com/search?q=%s" nil)
+     ("baidu" "https://www.baidu.com/s?ie=UTF-8&wd=%s" nil)
+     ("google" "http://www.google.com/search?q=%s" nil)
+     ("youtube" "http://www.youtube.com/results?search_type=&search_query=%s&aq=f" nil))))
+ '(search-web-external-browser (quote browse-url-default-macosx-browser))
  '(show-paren-mode t)
  '(smiley-style (quote medium))
  '(speedbar-default-position (quote right))
