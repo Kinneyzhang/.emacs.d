@@ -507,7 +507,6 @@
     ;;(set-frame-width (selected-frame) 139)
     ;;(set-frame-height (selected-frame) 36)
   #+END_SRC
-  
 * Org-mode 
   #+BEGIN_SRC emacs-lisp
     (use-package org-bullets

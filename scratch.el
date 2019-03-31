@@ -127,3 +127,11 @@ c
 
 ;;符号...
 
+;; (defun create-monthly-log-table ()
+;;   (interactive)
+;;   (let (())
+;;     (setq header '("Date" "Event" "Monthly Task"))
+;;     (setq week '("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
+;;     (while header
+;;       (org-cycle)
+;;       (insert header))))
