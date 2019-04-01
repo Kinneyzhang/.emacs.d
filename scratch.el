@@ -126,12 +126,45 @@ ask
 c
 
 ;;符号...
+;;============================hack by myself=====================================
+(defun monthly-log-table-create ()
+  (interactive)
+  (let ((x 0)
+	(y 0))
+    (setq header-list '("Date" "Event" "Monthly Task")
+	  week-list '("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
+    (org-table-create-or-convert-from-region "3x5")
+    (while (< x (safe-length header-list))
+      (org-cycle)
+      (insert (nth x header-list))
+      (setq x (1+ x)))
+    (while (< y 5)
+      (org-cycle)
+      (insert (concat (number-to-string (1+ y)) " " (nth (mod y 7) week-list)))
+      (org-cycle)
+      (org-cycle)
+      (setq y (1+ y)))
+    ))
 
-;; (defun create-monthly-log-table ()
-;;   (interactive)
-;;   (let (())
-;;     (setq header '("Date" "Event" "Monthly Task"))
-;;     (setq week '("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
-;;     (while header
-;;       (org-cycle)
-;;       (insert header))))
+(setq current-day (substring (current-time-string) 0 3))
+(setq current-month (substring (current-time-string) 4 7))
+(setq current-date (substring (current-time-string) 9 10))
+(setq current-time (substring (current-time-string) 11 19))
+(setq current-year (substring (current-time-string) 20 24))
+
+Mon Apr  1 11:22:30 2019
+
+(defun is-leap-year (&optional year)
+  "judge if the year is a leap year"
+  (let ((result nil))
+      (if (stringp year)
+       (setq year (string-to-number year))
+     year)
+      (if (or (and (= 0 (% year 4)) (not (= 0 (% year 100)))) (= 0 (% year 400)))
+       (setq result "yes")
+       (setq result "no"))
+      result))
+
+(progn
+  (setq current-year (substring (current-time-string) 20 24))
+  (is-leap-year current-year))
