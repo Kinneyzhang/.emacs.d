@@ -168,3 +168,14 @@ Mon Apr  1 11:22:30 2019
 (progn
   (setq current-year (substring (current-time-string) 20 24))
   (is-leap-year current-year))
+
+
+(save-current-buffer
+  (set-buffer "*scratch*")
+  (goto-char (point-min))
+  (set-buffer "*Messages*"))
+
+(save-excursion
+  (set-buffer "*scratch*")
+  (goto-char (point-min))
+  (set-buffer "*Messages*"))
