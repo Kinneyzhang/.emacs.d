@@ -179,3 +179,16 @@ Mon Apr  1 11:22:30 2019
   (set-buffer "*scratch*")
   (goto-char (point-min))
   (set-buffer "*Messages*"))
+
+
+(defun mark-whole-sexp ()
+  (interactive)
+  (let ((bound (bounds-of-thing-at-point 'sexp)))
+    (if bound
+        (progn
+          (goto-char (car bound))
+          (set-mark (point))
+          (goto-char (cdr bound)))
+      (message "No sexp found at point!"))))
+
+从今天开始，我将使用双拼输入法来打字。南京师范大学，虽然还不太习惯，但是我还是非常的喜欢这种方式的。
