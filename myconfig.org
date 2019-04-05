@@ -403,7 +403,6 @@
     (setq default-buffer-file-coding-system 'utf-8) ;;emacs编码设置
     (prefer-coding-system 'utf-8)
     (setq ad-redefinition-action 'accept)
-    
 
     ;; 默认分割成左右两个窗口
     (setq split-height-threshold nil)

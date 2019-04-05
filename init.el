@@ -18,6 +18,8 @@
 	(package-install 'use-package))
 
 (read-only-mode 1)
+;; (setq mode-line-format nil)
+
 (org-babel-load-file (expand-file-name "~/.emacs.d/myconfig.org"))
 
 (custom-set-variables
@@ -291,6 +293,9 @@
  '(message-header-subject ((t (:foreground "gold" :weight bold))))
  '(message-header-to ((t (:foreground "DarkRed" :weight bold))))
  '(mm-uu-extract ((((class color) (background dark)) (:background "Black" :foreground "Gold3"))))
+ '(mode-line ((t (:background "black" :foreground "white" :box nil :height 0.1))))
+ '(mode-line-highlight ((t (:box (:line-width 2 :color "white" :style released-button)))))
+ '(mode-line-inactive ((t (:background "Gray10" :foreground "white" :box nil :height 0.1))))
  '(modelinepos-column-warning ((t (:foreground "Yellow"))))
  '(newsticker-date-face ((t (:foreground "red" :slant italic :height 0.8))))
  '(newsticker-default-face ((((class color) (background dark)) (:inherit default))))
