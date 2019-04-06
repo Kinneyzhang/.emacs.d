@@ -94,20 +94,6 @@
 	:load-path "~/.emacs.d/site-lisp/aweshell"
 	)
    #+END_SRC
-
-** awesome-tab
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package awesome-tab
-       :load-path "~/.emacs.d/site-lisp/awesome-tab"
-       :bind (("C-c <right>" . awesome-tab-forward)
-	      ("C-c <left>" . awesome-tab-backward)
-	      ("C-c <down>" . awesome-tab-forward-group)
-	      ("C-c <up>" . awesome-tab-backward-group))
-       :config
-       (awesome-tab-mode t))
-   #+END_SRC
-
 ** awesome-pair
 
    #+BEGIN_SRC emacs-lisp
@@ -465,11 +451,28 @@
     (use-package color-theme-sanityinc-tomorrow
       :ensure t)
 
-    (require 'spacemacs-dark-theme)
+    (use-package doom-themes
+      :ensure t
+      :config
+      (require 'doom-themes)
+
+      ;; Global settings (defaults)
+      (setq doom-themes-enable-bold t
+	    doom-themes-enable-italic t)
+
+      (load-theme 'doom-one t)
+
+      ;; Corrects (and improves) org-mode's native fontification.
+      (doom-themes-org-config))
 
     (use-package doom-modeline
       :ensure t
-      :hook (after-init . doom-modeline-mode))
+      :hook (after-init . doom-modeline-mode)
+      :config
+      (setq doom-modeline-icon t)
+      (setq doom-modeline-major-mode-icon t)
+      (setq doom-modeline-github t))
+
 
     (use-package all-the-icons-dired
       :ensure t
@@ -520,7 +523,8 @@
       :ensure t)
 
     (setq org-src-fontify-natively t)
-    (setq org-agenda-files (list "~/org/gtd.org" "~/program_org/BuJo-2019.org"))
+    (setq org-agenda-files (list "~/org/gtd.org"
+				 "~/program_org/BuJo-2019.org"))
 
     ;; Set to the location of your Org files on your local system
     (setq org-directory "~/org")
@@ -531,7 +535,7 @@
     (setq org-capture-templates 'myconfig)
     (setq org-capture-templates
 	  '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-	     "* TODO [#B] %?\n  %i\n"
+	     "* ● %?\n  %i\n"
 	     :empty-lines 1)
 	    ("d" "Diary" entry (file+datetree "~/org/diary.org")
 	     "* %?\nEntered on %U\n %i\n"
@@ -611,6 +615,12 @@
       (cnfonts-enable)
       (setq cnfonts-profiles
 	    '("program" "org-mode" "read-book")))
+
+    (use-package calfw-org
+      :ensure t)
+
+    (require 'calfw)
+    (require 'calfw-org)
   #+END_SRC
 
 * Magit
