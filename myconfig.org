@@ -391,8 +391,8 @@
     (setq ad-redefinition-action 'accept)
 
     ;; 默认分割成左右两个窗口
-    (setq split-height-threshold nil)
-    (setq split-width-threshold 0)
+    ;; (setq split-height-threshold nil)
+    ;; (setq split-width-threshold 0)
 
     (setq dired-recursive-deletes 'always)
     (setq dired-recursive-copies 'always);;全部递归拷贝删除文件夹中的文件
@@ -493,7 +493,7 @@
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
     (menu-bar-mode -1)
-    (set-default-font "-*-Monaco-normal-normal-normal-*-13-*-*-*-m-0-iso10646-1")
+    (set-default-font "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
     (global-hl-line-mode t);;光标行高亮
     
     (global-hi-lock-mode 1) ;;使能高亮
@@ -616,11 +616,18 @@
       (setq cnfonts-profiles
 	    '("program" "org-mode" "read-book")))
 
-    (use-package calfw-org
-      :ensure t)
+    (defun my-open-calendar ()
+	  (interactive)
+	  (cfw:open-calendar-buffer
+	   :contents-sources
+	   (list
+	    (cfw:org-create-source "#FFFFFF"))))
 
     (require 'calfw)
     (require 'calfw-org)
+    (use-package calfw-org
+      :ensure t
+      :bind (("C-x cc" . my-open-calendar)))
   #+END_SRC
 
 * Magit
