@@ -191,4 +191,13 @@ Mon Apr  1 11:22:30 2019
           (goto-char (cdr bound)))
       (message "No sexp found at point!"))))
 
-从今天开始，我将使用双拼输入法来打字。南京师范大学，虽然还不太习惯，但是我还是非常的喜欢这种方式的。
+
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+function "~/org/gtd.org" )
+	 "* ● %?\n  %i\n"
+	 :empty-lines 1)))
+
+(defun org-capture-todo-insert ()
+  (setq current-day (format-time-string "%b %d %a"))
+  (setq current-monthly (format-time-string "%B"))
+  )

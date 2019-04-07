@@ -534,9 +534,9 @@
 
     (setq org-capture-templates 'myconfig)
     (setq org-capture-templates
-	  '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-	     "* ● %?\n  %i\n"
-	     :empty-lines 1)
+	  '(;; ("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+	    ;;  "* ● %?\n  %i\n"
+	    ;;  :empty-lines 1)
 	    ("d" "Diary" entry (file+datetree "~/org/diary.org")
 	     "* %?\nEntered on %U\n %i\n"
 	     :empty-lines 1)
