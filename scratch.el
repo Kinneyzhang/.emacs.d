@@ -127,6 +127,7 @@ c
 
 ;;符号...
 ;;============================hack by myself=====================================
+
 (defun monthly-log-table-create ()
   (interactive)
   (let ((x 0)
@@ -154,33 +155,6 @@ c
 
 Mon Apr  1 11:22:30 2019
 
-(defun is-leap-year (&optional year)
-  "judge if the year is a leap year"
-  (let ((result nil))
-      (if (stringp year)
-       (setq year (string-to-number year))
-     year)
-      (if (or (and (= 0 (% year 4)) (not (= 0 (% year 100)))) (= 0 (% year 400)))
-       (setq result "yes")
-       (setq result "no"))
-      result))
-
-(progn
-  (setq current-year (substring (current-time-string) 20 24))
-  (is-leap-year current-year))
-
-
-(save-current-buffer
-  (set-buffer "*scratch*")
-  (goto-char (point-min))
-  (set-buffer "*Messages*"))
-
-(save-excursion
-  (set-buffer "*scratch*")
-  (goto-char (point-min))
-  (set-buffer "*Messages*"))
-
-
 (defun mark-whole-sexp ()
   (interactive)
   (let ((bound (bounds-of-thing-at-point 'sexp)))
@@ -196,8 +170,9 @@ Mon Apr  1 11:22:30 2019
       '(("t" "Todo" entry (file+function "~/org/gtd.org" )
 	 "* ● %?\n  %i\n"
 	 :empty-lines 1)))
-
 (defun org-capture-todo-insert ()
   (setq current-day (format-time-string "%b %d %a"))
   (setq current-monthly (format-time-string "%B"))
+  (org-goto)
+  (org-occur "* Daliy Log")
   )
