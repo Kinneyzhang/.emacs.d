@@ -19,7 +19,6 @@
 			      auto-complete
 			      auto-yasnippet
 			      ccls
-			      color-theme-sanityinc-tomorrow
 			      company
 			      counsel
 			      epl
@@ -90,9 +89,9 @@
 ** aweshell
 
    #+BEGIN_SRC emacs-lisp
-      (use-package aweshell
-	:load-path "~/.emacs.d/site-lisp/aweshell"
-	)
+     (use-package aweshell
+       :load-path "~/.emacs.d/site-lisp/aweshell"
+       )
    #+END_SRC
 
 ** awesome-pair
@@ -231,10 +230,16 @@
 ** leetcode
 
    #+BEGIN_SRC emacs-lisp
-     (use-package leetcode
-       :load-path "~/.emacs.d/site-lisp/leetcode")
-   #+END_SRC
+     (use-package furl
+       :ensure t)
 
+     (use-package graphql
+       :ensure t)
+
+     (use-package leetcode
+       :load-path "~/.emacs.d/site-lisp/leetcode"
+       :init (setq leetcode-account "kinneyzhang666@gmail.com"))
+   #+END_SRC
 
 * Evil
   #+BEGIN_SRC emacs-lisp
@@ -457,9 +462,6 @@
 * Themes and modeline
   #+BEGIN_SRC emacs-lisp
     (use-package color-theme
-      :ensure t)
-
-    (use-package color-theme-sanityinc-tomorrow
       :ensure t)
 
     (use-package doom-themes
