@@ -94,6 +94,7 @@
 	:load-path "~/.emacs.d/site-lisp/aweshell"
 	)
    #+END_SRC
+
 ** awesome-pair
 
    #+BEGIN_SRC emacs-lisp
@@ -155,7 +156,9 @@
      (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline)
 )
    #+END_SRC
+
 ** print special symbol
+
    #+BEGIN_SRC emacs-lisp
      (defun print-symbol-todo ()
        (interactive)
@@ -224,6 +227,14 @@
      (use-package all-the-icons
        :load-path "~/.emacs.d/site-lisp/all-the-icons")
    #+END_SRC
+
+** leetcode
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package leetcode
+       :load-path "~/.emacs.d/site-lisp/leetcode")
+   #+END_SRC
+
 
 * Evil
   #+BEGIN_SRC emacs-lisp

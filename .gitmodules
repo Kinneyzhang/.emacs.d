@@ -13,3 +13,6 @@
 [submodule "site-lisp/guess-word"]
 	path = site-lisp/guess-word
 	url = https://github.com/Qquanwei/emacs-guess-word-game.git
+[submodule "site-lisp/leetcode"]
+	path = site-lisp/leetcode
+	url = https://github.com/kaiwk/leetcode.el.git
