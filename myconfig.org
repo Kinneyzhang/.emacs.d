@@ -602,7 +602,7 @@
     ;; org todo keywords
     (setq org-todo-keywords
 	  '((type "●(t)" "○(e)" "─(n)" "|")
-	    (sequence "●(t)" "|" "×(d)" ">(m)" "<(s)")))
+	    (sequence "●(t)" "|" "×(d)" ">(m)" "<(s)" "○(e)" "─(n)")))
 
     (setq org-todo-keyword-faces
 	  '(("●" . (:foreground "DarkOrange" :weight bold))
@@ -636,11 +636,15 @@
 	   (list
 	    (cfw:org-create-source "#FFFFFF"))))
 
-    (require 'calfw)
-    (require 'calfw-org)
     (use-package calfw-org
       :ensure t
       :bind (("C-x cc" . my-open-calendar)))
+
+    (use-package calfw
+      :ensure t)
+
+    (require 'calfw)
+    (require 'calfw-org)
   #+END_SRC
 
 * Magit
