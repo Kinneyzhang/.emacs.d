@@ -367,7 +367,7 @@
       (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
 
     ;;切换web-mode下默认tab空格数
-    (global-set-key (kbd "C-c t i") 'my-toggle-web-indent)
+    ; (global-set-key (kbd "C-c t i") 'my-toggle-web-indent)
 
     ;;标记后智能选中区域
     (global-set-key (kbd "C-=") 'er/expand-region)
