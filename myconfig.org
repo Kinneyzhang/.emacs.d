@@ -2,15 +2,6 @@
 * packages
   #+BEGIN_SRC emacs-lisp
     ;;this is the packages that i have installed
-
-    ;; (when (>= emacs-major-version 24)
-    ;;   (require 'package)
-    ;;   (package-initialize)
-    ;;   (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-    ;; 			   ("melpa" . "http://elpa.emacs-china.org/melpa/"))))
-
-    ;; cl - Common 
-    ;; Lisp Extension
     (require 'cl)
     ;; Add Packages
     (defvar kinney/packages '(
@@ -311,6 +302,8 @@
 
 * Key bindings
   #+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-\\") 'toggle-input-method)
+
     (global-set-key (kbd "C-x -") 'split-window-below)
     (global-set-key (kbd "C-x /") 'split-window-right)
     (global-set-key "\C-x\C-p" 'other-window-backward)
@@ -318,8 +311,15 @@
 
     (global-set-key (kbd "<f5>") 'revert-buffer)
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
-    ;;(global-set-key (kbd "M-x") 'helm-M-x)
-    ;;(global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+    ;; helm keybindings
+    (global-set-key (kbd "M-x") 'helm-M-x)
+    (global-set-key (kbd "C-x C-f") 'helm-find-files)
+    (global-set-key (kbd "C-x b") 'helm-buffers-list)
+    (global-set-key (kbd "C-y") 'helm-show-kill-ring)
+
+    ;; ================================================
+
     (global-set-key (kbd "C-h f") 'counsel-describe-function)
     (global-set-key (kbd "C-h v") 'counsel-describe-variable)
     (global-set-key (kbd "C-x <f10>") 'eval-last-sexp)
@@ -496,7 +496,6 @@
       (setq doom-modeline-major-mode-icon t)
       (setq doom-modeline-github t))
 
-
     (use-package all-the-icons-dired
       :ensure t
       :config
@@ -561,13 +560,9 @@
 	    ;;  "* ● %?\n  %i\n"
 	    ;;  :empty-lines 1)
 	    ("d" "Diary" entry (file+datetree "~/org/diary.org")
-	     "* %?\nEntered on %U\n %i\n"
-	     :empty-lines 1)
+	     "* %?\nEntered on %U\n %i\n")
 	    ("e" "Entry" entry (file+datetree "~/org/entry.org")
-	     "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?"
-	     :empty-lines 1)
-	    ("w" "New Words" item (file+headline "~/org/new_words.org" "New Words")
-	     "%i%?"
+	     "* %(format-time-string org-journal-time-format)%^{Title}\n%i"
 	     :empty-lines 1)
 	    ))
 
@@ -667,11 +662,25 @@
 
 * Helm
   #+BEGIN_SRC emacs-lisp
-    ;; (use-package helm
-    ;;   :ensure t
-    ;;   :config
-    ;;   (helm-mode 1)
-    ;;   )
+    (use-package helm
+      :ensure t
+      :config
+      (helm-mode 1)
+      )
+
+    (use-package helm-company
+      :ensure t
+      :config
+      (eval-after-load 'company
+      '(progn
+	 (define-key company-mode-map (kbd "C-:") 'helm-company)
+	 (define-key company-active-map (kbd "C-:") 'helm-company))))
+
+    (use-package helm-projectile
+      :ensure t
+      :config
+      (require 'helm-projectile)
+      (helm-projectile-on))
   #+END_SRC
 * Company
   #+BEGIN_SRC emacs-lisp
@@ -845,6 +854,9 @@
     (add-hook 'c-mode-hook 'vlad-cc-style)
 
   #+END_SRC
+
+  #+RESULTS:
+  | vlad-cc-style | irony-mode | (lambda nil (awesome-pair-mode 1)) |
   
 * Yasnippet 
   #+BEGIN_SRC emacs-lisp
@@ -1053,3 +1065,51 @@
 	     ("C-c wp" . search-web-at-point)
 	     ("C-c wr" . search-web-region)))
   #+END_SRC
+* Pyim
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package pyim
+      :ensure nil
+      :demand t
+      :config
+      ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
+      (use-package pyim-basedict
+	:ensure nil
+	:config (pyim-basedict-enable))
+
+      (setq default-input-method "pyim")
+
+      ;; 我使用全拼
+      (setq pyim-default-scheme 'quanpin)
+
+      ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
+      ;; 我自己使用的中英文动态切换规则是：
+      ;; 1. 光标只有在注释里面时，才可以输入中文。
+      ;; 2. 光标前是汉字字符时，才能输入中文。
+      ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
+      (setq-default pyim-english-input-switch-functions
+		    '(pyim-probe-dynamic-english
+		      pyim-probe-isearch-mode
+		      pyim-probe-program-mode
+		      pyim-probe-org-structure-template))
+
+      (setq-default pyim-punctuation-half-width-functions
+		    '(pyim-probe-punctuation-line-beginning
+		      pyim-probe-punctuation-after-punctuation))
+
+      ;; 开启拼音搜索功能
+      (pyim-isearch-mode 1)
+
+      ;; 使用 pupup-el 来绘制选词框, 如果用 emacs26, 建议设置
+      ;; 为 'posframe, 速度很快并且菜单不会变形，不过需要用户
+      ;; 手动安装 posframe 包。
+      (setq pyim-page-tooltip 'popup)
+
+
+      ;; 选词框显示5个候选词
+      (setq pyim-page-length 5)
+
+      :bind (("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合
+	     ("C-;" . pyim-delete-word-from-personal-buffer)))
+  #+END_SRC
+

@@ -81,14 +81,6 @@
  '(jdee-db-requested-breakpoint-face-colors (cons "#0d0f11" "#A8CE93"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#0d0f11" "#899BA6"))
  '(menu-bar-mode nil)
- '(mode-line-format
-   (quote
-    ("%e"
-     (:eval
-      (window-numbering-get-number-string))
-     mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification "   " mode-line-position
-     (vc-mode vc-mode)
-     "  " mode-line-modes mode-line-misc-info mode-line-end-spaces)))
  '(neo-cwd-line-style (quote button))
  '(neo-show-slash-for-folder nil)
  '(neo-theme (quote icons))
@@ -97,13 +89,13 @@
  '(neo-window-width 28)
  '(org-agenda-files
    (quote
-    ("~/program_org/BuJo-2019.org" "/Users/kinney/org/diary.org" "/Users/kinney/org/entry.org" "/Users/kinney/org/gtd.org" "/Users/kinney/org/new_words.org")))
+    ("~/program_org/BuJo-2019.org" "/Users/kinney/org/diary.org" "/Users/kinney/org/entry.org" "/Users/kinney/org/gtd.org")))
  '(org-agenda-window-setup (quote current-window))
  '(org-journal-dir "~/org/entries")
  '(org-pomodoro-ask-upon-killing nil)
  '(package-selected-packages
    (quote
-    (org-gcal google-translate graphql furl calfw calfw-org material-theme doom-modeline doom-themes treemacs-magit treemacs-icons-dired treemacs-projectile treemacs-evil search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex vue-mode vue-html-mode cnfonts chinese-fonts-setup org-journal pdf-tools youdao-dictionary dashboard elfeed-goodies elfeed python-django django-mode alert async auto-complete auto-yasnippet ccls company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+    (helm-projectile helm-company doom-modeline pyim org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex vue-mode vue-html-mode cnfonts chinese-fonts-setup org-journal pdf-tools youdao-dictionary dashboard elfeed-goodies elfeed python-django django-mode alert async auto-complete auto-yasnippet ccls company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(popwin-mode t)
  '(popwin:adjust-other-windows nil)
@@ -307,10 +299,6 @@
  '(message-header-subject ((t (:foreground "gold" :weight bold))))
  '(message-header-to ((t (:foreground "DarkRed" :weight bold))))
  '(mm-uu-extract ((((class color) (background dark)) (:background "Black" :foreground "Gold3"))))
- '(mode-line ((t (:background "black" :foreground "white" :box nil :height 0.1))))
- '(mode-line-highlight ((t (:box (:line-width 2 :color "white" :style released-button)))))
- '(mode-line-inactive ((t (:background "Gray10" :foreground "white" :box nil :height 0.1))))
- '(modelinepos-column-warning ((t (:foreground "Yellow"))))
  '(pabbrev-suggestions-face ((((class color) (background dark)) (:background "Black" :foreground "khaki1"))))
  '(pabbrev-suggestions-label-face ((t (:background "Black" :foreground "Grey" :inverse-video nil))))
  '(popup-menu-summary-face ((t (:background "#191919" :foreground "grey"))))
