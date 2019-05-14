@@ -21,6 +21,7 @@
 
 (org-babel-load-file (expand-file-name "~/.emacs.d/myconfig.org"))
 
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -95,7 +96,7 @@
  '(org-pomodoro-ask-upon-killing nil)
  '(package-selected-packages
    (quote
-    (helm-projectile helm-company doom-modeline pyim org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex vue-mode vue-html-mode cnfonts chinese-fonts-setup org-journal pdf-tools youdao-dictionary dashboard elfeed-goodies elfeed python-django django-mode alert async auto-complete auto-yasnippet ccls company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-pomodoro org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax shell-pop smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+    (org-notebook helm-projectile helm-company doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex cnfonts chinese-fonts-setup youdao-dictionary dashboard elfeed-goodies elfeed django-mode alert async auto-complete auto-yasnippet company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(popwin-mode t)
  '(popwin:adjust-other-windows nil)

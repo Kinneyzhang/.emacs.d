@@ -1,64 +1,4 @@
 #+STARTUP: overview
-* packages
-  #+BEGIN_SRC emacs-lisp
-    ;;this is the packages that i have installed
-    (require 'cl)
-    ;; Add Packages
-    (defvar kinney/packages '(
-			      alert
-			      async
-			      auto-complete
-			      auto-yasnippet
-			      ccls
-			      company
-			      counsel
-			      epl
-			      expand-region
-			      flycheck
-			      ggtags
-			      hungry-delete
-			      iedit
-			      ivy
-			      js2-mode
-			      js2-refactor
-			      nodejs-repl
-			      org-pomodoro
-			      org-bullets
-			      org-journal
-			      package-build
-			      pkg-info
-			      popup
-			      popwin
-			      projectile
-			      reveal-in-osx-finder
-			      ruby-hash-syntax
-			      shell-pop
-			      smartparens
-			      swiper
-			      use-package
-			      web-mode
-			      which-key
-			      window-numbering
-			      yasnippet
-			      spacemacs-theme
-			      ) "Default packages")
-
-    (setq package-selected-packages kinney/packages)
-
-    (defun kinney/packages-installed-p ()
-      (loop for pkg in kinney/packages
-	    when (not (package-installed-p pkg)) do (return nil)
-	    finally (return t)))
-
-    (unless (kinney/packages-installed-p)
-      (message "%s" "Refreshing package database...")
-      (package-refresh-contents)
-      (dolist (pkg kinney/packages)
-	(when (not (package-installed-p pkg))
-	  (package-install pkg))))
-
-  #+END_SRC
-
 * my-packages
 ** auto-save
 
@@ -75,14 +15,6 @@
    #+BEGIN_SRC emacs-lisp
       (use-package company-english-helper
 	:load-path "~/.emacs.d/site-lisp/company-english-helper")
-   #+END_SRC
-
-** aweshell
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package aweshell
-       :load-path "~/.emacs.d/site-lisp/aweshell"
-       )
    #+END_SRC
 
 ** awesome-pair
@@ -316,7 +248,7 @@
     (global-set-key (kbd "M-x") 'helm-M-x)
     (global-set-key (kbd "C-x C-f") 'helm-find-files)
     (global-set-key (kbd "C-x b") 'helm-buffers-list)
-    (global-set-key (kbd "C-y") 'helm-show-kill-ring)
+    ;; (global-set-key (kbd "C-y") 'helm-show-kill-ring)
 
     ;; ================================================
 
@@ -351,7 +283,8 @@
     ;;设置M-/作为标志位，默认C-@来setmark,C-@
     ;;M-/本来对应zap-to-char，这里占用了
 
-    (global-set-key (kbd "C-c m") 'set-mark-command)
+    ;; (global-set-key (kbd "C-c m") 'set-mark-command)
+    (global-set-key (kbd "M-\/") 'set-mark-command)
 
     (global-set-key (kbd "C-c wu") 'browse-url)
 
@@ -427,10 +360,6 @@
     (require 'dired-x)
     (setq dired-dwim-target t)
 
-    ;;let emacs could find the exe
-    (when (memq window-system '(mac ns))
-      (exec-path-from-shell-initialize))
-
     ;;Highlight parens when inside it
     (define-advice show-paren-function (:around (fn) fix-show-paren-function)
       "Highlight enclosing parens."
@@ -471,9 +400,6 @@
 
 * Themes and modeline
   #+BEGIN_SRC emacs-lisp
-    (use-package color-theme
-      :ensure t)
-
     (use-package doom-themes
       :ensure t
       :config
@@ -515,15 +441,16 @@
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
     (menu-bar-mode -1)
-    (set-default-font "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
     (global-hl-line-mode t);;光标行高亮
-    
+
     (global-hi-lock-mode 1) ;;使能高亮
     (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
 
     (setq inhibit-splash-screen nil);取消默认启动窗口
     (setq-default cursor-type 'bar);变光标, setq-default设置全局
     (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
+
+    (set-default-font "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
     ;;设置窗口位置为屏库左上角(0,0)
     ;;(set-frame-position (selected-frame) 150 0)
@@ -537,12 +464,6 @@
       :ensure t
       :config
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-    (use-package org-pomodoro
-      :ensure t)
-
-    (use-package org-journal
-      :ensure t)
 
     (setq org-src-fontify-natively t)
     (setq org-agenda-files (list "~/org/gtd.org"
@@ -692,35 +613,6 @@
       (global-company-mode t)
       )
 
-    (use-package company-irony
-      :ensure t
-      :config 
-      (add-to-list 'company-backends 'company-irony)
-      )
-
-    (use-package irony
-      :ensure t
-      :config
-      (add-hook 'c++-mode-hook 'irony-mode)
-      (add-hook 'c-mode-hook 'irony-mode)
-      (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-      )
-
-    (use-package irony-eldoc
-      :ensure t
-      :config
-      (add-hook 'irony-mode-hook #'irony-eldoc))
-
-    ;; (defun my/python-mode-hook ()
-    ;;   (add-to-list 'company-backends 'company-jedi))
-
-    ;; (add-hook 'python-mode-hook 'my/python-mode-hook)
-    ;; (use-package company-jedi
-    ;;   :ensure t
-    ;;   :config
-    ;;   (add-hook 'python-mode-hook 'jedi:setup)
-    ;;   )
-
   #+END_SRC
 
 * JavaScript 
@@ -810,8 +702,9 @@
     (setq web-mode-engines-alist
 	  '(("php"    . "\\.phtml\\'")
 	    ("blade"  . "\\.blade\\.")
-	    ("django"  . "\\.djhtml\\'")
-	    ("django"  . "\\.html?\\'"))
+	    ;; ("django"  . "\\.djhtml\\'")
+	    ;; ("django"  . "\\.html?\\'")
+	    )
 	  )
 
     (use-package emmet-mode
@@ -821,43 +714,6 @@
       (add-hook 'web-mode-hook 'emmet-mode))
 
   #+END_SRC
-
-* Vue
-  #+BEGIN_SRC emacs-lisp
-    (use-package vue-mode
-      :ensure t)
-  #+END_SRC
-* C++ 
-  #+BEGIN_SRC emacs-lisp 
-    (use-package ggtags
-      :ensure t 
-      :config 
-      (add-hook 'c-mode-common-hook
-		(lambda ()
-		  (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
-		    (ggtags-mode 1)))))
-
-    ;;config for c++ indent
-    (defun vlad-cc-style()
-      (c-set-style "linux")
-      (c-set-offset 'innamespace '0)
-      (c-set-offset 'inextern-lang '0)
-      (c-set-offset 'inline-open '0)
-      (c-set-offset 'label '*)
-      (c-set-offset 'case-label '*)
-      ;; (c-set-offset 'access-label '/)
-      (setq c-basic-offset 4)
-      (setq tab-width 4)
-      (setq indent-tabs-mode nil)
-      )
-    (add-hook 'c++-mode-hook 'vlad-cc-style)
-    (add-hook 'c-mode-hook 'vlad-cc-style)
-
-  #+END_SRC
-
-  #+RESULTS:
-  | vlad-cc-style | irony-mode | (lambda nil (awesome-pair-mode 1)) |
-  
 * Yasnippet 
   #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
@@ -878,24 +734,6 @@
       (which-key-mode))
 
   #+END_SRC
-
-* Shell-pop 
-  #+BEGIN_SRC emacs-lisp
-    (use-package shell-pop
-      :ensure t
-      :bind (("C-t" . shell-pop))
-      :config
-      (setq shell-pop-shell-type (quote ("ehell" "eshell" (lambda nil (eshell)))))
-      (setq shell-pop-term-shell "eshell")
-      ;; (setq shell-pop-universal-key "C-t")
-      (setq shell-pop-window-size 50)
-      (setq shell-pop-full-span t)
-      (setq shell-pop-window-position "bottom")
-
-      ;; need to do this manually or not picked up by shell-pop
-      (shell-pop--set-shell-type 'shell-pop-shell-type shell-pop-shell-type))
-  #+END_SRC
-
 * Smartparens 
   #+BEGIN_SRC emacs-lisp
     (use-package smartparens
@@ -992,13 +830,6 @@
 	    (lambda () (when (equal (buffer-name) "*Calculator*") 9))))
 
   #+END_SRC
-
-* Ccls
-  #+BEGIN_SRC emacs-lisp
-    (use-package ccls
-      :ensure t)
-  #+END_SRC
-
 * Projectile
   #+BEGIN_SRC emacs-lisp
     (use-package projectile
@@ -1017,12 +848,6 @@
 		   '("elpy" . "https://jorgenschaefer.github.io/packages/"))
       (package-initialize)
       (elpy-enable)
-      )
-
-    (use-package python-django
-      :ensure t
-      :config
-      (require 'python-django)
       )
   #+END_SRC
 
@@ -1050,13 +875,6 @@
       (global-set-key (kbd "C-c y y") 'youdao-dictionary-search-at-point+)
       )
   #+END_SRC
-  
-* PDF
-  #+BEGIN_SRC emacs-lisp
-    (use-package pdf-tools
-      :ensure t
-      )
-  #+END_SRC
 * Search-web
   #+BEGIN_SRC emacs-lisp
     (use-package search-web
@@ -1065,51 +883,3 @@
 	     ("C-c wp" . search-web-at-point)
 	     ("C-c wr" . search-web-region)))
   #+END_SRC
-* Pyim
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package pyim
-      :ensure nil
-      :demand t
-      :config
-      ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
-      (use-package pyim-basedict
-	:ensure nil
-	:config (pyim-basedict-enable))
-
-      (setq default-input-method "pyim")
-
-      ;; 我使用全拼
-      (setq pyim-default-scheme 'quanpin)
-
-      ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
-      ;; 我自己使用的中英文动态切换规则是：
-      ;; 1. 光标只有在注释里面时，才可以输入中文。
-      ;; 2. 光标前是汉字字符时，才能输入中文。
-      ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
-      (setq-default pyim-english-input-switch-functions
-		    '(pyim-probe-dynamic-english
-		      pyim-probe-isearch-mode
-		      pyim-probe-program-mode
-		      pyim-probe-org-structure-template))
-
-      (setq-default pyim-punctuation-half-width-functions
-		    '(pyim-probe-punctuation-line-beginning
-		      pyim-probe-punctuation-after-punctuation))
-
-      ;; 开启拼音搜索功能
-      (pyim-isearch-mode 1)
-
-      ;; 使用 pupup-el 来绘制选词框, 如果用 emacs26, 建议设置
-      ;; 为 'posframe, 速度很快并且菜单不会变形，不过需要用户
-      ;; 手动安装 posframe 包。
-      (setq pyim-page-tooltip 'popup)
-
-
-      ;; 选词框显示5个候选词
-      (setq pyim-page-length 5)
-
-      :bind (("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合
-	     ("C-;" . pyim-delete-word-from-personal-buffer)))
-  #+END_SRC
-
