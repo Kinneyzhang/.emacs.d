@@ -3,11 +3,11 @@
 ** auto-save
 
    #+BEGIN_SRC emacs-lisp
-   (use-package auto-save
-   :load-path "~/.emacs.d/site-lisp/auto-save"
-   :config 
-    (auto-save-enable)  ;; 开启自动保存功能
-    (setq auto-save-slient t)) ;; 自动保存的时候静悄悄的， 不要打扰我      
+     (use-package auto-save
+       :load-path "~/.emacs.d/site-lisp/auto-save"
+       :config 
+       (auto-save-enable)  ;; 开启自动保存功能
+       (setq auto-save-slient t)) ;; 自动保存的时候静悄悄的， 不要打扰我
    #+END_SRC
 
 ** company-english-helper
@@ -64,7 +64,7 @@
      (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
 
      (define-key awesome-pair-mode-map (kbd "M-o") 'awesome-pair-backward-delete)
-     (define-key awesome-pair-mode-map (kbd "C-d") 'awesome-pair-forward-delete) 
+     (define-key awesome-pair-mode-map (kbd "C-d") 'awesome-pair-forward-delete)
      (define-key awesome-pair-mode-map (kbd "C-k") 'awesome-pair-kill)
 
      (define-key awesome-pair-mode-map (kbd "M-\"") 'awesome-pair-wrap-double-quote)
@@ -73,10 +73,9 @@
      (define-key awesome-pair-mode-map (kbd "M-(") 'awesome-pair-wrap-round)
      (define-key awesome-pair-mode-map (kbd "M-)") 'awesome-pair-unwrap)
 
-     (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-right)
-     (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-left)
-     (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline)
-)
+     (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-right)
+     (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-left)
+     (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
    #+END_SRC
 
 ** print special symbol
@@ -441,7 +440,7 @@
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
     (menu-bar-mode -1)
-    (global-hl-line-mode t);;光标行高亮
+    (global-hl-line-mode -1);;光标行高亮
 
     (global-hi-lock-mode 1) ;;使能高亮
     (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
@@ -458,7 +457,7 @@
     ;;(set-frame-width (selected-frame) 139)
     ;;(set-frame-height (selected-frame) 36)
   #+END_SRC
-* Org-mode 
+* Org-mode
   #+BEGIN_SRC emacs-lisp
     (use-package org-bullets
       :ensure t
@@ -466,8 +465,7 @@
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
     (setq org-src-fontify-natively t)
-    (setq org-agenda-files (list "~/org/gtd.org"
-				 "~/program_org/BuJo-2019.org"))
+    (setq org-agenda-files (list "~/org/gtd.org"))
 
     ;; Set to the location of your Org files on your local system
     (setq org-directory "~/org")
@@ -477,16 +475,15 @@
 
     (setq org-capture-templates 'myconfig)
     (setq org-capture-templates
-	  '(;; ("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-	    ;;  "* ● %?\n  %i\n"
-	    ;;  :empty-lines 1)
+	  '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+	     "* TODO %?\n  %i\n"
+	     :empty-lines 1)
 	    ("d" "Diary" entry (file+datetree "~/org/diary.org")
 	     "* %?\nEntered on %U\n %i\n")
 	    ("e" "Entry" entry (file+datetree "~/org/entry.org")
 	     "* %(format-time-string org-journal-time-format)%^{Title}\n%i"
 	     :empty-lines 1)
 	    ))
-
 
     ;; org code block
     (defun org-insert-src-block (src-code-type)
@@ -525,19 +522,34 @@
 					       'org-pomodoro)
 				))
 
-    ;; org todo keywords
     (setq org-todo-keywords
-	  '((type "●(t)" "○(e)" "─(n)" "|")
-	    (sequence "●(t)" "|" "×(d)" ">(m)" "<(s)" "○(e)" "─(n)")))
+	  '((type "年度(y!)" "月度(m!)" "|")
+	    (sequence "TODO(t!)"  "|" "DONE(d!)" "ABORT(a@/!)")
+	    ))
 
     (setq org-todo-keyword-faces
-	  '(("●" . (:foreground "DarkOrange" :weight bold))
-	    ("×" . (:foreground "red" :weight bold))
-	    (">" . (:weight bold))
-	    ("<" . (:weight bold))
-	    ("○" . (:foreground "green" :weight bold))
-	    ("─" . (:foreground "DeepSkyBlue" :weight blod))
+	  '(("年度" . (:background "#20a0ff" :foreground "black" :weight bold))
+	    ("月度" . (:background "#9a5bbd" :foreground "black" :weight bold))
+	    ("TODO" . (:background "DarkOrange" :foreground "black" :weight bold))
+	    ("DONE" . (:background "Darkgreen" :foreground "black" :weight bold)) 
+	    ("ABORT" . (:background "gray" :foreground "black"))
 	    ))
+
+    (setq org-tag-alist '(("@work" . ?w) ("@study" . ?s) ("life" . ?l)))
+
+    ;; 优先级范围和默认任务的优先级
+    (setq org-highest-priority ?A)
+    (setq org-lowest-priority  ?E)
+    (setq org-default-priority ?C)
+    ;; 优先级醒目外观
+    (setq org-priority-faces
+	  '((?A . (:background "red" :foreground "white" :weight bold))
+	    (?B . (:background "DarkOrange" :foreground "white" :weight bold))
+	    (?C . (:background "yellow" :foreground "DarkGreen" :weight bold))
+	    (?D . (:background "DodgerBlue" :foreground "black" :weight bold))
+	    (?E . (:background "SkyBlue" :foreground "black" :weight bold))
+	    ))
+
 
     ;;设置换行
     (setq truncate-lines t)
@@ -556,11 +568,11 @@
 	    '("program" "org-mode" "read-book")))
 
     (defun my-open-calendar ()
-	  (interactive)
-	  (cfw:open-calendar-buffer
-	   :contents-sources
-	   (list
-	    (cfw:org-create-source "#FFFFFF"))))
+      (interactive)
+      (cfw:open-calendar-buffer
+       :contents-sources
+       (list
+	(cfw:org-create-source "#FFFFFF"))))
 
     (use-package calfw-org
       :ensure t
@@ -572,6 +584,9 @@
     (require 'calfw)
     (require 'calfw-org)
   #+END_SRC
+
+  #+RESULTS:
+  : calfw-org
 
 * Magit
 
@@ -859,7 +874,7 @@
       (dashboard-setup-startup-hook))
 
     (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-    (setq dashboard-banner-logo-title "Happy hacking emacs!  [Author:Kinney]  [Email:kinneyzhang666@gmail.com]")
+    (setq dashboard-banner-logo-title "Happy hacking emacs!  [Author:Kinney] [Email:kinneyzhang666@gmail.com]")
     (setq dashboard-startup-banner "~/.emacs.d/img/ying.png")
     (setq dashboard-items '((recents  . 8)
 			    (projects . 5)
@@ -882,4 +897,25 @@
       :bind (("C-c ww" . search-web)
 	     ("C-c wp" . search-web-at-point)
 	     ("C-c wr" . search-web-region)))
+  #+END_SRC
+* LSP
+
+  #+BEGIN_SRC emacs-lisp
+    ;; (use-package lsp-mode
+    ;;   :ensure t
+    ;;   :hook (prog-mode . lsp)
+    ;;   :commands lsp)
+
+    ;; ;; optionally
+    ;; (use-package lsp-ui
+    ;;   :ensure t
+    ;;   :commands lsp-ui-mode)
+
+    ;; (use-package company-lsp
+    ;;   :ensure t
+    ;;   :commands company-lsp)
+
+    ;; (use-package helm-lsp
+    ;;   :ensure t
+    ;;   :commands helm-lsp-workspace-symbol)
   #+END_SRC
