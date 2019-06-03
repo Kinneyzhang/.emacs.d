@@ -17,8 +17,6 @@
 	(package-refresh-contents)
 	(package-install 'use-package))
 
-(read-only-mode 1)
-
 (org-babel-load-file (expand-file-name "~/.emacs.d/myconfig.org"))
 
 

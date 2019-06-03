@@ -1,0 +1,17 @@
+;; This buffer is for text that is not saved, and for Lisp evaluation.
+;; To create a file, visit it with <open> and enter text in its buffer.
+
+(defun chunyang-scratch-save ()
+  (ignore-errors
+    (with-current-buffer "*scratch*"
+      (write-region nil nil "~/.emacs.d/var/scratch"))))
+
+(defun chunyang-scratch-restore ()
+  (let ((f "~/.emacs.d/var/scratch"))
+    (when (file-exists-p f)
+      (with-current-buffer "*scratch*"
+        (erase-buffer)
+        (insert-file-contents f)))))
+
+(add-hook 'kill-emacs-hook #'chunyang-scratch-save)
+(add-hook 'after-init-hook #'chunyang-scratch-restore)

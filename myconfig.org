@@ -162,6 +162,24 @@
        :load-path "~/.emacs.d/site-lisp/leetcode"
        :init (setq leetcode-account "kinneyzhang666@gmail.com"))
    #+END_SRC
+** scratch-save
+
+   #+BEGIN_SRC emacs-lisp
+     (defun chunyang-scratch-save ()
+       (ignore-errors
+	 (with-current-buffer "*scratch*"
+	   (write-region nil nil "~/.emacs.d/var/scratch"))))
+
+     (defun chunyang-scratch-restore ()
+       (let ((f "~/.emacs.d/var/scratch"))
+	 (when (file-exists-p f)
+	   (with-current-buffer "*scratch*"
+	     (erase-buffer)
+	     (insert-file-contents f)))))
+
+     (add-hook 'kill-emacs-hook #'chunyang-scratch-save)
+     (add-hook 'after-init-hook #'chunyang-scratch-restore)
+   #+END_SRC
 
 * Evil
   #+BEGIN_SRC emacs-lisp
