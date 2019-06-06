@@ -1,24 +1,30 @@
 
 ;; ----- smex-history -----
 (
- restart-emacs
- exwm-mode
- exwm-init
+ emms
+ emms-browser
+ emms-add-directory
+ emms-insert-url
+ emms-add-directory-tree
+ package-install
  bongo
- counsel-projectile-find-file
- counsel-projectile-find-dir
- counsel-file-jump
 )
 
 ;; ----- smex-data -----
 (
- (package-install . 1)
+ (package-install . 2)
  (restart-emacs . 6)
  (counsel-recentf . 1)
  (counsel-file-jump . 1)
  (counsel-projectile-find-dir . 1)
  (counsel-projectile-find-file . 3)
- (bongo . 2)
+ (bongo . 6)
  (exwm-init . 2)
  (exwm-mode . 1)
+ (package-delete . 1)
+ (emms . 7)
+ (emms-browser . 3)
+ (emms-add-directory-tree . 2)
+ (emms-insert-url . 1)
+ (emms-add-directory . 3)
 )
