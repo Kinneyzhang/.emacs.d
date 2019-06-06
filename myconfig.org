@@ -418,6 +418,8 @@
 					    try-complete-lisp-symbol-partially
 					    try-complete-lisp-symbol))
 
+    (use-package restart-emacs
+      :ensure t)
   #+END_SRC
 
 * Themes and modeline

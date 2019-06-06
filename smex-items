@@ -1,0 +1,17 @@
+
+;; ----- smex-history -----
+(
+ restart-emacs
+ package-install
+ cd
+ 5x5
+ arp
+ dbx
+ dig
+)
+
+;; ----- smex-data -----
+(
+ (package-install . 1)
+ (restart-emacs . 1)
+)
