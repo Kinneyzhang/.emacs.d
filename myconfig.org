@@ -258,6 +258,8 @@
     (global-set-key "\C-x\C-p" 'other-window-backward)
     (global-set-key "\C-x\C-n" 'other-window)
 
+    (global-set-key (kbd "M-o") 'ace-window)
+
     (global-set-key (kbd "<f5>") 'revert-buffer)
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
 
@@ -964,3 +966,25 @@
       :ensure t)
   #+END_SRC
 
+* ace-window
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package ace-window
+      :ensure t
+      :config
+      (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
+      (defvar aw-dispatch-alist
+      '((?x aw-delete-window "Delete Window")
+	    (?M aw-swap-window "Swap Windows")
+	    (?M aw-move-window "Move Window")
+	    (?c aw-copy-window "Copy Window")
+	    (?j aw-switch-buffer-in-window "Select Buffer")
+	    (?n aw-flip-window)
+	    (?u aw-switch-buffer-other-window "Switch Buffer Other Window")
+	    (?c aw-split-window-fair "Split Fair Window")
+	    (?v aw-split-window-vert "Split Vert Window")
+	    (?b aw-split-window-horz "Split Horz Window")
+	    (?o delete-other-windows "Delete Other Windows")
+	    (?? aw-show-dispatch-help))
+      "List of actions for `aw-dispatch-default'."))
+  #+END_SRC
