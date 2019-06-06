@@ -351,6 +351,7 @@
     (setq make-backup-files nil);;不允许备份
     (setq auto-save-default t);;不允许自动保存
     (recentf-mode 1)
+    (ido-mode 1)
     (setq recentf-max-menu-items 10)
     (add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
     (add-hook 'org-mode-hook 'display-line-numbers-mode);;显示行号
@@ -465,13 +466,18 @@
     (tool-bar-mode -1)
     (scroll-bar-mode -1)
     (menu-bar-mode -1)
-    (global-hl-line-mode -1);;光标行高亮
+    (fringe-mode 1)
+
+    (setq display-time-default-load-average nil)
+    (display-time-mode t)
+
+    (global-hl-line-mode t);;光标行高亮
 
     (global-hi-lock-mode 1) ;;使能高亮
     (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
 
     (setq inhibit-splash-screen nil);取消默认启动窗口
-    (setq-default cursor-type 'bar);变光标, setq-default设置全局
+    (setq-default cursor-type 'box);变光标, setq-default设置全局
     (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
 
     (set-default-font "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
@@ -655,7 +661,7 @@
       (setq ivy-initial-inputs-alist nil)
       ;; configure regexp engine.
       (setq ivy-re-builders-alist
-	      ;; allow input not in order
+	    ;; allow input not in order
 	    '((t . ivy--regex-ignore-order))))
 
     (use-package swiper
@@ -664,6 +670,53 @@
       (ivy-mode 1)
       (setq ivy-use-virtual-buffers t))
 
+    (use-package counsel-projectile
+      :ensure t
+      :config
+      (setq counsel-projectile-mode +1)
+      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+
+    (use-package all-the-icons-ivy
+      :ensure t
+      :config
+      (all-the-icons-ivy-setup)
+      (setq all-the-icons-ivy-buffer-commands '())
+      (setq all-the-icons-ivy-file-commands
+	    '(counsel-find-file counsel-file-jump counsel-recentf counsel-projectile-find-file counsel-projectile-find-dir)))
+
+    (use-package ivy-rich
+      :ensure t
+      :config
+      (ivy-rich-mode 1)
+      (setq ivy-format-function #'ivy-format-function-line)
+      (setq ivy-rich--display-transformers-list
+	    '(ivy-switch-buffer
+	      (:columns
+	       ((ivy-rich-candidate (:width 30))  ; return the candidate itself
+		(ivy-rich-switch-buffer-size (:width 7))  ; return the buffer size
+		(ivy-rich-switch-buffer-indicators (:width 4 :face error :align right)); return the buffer indicators
+		(ivy-rich-switch-buffer-major-mode (:width 12 :face warning))          ; return the major mode info
+		(ivy-rich-switch-buffer-project (:width 15 :face success))             ; return project name using `projectile'
+		(ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))))))  ; return file path relative to project root or `default-directory' if project is nil
+	       :predicate
+	       (lambda (cand) (get-buffer cand)))
+	      counsel-M-x
+	      (:columns
+	       ((counsel-M-x-transformer (:width 40))  ; thr original transfomer
+		(ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))  ; return the docstring of the command
+	      counsel-describe-function
+	      (:columns
+	       ((counsel-describe-function-transformer (:width 40))  ; the original transformer
+		(ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))  ; return the docstring of the function
+	      counsel-describe-variable
+	      (:columns
+	       ((counsel-describe-variable-transformer (:width 40))  ; the original transformer
+		(ivy-rich-counsel-variable-docstring (:face font-lock-doc-face))))  ; return the docstring of the variable
+	      counsel-recentf
+	      (:columns
+	       ((ivy-rich-candidate (:width 0.8)) ; return the candidate itself
+		(ivy-rich-file-last-modified-time (:face font-lock-comment-face))))) ; return the last modified time of the file
+	    ))
   #+END_SRC
 
 * Company
@@ -887,9 +940,7 @@
     (use-package projectile
       :ensure t
       :config
-      (projectile-mode +1)
-      (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-      )
+      (projectile-mode +1))
   #+END_SRC
 * Python
   #+BEGIN_SRC emacs-lisp
@@ -1010,4 +1061,10 @@
 	    (?o delete-other-windows "Delete Other Windows")
 	    (?? aw-show-dispatch-help))
       "List of actions for `aw-dispatch-default'."))
+  #+END_SRC
+* Music
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package bongo
+      :ensure t)
   #+END_SRC

@@ -2,16 +2,23 @@
 ;; ----- smex-history -----
 (
  restart-emacs
- package-install
- cd
- 5x5
- arp
- dbx
- dig
+ exwm-mode
+ exwm-init
+ bongo
+ counsel-projectile-find-file
+ counsel-projectile-find-dir
+ counsel-file-jump
 )
 
 ;; ----- smex-data -----
 (
  (package-install . 1)
- (restart-emacs . 1)
+ (restart-emacs . 6)
+ (counsel-recentf . 1)
+ (counsel-file-jump . 1)
+ (counsel-projectile-find-dir . 1)
+ (counsel-projectile-find-file . 3)
+ (bongo . 2)
+ (exwm-init . 2)
+ (exwm-mode . 1)
 )
