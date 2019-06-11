@@ -31,6 +31,8 @@
    ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
  '(beacon-color "#cc6666")
  '(bongo-default-directory "~/Music")
+ '(bongo-display-inline-playback-progress t)
+ '(bongo-enabled-backends (quote (afplay)))
  '(cfw:display-calendar-holidays nil)
  '(cfw:org-capture-template
    (quote
@@ -93,10 +95,11 @@
  '(org-pomodoro-ask-upon-killing nil)
  '(package-selected-packages
    (quote
-    (soundcloud emms-player-simple-mpv emms bongo counsel-projectile ivy-rich all-the-icons-ivy restart-emacs howm deft markdown-preview-mode lsp-ui company-lsp org-notebook doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex cnfonts chinese-fonts-setup youdao-dictionary dashboard elfeed-goodies elfeed django-mode alert async auto-complete auto-yasnippet company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+    (emms geiser wanderlust proxy-mode sudoku 2048-game bongo counsel-projectile ivy-rich all-the-icons-ivy restart-emacs howm deft markdown-preview-mode lsp-ui company-lsp org-notebook doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex cnfonts chinese-fonts-setup youdao-dictionary dashboard elfeed-goodies elfeed django-mode alert async auto-complete auto-yasnippet company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(popwin-mode t)
  '(popwin:adjust-other-windows nil)
+ '(proxy-mode-socks-proxy (quote ("Default server" "124.156.188.197" 3344 5)))
  '(pyim-page-length 8)
  '(search-web-default-browser (quote browse-url-default-macosx-browser))
  '(search-web-engines

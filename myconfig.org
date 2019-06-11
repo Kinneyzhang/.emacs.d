@@ -251,6 +251,9 @@
 
 * Key bindings
   #+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-x C-c") 'restart-emacs)
+    (global-set-key (kbd "C-t") 'shell)
+
     (global-set-key (kbd "C-\\") 'toggle-input-method)
 
     (global-set-key (kbd "C-x -") 'split-window-below)
@@ -270,7 +273,7 @@
     (global-set-key (kbd "M-x") 'counsel-M-x)
     (global-set-key (kbd "C-x C-f") 'counsel-find-file)
     (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-    (global-set-key (kbd "C-c e") 'counsel-git)
+    ;;(global-set-key (kbd "C-c e") 'counsel-git)
     (global-set-key (kbd "C-c t") 'counsel-load-theme)
     (global-set-key (kbd "M-g c") 'avy-goto-char-timer)
     (global-set-key (kbd "M-g g") 'avy-goto-line)
@@ -1062,9 +1065,41 @@
 	    (?? aw-show-dispatch-help))
       "List of actions for `aw-dispatch-default'."))
   #+END_SRC
-* Music
+* Bongo
 
   #+BEGIN_SRC emacs-lisp
     (use-package bongo
-      :ensure t)
+      :ensure t
+      :config
+      (setq bongo-default-directory "~/Music"))
+  #+END_SRC
+* Email
+
+  #+BEGIN_SRC emacs-lisp
+    (autoload 'wl "wl" "Wanderlust" t)
+  #+END_SRC
+* Emms
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package emms
+      :ensure t
+      :config
+      (require 'emms-setup)
+      (emms-all)
+      (emms-default-players))
+
+    (define-emms-simple-player mplayer '(file)
+      (regexp-opt '(".mp3" ".mp4"))
+      "mplayer")
+
+    (add-to-list 'emms-player-list 'emms-player-mplayer)
+  #+END_SRC
+* Proxy
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package proxy-mode
+      :ensure t
+      :config
+      (setq url-gateway-local-host-regexp
+	  (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
   #+END_SRC

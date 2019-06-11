@@ -2,29 +2,64 @@
 ;; ----- smex-history -----
 (
  emms
- emms-browser
- emms-add-directory
- emms-insert-url
- emms-add-directory-tree
- package-install
+ emms-streams
  bongo
+ emms-add-directory-tree
+ emms-insert-directory
+ emms-insert-playlist
+ emms-insert-streamlist
 )
 
 ;; ----- smex-data -----
 (
- (package-install . 2)
- (restart-emacs . 6)
+ (package-install . 11)
+ (restart-emacs . 9)
  (counsel-recentf . 1)
  (counsel-file-jump . 1)
  (counsel-projectile-find-dir . 1)
  (counsel-projectile-find-file . 3)
- (bongo . 6)
+ (bongo . 23)
  (exwm-init . 2)
  (exwm-mode . 1)
- (package-delete . 1)
- (emms . 7)
- (emms-browser . 3)
- (emms-add-directory-tree . 2)
+ (package-delete . 11)
+ (emms . 47)
+ (emms-browser . 12)
+ (emms-add-directory-tree . 3)
  (emms-insert-url . 1)
- (emms-add-directory . 3)
+ (emms-add-directory . 6)
+ (emms-next . 1)
+ (emms-show . 1)
+ (emms-start . 3)
+ (soundcloud . 3)
+ (bongo-playlist . 13)
+ (bongo-play . 1)
+ (2048-game . 1)
+ (sudoku . 1)
+ (sudoku-hint . 1)
+ (leetcode . 1)
+ (gnus . 3)
+ (eww . 16)
+ (proxy-mode . 14)
+ (show-proxy . 1)
+ (set-proxy . 1)
+ (wl . 18)
+ (wl-folder-init . 1)
+ (wl-draft . 2)
+ (elmo-passwd-alist-save . 3)
+ (emacs-lisp-mode . 1)
+ (geiser . 1)
+ (emacs-version . 1)
+ (emms-player-mpd-next . 2)
+ (emms-playlist-save . 1)
+ (emms-playlist-new . 1)
+ (emms-streams . 10)
+ (shell . 2)
+ (eshell . 2)
+ (eshell-command . 1)
+ (async-shell-command . 1)
+ (shell-command . 2)
+ (exec-path-from-shell-initialize . 1)
+ (emms-insert-streamlist . 1)
+ (emms-insert-playlist . 1)
+ (emms-insert-directory . 1)
 )

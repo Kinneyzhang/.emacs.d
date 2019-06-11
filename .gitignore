@@ -10,6 +10,7 @@ abbrev_defs
 myconfig.el
 scratch.el
 eshell
+emms
 projectile-bookmarks.eld
 .org-id-locations
 irony
@@ -17,3 +18,4 @@ url
 diary
 .caches
 smex-data
+smex-items

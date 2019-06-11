@@ -176,3 +176,5 @@ Mon Apr  1 11:22:30 2019
   (org-goto)
   (org-occur "* Daliy Log")
   )
+
+(shell-command "mplayer ~/Music/赵紫骅-可乐.mp3")
