@@ -32,7 +32,7 @@
  '(beacon-color "#cc6666")
  '(bongo-default-directory "~/Music")
  '(bongo-display-inline-playback-progress t)
- '(bongo-enabled-backends (quote (afplay)))
+ '(bongo-enabled-backends (quote (mplayer afplay)))
  '(cfw:display-calendar-holidays nil)
  '(cfw:org-capture-template
    (quote

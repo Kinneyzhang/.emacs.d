@@ -1078,22 +1078,6 @@
   #+BEGIN_SRC emacs-lisp
     (autoload 'wl "wl" "Wanderlust" t)
   #+END_SRC
-* Emms
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package emms
-      :ensure t
-      :config
-      (require 'emms-setup)
-      (emms-all)
-      (emms-default-players))
-
-    (define-emms-simple-player mplayer '(file)
-      (regexp-opt '(".mp3" ".mp4"))
-      "mplayer")
-
-    (add-to-list 'emms-player-list 'emms-player-mplayer)
-  #+END_SRC
 * Proxy
 
   #+BEGIN_SRC emacs-lisp
