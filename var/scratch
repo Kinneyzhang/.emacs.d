@@ -201,25 +201,3 @@ Mon Apr  1 11:22:30 2019
 	      (org-shifttab))
 	    (setq i (+ i 1)))))
       (setq n (+ n 1)))))
-
-
-
-|     |     |     |   |       |       |       |       |       |       |       |       |
-|-----+-----+-----+---+-------+-------+-------+-------+-------+-------+-------+-------|
-| \   | \   | \   |   | \     | \     | \     | \     | \     |       |       |       |
-| \   | \   | \   |   | \     | \     | \     | \     | \     |       |       |       |
-| \   | \   | \   |   | \     | \     | \     | \     | \     |       |       |       |
-| \   | \   | \   |   |       |       |       |       |       |       |       |       |
-| \   | \   | \   |   | emacs | emacs | emacs | emacs | emacs | emacs | emacs | emacs |
-| \   | \   | \   |   | emacs | emacs | emacs | emacs | emacs | emacs | emacs | emacs |
-| \   | \   | \   |   | emacs | emacs | emacs | emacs | emacs | emacs | emacs | emacs |
-| \   | \   | \   |   | emacs | emacs | emacs | emacs | emacs | emacs | emacs | emacs |
-| \   | \   | \   |   | emacs | emacs | emacs | emacs | emacs | emacs | emacs | emacs |
-|     |     |     |   |       |       |       |       |       |       |       |       |
-|     |     |     |   |       |       |       |       |       |       |       |       |
-|     |     |     |   |       |       |       |       |       |       |       |       |
-| 123 | 123 | 123 |   | qw    | qw    | qw    | qw    | qw    |       |       |       |
-| 123 | 123 | 123 |   | qw    | qw    | qw    | qw    | qw    |       |       |       |
-|     |     |     |   |       |       |       |       |       |       |       |       |
-
-

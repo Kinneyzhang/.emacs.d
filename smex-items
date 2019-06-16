@@ -1,18 +1,18 @@
 
 ;; ----- smex-history -----
 (
+ golden-ratio
+ fancy-battery-mode
+ elscreen-start
+ package-delete
  package-install
- buf-move-right
- toggle-window-split
- buf-move-down
- buf-move-left
- buf-move-up
- buffer-move-up
+ column-enforce-n
+ counsel-locate
 )
 
 ;; ----- smex-data -----
 (
- (package-install . 13)
+ (package-install . 17)
  (restart-emacs . 9)
  (counsel-recentf . 1)
  (counsel-file-jump . 1)
@@ -21,7 +21,7 @@
  (bongo . 30)
  (exwm-init . 2)
  (exwm-mode . 1)
- (package-delete . 11)
+ (package-delete . 15)
  (emms . 48)
  (emms-browser . 12)
  (emms-add-directory-tree . 3)
@@ -84,7 +84,7 @@
  (scheme-mode . 2)
  (run-scheme . 3)
  (run-geiser . 1)
- (podcaster . 24)
+ (podcaster . 25)
  (podcaster-resume . 5)
  (bongo-insert-uri . 2)
  (bar-browse . 1)
@@ -94,4 +94,9 @@
  (buf-move-right . 4)
  (buf-move-down . 1)
  (toggle-window-split . 13)
+ (counsel-locate . 3)
+ (column-enforce-n . 1)
+ (elscreen-start . 1)
+ (fancy-battery-mode . 2)
+ (golden-ratio . 2)
 )

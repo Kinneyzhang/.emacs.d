@@ -370,9 +370,9 @@
     (setq ad-redefinition-action 'accept)
 
 
-    ;在执行程序的时候，不需要确认
+					    ;在执行程序的时候，不需要确认
     (setq org-confirm-babel-evaluate nil)
-    ;设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
+					    ;设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
@@ -432,6 +432,11 @@
     (use-package beacon
       :ensure t
       :config (beacon-mode 1))
+
+    (use-package column-enforce-mode
+      :ensure t
+      :config
+      (add-hook 'org-mode-hook 'column-enforce-mode))
   #+END_SRC
 
 * Themes and modeline
@@ -470,6 +475,9 @@
       :config
       (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
+    (use-package fancy-battery
+      :ensure t
+      :config (add-hook 'after-init-hook #'fancy-battery-mode))
   #+END_SRC
 
 * Ui-settings
@@ -493,11 +501,10 @@
 
     (set-default-font "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
-    ;;设置窗口位置为屏库左上角(0,0)
-    ;;(set-frame-position (selected-frame) 150 0)
-    ;;设置宽和高
-    ;;(set-frame-width (selected-frame) 139)
-    ;;(set-frame-height (selected-frame) 36)
+    (use-package diredfl
+      ;; colorful dired-mode
+      :ensure t
+      :config (diredfl-global-mode t))
   #+END_SRC
 * Org-mode
   #+BEGIN_SRC emacs-lisp
@@ -935,7 +942,7 @@
       :ensure t)
   #+END_SRC
   
-* Window-numbering 
+* Windows
   #+BEGIN_SRC emacs-lisp
     (use-package window-numbering
       :ensure t
@@ -944,6 +951,16 @@
       (setq window-numbering-assign-func
 	    (lambda () (when (equal (buffer-name) "*Calculator*") 9))))
 
+    (use-package elscreen
+      :ensure t)
+
+    (use-package golden-ratio
+      :ensure t
+      :config
+      (golden-ratio-mode 1)
+      (setq golden-ratio-auto-scale t)
+      (setq golden-ratio-adjust-factor .8
+	  golden-ratio-wide-adjust-factor .8))
   #+END_SRC
 * Projectile
   #+BEGIN_SRC emacs-lisp
