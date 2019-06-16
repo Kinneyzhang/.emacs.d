@@ -254,6 +254,8 @@
     (global-set-key (kbd "C-x C-c") 'restart-emacs)
     (global-set-key (kbd "C-t") 'shell)
 
+    (global-set-key (kbd "C-c m") 'bongo-playlist)
+
     (global-set-key (kbd "C-\\") 'toggle-input-method)
 
     (global-set-key (kbd "C-x -") 'split-window-below)
@@ -269,16 +271,14 @@
     ;; ivy keybindings
     (global-set-key (kbd "C-h f") 'counsel-describe-function)
     (global-set-key (kbd "C-h v") 'counsel-describe-variable)
-    (global-set-key (kbd "C-h k") 'counsel-descbinds)
+    (global-set-key (kbd "C-h k") 'describe-key)
     (global-set-key (kbd "M-x") 'counsel-M-x)
     (global-set-key (kbd "C-x C-f") 'counsel-find-file)
     (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-    ;;(global-set-key (kbd "C-c e") 'counsel-git)
+    (global-set-key (kbd "C-c e") 'counsel-git)
     (global-set-key (kbd "C-c t") 'counsel-load-theme)
     (global-set-key (kbd "M-g c") 'avy-goto-char-timer)
-    (global-set-key (kbd "M-g g") 'avy-goto-line)
-    (global-set-key (kbd "M-g w") 'avy-goto-word-1)
-    (global-set-key (kbd "M-g e") 'avy-goto-word-0)
+    (global-set-key (kbd "M-g l") 'avy-goto-line)
 
     ;; ================================================
     (global-set-key (kbd "C-x <f10>") 'eval-last-sexp)
@@ -344,6 +344,10 @@
       (find-file "~/.emacs.d/myconfig.org"))
 
   #+END_SRC
+
+  #+RESULTS:
+  : open-my-config-file
+
 * Better-defaults
   #+BEGIN_SRC emacs-lisp
     ;;"some better defaults"
@@ -424,6 +428,10 @@
 
     (use-package restart-emacs
       :ensure t)
+
+    (use-package beacon
+      :ensure t
+      :config (beacon-mode 1))
   #+END_SRC
 
 * Themes and modeline
@@ -499,7 +507,7 @@
 	  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 	(setq org-src-fontify-natively t)
-	(setq org-agenda-files (list "~/org/gtd.org"))
+	(setq org-agenda-files (list "~/org/gtd.org" "~/program_org/BuJo-2019.org"))
 
 	;; Set to the location of your Org files on your local system
 	(setq org-directory "~/org")
@@ -513,8 +521,7 @@
 		 "* TODO %?\n  %i\n"
 		 :empty-lines 1)
 		("d" "Diary" entry (file+datetree "~/org/diary.org")
-		 "* %?\nEntered on %U\n %i\n"
-		 :empty-lines 1)
+		 "* %?\nEntered on %U\n %i\n")
 		))
 
 	;; org code block
@@ -978,9 +985,9 @@
       :config
       ;; Enable Cache
       (setq url-automatic-caching t)
-      (global-set-key (kbd "C-c y y") 'youdao-dictionary-search-at-point+)
-      )
+      (global-set-key (kbd "C-c y y") 'youdao-dictionary-search-at-point+))
   #+END_SRC
+
 * Search-web
   #+BEGIN_SRC emacs-lisp
     (use-package search-web
@@ -988,19 +995,22 @@
       :bind (("C-c ww" . search-web)
 	     ("C-c wp" . search-web-at-point)
 	     ("C-c wr" . search-web-region)))
+
+    (use-package browse-at-remote
+      :ensure t
+      :bind ("C-c g g" . browse-at-remote))
   #+END_SRC
 * LSP
 
   #+BEGIN_SRC emacs-lisp
-    ;; (use-package lsp-mode
-    ;;   :ensure t
-    ;;   :hook (prog-mode . lsp)
-    ;;   :commands lsp)
+    (use-package lsp-mode
+      :ensure t
+      :commands lsp)
 
-    ;; ;; optionally
-    ;; (use-package lsp-ui
-    ;;   :ensure t
-    ;;   :commands lsp-ui-mode)
+    ;; optionally
+    (use-package lsp-ui
+      :ensure t
+      :commands lsp-ui-mode)
 
     ;; (use-package company-lsp
     ;;   :ensure t
@@ -1009,6 +1019,18 @@
     ;; (use-package helm-lsp
     ;;   :ensure t
     ;;   :commands helm-lsp-workspace-symbol)
+
+    (use-package lsp-python-ms
+      :ensure t
+      :hook (python-mode . lsp)
+      :config
+
+      ;; for dev build of language server
+      (setq lsp-python-ms-dir
+	    (expand-file-name "~/python-language-server/output/bin/Release/"))
+      ;; for executable of language server, if it's not symlinked on your PATH
+      (setq lsp-python-ms-executable
+	    "~/python-language-server/output/bin/Release/osx-x64/publish/Microsoft.Python.LanguageServer"))
   #+END_SRC
 * Markdown
 
@@ -1071,7 +1093,7 @@
     (use-package bongo
       :ensure t
       :config
-      (setq bongo-default-directory "~/Music"))
+      (setq bongo-default-directory "~/Music/网易云音乐"))
   #+END_SRC
 * Email
 
@@ -1086,4 +1108,45 @@
       :config
       (setq url-gateway-local-host-regexp
 	  (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
+  #+END_SRC
+* Podcast
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package podcaster
+      :ensure t)
+  #+END_SRC
+
+* Buffer-move
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package buffer-move
+      :ensure t
+      :init
+      (setq buffer-move-stay-after-swap t)
+      (setq buffer-move-behavior 'move)
+      :bind
+      (("<C-S-up>" . buf-move-up)
+       ("<C-S-down>" . buf-move-down)
+       ("<C-S-left>" . buf-move-left)
+       ("<C-S-right>" . buf-move-right)))
+  #+END_SRC
+
+* Hydra
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package hydra
+      :ensure t)
+
+    (defhydra hydra-launcher (:color blue)
+       "Launch"
+       ("h" man "man")
+       ("ec" (browse-url "https://www.emacs-china.org") "EmacsChina")
+       ("ew" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
+       ("go" (browse-url "https://www.google.com") "Google")
+       ("gt" (browse-url "https://www.github.com") "Github")
+       ("m" (browse-url "http://www.melpa.org/#/") "Melpa")
+       ("v" (browse-url "https://www.v2ex.com") "V2EX")
+       ("s" shell "shell")
+       ("q" nil "cancel"))
+    (global-set-key (kbd "C-c r") 'hydra-launcher/body)
   #+END_SRC

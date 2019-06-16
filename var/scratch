@@ -26,8 +26,8 @@ ask
 
 ;;相当于匿名函数
 (funcall (lambda (obj)
-  "this is a lambda function."
-  (message "hello %s" obj)) "emacs")
+	   "this is a lambda function."
+	   (message "hello %s" obj)) "emacs")
 "hello emacs"
 (setq foo (lambda (obj)
 	    (message "hello %s" obj)))
@@ -103,7 +103,7 @@ ask
 
 ;;cons cell and lis
 ;;cons cell由两部分组成: car cdr
-;引用列表只返回，不求值
+					;引用列表只返回，不求值
 '((+ 1 2) 4)
 ((+ 1 2) 4)
 ;;按cdr可把列表分为三类
@@ -115,7 +115,7 @@ ask
 ;;序列：列表和数组(向量，字符串...)的统称
 (safe-length '( 1 2 3 4))
 4
-; 列表取值nth, 数组取值 aref, 序列通用：elt
+					; 列表取值nth, 数组取值 aref, 序列通用：elt
 (nth 4 '(2 3 4 5 6 7))
 6
 (aref [1 2 3 4] 2)
@@ -177,4 +177,49 @@ Mon Apr  1 11:22:30 2019
   (org-occur "* Daliy Log")
   )
 
-(shell-command "mplayer ~/Music/赵紫骅-可乐.mp3")
+(shell-command "mplayer ~/Music/网易云音乐/BeaTsGOy - Piano Beat.mp3")
+
+
+(defun org-table-insert-same-string (cols rows str)
+  "insert the same string in org table"
+  (interactive "nHow many colums? \nnHow many rows? \nsInput the string: ")
+  (let ((n 0))
+    (while (< n rows)
+      (if (= (% n 2) 0)
+	  (let ((i 0))
+	    (while (< i cols)
+	      (insert str)
+	      (if (= i (- cols 1))
+		  (org-return)
+		(org-cycle))
+	      (setq i (+ i 1))))
+	(let ((i 0))
+	  (while (< i cols)
+	    (insert str)
+	    (if (= i (- cols 1))
+		(org-return)
+	      (org-shifttab))
+	    (setq i (+ i 1)))))
+      (setq n (+ n 1)))))
+
+
+
+|     |     |     |   |       |       |       |       |       |       |       |       |
+|-----+-----+-----+---+-------+-------+-------+-------+-------+-------+-------+-------|
+| \   | \   | \   |   | \     | \     | \     | \     | \     |       |       |       |
+| \   | \   | \   |   | \     | \     | \     | \     | \     |       |       |       |
+| \   | \   | \   |   | \     | \     | \     | \     | \     |       |       |       |
+| \   | \   | \   |   |       |       |       |       |       |       |       |       |
+| \   | \   | \   |   | emacs | emacs | emacs | emacs | emacs | emacs | emacs | emacs |
+| \   | \   | \   |   | emacs | emacs | emacs | emacs | emacs | emacs | emacs | emacs |
+| \   | \   | \   |   | emacs | emacs | emacs | emacs | emacs | emacs | emacs | emacs |
+| \   | \   | \   |   | emacs | emacs | emacs | emacs | emacs | emacs | emacs | emacs |
+| \   | \   | \   |   | emacs | emacs | emacs | emacs | emacs | emacs | emacs | emacs |
+|     |     |     |   |       |       |       |       |       |       |       |       |
+|     |     |     |   |       |       |       |       |       |       |       |       |
+|     |     |     |   |       |       |       |       |       |       |       |       |
+| 123 | 123 | 123 |   | qw    | qw    | qw    | qw    | qw    |       |       |       |
+| 123 | 123 | 123 |   | qw    | qw    | qw    | qw    | qw    |       |       |       |
+|     |     |     |   |       |       |       |       |       |       |       |       |
+
+

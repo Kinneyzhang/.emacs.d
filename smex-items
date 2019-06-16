@@ -1,28 +1,28 @@
 
 ;; ----- smex-history -----
 (
- emms
- emms-streams
- bongo
- emms-add-directory-tree
- emms-insert-directory
- emms-insert-playlist
- emms-insert-streamlist
+ package-install
+ buf-move-right
+ toggle-window-split
+ buf-move-down
+ buf-move-left
+ buf-move-up
+ buffer-move-up
 )
 
 ;; ----- smex-data -----
 (
- (package-install . 11)
+ (package-install . 13)
  (restart-emacs . 9)
  (counsel-recentf . 1)
  (counsel-file-jump . 1)
  (counsel-projectile-find-dir . 1)
  (counsel-projectile-find-file . 3)
- (bongo . 23)
+ (bongo . 30)
  (exwm-init . 2)
  (exwm-mode . 1)
  (package-delete . 11)
- (emms . 47)
+ (emms . 48)
  (emms-browser . 12)
  (emms-add-directory-tree . 3)
  (emms-insert-url . 1)
@@ -31,7 +31,7 @@
  (emms-show . 1)
  (emms-start . 3)
  (soundcloud . 3)
- (bongo-playlist . 13)
+ (bongo-playlist . 18)
  (bongo-play . 1)
  (2048-game . 1)
  (sudoku . 1)
@@ -46,20 +46,52 @@
  (wl-folder-init . 1)
  (wl-draft . 2)
  (elmo-passwd-alist-save . 3)
- (emacs-lisp-mode . 1)
+ (emacs-lisp-mode . 2)
  (geiser . 1)
  (emacs-version . 1)
  (emms-player-mpd-next . 2)
  (emms-playlist-save . 1)
  (emms-playlist-new . 1)
- (emms-streams . 10)
+ (emms-streams . 11)
  (shell . 2)
- (eshell . 2)
+ (eshell . 3)
  (eshell-command . 1)
  (async-shell-command . 1)
  (shell-command . 2)
- (exec-path-from-shell-initialize . 1)
- (emms-insert-streamlist . 1)
+ (exec-path-from-shell-initialize . 2)
+ (emms-insert-streamlist . 2)
  (emms-insert-playlist . 1)
  (emms-insert-directory . 1)
+ (bongo-lastfm-mode . 1)
+ (bongo-lastfm-submit-current . 2)
+ (bongo-library . 1)
+ (bongo-play-random . 1)
+ (bongo-random-playback-mode . 1)
+ (org-table-create . 3)
+ (describe-key . 1)
+ (temp-insert . 15)
+ (org-mode . 1)
+ (org-table-insert-row . 1)
+ (org-table-insert-hline . 1)
+ (org-table-insert-same-string . 3)
+ (lsp . 5)
+ (lsp-mode . 2)
+ (lsp-ui-mode . 1)
+ (lsp-ui-doc-mode . 2)
+ (lsp-workspace-folders-add . 1)
+ (lsp-find-implementation . 1)
+ (company-lsp . 1)
+ (scheme-mode . 2)
+ (run-scheme . 3)
+ (run-geiser . 1)
+ (podcaster . 24)
+ (podcaster-resume . 5)
+ (bongo-insert-uri . 2)
+ (bar-browse . 1)
+ (buffer-move-up . 1)
+ (buf-move-left . 2)
+ (buf-move-up . 1)
+ (buf-move-right . 4)
+ (buf-move-down . 1)
+ (toggle-window-split . 13)
 )
