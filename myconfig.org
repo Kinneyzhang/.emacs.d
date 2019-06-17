@@ -71,7 +71,7 @@
      (define-key awesome-pair-mode-map (kbd "M-[") 'awesome-pair-wrap-bracket)
      (define-key awesome-pair-mode-map (kbd "M-{") 'awesome-pair-wrap-curly)
      (define-key awesome-pair-mode-map (kbd "M-(") 'awesome-pair-wrap-round)
-     (define-key awesome-pair-mode-map (kbd "M-)") 'awesome-pair-unwrap)
+     (define-key awesome-pair-mode-map (kbd "M-)") 'awesoMe-pair-unwrap)
 
      (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-right)
      (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-left)
@@ -252,7 +252,6 @@
 * Key bindings
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x C-c") 'restart-emacs)
-    (global-set-key (kbd "C-t") 'shell)
 
     (global-set-key (kbd "C-c m") 'bongo-playlist)
 
@@ -479,7 +478,7 @@
     (setq display-time-default-load-average nil)
     (display-time-mode t)
 
-    (global-hl-line-mode t);;光标行高亮
+    (global-hl-line-mode -1);;光标行高亮
 
     (global-hi-lock-mode 1) ;;使能高亮
     (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
@@ -974,10 +973,7 @@
       :ensure t
       :config
       (elscreen-start)
-      (setq elscreen-tab-display-kill-screen nil)
-      (setq elscreen-prefix-key "\C-z")
-      :bind (("C-z <right>" . elscreen-next)
-	     ("C-z <left>" . elscreen-previous)))
+      (setq elscreen-tab-display-kill-screen nil))
 
     (use-package golden-ratio
       :ensure t
@@ -1188,7 +1184,7 @@
        ("gt" (browse-url "https://www.github.com") "Github")
        ("m" (browse-url "http://www.melpa.org/#/") "Melpa")
        ("v" (browse-url "https://www.v2ex.com") "V2EX")
-       ("s" shell "shell")
+       ("s" eshell "shell")
        ("q" nil "cancel"))
     (global-set-key (kbd "C-c r") 'hydra-launcher/body)
   #+END_SRC
@@ -1205,3 +1201,17 @@
 	     ("C-h C" . helpful-command)))
   #+END_SRC
 
+* Clock
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package alarm-clock
+      :ensure t
+      :config (alarm-clock--turn-autosave-on))
+  #+END_SRC
+
+* Shell
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package eshell-prompt-extras
+      :ensure t)
+  #+END_SRC

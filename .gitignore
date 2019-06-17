@@ -19,3 +19,4 @@ diary
 .caches
 smex-data
 smex-items
+.mc-lists.el

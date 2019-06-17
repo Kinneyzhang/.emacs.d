@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
- elscreen-start
- mc/edit-lines
- package-install
- indent-guide-show
- indent-guide-mode
- golden-ratio
- fancy-battery-mode
+ package-delete
+ counsel-org-clock-history
+ counsel-org-clock-goto
+ alarm-clock-set
+ alarm-clock-list-view
+ eshell
+ elscreen-jump
 )
 
 ;; ----- smex-data -----
@@ -21,7 +21,7 @@
  (bongo . 30)
  (exwm-init . 2)
  (exwm-mode . 1)
- (package-delete . 15)
+ (package-delete . 16)
  (emms . 48)
  (emms-browser . 12)
  (emms-add-directory-tree . 3)
@@ -54,7 +54,7 @@
  (emms-playlist-new . 1)
  (emms-streams . 11)
  (shell . 2)
- (eshell . 3)
+ (eshell . 6)
  (eshell-command . 1)
  (async-shell-command . 1)
  (shell-command . 2)
@@ -102,4 +102,9 @@
  (indent-guide-mode . 2)
  (indent-guide-show . 1)
  (mc/edit-lines . 1)
+ (elscreen-jump . 1)
+ (alarm-clock-set . 7)
+ (alarm-clock-list-view . 2)
+ (counsel-org-clock-goto . 1)
+ (counsel-org-clock-history . 1)
 )
