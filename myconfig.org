@@ -357,7 +357,7 @@
     (add-hook 'org-mode-hook 'display-line-numbers-mode);;显示行号
     (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
     (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
-    (fset 'yes-or-no-p 'y-or-n-p);;用y/s 代替yes/no
+    (fset 'yes-or-no-p 'y-or-n-p);;用y/s代替yes/no
     (setq default-buffer-file-coding-system 'utf-8) ;;emacs编码设置
     (prefer-coding-system 'utf-8)
     (setq ad-redefinition-action 'accept)
@@ -487,7 +487,7 @@
 
     (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
 
-    (set-default-font "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+    ;;(set-default-font "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
     (setq-default cursor-type 'box);变光标, setq-default设置全局
     (use-package multiple-cursors
@@ -973,12 +973,12 @@
       :ensure t
       :config
       (elscreen-start)
-      (setq elscreen-tab-display-kill-screen nil))
+      (setq elscreen-tab-display-kill-screen 'right))
 
     (use-package golden-ratio
       :ensure t
       :config
-      (golden-ratio-mode 1)
+      (golden-ratio-mode -1)
       (setq golden-ratio-auto-scale t)
       (setq golden-ratio-adjust-factor .8
 	  golden-ratio-wide-adjust-factor .8))
@@ -1026,8 +1026,14 @@
       (global-set-key (kbd "C-c y y") 'youdao-dictionary-search-at-point+))
   #+END_SRC
 
-* Search-web
+* Xwidget-webkit
   #+BEGIN_SRC emacs-lisp
+    (setq browse-url-browser-function 'xwidget-webkit-browse-url)
+
+    (defun browse-url-default-browser (url &rest args)
+      "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
+      (xwidget-webkit-browse-url url args))
+
     (use-package search-web
       :ensure t
       :bind (("C-c ww" . search-web)
@@ -1207,11 +1213,4 @@
     (use-package alarm-clock
       :ensure t
       :config (alarm-clock--turn-autosave-on))
-  #+END_SRC
-
-* Shell
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package eshell-prompt-extras
-      :ensure t)
   #+END_SRC

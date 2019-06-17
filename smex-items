@@ -2,12 +2,12 @@
 ;; ----- smex-history -----
 (
  package-delete
- counsel-org-clock-history
- counsel-org-clock-goto
- alarm-clock-set
- alarm-clock-list-view
- eshell
- elscreen-jump
+ xwidget-webkit-copy-selection-as-kill
+ xwidget-webkit-browse-url
+ xwidget-webkit-cx3
+ eww
+ widget-browse
+ emacs-version
 )
 
 ;; ----- smex-data -----
@@ -21,7 +21,7 @@
  (bongo . 30)
  (exwm-init . 2)
  (exwm-mode . 1)
- (package-delete . 16)
+ (package-delete . 22)
  (emms . 48)
  (emms-browser . 12)
  (emms-add-directory-tree . 3)
@@ -38,7 +38,7 @@
  (sudoku-hint . 1)
  (leetcode . 1)
  (gnus . 3)
- (eww . 16)
+ (eww . 18)
  (proxy-mode . 14)
  (show-proxy . 1)
  (set-proxy . 1)
@@ -48,7 +48,7 @@
  (elmo-passwd-alist-save . 3)
  (emacs-lisp-mode . 2)
  (geiser . 1)
- (emacs-version . 1)
+ (emacs-version . 2)
  (emms-player-mpd-next . 2)
  (emms-playlist-save . 1)
  (emms-playlist-new . 1)
@@ -58,7 +58,7 @@
  (eshell-command . 1)
  (async-shell-command . 1)
  (shell-command . 2)
- (exec-path-from-shell-initialize . 2)
+ (exec-path-from-shell-initialize . 3)
  (emms-insert-streamlist . 2)
  (emms-insert-playlist . 1)
  (emms-insert-directory . 1)
@@ -107,4 +107,8 @@
  (alarm-clock-list-view . 2)
  (counsel-org-clock-goto . 1)
  (counsel-org-clock-history . 1)
+ (widget-browse . 1)
+ (xwidget-webkit-browse-url . 7)
+ (xwidget-webkit-cx3 . 2)
+ (xwidget-webkit-copy-selection-as-kill . 1)
 )
