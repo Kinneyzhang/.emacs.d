@@ -1,18 +1,18 @@
 
 ;; ----- smex-history -----
 (
+ elscreen-start
+ mc/edit-lines
+ package-install
+ indent-guide-show
+ indent-guide-mode
  golden-ratio
  fancy-battery-mode
- elscreen-start
- package-delete
- package-install
- column-enforce-n
- counsel-locate
 )
 
 ;; ----- smex-data -----
 (
- (package-install . 17)
+ (package-install . 19)
  (restart-emacs . 9)
  (counsel-recentf . 1)
  (counsel-file-jump . 1)
@@ -96,7 +96,10 @@
  (toggle-window-split . 13)
  (counsel-locate . 3)
  (column-enforce-n . 1)
- (elscreen-start . 1)
+ (elscreen-start . 2)
  (fancy-battery-mode . 2)
  (golden-ratio . 2)
+ (indent-guide-mode . 2)
+ (indent-guide-show . 1)
+ (mc/edit-lines . 1)
 )

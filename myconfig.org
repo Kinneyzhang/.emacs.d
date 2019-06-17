@@ -269,9 +269,6 @@
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
 
     ;; ivy keybindings
-    (global-set-key (kbd "C-h f") 'counsel-describe-function)
-    (global-set-key (kbd "C-h v") 'counsel-describe-variable)
-    (global-set-key (kbd "C-h k") 'describe-key)
     (global-set-key (kbd "M-x") 'counsel-M-x)
     (global-set-key (kbd "C-x C-f") 'counsel-find-file)
     (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
@@ -344,9 +341,6 @@
       (find-file "~/.emacs.d/myconfig.org"))
 
   #+END_SRC
-
-  #+RESULTS:
-  : open-my-config-file
 
 * Better-defaults
   #+BEGIN_SRC emacs-lisp
@@ -432,11 +426,6 @@
     (use-package beacon
       :ensure t
       :config (beacon-mode 1))
-
-    (use-package column-enforce-mode
-      :ensure t
-      :config
-      (add-hook 'org-mode-hook 'column-enforce-mode))
   #+END_SRC
 
 * Themes and modeline
@@ -496,139 +485,155 @@
     (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
 
     (setq inhibit-splash-screen nil);取消默认启动窗口
-    (setq-default cursor-type 'box);变光标, setq-default设置全局
+
     (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
 
     (set-default-font "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+
+    (setq-default cursor-type 'box);变光标, setq-default设置全局
+    (use-package multiple-cursors
+      :ensure t
+      :bind (("C-S-c C-S-c" . mc/edit-lines)
+	     ("C->" . mc/mark-next-like-this)
+	     ("C-<" . mc/mark-previous-like-this)
+	     ("C-c C-<". mc/mark-all-like-this)))
 
     (use-package diredfl
       ;; colorful dired-mode
       :ensure t
       :config (diredfl-global-mode t))
+
+    (use-package indent-guide
+      :ensure t
+      :config
+      (indent-guide-global-mode)
+      (setq indent-guide-delay 0)
+      (setq indent-guide-char "|"))
   #+END_SRC
 * Org-mode
   #+BEGIN_SRC emacs-lisp
-	(use-package org-bullets
-	  :ensure t
-	  :config
-	  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+    (use-package org-bullets
+      :ensure t
+      :config
+      (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
-	(setq org-src-fontify-natively t)
-	(setq org-agenda-files (list "~/org/gtd.org" "~/program_org/BuJo-2019.org"))
+    (setq org-src-fontify-natively t)
+    (setq org-agenda-files (list "~/org/gtd.org" "~/program_org/BuJo-2019.org"))
 
-	;; Set to the location of your Org files on your local system
-	(setq org-directory "~/org")
+    ;; Set to the location of your Org files on your local system
+    (setq org-directory "~/org")
 
-	;;启动时加载org-agenda
-	;; (add-hook 'after-init-hook 'org-agenda-list)
+    ;;启动时加载org-agenda
+    ;; (add-hook 'after-init-hook 'org-agenda-list)
 
-	(setq org-capture-templates 'myconfig)
-	(setq org-capture-templates
-	      '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-		 "* TODO %?\n  %i\n"
-		 :empty-lines 1)
-		("d" "Diary" entry (file+datetree "~/org/diary.org")
-		 "* %?\nEntered on %U\n %i\n")
-		))
+    (setq org-capture-templates 'myconfig)
+    (setq org-capture-templates
+	  '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+	     "* TODO %?\n  %i\n"
+	     :empty-lines 1)
+	    ("d" "Diary" entry (file+datetree "~/org/diary.org")
+	     "* %?\nEntered on %U\n %i\n")
+	    ))
 
-	;; org code block
-	(defun org-insert-src-block (src-code-type)
-	  "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
-	  (interactive
-	   (let ((src-code-types
-		  '("text" "emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
-		    "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
-		    "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
-		    "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
-		    "scheme" "sqlite")))
-	     (list (ido-completing-read "Source code type: " src-code-types))))
-	  (progn
-	    (newline-and-indent)
-	    (insert (format "#+BEGIN_SRC %s\n" src-code-type))
-	    (newline-and-indent)
-	    (insert "#+END_SRC\n")
-	    (previous-line 2)
-	    (org-edit-src-code)))
+    ;; org code block
+    (defun org-insert-src-block (src-code-type)
+      "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
+      (interactive
+       (let ((src-code-types
+	      '("text" "emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
+		"calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
+		"octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
+		"haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
+		"scheme" "sqlite")))
+	 (list (ido-completing-read "Source code type: " src-code-types))))
+      (progn
+	(newline-and-indent)
+	(insert (format "#+BEGIN_SRC %s\n" src-code-type))
+	(newline-and-indent)
+	(insert "#+END_SRC\n")
+	(previous-line 2)
+	(org-edit-src-code)))
 
-	(add-hook 'org-mode-hook '(lambda ()
-				    ;; turn on flyspell-mode by default
-						; (flyspell-mode 1)
+    (add-hook 'org-mode-hook '(lambda ()
+				;; turn on flyspell-mode by default
+					    ; (flyspell-mode 1)
 
-				    ;; C-TAB for expanding
-				    (local-set-key (kbd "C-<tab>")
-						   'yas/expand-from-trigger-key)
-				    ;; keybinding for editing source code blocks
-				    (local-set-key (kbd "C-c o e")
-						   'org-edit-src-code)
-				    ;; keybinding for inserting code blocks
-				    (local-set-key (kbd "C-c o i")
-						   'org-insert-src-block)
-				    ;; keybinding for org-pomodoro
-				    (local-set-key (kbd "C-c o p")
-						   'org-pomodoro)
-				    ))
+				;; C-TAB for expanding
+				(local-set-key (kbd "C-<tab>")
+					       'yas/expand-from-trigger-key)
+				;; keybinding for editing source code blocks
+				(local-set-key (kbd "C-c o e")
+					       'org-edit-src-code)
+				;; keybinding for inserting code blocks
+				(local-set-key (kbd "C-c o i")
+					       'org-insert-src-block)
+				;; keybinding for org-pomodoro
+				(local-set-key (kbd "C-c o p")
+					       'org-pomodoro)
+				))
 
-	(setq org-todo-keywords
-	      '((type "年度(y!)" "月度(m!)" "|")
-		(sequence "TODO(t!)"  "|" "DONE(d!)" "ABORT(a@/!)")
-		))
+    (setq org-todo-keywords
+	  '((type "年度(y!)" "月度(m!)" "|")
+	    (sequence "TODO(t!)"  "|" "DONE(d!)" "ABORT(a@/!)")
+	    ))
 
-	(setq org-todo-keyword-faces
-	      '(("年度" . (:background "#20a0ff" :foreground "black" :weight bold))
-		("月度" . (:background "#9a5bbd" :foreground "black" :weight bold))
-		("TODO" . (:background "DarkOrange" :foreground "black" :weight bold))
-		("DONE" . (:background "Darkgreen" :foreground "black" :weight bold)) 
-		("ABORT" . (:background "gray" :foreground "black"))
-		))
+    (setq org-todo-keyword-faces
+	  '(("年度" . (:background "#20a0ff" :foreground "black" :weight bold))
+	    ("月度" . (:background "#9a5bbd" :foreground "black" :weight bold))
+	    ("TODO" . (:background "DarkOrange" :foreground "black" :weight bold))
+	    ("DONE" . (:background "Darkgreen" :foreground "black" :weight bold)) 
+	    ("ABORT" . (:background "gray" :foreground "black"))
+	    ))
 
-	(setq org-tag-alist '(("@work" . ?w) ("@study" . ?s) ("life" . ?l)))
+    (setq org-tag-alist '(("@work" . ?w) ("@study" . ?s) ("life" . ?l)))
 
-	;; 优先级范围和默认任务的优先级
-	(setq org-highest-priority ?A)
-	(setq org-lowest-priority  ?E)
-	(setq org-default-priority ?C)
-	;; 优先级醒目外观
-	(setq org-priority-faces
-	      '((?A . (:background "red" :foreground "white" :weight bold))
-		(?B . (:background "DarkOrange" :foreground "white" :weight bold))
-		(?C . (:background "yellow" :foreground "DarkGreen" :weight bold))
-		(?D . (:background "DodgerBlue" :foreground "black" :weight bold))
-		(?E . (:background "SkyBlue" :foreground "black" :weight bold))
-		))
+    ;; 优先级范围和默认任务的优先级
+    (setq org-highest-priority ?A)
+    (setq org-lowest-priority  ?E)
+    (setq org-default-priority ?C)
+    ;; 优先级醒目外观
+    (setq org-priority-faces
+	  '((?A . (:background "red" :foreground "white" :weight bold))
+	    (?B . (:background "DarkOrange" :foreground "white" :weight bold))
+	    (?C . (:background "yellow" :foreground "DarkGreen" :weight bold))
+	    (?D . (:background "DodgerBlue" :foreground "black" :weight bold))
+	    (?E . (:background "SkyBlue" :foreground "black" :weight bold))
+	    ))
 
-	;; 中文换行问题
-	(add-hook 'org-mode-hook 
-		  (lambda () (setq truncate-lines nil)))
+    ;; 中文换行问题
+    (add-hook 'org-mode-hook 
+	      (lambda () (setq truncate-lines nil)))
 
-	;; cnfonts-edit-profile	调整字体设置, 表格中英文对齐
-	(use-package cnfonts
-	  :ensure t
-	  :config
-	  (require 'cnfonts)
-	  (cnfonts-enable)
-	  (setq cnfonts-profiles
-		'("program" "org-mode" "read-book")))
+    ;; cnfonts-edit-profile	调整字体设置, 表格中英文对齐
+    (use-package cnfonts
+      :ensure t
+      :config
+      (require 'cnfonts)
+      (cnfonts-enable)
+      (setq cnfonts-profiles
+	    '("program" "org-mode" "read-book")))
 
-	(defun my-open-calendar ()
-	  (interactive)
-	  (cfw:open-calendar-buffer
-	   :contents-sources
-	   (list
-	    (cfw:org-create-source "#FFFFFF"))))
+    (defun my-open-calendar ()
+      (interactive)
+      (cfw:open-calendar-buffer
+       :contents-sources
+       (list
+	(cfw:org-create-source "#FFFFFF"))))
 
-	(use-package calfw-org
-	  :ensure t
-	  :bind (("C-x cc" . my-open-calendar)))
+    (use-package calfw-org
+      :ensure t
+      :bind (("C-x cc" . my-open-calendar)))
 
-	(use-package calfw
-	  :ensure t)
+    (use-package calfw
+      :ensure t)
 
-	(require 'calfw)
-	(require 'calfw-org)
+    (require 'calfw)
+    (require 'calfw-org)
+
+    (use-package move-text
+      :ensure
+      :config (move-text-default-bindings))
   #+END_SRC
-
-  #+RESULTS:
-  : calfw-org
 
 * Magit
 
@@ -734,6 +739,20 @@
 	       ((ivy-rich-candidate (:width 0.8)) ; return the candidate itself
 		(ivy-rich-file-last-modified-time (:face font-lock-comment-face))))) ; return the last modified time of the file
 	    ))
+  #+END_SRC
+
+* Avy/Link
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package avy
+      :ensure t)
+
+    (use-package link-hint
+      :ensure t
+      :bind
+      ("C-c l o" . link-hint-open-link)
+      ("C-c l c" . link-hint-copy-link)
+      ("C-c l i" . org-insert-link))
   #+END_SRC
 
 * Company
@@ -952,7 +971,13 @@
 	    (lambda () (when (equal (buffer-name) "*Calculator*") 9))))
 
     (use-package elscreen
-      :ensure t)
+      :ensure t
+      :config
+      (elscreen-start)
+      (setq elscreen-tab-display-kill-screen nil)
+      (setq elscreen-prefix-key "\C-z")
+      :bind (("C-z <right>" . elscreen-next)
+	     ("C-z <left>" . elscreen-previous)))
 
     (use-package golden-ratio
       :ensure t
@@ -1167,3 +1192,16 @@
        ("q" nil "cancel"))
     (global-set-key (kbd "C-c r") 'hydra-launcher/body)
   #+END_SRC
+* Help
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package helpful
+      :ensure t
+      :bind (("C-h f" . helpful-callable)
+	     ("C-h v" . helpful-variable)
+	     ("C-h k" . helpful-key)
+	     ("C-c C-d" . helpful-at-point)
+	     ("C-h F". helpful-function)
+	     ("C-h C" . helpful-command)))
+  #+END_SRC
+

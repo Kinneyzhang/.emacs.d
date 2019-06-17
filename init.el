@@ -81,6 +81,8 @@
  '(imaxima-label-color "slategrey")
  '(imaxima-max-scale 0.85)
  '(imaxima-pt-size 12)
+ '(indent-guide-char "|")
+ '(indent-guide-recursive nil)
  '(jdee-db-active-breakpoint-face-colors (cons "#0d0f11" "#7FC1CA"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#0d0f11" "#A8CE93"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#0d0f11" "#899BA6"))
@@ -97,7 +99,7 @@
  '(org-pomodoro-ask-upon-killing nil)
  '(package-selected-packages
    (quote
-    (golden-ratio fancy-battery elscreen diredfl column-enforce-mode clean-aindent-mode buffer-move browse-at-remote beacon podcaster lsp-python-ms emms geiser wanderlust proxy-mode sudoku 2048-game bongo counsel-projectile ivy-rich all-the-icons-ivy restart-emacs howm deft markdown-preview-mode lsp-ui company-lsp org-notebook doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex cnfonts chinese-fonts-setup youdao-dictionary dashboard elfeed-goodies elfeed django-mode alert async auto-complete auto-yasnippet company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
+    (move-text link-hint indent-guide helpful golden-ratio fancy-battery elscreen diredfl column-enforce-mode clean-aindent-mode buffer-move browse-at-remote beacon podcaster lsp-python-ms emms geiser wanderlust proxy-mode sudoku 2048-game bongo counsel-projectile ivy-rich all-the-icons-ivy restart-emacs howm deft markdown-preview-mode lsp-ui company-lsp org-notebook doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex cnfonts chinese-fonts-setup youdao-dictionary dashboard elfeed-goodies elfeed django-mode alert async auto-complete auto-yasnippet company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar)))
  '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
  '(podcaster-feeds-urls
    (quote
@@ -211,10 +213,10 @@
  '(egg-diff-hunk-header ((((class color) (background dark)) (:background "grey30" :foreground "Gold"))))
  '(egg-log-HEAD ((t (:background "Black" :foreground "Red"))))
  '(egg-text-help ((t (:inherit egg-text-base :height 0.9))))
- '(elscreen-tab-background-face ((((type x w32 mac) (class color)) (:background "Black"))))
+ '(elscreen-tab-background-face ((t (:foreground "white"))))
  '(elscreen-tab-control-face ((((type x w32 mac) (class color)) (:background "Black" :foreground "Green"))))
- '(elscreen-tab-current-screen-face ((((class color)) (:background "DarkRed" :foreground "Grey" :box (:line-width -1 :color "Red" :style released-button)))))
- '(elscreen-tab-other-screen-face ((((type x w32 mac) (class color)) (:background "Black" :foreground "Green3" :box (:line-width -1 :color "Grey20" :style released-button)))))
+ '(elscreen-tab-current-screen-face ((t (:background "#64bef0" :foreground "Grey" :box (:line-width -1 :color "#1373aa" :style released-button)))))
+ '(elscreen-tab-other-screen-face ((t (:background "grey" :foreground "black"))))
  '(emmet-preview-input ((t (:foreground "gold" :underline t))))
  '(emmet-preview-output ((t (:background "gray10" :foreground "grey80"))))
  '(emms-browser-album-face ((((class color) (background dark)) (:foreground "Green3" :height 1.1))))
@@ -275,6 +277,7 @@
  '(icicle-saved-candidate ((((background dark)) (:background "Black" :foreground "khaki"))))
  '(icicle-special-candidate ((((background dark)) (:background "Black" :foreground "Grey"))))
  '(icicle-whitespace-highlight ((((background dark)) (:background "DarkRed"))))
+ '(indent-guide-face ((t (:inherit hl-line :foreground "grey50"))))
  '(info-elisp-command-ref-item ((t (:background "Black" :foreground "yellow3"))))
  '(info-elisp-function-ref-item ((t (:background "Black" :foreground "Gold3"))))
  '(info-elisp-macro-ref-item ((t (:background "Black" :foreground "Yellow3"))))
