@@ -3,11 +3,11 @@
 (
  package-delete
  xwidget-webkit-copy-selection-as-kill
+ exec-path-from-shell-initialize
  xwidget-webkit-browse-url
  xwidget-webkit-cx3
  eww
  widget-browse
- emacs-version
 )
 
 ;; ----- smex-data -----
@@ -21,7 +21,7 @@
  (bongo . 30)
  (exwm-init . 2)
  (exwm-mode . 1)
- (package-delete . 22)
+ (package-delete . 23)
  (emms . 48)
  (emms-browser . 12)
  (emms-add-directory-tree . 3)
@@ -58,7 +58,7 @@
  (eshell-command . 1)
  (async-shell-command . 1)
  (shell-command . 2)
- (exec-path-from-shell-initialize . 3)
+ (exec-path-from-shell-initialize . 4)
  (emms-insert-streamlist . 2)
  (emms-insert-playlist . 1)
  (emms-insert-directory . 1)
@@ -110,5 +110,5 @@
  (widget-browse . 1)
  (xwidget-webkit-browse-url . 7)
  (xwidget-webkit-cx3 . 2)
- (xwidget-webkit-copy-selection-as-kill . 1)
+ (xwidget-webkit-copy-selection-as-kill . 4)
 )
