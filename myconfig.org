@@ -960,7 +960,7 @@
       :ensure t)
   #+END_SRC
   
-* Windows
+* Windows & Buffer
   #+BEGIN_SRC emacs-lisp
     (use-package window-numbering
       :ensure t
@@ -981,7 +981,28 @@
       (golden-ratio-mode -1)
       (setq golden-ratio-auto-scale t)
       (setq golden-ratio-adjust-factor .8
-	  golden-ratio-wide-adjust-factor .8))
+	    golden-ratio-wide-adjust-factor .8))
+
+    (use-package posframe
+      :ensure t)
+
+    (defun ivy-posframe-display-at-frame-top-center (str)
+      (ivy-posframe--display str #'posframe-poshandler-frame-top-center))
+
+    (use-package ivy-posframe
+      :ensure t
+      :init (setq ivy-posframe-parameters
+		  '((left-fringe . 8)
+		    (right-fringe . 8))
+		  ivy-posframe-display-functions-alist
+		  '((t . ivy-posframe-display-at-frame-top-center))
+		  )
+      :config (ivy-posframe-mode 1))
+
+    (use-package which-key-posframe
+      :ensure t
+      :config (which-key-posframe-mode)
+      (setq which-key-posframe-poshandler 'posframe-poshandler-frame-top-left-corner))
   #+END_SRC
 * Projectile
   #+BEGIN_SRC emacs-lisp
@@ -1033,6 +1054,9 @@
     (defun browse-url-default-browser (url &rest args)
       "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
       (xwidget-webkit-browse-url url args))
+
+    (global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
+
 
     (use-package search-web
       :ensure t
