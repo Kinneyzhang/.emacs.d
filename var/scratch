@@ -25,7 +25,7 @@ ask
 "半径为 2 的圆的面积为 13 "
 
 ;;相当于匿名函数
-(funcall (lambda (obj)
+(Funcall (lambda (obj)
 	   "this is a lambda function."
 	   (message "hello %s" obj)) "emacs")
 "hello emacs"

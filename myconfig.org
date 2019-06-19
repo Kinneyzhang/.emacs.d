@@ -81,65 +81,84 @@
 ** print special symbol
 
    #+BEGIN_SRC emacs-lisp
-     (defun print-symbol-todo ()
+     (defun print-symbol-α ()
+       "print Alpha"
+       (interactive)
+       (insert "α"))
+     (global-set-key (kbd "C-c s a p") 'print-symbol-α)
+
+     (defun print-symbol-β ()
+       "print Beta"
+       (interactive)
+       (insert "β"))
+     (global-set-key (kbd "C-c s b t") 'print-symbol-β)
+
+     (defun print-symbol-γ ()
+       "print Gamma"
+       (interactive)
+       (insert "γ"))
+     (global-set-key (kbd "C-c s g m") 'print-symbol-γ)
+
+     (defun print-symbol-θ ()
+       "print Theta"
+       (interactive)
+       (insert "θ"))
+     (global-set-key (kbd "C-c s t t") 'print-symbol-θ)
+
+     (defun print-symbol-Δ ()
+       "print Delte"
+       (interactive)
+       (insert "Δ"))
+     (global-set-key (kbd "C-c s d t") 'print-symbol-Δ)
+
+     (defun print-symbol-μ ()
+       "print Mu"
+       (interactive)
+       (insert "μ"))
+     (global-set-key (kbd "C-c s m u ") 'print-symbol-μ)
+
+     (defun print-symbol-π ()
+       "print Pi"
+       (interactive)
+       (insert "π"))
+     (global-set-key (kbd "C-c s p i") 'print-symbol-π)
+
+     (defun print-symbol-σ ()
+       "print Sigma"
+       (interactive)
+       (insert "σ"))
+     (global-set-key (kbd "C-c s s m") 'print-symbol-σ)
+
+     (defun print-symbol-ρ ()
+       "print Rho"
+       (interactive)
+       (insert "ρ"))
+     (global-set-key (kbd "C-c s r h") 'print-symbol-ρ)
+     ;;=================================================================
+     (defun print-symbol-● ()
        (interactive)
        (insert "●"))
+     (global-set-key (kbd "C-c s s d") 'print-symbol-●) ;;solid dot
 
-     (defun print-symbol-done ()
-       (interactive)
-       (insert "×"))
-
-     (defun print-symbol-migrated ()
-       (interactive)
-       (insert ">"))
-
-     (defun print-symbol-scheduled ()
-       (interactive)
-       (insert "<"))
-
-     (defun print-symbol-event ()
+     (defun print-symbol-○ ()
        (interactive)
        (insert "○"))
+     (global-set-key (kbd "C-c s h d") 'print-symbol-○) ;;hollow dot
 
-     (defun print-symbol-note ()
+     (defun print-symbol-× ()
        (interactive)
-       (insert "─"))
+       (insert "×"))
+     (global-set-key (kbd "C-c s c h") 'print-symbol-×) ;;cross
 
-     (defun print-symbol-important ()
+     (defun print-symbol-★ ()
        (interactive)
        (insert "★"))
+     (global-set-key (kbd "C-c s 1") 'print-symbol-★)
 
-     (defun print-symbol-interval ()
-       (interactive)
-       (insert "◔"))
-
-     (defun print-symbol-award ()
-       (interactive)
-       (insert "✪"))
-
-     (defun print-tick ()
+     (defun print-symbol-√ ()
        (interactive)
        (insert "√"))
-
-     (defun print-symbol-upper-limit ()
-	 (interactive)
-	 (insert "≤"))
-
-     (defun print-symbol-lower-limit ()
-	 (interactive)
-	 (insert "≥"))
-
-     (global-set-key (kbd "C-c s t") 'print-symbol-todo)
-     (global-set-key (kbd "C-c s d") 'print-symbol-done)
-     (global-set-key (kbd "C-c s m") 'print-symbol-migrated)
-     (global-set-key (kbd "C-c s s") 'print-symbol-scheduled)
-     (global-set-key (kbd "C-c s e") 'print-symbol-event)
-     (global-set-key (kbd "C-c s n") 'print-symbol-note)
-     (global-set-key (kbd "C-c s 1") 'print-symbol-important)
-     (global-set-key (kbd "C-c s i") 'print-symbol-interval)
-     (global-set-key (kbd "C-c s a") 'print-symbol-award)
-     (global-set-key (kbd "C-c s u") 'print-symbol-upper-limit)
-     (global-set-key (kbd "C-c s l") 'print-symbol-lower-limit)
+     (global-set-key (kbd "C-c s g h") 'print-symbol-√)
    #+END_SRC
 
 ** all-the-icons
@@ -179,6 +198,36 @@
 
      (add-hook 'kill-emacs-hook #'chunyang-scratch-save)
      (add-hook 'after-init-hook #'chunyang-scratch-restore)
+   #+END_SRC
+
+** awesome-tab
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package awesome-tab
+       :load-path "~/.emacs.d/site-lisp/awesome-tab"
+       :init (setq awesome-tab-label-fixed-length 14)
+       :bind (("C-c <right>" . awesome-tab-forward)
+	      ("C-c <left>" . awesome-tab-backward)
+	      ("C-c <down>" . awesome-tab-forward-group)
+	      ("C-c <up>" . awesome-tab-backward-group))
+       :config
+       (awesome-tab-mode t))
+
+     (defun awesome-tab-hide-tab (x)
+       (let ((name (format "%s" x)))
+	 (or
+	  (string-prefix-p "*epc" name)
+	  (string-prefix-p "*helm" name)
+	  (string-prefix-p "*Compile-Log*" name)
+	  (string-prefix-p "*lsp" name)
+	  (string-prefix-p "*Messages" name)
+	  (string-prefix-p "*dashboard" name)
+	  (string-prefix-p "*xwidget-log" name)
+	  (and (string-prefix-p "magit" name)
+		    (not (file-name-extension name)))
+	  )))
+
+     (awesome-tab-hide-tab t)
    #+END_SRC
 
 * Evil
@@ -691,10 +740,13 @@
       (ivy-mode 1)
       (setq ivy-use-virtual-buffers t))
 
+     (use-package projectile
+       :ensure t)
+
     (use-package counsel-projectile
       :ensure t
       :config
-      (setq counsel-projectile-mode +1)
+      (counsel-projectile-mode)
       (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
     (use-package all-the-icons-ivy
@@ -969,11 +1021,11 @@
       (setq window-numbering-assign-func
 	    (lambda () (when (equal (buffer-name) "*Calculator*") 9))))
 
-    (use-package elscreen
-      :ensure t
-      :config
-      (elscreen-start)
-      (setq elscreen-tab-display-kill-screen 'right))
+    ;; (use-package elscreen
+    ;;   :ensure t
+    ;;   :config
+    ;;   (elscreen-start)
+    ;;   (setq elscreen-tab-display-kill-screen 'right))
 
     (use-package golden-ratio
       :ensure t
@@ -986,8 +1038,8 @@
     (use-package posframe
       :ensure t)
 
-    (defun ivy-posframe-display-at-frame-top-center (str)
-      (ivy-posframe--display str #'posframe-poshandler-frame-top-center))
+    ;; (defun ivy-posframe-display-at-frame-top-center (str)
+    ;;   (ivy-posframe--display str #'posframe-poshandler-frame-top-center))
 
     (use-package ivy-posframe
       :ensure t
@@ -995,21 +1047,9 @@
 		  '((left-fringe . 8)
 		    (right-fringe . 8))
 		  ivy-posframe-display-functions-alist
-		  '((t . ivy-posframe-display-at-frame-top-center))
+		  '((t . ivy-posframe-display-at-frame-center))
 		  )
       :config (ivy-posframe-mode 1))
-
-    (use-package which-key-posframe
-      :ensure t
-      :config (which-key-posframe-mode)
-      (setq which-key-posframe-poshandler 'posframe-poshandler-frame-top-left-corner))
-  #+END_SRC
-* Projectile
-  #+BEGIN_SRC emacs-lisp
-    (use-package projectile
-      :ensure t
-      :config
-      (projectile-mode +1))
   #+END_SRC
 * Python
   #+BEGIN_SRC emacs-lisp
@@ -1207,7 +1247,6 @@
 
     (defhydra hydra-launcher (:color blue)
        "Launch"
-       ("h" man "man")
        ("ec" (browse-url "https://www.emacs-china.org") "EmacsChina")
        ("ew" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
        ("go" (browse-url "https://www.google.com") "Google")
@@ -1218,6 +1257,10 @@
        ("q" nil "cancel"))
     (global-set-key (kbd "C-c r") 'hydra-launcher/body)
   #+END_SRC
+
+  #+RESULTS:
+  : hydra-launcher/body
+
 * Help
 
   #+BEGIN_SRC emacs-lisp
