@@ -1273,11 +1273,3 @@
 	     ("C-h F". helpful-function)
 	     ("C-h C" . helpful-command)))
   #+END_SRC
-
-* Clock
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package alarm-clock
-      :ensure t
-      :config (alarm-clock--turn-autosave-on))
-  #+END_SRC
