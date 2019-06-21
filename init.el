@@ -81,7 +81,7 @@
  '(imaxima-pt-size 12)
  '(indent-guide-char "|")
  '(indent-guide-recursive nil)
- '(ivy-posframe-border-width 1)
+ '(ivy-posframe-border-width 4)
  '(ivy-posframe-width 1000)
  '(jdee-db-active-breakpoint-face-colors (cons "#0d0f11" "#7FC1CA"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#0d0f11" "#A8CE93"))
@@ -98,7 +98,7 @@
  '(org-journal-dir "~/org/entries")
  '(org-pomodoro-ask-upon-killing nil)
  '(package-selected-packages
-   '(ivy-posframe posframe frog-jump-buffer dracula-theme xwidgets move-text link-hint indent-guide helpful golden-ratio fancy-battery diredfl column-enforce-mode buffer-move browse-at-remote beacon podcaster lsp-python-ms emms geiser wanderlust proxy-mode sudoku 2048-game bongo counsel-projectile ivy-rich all-the-icons-ivy restart-emacs howm deft markdown-preview-mode lsp-ui company-lsp org-notebook doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex cnfonts chinese-fonts-setup youdao-dictionary dashboard elfeed-goodies elfeed django-mode alert async auto-complete auto-yasnippet company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar))
+   '(pyim ivy-posframe posframe frog-jump-buffer dracula-theme xwidgets move-text link-hint indent-guide helpful golden-ratio fancy-battery diredfl column-enforce-mode buffer-move browse-at-remote beacon podcaster lsp-python-ms emms geiser wanderlust proxy-mode sudoku 2048-game bongo counsel-projectile ivy-rich all-the-icons-ivy restart-emacs howm deft markdown-preview-mode lsp-ui company-lsp org-notebook doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex cnfonts chinese-fonts-setup youdao-dictionary dashboard elfeed-goodies elfeed django-mode alert async auto-complete auto-yasnippet company counsel dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e"))
  '(podcaster-feeds-urls
    '("http://podcast-beta.miao.li/xml/netease/340909068/rss.xml" "https://kernelpanic.fm/feed"))

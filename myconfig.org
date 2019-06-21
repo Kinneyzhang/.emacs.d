@@ -6,7 +6,7 @@
      (use-package auto-save
        :load-path "~/.emacs.d/site-lisp/auto-save"
        :config 
-       (auto-save-enable)  ;; 开启自动保存功能
+       (auto-save-enable)  ;; 开启自动保存功能。
        (setq auto-save-slient t)) ;; 自动保存的时候静悄悄的， 不要打扰我
    #+END_SRC
 
@@ -134,6 +134,19 @@
        (interactive)
        (insert "ρ"))
      (global-set-key (kbd "C-c s r h") 'print-symbol-ρ)
+
+     (defun print-symbol-ψ ()
+       "print Psi"
+       (interactive)
+       (insert "ψ"))
+     (global-set-key (kbd "C-c s p s") 'print-symbol-ψ)
+
+     (defun print-symbol-φ ()
+       "print Phi"
+       (interactive)
+       (insert "φ"))
+     (global-set-key (kbd "C-c s p h") 'print-symbol-φ)
+
      ;;=================================================================
      (defun print-symbol-● ()
        (interactive)
@@ -560,6 +573,7 @@
   #+END_SRC
 * Org-mode
   #+BEGIN_SRC emacs-lisp
+    ;;====================================================================================
     (use-package org-bullets
       :ensure t
       :config
@@ -1089,14 +1103,12 @@
 
 * Xwidget-webkit
   #+BEGIN_SRC emacs-lisp
-    (setq browse-url-browser-function 'xwidget-webkit-browse-url)
-
-    (defun browse-url-default-browser (url &rest args)
-      "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
-      (xwidget-webkit-browse-url url args))
-
-    (global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
-
+    ;;use xwidget-webkit
+    ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
+    ;; (defun browse-url-default-browser (url &rest args)
+    ;;   "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
+    ;;   (xwidget-webkit-browse-url url args))
+    ;; (global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
 
     (use-package search-web
       :ensure t
@@ -1272,4 +1284,54 @@
 	     ("C-c C-d" . helpful-at-point)
 	     ("C-h F". helpful-function)
 	     ("C-h C" . helpful-command)))
+  #+END_SRC
+* Pyim
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package pyim
+      :ensure t
+      :demand t
+      :config
+      ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
+      (use-package pyim-basedict
+	:ensure nil
+	:config (pyim-basedict-enable))
+
+      (setq default-input-method "pyim")
+
+      ;; 我使用全拼
+      (setq pyim-default-scheme 'quanpin)
+
+      ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
+      ;; 我自己使用的中英文动态切换规则是：
+      ;; 1. 光标只有在注释里面时，才可以输入中文。
+      ;; 2. 光标前是汉字字符时，才能输入中文。
+      ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
+      (setq-default pyim-english-input-switch-functions
+		    '(pyim-probe-dynamic-english
+		      pyim-probe-isearch-mode
+		      pyim-probe-program-mode
+		      pyim-probe-org-structure-template))
+
+      (setq-default pyim-punctuation-half-width-functions
+		    '(pyim-probe-punctuation-line-beginning
+		      pyim-probe-punctuation-after-punctuation))
+
+      ;; 开启拼音搜索功能
+      (pyim-isearch-mode 1)
+
+      ;; 使用 pupup-el 来绘制选词框, 如果用 emacs26, 建议设置
+      ;; 为 'posframe, 速度很快并且菜单不会变形，不过需要用户
+      ;; 手动安装 posframe 包。
+      (setq pyim-page-tooltip 'posframe)
+
+      ;; 选词框显示5个候选词
+      (setq pyim-page-length 5)
+
+      :bind
+      (("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合那
+       ("C-;" . pyim-delete-word-from-personal-buffer)))
+
+    (setq default-input-method "pyim")
+    (global-set-key (kbd "C-\\") 'toggle-input-method)
   #+END_SRC
