@@ -21,3 +21,6 @@ smex-data
 smex-items
 .mc-lists.el
 pyim
+request
+newsticker
+hackernews

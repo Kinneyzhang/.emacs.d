@@ -63,8 +63,8 @@
      (define-key awesome-pair-mode-map (kbd "%") 'awesome-pair-match-paren)
      (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
 
-     (define-key awesome-pair-mode-map (kbd "M-o") 'awesome-pair-backward-delete)
-     (define-key awesome-pair-mode-map (kbd "C-d") 'awesome-pair-forward-delete)
+     ;;(define-key awesome-pair-mode-map (kbd "M-o") 'awesome-pair-backward-delete)
+     ;;(define-key awesome-pair-mode-map (kbd "C-d") 'awesome-pair-forward-delete)
      (define-key awesome-pair-mode-map (kbd "C-k") 'awesome-pair-kill)
 
      (define-key awesome-pair-mode-map (kbd "M-\"") 'awesome-pair-wrap-double-quote)
@@ -241,6 +241,16 @@
 	  )))
 
      (awesome-tab-hide-tab t)
+   #+END_SRC
+
+** delete-block
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package delete-block
+       :load-path "~/.emacs.d/site-lisp/delete-block"
+       :bind (("C-d" . delete-block-forward)
+	      ("<C-backspace>" . delete-block-backward)))
+
    #+END_SRC
 
 * Evil
@@ -602,7 +612,7 @@
       "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
       (interactive
        (let ((src-code-types
-	      '("text" "emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
+	      '("emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
 		"calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
 		"octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
 		"haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
@@ -693,7 +703,7 @@
     (require 'calfw-org)
 
     (use-package move-text
-      :ensure
+      :ensure t
       :config (move-text-default-bindings))
   #+END_SRC
 
@@ -762,6 +772,9 @@
       :config
       (counsel-projectile-mode)
       (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+
+    (use-package counsel-osx-app
+      :ensure t)
 
     (use-package all-the-icons-ivy
       :ensure t
@@ -1104,11 +1117,11 @@
 * Xwidget-webkit
   #+BEGIN_SRC emacs-lisp
     ;;use xwidget-webkit
-    ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
-    ;; (defun browse-url-default-browser (url &rest args)
-    ;;   "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
-    ;;   (xwidget-webkit-browse-url url args))
-    ;; (global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
+    (setq browse-url-browser-function 'xwidget-webkit-browse-url)
+    (defun browse-url-default-browser (url &rest args)
+      "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
+      (xwidget-webkit-browse-url url args))
+    (global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
 
     (use-package search-web
       :ensure t
@@ -1120,6 +1133,7 @@
       :ensure t
       :bind ("C-c g g" . browse-at-remote))
   #+END_SRC
+
 * LSP
 
   #+BEGIN_SRC emacs-lisp
@@ -1235,29 +1249,13 @@
     (use-package podcaster
       :ensure t)
   #+END_SRC
-
-* Buffer-move
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package buffer-move
-      :ensure t
-      :init
-      (setq buffer-move-stay-after-swap t)
-      (setq buffer-move-behavior 'move)
-      :bind
-      (("<C-S-up>" . buf-move-up)
-       ("<C-S-down>" . buf-move-down)
-       ("<C-S-left>" . buf-move-left)
-       ("<C-S-right>" . buf-move-right)))
-  #+END_SRC
-
 * Hydra
 
   #+BEGIN_SRC emacs-lisp
     (use-package hydra
       :ensure t)
 
-    (defhydra hydra-launcher (:color blue)
+    (defhydra hydra-launch (:color blue)
        "Launch"
        ("ec" (browse-url "https://www.emacs-china.org") "EmacsChina")
        ("ew" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
@@ -1265,13 +1263,11 @@
        ("gt" (browse-url "https://www.github.com") "Github")
        ("m" (browse-url "http://www.melpa.org/#/") "Melpa")
        ("v" (browse-url "https://www.v2ex.com") "V2EX")
+       ("yt" (browse-url "https://www.youtube.com") "YouTube")
        ("s" eshell "shell")
        ("q" nil "cancel"))
-    (global-set-key (kbd "C-c r") 'hydra-launcher/body)
+    (global-set-key (kbd "C-c r") 'hydra-launch/body)
   #+END_SRC
-
-  #+RESULTS:
-  : hydra-launcher/body
 
 * Help
 
