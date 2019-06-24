@@ -19,3 +19,6 @@
 [submodule "site-lisp/delete-block"]
 	path = site-lisp/delete-block
 	url = https://github.com/manateelazycat/delete-block.git
+[submodule "site-lisp/aweshell"]
+	path = site-lisp/aweshell
+	url = https://github.com/manateelazycat/aweshell.git

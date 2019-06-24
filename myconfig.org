@@ -78,6 +78,13 @@
      (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
    #+END_SRC
 
+** aweshell
+
+   #+BEGIN_SRC emacs-lisp
+     (use-package aweshell
+       :load-path "./site-lisp/aweshell")
+   #+END_SRC
+
 ** print special symbol
 
    #+BEGIN_SRC emacs-lisp
@@ -562,24 +569,38 @@
     ;;(set-default-font "-*-Monaco-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
     (setq-default cursor-type 'box);变光标, setq-default设置全局
-    (use-package multiple-cursors
-      :ensure t
-      :bind (("C-S-c C-S-c" . mc/edit-lines)
-	     ("C->" . mc/mark-next-like-this)
-	     ("C-<" . mc/mark-previous-like-this)
-	     ("C-c C-<". mc/mark-all-like-this)))
+
+    ;;==================================================
 
     (use-package diredfl
       ;; colorful dired-mode
       :ensure t
       :config (diredfl-global-mode t))
 
+    ;;==================================================
     (use-package indent-guide
       :ensure t
       :config
-      (indent-guide-global-mode)
+      (add-hook 'prog-mode-hook 'indent-guide-mode)
+      (add-hook 'org-mode-hook 'indent-guide-mode)
       (setq indent-guide-delay 0)
       (setq indent-guide-char "|"))
+
+    (use-package nyan-mode
+      :ensure t
+      :init (setq mode-line-format
+		  (list
+		   '(:eval (list (nyan-create)))
+		   )))
+
+    (use-package wttrin
+      :ensure t
+      :init
+      (setq wttrin-default-cities '("Nanjing" "Huaian" "Hangzhou"))
+      (setq wttrin-default-accept-language '("Accept-Language" . "zh-CN")))
+
+    (use-package fireplace
+      :ensure t)
   #+END_SRC
 * Org-mode
   #+BEGIN_SRC emacs-lisp
@@ -1117,11 +1138,11 @@
 * Xwidget-webkit
   #+BEGIN_SRC emacs-lisp
     ;;use xwidget-webkit
-    (setq browse-url-browser-function 'xwidget-webkit-browse-url)
-    (defun browse-url-default-browser (url &rest args)
-      "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
-      (xwidget-webkit-browse-url url args))
-    (global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
+    ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
+    ;; (defun browse-url-default-browser (url &rest args)
+    ;;   "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
+    ;;   (xwidget-webkit-browse-url url args))
+    ;; (global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
 
     (use-package search-web
       :ensure t
