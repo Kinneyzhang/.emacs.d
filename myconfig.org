@@ -21,61 +21,61 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package awesome-pair
-     :load-path "~/.emacs.d/site-lisp/awesome-pair"
-     :config
-     (dolist (hook (list
-		    'c-mode-common-hook
-		    'c-mode-hook
-		    'c++-mode-hook
-		    'java-mode-hook
-		    'haskell-mode-hook
-		    'emacs-lisp-mode-hook
-		    'lisp-interaction-mode-hook
-		    'lisp-mode-hook
-		    'maxima-mode-hook
-		    'ielm-mode-hook
-		    'sh-mode-hook
-		    'makefile-gmake-mode-hook
-		    'php-mode-hook
-		    'python-mode-hook
-		    'js-mode-hook
-		    'go-mode-hook
-		    'qml-mode-hook
-		    'jade-mode-hook
-		    'css-mode-hook
-		    'ruby-mode-hook
-		    'coffee-mode-hook
-		    'rust-mode-hook
-		    'qmake-mode-hook
-		    'lua-mode-hook
-		    'swift-mode-hook
-		    'minibuffer-inactive-mode-hook
-		    ))
-       (add-hook hook '(lambda () (awesome-pair-mode 1))))
+       :load-path "~/.emacs.d/site-lisp/awesome-pair"
+       :config
+       (dolist (hook (list
+		      'c-mode-common-hook
+		      'c-mode-hook
+		      'c++-mode-hook
+		      'java-mode-hook
+		      'haskell-mode-hook
+		      'emacs-lisp-mode-hook
+		      'lisp-interaction-mode-hook
+		      'lisp-mode-hook
+		      'maxima-mode-hook
+		      'ielm-mode-hook
+		      'sh-mode-hook
+		      'makefile-gmake-mode-hook
+		      'php-mode-hook
+		      'python-mode-hook
+		      'js-mode-hook
+		      'go-mode-hook
+		      'qml-mode-hook
+		      'jade-mode-hook
+		      'css-mode-hook
+		      'ruby-mode-hook
+		      'coffee-mode-hook
+		      'rust-mode-hook
+		      'qmake-mode-hook
+		      'lua-mode-hook
+		      'swift-mode-hook
+		      'minibuffer-inactive-mode-hook
+		      ))
+	 (add-hook hook '(lambda () (awesome-pair-mode 1))))
 
-     (define-key awesome-pair-mode-map (kbd "(") 'awesome-pair-open-round)
-     (define-key awesome-pair-mode-map (kbd "[") 'awesome-pair-open-bracket)
-     (define-key awesome-pair-mode-map (kbd "{") 'awesome-pair-open-curly)
-     (define-key awesome-pair-mode-map (kbd ")") 'awesome-pair-close-round)
-     (define-key awesome-pair-mode-map (kbd "]") 'awesome-pair-close-bracket)
-     (define-key awesome-pair-mode-map (kbd "}") 'awesome-pair-close-curly)
+       (define-key awesome-pair-mode-map (kbd "(") 'awesome-pair-open-round)
+       (define-key awesome-pair-mode-map (kbd "[") 'awesome-pair-open-bracket)
+       (define-key awesome-pair-mode-map (kbd "{") 'awesome-pair-open-curly)
+       (define-key awesome-pair-mode-map (kbd ")") 'awesome-pair-close-round)
+       (define-key awesome-pair-mode-map (kbd "]") 'awesome-pair-close-bracket)
+       (define-key awesome-pair-mode-map (kbd "}") 'awesome-pair-close-curly)
 
-     (define-key awesome-pair-mode-map (kbd "%") 'awesome-pair-match-paren)
-     (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
+       (define-key awesome-pair-mode-map (kbd "%") 'awesome-pair-match-paren)
+       (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
 
-     ;;(define-key awesome-pair-mode-map (kbd "M-o") 'awesome-pair-backward-delete)
-     ;;(define-key awesome-pair-mode-map (kbd "C-d") 'awesome-pair-forward-delete)
-     (define-key awesome-pair-mode-map (kbd "C-k") 'awesome-pair-kill)
+       ;;(define-key awesome-pair-mode-map (kbd "M-o") 'awesome-pair-backward-delete)
+       ;;(define-key awesome-pair-mode-map (kbd "C-d") 'awesome-pair-forward-delete)
+       (define-key awesome-pair-mode-map (kbd "C-k") 'awesome-pair-kill)
 
-     (define-key awesome-pair-mode-map (kbd "M-\"") 'awesome-pair-wrap-double-quote)
-     (define-key awesome-pair-mode-map (kbd "M-[") 'awesome-pair-wrap-bracket)
-     (define-key awesome-pair-mode-map (kbd "M-{") 'awesome-pair-wrap-curly)
-     (define-key awesome-pair-mode-map (kbd "M-(") 'awesome-pair-wrap-round)
-     (define-key awesome-pair-mode-map (kbd "M-)") 'awesoMe-pair-unwrap)
+       (define-key awesome-pair-mode-map (kbd "M-\"") 'awesome-pair-wrap-double-quote)
+       (define-key awesome-pair-mode-map (kbd "M-[") 'awesome-pair-wrap-bracket)
+       (define-key awesome-pair-mode-map (kbd "M-{") 'awesome-pair-wrap-curly)
+       (define-key awesome-pair-mode-map (kbd "M-(") 'awesome-pair-wrap-round)
+       (define-key awesome-pair-mode-map (kbd "M-)") 'awesoMe-pair-unwrap)
 
-     (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-right)
-     (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-left)
-     (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
+       (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-right)
+       (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-left)
+       (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
    #+END_SRC
 
 ** aweshell
@@ -255,79 +255,11 @@
    #+BEGIN_SRC emacs-lisp
      (use-package delete-block
        :load-path "~/.emacs.d/site-lisp/delete-block"
+       :defer t
        :bind (("C-d" . delete-block-forward)
 	      ("<C-backspace>" . delete-block-backward)))
 
    #+END_SRC
-
-* Evil
-  #+BEGIN_SRC emacs-lisp
-    ;; (use-package evil
-    ;;   :ensure t
-    ;;   :config 
-    ;;  (evil-mode -1))
-
-    ;; (use-package evil-leader
-    ;;   :ensure t
-    ;;   :config
-    ;;   (global-evil-leader-mode t)
-    ;;   (evil-leader/set-key
-    ;;     "fr" 'speedbar
-
-    ;;     "bb" 'switch-to-buffer
-    ;;     "1"  'select-window-1
-    ;;     "2"  'select-window-2
-    ;;     "3"  'select-window-3
-    ;;     "4"  'select-window-4
-    ;;     "w/" 'split-window-right
-    ;;     "w-" 'split-window-below
-    ;;     "wd" 'delete-window
-    ;;     "wj" 'other-window
-    ;;     "ww" 'delete-other-windows
-
-    ;;     "em" 'open-my-config-file
-    ;;     "ei" 'open-my-init-file
-
-    ;;     "cc"  'org-capture
-    ;;     "aa" 'org-agenda
-    ;;     "as" 'org-agenda-schedule
-    ;;     "ad" 'org-agenda-deadline
-    ;;     "az" 'org-agenda-add-note
-
-    ;;     "osi" 'org-insert-src-block
-    ;;     "ose" 'org-edit-src-code
-    ;;     "oo" 'org-open-at-point
-
-    ;;     "ee" 'eval-last-sexp
-    ;;     "q" 'save-buffers-kill-terminal
-    ;;     "pf" 'counsel-git
-    ;;     "t" 'shell-pop
-    ;;     "/" 'evilnc-comment-or-uncomment-lines
-    ;;     "d" 'dired
-    ;;     "j" 'goto-line
-    ;;     "hk" 'describe-key
-    ;;     "hv" 'counsel-describe-variable
-    ;;     "hf" 'counsel-describe-function
-
-    ;;     "ss" 'save-buffer
-    ;;     "sw" 'swiper
-    ;;     "snc" 'aya-create
-    ;;     "sne" 'aya-expand
-    ;;     "snp" 'aya-persist-snippet
-
-    ;;     "yy" 'youdao-dictionary-search-at-point+
-
-    ;;     "cg" 'customize-group
-    ;;     "cf" 'customize-face
-    ;;     "ce" 'toggle-company-english-helper
-    ;;     "v" 'er/expand-region
-    ;;     ))
-
-    ;; (evilnc-default-hotkeys)
-    ;; (define-key evil-normal-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
-    ;; (define-key evil-visual-state-map (kbd ",/") 'evilnc-comment-or-uncomment-lines)
-  #+END_SRC
-
 * Key bindings
   #+BEGIN_SRC emacs-lisp
     (global-set-key (kbd "C-x C-c") 'restart-emacs)
@@ -501,7 +433,8 @@
 					    try-complete-lisp-symbol))
 
     (use-package restart-emacs
-      :ensure t)
+      :ensure t
+      :defer t)
 
     (use-package beacon
       :ensure t
@@ -585,7 +518,7 @@
 
       ;; If non-nil, only display one number for checker information if applicable.
       (setq doom-modeline-checker-simple-format t)
-  
+
       ;; The maximum displayed length of the branch name of version control.
       (setq doom-modeline-vcs-max-length 12)
 
@@ -638,6 +571,7 @@
 
     (use-package neotree
       :ensure t
+      :defer t
       :bind (("<f8>" . neotree-toggle))
       :config
       (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
@@ -688,23 +622,22 @@
 
     (use-package nyan-mode
       :ensure t
-      :init (setq mode-line-format
-		  (list
-		   '(:eval (list (nyan-create)))
-		   )))
+      :defer t
+      :init (setq mode-line-format (list '(:eval (list (nyan-create))))))
 
     (use-package wttrin
       :ensure t
+      :defer t
       :init
       (setq wttrin-default-cities '("Nanjing" "Huaian" "Hangzhou"))
       (setq wttrin-default-accept-language '("Accept-Language" . "zh-CN")))
 
     (use-package fireplace
-      :ensure t)
+      :ensure t
+      :defer t)
   #+END_SRC
 * Org-mode
   #+BEGIN_SRC emacs-lisp
-    ;;====================================================================================
     (use-package org-bullets
       :ensure t
       :config
@@ -800,6 +733,7 @@
     ;; cnfonts-edit-profile	调整字体设置, 表格中英文对齐
     (use-package cnfonts
       :ensure t
+      :defer t
       :config
       (require 'cnfonts)
       (cnfonts-enable)
@@ -815,13 +749,15 @@
 
     (use-package calfw-org
       :ensure t
+      :defer t
       :bind (("C-x cc" . my-open-calendar)))
 
     (use-package calfw
-      :ensure t)
+      :ensure t
+      :defer t)
 
-    (require 'calfw)
     (require 'calfw-org)
+    (require 'calfw)
 
     (use-package move-text
       :ensure t
@@ -833,36 +769,15 @@
   #+BEGIN_SRC emacs-lisp
     (use-package magit
       :ensure t
+      :defer t
       :bind (("C-x g" . magit-status)))
-  #+END_SRC
-
-* Helm
-  #+BEGIN_SRC emacs-lisp
-    ;; (use-package helm
-    ;;   :ensure t
-    ;;   :config
-    ;;   (helm-mode 1)
-    ;;   )
-
-    ;; (use-package helm-company
-    ;;   :ensure t
-    ;;   :config
-    ;;   (eval-after-load 'company
-    ;;   '(progn
-    ;;      (define-key company-mode-map (kbd "C-:") 'helm-company)
-    ;;      (define-key company-active-map (kbd "C-:") 'helm-company))))
-
-    ;; (use-package helm-projectile
-    ;;   :ensure t
-    ;;   :config
-    ;;   (require 'helm-projectile)
-    ;;   (helm-projectile-on))
   #+END_SRC
 
 * Ivy 
   #+BEGIN_SRC emacs-lisp
     (use-package ivy
       :ensure t
+      :defer t
       :diminish (ivy-mode . "")
       :config
       (ivy-mode 1)
@@ -881,6 +796,7 @@
 
     (use-package swiper
       :ensure t
+      :defer t
       :config
       (ivy-mode 1)
       (setq ivy-use-virtual-buffers t))
@@ -895,10 +811,12 @@
       (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
     (use-package counsel-osx-app
-      :ensure t)
+      :ensure t
+      :defer t)
 
     (use-package spotlight
-      :ensure t)
+      :ensure t
+      :defer t)
 
     (use-package all-the-icons-ivy
       :ensure t
@@ -947,10 +865,12 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package avy
-      :ensure t)
+      :ensure t
+      :defer t)
 
     (use-package link-hint
       :ensure t
+      :defer t
       :bind
       ("C-c l o" . link-hint-open-link)
       ("C-c l c" . link-hint-copy-link)
@@ -964,8 +884,7 @@
       :config
       (setq company-idle-delay 0)
       (setq company-minimum-prefix-length 3)
-      (global-company-mode t)
-      )
+      (global-company-mode t))
 
   #+END_SRC
 
@@ -1015,6 +934,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package web-mode
       :ensure t
+      :defer t
       :config
       (add-hook 'web-mode-hook 'my-web-mode-indent-setup)
       (add-hook 'web-mode-hook 'my-toggle-web-indent))
@@ -1063,6 +983,7 @@
 
     (use-package emmet-mode
       :ensure t
+      :defer t
       :bind (("C-j" . emmet-expand-line))
       :config 
       (add-hook 'web-mode-hook 'emmet-mode))
@@ -1089,6 +1010,7 @@
 
   #+END_SRC
 * Smartparens 
+
   #+BEGIN_SRC emacs-lisp
     (use-package smartparens
       :ensure t
@@ -1097,13 +1019,13 @@
       (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
   #+END_SRC
 
-* Hungry-delete 
+* Hungry-delete
+
   #+BEGIN_SRC emacs-lisp
     (use-package hungry-delete
       :ensure t
       :config
       (global-hungry-delete-mode))
-
   #+END_SRC
 
 * Flycheck
@@ -1148,7 +1070,7 @@
 	  :overlay-category 'flycheck-info-overlay
 	  :fringe-bitmap 'my-flycheck-fringe-indicator
 	  :fringe-face 'flycheck-fringe-info))
-  
+
       :config
       (add-hook 'c++-mode-hook 'flycheck-mode)
       (add-hook 'python-mode-hook 'flycheck-mode)
@@ -1167,24 +1089,11 @@
   #+BEGIN_SRC emacs-lisp
     (use-package window-numbering
       :ensure t
-      :config
-      (window-numbering-mode 1)
+      :init
       (setq window-numbering-assign-func
-	    (lambda () (when (equal (buffer-name) "*Calculator*") 9))))
-
-    ;; (use-package elscreen
-    ;;   :ensure t
-    ;;   :config
-    ;;   (elscreen-start)
-    ;;   (setq elscreen-tab-display-kill-screen 'right))
-
-    (use-package golden-ratio
-      :ensure t
+	    (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
       :config
-      (golden-ratio-mode -1)
-      (setq golden-ratio-auto-scale t)
-      (setq golden-ratio-adjust-factor .8
-	    golden-ratio-wide-adjust-factor .8))
+      (window-numbering-mode 1))
 
     (use-package posframe
       :ensure t)
@@ -1194,18 +1103,16 @@
 
     (use-package ivy-posframe
       :ensure t
-      :init (setq ivy-posframe-parameters
-		  '((left-fringe . 8)
-		    (right-fringe . 8))
-		  ivy-posframe-display-functions-alist
-		  '((t . ivy-posframe-display-at-frame-center))
-		  )
+      :init (setq ivy-posframe-parameters '((left-fringe . 8) (right-fringe . 8))
+		  ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
       :config (ivy-posframe-mode 1))
   #+END_SRC
+
 * Python
   #+BEGIN_SRC emacs-lisp
     (use-package elpy
       :ensure t
+      :defer t
       :config
       (add-to-list 'package-archives
 		   '("elpy" . "https://jorgenschaefer.github.io/packages/"))
@@ -1215,27 +1122,28 @@
   #+END_SRC
 
 * Dashboard
+
   #+BEGIN_SRC emacs-lisp
     (use-package dashboard
       :ensure t
+      :init
+      (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+      (setq dashboard-banner-logo-title "Happy hacking emacs!  [Author:Kinney] [Email:kinneyzhang666@gmail.com]")
+      (setq dashboard-startup-banner "~/.emacs.d/img/ying.png")
+      (setq dashboard-items '((recents  . 8) (projects . 5)))
       :config
       (dashboard-setup-startup-hook))
-
-    (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-    (setq dashboard-banner-logo-title "Happy hacking emacs!  [Author:Kinney] [Email:kinneyzhang666@gmail.com]")
-    (setq dashboard-startup-banner "~/.emacs.d/img/ying.png")
-    (setq dashboard-items '((recents  . 8)
-			    (projects . 5)
-			    ))
   #+END_SRC
+
 * Dictionary
+
   #+BEGIN_SRC emacs-lisp
     (use-package youdao-dictionary
       :ensure t
-      :config
-      ;; Enable Cache
-      (setq url-automatic-caching t)
-      (global-set-key (kbd "C-c y y") 'youdao-dictionary-search-at-point+))
+      :defer t
+      :init
+      (setq url-automatic-caching t) ;; Enable Cache
+      :bind (("C-c y y" . youdao-dictionary-search-at-point+)))
   #+END_SRC
 
 * Xwidget-webkit
@@ -1249,12 +1157,14 @@
 
     (use-package search-web
       :ensure t
+      :defer t
       :bind (("C-c ww" . search-web)
 	     ("C-c wp" . search-web-at-point)
 	     ("C-c wr" . search-web-region)))
 
     (use-package browse-at-remote
       :ensure t
+      :defer t
       :bind ("C-c g g" . browse-at-remote))
   #+END_SRC
 
@@ -1263,11 +1173,13 @@
   #+BEGIN_SRC emacs-lisp
     (use-package lsp-mode
       :ensure t
+      :defer t
       :commands lsp)
 
     ;; optionally
     (use-package lsp-ui
       :ensure t
+      :defer t
       :commands lsp-ui-mode)
 
     ;; (use-package company-lsp
@@ -1280,6 +1192,7 @@
 
     (use-package lsp-python-ms
       :ensure t
+      :defer t
       :hook (python-mode . lsp)
       :config
 
@@ -1295,6 +1208,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package markdown-mode
       :ensure t
+      :defer t
       :mode (("README\\.md\\'" . gfm-mode)
 	     ("\\.md\\'" . markdown-mode)
 	     ("\\.markdown\\'" . markdown-mode))
@@ -1304,30 +1218,12 @@
       :ensure t)
   #+END_SRC
 
-* Deft
-  
-  #+BEGIN_SRC emacs-lisp
-    (use-package deft
-      :ensure t
-      :bind ("<f7>" . deft)
-      :commands (deft)
-      :config (setq deft-directory "~/program_org"
-		    deft-extensions '("md" "org")
-		    deft-use-filename-as-title t))
-  #+END_SRC
-
-* Howm
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package howm
-      :ensure t)
-  #+END_SRC
-
 * ace-window
 
   #+BEGIN_SRC emacs-lisp
     (use-package ace-window
       :ensure t
+      :defer t
       :config
       (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
       (defvar aw-dispatch-alist
@@ -1350,6 +1246,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package bongo
       :ensure t
+      :defer t
       :config
       (setq bongo-default-directory "~/Music/网易云音乐"))
   #+END_SRC
@@ -1363,6 +1260,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package proxy-mode
       :ensure t
+      :defer t
       :config
       (setq url-gateway-local-host-regexp
 	  (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
@@ -1371,13 +1269,15 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package podcaster
-      :ensure t)
+      :ensure t
+      :defer t)
   #+END_SRC
 * Hydra
 
   #+BEGIN_SRC emacs-lisp
     (use-package hydra
-      :ensure t)
+      :ensure t
+      :defer t)
 
     (defhydra hydra-launch (:color blue)
        "Launch"
@@ -1399,6 +1299,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package helpful
       :ensure t
+      :defer t
       :bind (("C-h f" . helpful-callable)
 	     ("C-h v" . helpful-variable)
 	     ("C-h k" . helpful-key)
@@ -1412,6 +1313,7 @@
     (use-package pyim
       :ensure t
       :demand t
+      :bind (("C-\\" . toggle-input-method))
       :config
       ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
       (use-package pyim-basedict
@@ -1454,5 +1356,4 @@
        ("C-;" . pyim-delete-word-from-personal-buffer)))
 
     (setq default-input-method "pyim")
-    (global-set-key (kbd "C-\\") 'toggle-input-method)
   #+END_SRC

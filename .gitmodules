@@ -7,9 +7,6 @@
 [submodule "site-lisp/all-the-icons"]
 	path = site-lisp/all-the-icons
 	url = https://github.com/domtronn/all-the-icons.el.git
-[submodule "site-lisp/guess-word"]
-	path = site-lisp/guess-word
-	url = https://github.com/Qquanwei/emacs-guess-word-game.git
 [submodule "site-lisp/leetcode"]
 	path = site-lisp/leetcode
 	url = https://github.com/kaiwk/leetcode.el.git
