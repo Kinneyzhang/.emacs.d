@@ -737,7 +737,6 @@
   #+BEGIN_SRC emacs-lisp
     (use-package ivy
       :ensure t
-      :defer t
       :diminish (ivy-mode . "")
       :bind (("C-x b" . ivy-switch-buffer))
       :config
@@ -745,7 +744,7 @@
       ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
       (setq ivy-use-virtual-buffers t)
       ;; number of result lines to display
-      (setq ivy-height 17)
+      (setq ivy-height 15)
       ;; does not count candidates
       (setq ivy-count-format "")
       ;; no regexp by default
@@ -765,13 +764,13 @@
     (use-package ivy-posframe
       :ensure t
       :init
-      (setq ivy-posframe-parameters '((left-fringe . 8) (right-fringe . 8)))
-      (setq  ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-      (setq ivy-posframe-min-height 8)
-      (setq ivy-posframe-min-height 20)
-      (setq ivy-posframe-height nil)
-      (setq ivy-posframe-width 100)
-      :config (ivy-posframe-mode 1))
+      (progn
+	(setq ivy-posframe-parameters '((left-fringe . 8) (right-fringe . 8)))
+	(setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+	(setq ivy-posframe-height nil)
+	(setq ivy-posframe-width 100))
+	:config
+	(ivy-posframe-mode t))
 
 
     (use-package swiper
@@ -879,6 +878,9 @@
       (setq company-minimum-prefix-length 3)
       (global-company-mode t))
 
+    (use-package company-box
+      :ensure t
+      :hook (company-mode . company-box-mode))
   #+END_SRC
 
 * JavaScript 
@@ -1245,12 +1247,12 @@
       :config
       (setq bongo-default-directory "~/Music/网易云音乐"))
 
-    (defun insert-bongo-music ()
-      (bongo-playlist)
-      (bongo-insert-file "./")
-      )
+    ;; (defun insert-bongo-music ()
+    ;;   (bongo-playlist)
+    ;;   (bongo-insert-file "./")
+    ;;   )
 
-    (insert-bongo-music)
+    ;; (insert-bongo-music)
   #+END_SRC
 
 * Email

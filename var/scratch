@@ -218,3 +218,7 @@ Mon Apr  1 11:22:30 2019
 	(message "Successfully flipped one bit!"))
     (message "Well, then go to xkcd.com!")
     ))
+
+"https://kernelpanic.fm/feed"
+
+podcaster
