@@ -13,8 +13,9 @@
 ** company-english-helper
 
    #+BEGIN_SRC emacs-lisp
-      (use-package company-english-helper
-	:load-path "~/.emacs.d/site-lisp/company-english-helper")
+     (use-package company-english-helper
+       :load-path "~/.emacs.d/site-lisp/company-english-helper"
+       :bind (("C-x c e" . toggle-company-english-helper)))
    #+END_SRC
 
 ** awesome-pair
@@ -262,32 +263,11 @@
    #+END_SRC
 * Key bindings
   #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "C-x C-c") 'restart-emacs)
-
-    (global-set-key (kbd "C-c m") 'bongo-playlist)
-
-    (global-set-key (kbd "C-\\") 'toggle-input-method)
 
     (global-set-key (kbd "C-x -") 'split-window-below)
     (global-set-key (kbd "C-x /") 'split-window-right)
-    (global-set-key "\C-x\C-p" 'other-window-backward)
-    (global-set-key "\C-x\C-n" 'other-window)
-
-    (global-set-key (kbd "M-o") 'ace-window)
 
     (global-set-key (kbd "<f5>") 'revert-buffer)
-    (global-set-key (kbd "C-c C-r") 'ivy-resume)
-
-    ;; ivy keybindings
-    (global-set-key (kbd "M-x") 'counsel-M-x)
-    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-    (global-set-key (kbd "C-x b") 'ivy-switch-buffer)
-    (global-set-key (kbd "C-c e") 'counsel-git)
-    (global-set-key (kbd "C-c t") 'counsel-load-theme)
-    (global-set-key (kbd "C-x r b") 'counsel-bookmark)
-    (global-set-key (kbd "C-x r D") 'bookmark-delete)
-    (global-set-key (kbd "M-g c") 'avy-goto-char-timer)
-    (global-set-key (kbd "M-g l") 'avy-goto-line)
 
     ;; ================================================
     (global-set-key (kbd "C-x <f10>") 'eval-last-sexp)
@@ -296,8 +276,6 @@
     (global-set-key (kbd "C-c y s p") 'aya-persist-snippet)
     (global-set-key (kbd "C-c y s e") 'aya-expand)
 
-    (global-set-key (kbd "C-c f r") 'speedbar)
-
     ;; org-store-link
     (global-set-key (kbd "C-c o l") 'org-store-link)
 
@@ -305,44 +283,27 @@
     (global-set-key (kbd "C-x c g") 'customize-group)
     (global-set-key (kbd "C-x c f") 'customize-face)
     (global-set-key (kbd "C-x c t") 'customize-themes)
-    (global-set-key (kbd "C-x c e") 'toggle-company-english-helper)
+
 
     (global-set-key (kbd "C-c a") 'org-agenda)
     (global-set-key (kbd "C-c c") 'org-capture)
 
-    (global-set-key (kbd "C-s") 'swiper)
-
     (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
 
-    ;;设置M-/作为标志位，默认C-@来setmark,C-@
-    ;;M-/本来对应zap-to-char，这里占用了
-
-    ;; (global-set-key (kbd "C-c m") 'set-mark-command)
     (global-set-key (kbd "M-\/") 'set-mark-command)
-
-    (global-set-key (kbd "C-c wu") 'browse-url)
 
     ;;代码缩进
     (add-hook 'prog-mode-hook '(lambda ()
-				 (local-set-key (kbd "C-M-\\")
-						'indent-region-or-buffer)))
-
-    ;; (global-set-key (kbd "s-/") 'hippie-expand);;补全功能
+                                 (local-set-key (kbd "C-M-\\")
+                                                'indent-region-or-buffer)))
 
     ;; 延迟加载
     (with-eval-after-load 'dired
       (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
 
-    ;;切换web-mode下默认tab空格数
-					    ; (global-set-key (kbd "C-c t i") 'my-toggle-web-indent)
-
     ;;标记后智能选中区域
     (global-set-key (kbd "C-=") 'er/expand-region)
 
-    (global-set-key (kbd "M-p") 'my-org-screenshot)
-
-    (global-set-key (kbd "<f1>") 'open-my-init-file)
-    (global-set-key (kbd "<f2>") 'open-my-config-file)
 
     (defun open-my-init-file()
       (interactive)
@@ -352,6 +313,8 @@
       (interactive)
       (find-file "~/.emacs.d/myconfig.org"))
 
+    (global-set-key (kbd "<f1>") 'open-my-init-file)
+    (global-set-key (kbd "<f2>") 'open-my-config-file)
   #+END_SRC
 
 * Better-defaults
@@ -373,12 +336,9 @@
     (fset 'yes-or-no-p 'y-or-n-p);;用y/s代替yes/no
     (setq default-buffer-file-coding-system 'utf-8) ;;emacs编码设置
     (prefer-coding-system 'utf-8)
-    (setq ad-redefinition-action 'accept)
+    (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认
+    (setq org-confirm-babel-evaluate nil);设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
 
-
-					    ;在执行程序的时候，不需要确认
-    (setq org-confirm-babel-evaluate nil)
-					    ;设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
     (org-babel-do-load-languages
      'org-babel-load-languages
      '((emacs-lisp . t)
@@ -434,7 +394,8 @@
 
     (use-package restart-emacs
       :ensure t
-      :defer t)
+      :defer t
+      :bind (("C-x C-c" . restart-emacs)))
 
     (use-package beacon
       :ensure t
@@ -731,14 +692,13 @@
 	      (lambda () (setq truncate-lines nil)))
 
     ;; cnfonts-edit-profile	调整字体设置, 表格中英文对齐
-    (use-package cnfonts
-      :ensure t
-      :defer t
-      :config
-      (require 'cnfonts)
-      (cnfonts-enable)
-      (setq cnfonts-profiles
-	    '("program" "org-mode" "read-book")))
+    ;; (use-package cnfonts
+    ;;   :ensure nil
+    ;;   :defer t
+    ;;   :config
+    ;;   (cnfonts-enable)
+    ;;   (setq cnfonts-profiles
+    ;; 	'("program" "org-mode" "read-book")))
 
     (defun my-open-calendar ()
       (interactive)
@@ -773,18 +733,19 @@
       :bind (("C-x g" . magit-status)))
   #+END_SRC
 
-* Ivy 
+* Ivy && posframe
   #+BEGIN_SRC emacs-lisp
     (use-package ivy
       :ensure t
       :defer t
       :diminish (ivy-mode . "")
+      :bind (("C-x b" . ivy-switch-buffer))
       :config
       (ivy-mode 1)
       ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
       (setq ivy-use-virtual-buffers t)
       ;; number of result lines to display
-      (setq ivy-height 10)
+      (setq ivy-height 17)
       ;; does not count candidates
       (setq ivy-count-format "")
       ;; no regexp by default
@@ -794,15 +755,35 @@
 	    ;; allow input not in order
 	    '((t . ivy--regex-ignore-order))))
 
+
+    (use-package posframe
+      :ensure t)
+
+    ;; (defun ivy-posframe-display-at-frame-top-center (str)
+    ;;   (ivy-posframe--display str #'posframe-poshandler-frame-top-center))
+
+    (use-package ivy-posframe
+      :ensure t
+      :init
+      (setq ivy-posframe-parameters '((left-fringe . 8) (right-fringe . 8)))
+      (setq  ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+      (setq ivy-posframe-min-height 8)
+      (setq ivy-posframe-min-height 20)
+      (setq ivy-posframe-height nil)
+      (setq ivy-posframe-width 100)
+      :config (ivy-posframe-mode 1))
+
+
     (use-package swiper
       :ensure t
       :defer t
+      :bind (("C-s" . swiper))
+      :init (setq ivy-use-virtual-buffers t)
       :config
-      (ivy-mode 1)
-      (setq ivy-use-virtual-buffers t))
+      (ivy-mode 1))
 
-     (use-package projectile
-       :ensure t)
+    (use-package projectile
+      :ensure t)
 
     (use-package counsel-projectile
       :ensure t
@@ -859,6 +840,16 @@
 	       ((ivy-rich-candidate (:width 0.8)) ; return the candidate itself
 		(ivy-rich-file-last-modified-time (:face font-lock-comment-face))))) ; return the last modified time of the file
 	    ))
+
+    (use-package counsel
+      :ensure nil
+      :bind (("M-x" . counsel-M-x)
+	     ("C-c e" . counsel-git)
+	     ("C-c t l" . counsel-load-theme)
+	     ("C-x C-f" . counsel-find-file)
+	     ("C-x r b" . counsel-bookmark)
+	     ("C-x r D" . bookmark-delete)
+	     ))
   #+END_SRC
 
 * Avy/Link
@@ -866,7 +857,9 @@
   #+BEGIN_SRC emacs-lisp
     (use-package avy
       :ensure t
-      :defer t)
+      :defer t
+      :bind (("M-g c" . avy-goto-char-timer)
+	     ("M-g l" . avy-goto-line)))
 
     (use-package link-hint
       :ensure t
@@ -963,6 +956,9 @@
 
       (setq indent-tabs-mode nil))
 
+    ;;切换web-mode下默认tab空格数
+    (global-set-key (kbd "C-c t i") 'my-toggle-web-indent)
+
     (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
@@ -987,7 +983,6 @@
       :bind (("C-j" . emmet-expand-line))
       :config 
       (add-hook 'web-mode-hook 'emmet-mode))
-
   #+END_SRC
 * Yasnippet 
   #+BEGIN_SRC emacs-lisp
@@ -1001,7 +996,8 @@
 
   #+END_SRC
 
-* Which-key
+* key-Whichl
+
   #+BEGIN_SRC emacs-lisp
     (use-package which-key
       :ensure t
@@ -1009,6 +1005,7 @@
       (which-key-mode))
 
   #+END_SRC
+
 * Smartparens 
 
   #+BEGIN_SRC emacs-lisp
@@ -1029,6 +1026,7 @@
   #+END_SRC
 
 * Flycheck
+
   #+BEGIN_SRC emacs-lisp
     (use-package flycheck
       :ensure t
@@ -1079,6 +1077,7 @@
       (add-hook 'web-mode-hook 'flycheck-mode))
 
   #+END_SRC
+
 * Popwin
   #+BEGIN_SRC emacs-lisp
     (use-package popwin
@@ -1086,6 +1085,7 @@
   #+END_SRC
   
 * Windows & Buffer
+
   #+BEGIN_SRC emacs-lisp
     (use-package window-numbering
       :ensure t
@@ -1094,21 +1094,10 @@
 	    (lambda () (when (equal (buffer-name) "*Calculator*") 9)))
       :config
       (window-numbering-mode 1))
-
-    (use-package posframe
-      :ensure t)
-
-    ;; (defun ivy-posframe-display-at-frame-top-center (str)
-    ;;   (ivy-posframe--display str #'posframe-poshandler-frame-top-center))
-
-    (use-package ivy-posframe
-      :ensure t
-      :init (setq ivy-posframe-parameters '((left-fringe . 8) (right-fringe . 8))
-		  ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
-      :config (ivy-posframe-mode 1))
   #+END_SRC
 
 * Python
+
   #+BEGIN_SRC emacs-lisp
     (use-package elpy
       :ensure t
@@ -1147,6 +1136,7 @@
   #+END_SRC
 
 * Xwidget-webkit
+
   #+BEGIN_SRC emacs-lisp
     ;;use xwidget-webkit
     ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
@@ -1158,14 +1148,15 @@
     (use-package search-web
       :ensure t
       :defer t
-      :bind (("C-c ww" . search-web)
-	     ("C-c wp" . search-web-at-point)
-	     ("C-c wr" . search-web-region)))
+      :bind (("C-C w u" . browse-url)
+	     ("C-c w w" . search-web)
+	     ("C-c w p" . search-web-at-point)
+	     ("C-c w r" . search-web-region)))
 
     (use-package browse-at-remote
       :ensure t
       :defer t
-      :bind ("C-c g g" . browse-at-remote))
+      :bind ("C-c w g" . browse-at-remote))
   #+END_SRC
 
 * LSP
@@ -1203,6 +1194,7 @@
       (setq lsp-python-ms-executable
 	    "~/python-language-server/output/bin/Release/osx-x64/publish/Microsoft.Python.LanguageServer"))
   #+END_SRC
+
 * Markdown
 
   #+BEGIN_SRC emacs-lisp
@@ -1224,6 +1216,7 @@
     (use-package ace-window
       :ensure t
       :defer t
+      :bind (("M-o" . ace-window))
       :config
       (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
       (defvar aw-dispatch-alist
@@ -1241,20 +1234,31 @@
 	    (?? aw-show-dispatch-help))
       "List of actions for `aw-dispatch-default'."))
   #+END_SRC
+
 * Bongo
 
   #+BEGIN_SRC emacs-lisp
     (use-package bongo
       :ensure t
       :defer t
+      :bind (("C-c m" . bongo-playlist))
       :config
       (setq bongo-default-directory "~/Music/网易云音乐"))
+
+    (defun insert-bongo-music ()
+      (bongo-playlist)
+      (bongo-insert-file "./")
+      )
+
+    (insert-bongo-music)
   #+END_SRC
+
 * Email
 
   #+BEGIN_SRC emacs-lisp
     (autoload 'wl "wl" "Wanderlust" t)
   #+END_SRC
+
 * Proxy
 
   #+BEGIN_SRC emacs-lisp
@@ -1265,6 +1269,7 @@
       (setq url-gateway-local-host-regexp
 	  (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
   #+END_SRC
+
 * Podcast
 
   #+BEGIN_SRC emacs-lisp
@@ -1272,6 +1277,7 @@
       :ensure t
       :defer t)
   #+END_SRC
+
 * Hydra
 
   #+BEGIN_SRC emacs-lisp
@@ -1288,7 +1294,7 @@
        ("mp" (browse-url "http://www.melpa.org/#/") "Melpa")
        ("v2" (browse-url "https://www.v2ex.com") "V2EX")
        ("yt" (browse-url "https://www.youtube.com") "YouTube")
-       ("yt" (browse-url "https://feedly.com/i/latest") "Feedly")
+       ("fd" (browse-url "https://feedly.com/i/latest") "Feedly")
        ("s" eshell "shell")
        ("q" nil "cancel"))
     (global-set-key (kbd "C-c r") 'hydra-launch/body)
@@ -1307,25 +1313,24 @@
 	     ("C-h F". helpful-function)
 	     ("C-h C" . helpful-command)))
   #+END_SRC
+
 * Pyim
 
   #+BEGIN_SRC emacs-lisp
     (use-package pyim
       :ensure t
       :demand t
-      :bind (("C-\\" . toggle-input-method))
+      :bind
+      (("C-\\" . toggle-input-method)
+       ("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合那
+       ("C-;" . pyim-delete-word-from-personal-buffer))
+
       :config
-      ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
-      (use-package pyim-basedict
-	:ensure nil
-	:config (pyim-basedict-enable))
-
       (setq default-input-method "pyim")
-
-      ;; 我使用全拼
+      ;; 拼音方案
       (setq pyim-default-scheme 'quanpin)
 
-      ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :-)
+      ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :
       ;; 我自己使用的中英文动态切换规则是：
       ;; 1. 光标只有在注释里面时，才可以输入中文。
       ;; 2. 光标前是汉字字符时，才能输入中文。
@@ -1349,11 +1354,10 @@
       (setq pyim-page-tooltip 'posframe)
 
       ;; 选词框显示5个候选词
-      (setq pyim-page-length 5)
+      (setq pyim-page-length 5))
 
-      :bind
-      (("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合那
-       ("C-;" . pyim-delete-word-from-personal-buffer)))
-
-    (setq default-input-method "pyim")
+    ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
+    (use-package pyim-basedict
+      :ensure t
+      :config (pyim-basedict-enable))
   #+END_SRC

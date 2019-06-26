@@ -203,3 +203,18 @@ Mon Apr  1 11:22:30 2019
       (setq n (+ n 1)))))
 
 (featurep 'xwidget-internal)
+
+(defun butterfly ()
+  "rewrite butterfly"
+  (interactive)
+  (if (yes-or-no-p "Do you really want to unleash the powers of the butterfly? ")
+      (progn
+	(switch-to-buffer (get-buffer-create "*butterfly*"))
+	(erase-buffer)
+	(sit-for 0)
+	(animate-string "Amazing physics going on..."
+			(/ (window-height) 2) (- (/ (window-width) 2) 12))
+	(sit-for (* 5 (/ (abs (random)) (float most-positive-fixnum))))
+	(message "Successfully flipped one bit!"))
+    (message "Well, then go to xkcd.com!")
+    ))
