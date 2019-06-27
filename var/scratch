@@ -221,4 +221,16 @@ Mon Apr  1 11:22:30 2019
 
 "https://kernelpanic.fm/feed"
 
-podcaster
+| student | sj1 | sj2 | sj3 | all |
+|---------+-----+-----+-----+-----|
+| kinney  |  89 |  54 |  98 | =vall($2..$3) |
+| jack    |  22 |  33 |  44 |     |
+| lucy    |  11 |  22 |  33 |     |
+| Jenny   |     |     |     |     |
+
+(setq org-agenda-custom-commands
+      '(("h" "Agenda and Monthly tasks"
+         ((tag-todo "yearly")
+	  (tag-todo "monthly")
+	  (agenda "")
+          ))))

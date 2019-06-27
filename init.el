@@ -47,9 +47,14 @@
  '(cnfonts-directory "~/.emacs.d/var/cnfonts/")
  '(column-number-mode t)
  '(company-box-icons-alist 'company-box-icons-all-the-icons)
+ '(compilation-message-face 'default)
+ '(cua-global-mark-cursor-color "#2aa198")
+ '(cua-normal-cursor-color "#839496")
+ '(cua-overwrite-cursor-color "#b58900")
+ '(cua-read-only-cursor-color "#859900")
  '(custom-enabled-themes '(doom-one))
  '(custom-safe-themes
-   '("93a0885d5f46d2aeac12bf6be1754faa7d5e28b27926b8aa812840fe7d0b7983" "75d3dde259ce79660bac8e9e237b55674b910b470f313cdf4b019230d01a982a" "10461a3c8ca61c52dfbbdedd974319b7f7fd720b091996481c8fb1dded6c6116" "151bde695af0b0e69c3846500f58d9a0ca8cb2d447da68d7fbf4154dcf818ebc" "6d589ac0e52375d311afaa745205abb6ccb3b21f6ba037104d71111e7e76a3fc" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "cd736a63aa586be066d5a1f0e51179239fe70e16a9f18991f6f5d99732cabb32" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "4697a2d4afca3f5ed4fdf5f715e36a6cac5c6154e105f3596b44a4874ae52c45" "1c082c9b84449e54af757bcae23617d11f563fc9f33a832a8a2813c4d7dfb652" "8aca557e9a17174d8f847fb02870cb2bb67f3b6e808e46c0e54a44e3e18e1020" "d1b4990bd599f5e2186c3f75769a2c5334063e9e541e37514942c27975700370" "b54826e5d9978d59f9e0a169bbd4739dd927eead3ef65f56786621b53c031a7c" "100e7c5956d7bb3fd0eebff57fde6de8f3b9fafa056a2519f169f85199cc1c96" "a3fa4abaf08cc169b61dea8f6df1bbe4123ec1d2afeb01c17e11fdc31fc66379" "7e78a1030293619094ea6ae80a7579a562068087080e01c2b8b503b27900165c" "d2e9c7e31e574bf38f4b0fb927aaff20c1e5f92f72001102758005e53d77b8c9" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" default))
+   '("6b289bab28a7e511f9c54496be647dc60f5bd8f9917c9495978762b99d8c96a0" "93a0885d5f46d2aeac12bf6be1754faa7d5e28b27926b8aa812840fe7d0b7983" "75d3dde259ce79660bac8e9e237b55674b910b470f313cdf4b019230d01a982a" "10461a3c8ca61c52dfbbdedd974319b7f7fd720b091996481c8fb1dded6c6116" "151bde695af0b0e69c3846500f58d9a0ca8cb2d447da68d7fbf4154dcf818ebc" "6d589ac0e52375d311afaa745205abb6ccb3b21f6ba037104d71111e7e76a3fc" "fe666e5ac37c2dfcf80074e88b9252c71a22b6f5d2f566df9a7aa4f9bea55ef8" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "cd736a63aa586be066d5a1f0e51179239fe70e16a9f18991f6f5d99732cabb32" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "4697a2d4afca3f5ed4fdf5f715e36a6cac5c6154e105f3596b44a4874ae52c45" "1c082c9b84449e54af757bcae23617d11f563fc9f33a832a8a2813c4d7dfb652" "8aca557e9a17174d8f847fb02870cb2bb67f3b6e808e46c0e54a44e3e18e1020" "d1b4990bd599f5e2186c3f75769a2c5334063e9e541e37514942c27975700370" "b54826e5d9978d59f9e0a169bbd4739dd927eead3ef65f56786621b53c031a7c" "100e7c5956d7bb3fd0eebff57fde6de8f3b9fafa056a2519f169f85199cc1c96" "a3fa4abaf08cc169b61dea8f6df1bbe4123ec1d2afeb01c17e11fdc31fc66379" "7e78a1030293619094ea6ae80a7579a562068087080e01c2b8b503b27900165c" "d2e9c7e31e574bf38f4b0fb927aaff20c1e5f92f72001102758005e53d77b8c9" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" "bb08c73af94ee74453c90422485b29e5643b73b05e8de029a6909af6a3fb3f58" "628278136f88aa1a151bb2d6c8a86bf2b7631fbea5f0f76cba2a0079cd910f7d" default))
  '(dashboard-image-banner-max-height 250)
  '(dashboard-image-banner-max-width 250)
  '(elfeed-show-unique-buffers t)
@@ -59,6 +64,25 @@
  '(fci-rule-color "#373b41")
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
  '(frame-background-mode 'dark)
+ '(highlight-changes-colors '("#d33682" "#6c71c4"))
+ '(highlight-symbol-colors
+   (--map
+    (solarized-color-blend it "#002b36" 0.25)
+    '("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2")))
+ '(highlight-symbol-foreground-color "#93a1a1")
+ '(highlight-tail-colors
+   '(("#073642" . 0)
+     ("#546E00" . 20)
+     ("#00736F" . 30)
+     ("#00629D" . 50)
+     ("#7B6000" . 60)
+     ("#8B2C02" . 70)
+     ("#93115C" . 85)
+     ("#073642" . 100)))
+ '(hl-bg-colors
+   '("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00"))
+ '(hl-fg-colors
+   '("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36"))
  '(hl-paren-colors '("Cyan" "Gold" "Red"))
  '(hl-sexp-background-color "#efebe9")
  '(hl-todo-keyword-faces
@@ -94,6 +118,7 @@
  '(jdee-db-active-breakpoint-face-colors (cons "#0d0f11" "#7FC1CA"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#0d0f11" "#A8CE93"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#0d0f11" "#899BA6"))
+ '(magit-diff-use-overlays nil)
  '(menu-bar-mode nil)
  '(neo-cwd-line-style 'button)
  '(neo-show-slash-for-folder nil)
@@ -102,6 +127,8 @@
  '(neo-window-position 'left)
  '(neo-window-width 28)
  '(newsticker-url-list '(("大内密谈" "http://rss.lizhi.fm/rss/14275.xml" nil nil nil)))
+ '(nrepl-message-colors
+   '("#dc322f" "#cb4b16" "#b58900" "#546E00" "#B4C342" "#00629D" "#2aa198" "#d33682" "#6c71c4"))
  '(nyan-cat-face-number 2)
  '(nyan-minimum-window-width 20)
  '(nyan-mode t)
@@ -111,13 +138,15 @@
  '(org-journal-dir "~/org/entries")
  '(org-pomodoro-ask-upon-killing nil)
  '(package-selected-packages
-   '(company-box pinboard-popular pyim multi-term spotlight fireplace emacs-fireplace wttrin pacmacs nyan-mode ace-popup-menu hackernews counsel-osx-app ivy-posframe posframe frog-jump-buffer dracula-theme xwidgets move-text link-hint indent-guide helpful fancy-battery diredfl column-enforce-mode buffer-move browse-at-remote beacon podcaster lsp-python-ms emms geiser wanderlust proxy-mode sudoku 2048-game bongo counsel-projectile ivy-rich all-the-icons-ivy restart-emacs markdown-preview-mode lsp-ui company-lsp org-notebook doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex chinese-fonts-setup youdao-dictionary dashboard django-mode alert async auto-complete auto-yasnippet company dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar))
+   '(counsel-world-clock company-box pinboard-popular multi-term spotlight fireplace emacs-fireplace wttrin pacmacs nyan-mode ace-popup-menu hackernews counsel-osx-app ivy-posframe posframe frog-jump-buffer dracula-theme xwidgets move-text link-hint indent-guide helpful fancy-battery diredfl column-enforce-mode buffer-move browse-at-remote beacon podcaster lsp-python-ms emms geiser wanderlust proxy-mode sudoku 2048-game bongo counsel-projectile ivy-rich all-the-icons-ivy restart-emacs markdown-preview-mode lsp-ui company-lsp doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex chinese-fonts-setup youdao-dictionary dashboard django-mode alert async auto-complete auto-yasnippet company dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e"))
  '(podcaster-feeds-urls
-   '("http://www.ximalaya.com/album/5574153.xml" "http://rss.lizhi.fm/rss/14275.xml" "http://teahour.fm/feed.xml"))
+   '("http://www.ximalaya.com/album/5574153.xml" "http://rss.lizhi.fm/rss/14275.xml"))
  '(podcaster-mp3-player "itunes")
  '(popwin-mode t)
  '(popwin:adjust-other-windows nil)
+ '(pos-tip-background-color "#073642")
+ '(pos-tip-foreground-color "#93a1a1")
  '(proxy-mode-socks-proxy '("Default server" "124.156.188.197" 3344 5))
  '(pyim-page-length 8)
  '(search-web-default-browser 'browse-url-default-browser)
@@ -133,6 +162,7 @@
  '(search-web-external-browser 'browse-url-default-browser)
  '(search-web-in-emacs-browser 'browse-url-default-browser)
  '(show-paren-mode t)
+ '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(smiley-style 'medium)
  '(speedbar-default-position 'right)
  '(speedbar-show-unknown-files t)
@@ -146,6 +176,7 @@
  '(tool-bar-mode nil)
  '(tramp-verbose 0)
  '(vc-annotate-background nil)
+ '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map
    '((20 . "#cc6666")
      (40 . "#de935f")
@@ -166,6 +197,12 @@
      (340 . "#f0c674")
      (360 . "#b5bd68")))
  '(vc-annotate-very-old-color nil)
+ '(weechat-color-list
+   '(unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83"))
+ '(xterm-color-names
+   ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
+ '(xterm-color-names-bright
+   ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"])
  '(youdao-dictionary-use-chinese-word-segmentation t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

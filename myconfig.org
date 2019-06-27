@@ -329,8 +329,7 @@
     (recentf-mode 1)
     (ido-mode 1)
     (setq recentf-max-menu-items 10)
-    (add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
-    (add-hook 'org-mode-hook 'display-line-numbers-mode);;显示行号
+    ;;(add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
     (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
     (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
     (fset 'yes-or-no-p 'y-or-n-p);;用y/s代替yes/no
@@ -338,6 +337,7 @@
     (prefer-coding-system 'utf-8)
     (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认
     (setq org-confirm-babel-evaluate nil);设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
+    (setq zone-when-idle 300)
 
     (org-babel-do-load-languages
      'org-babel-load-languages
@@ -660,19 +660,19 @@
 				))
 
     (setq org-todo-keywords
-	  '((type "年度(y!)" "月度(m!)" "|")
+	  '((type "Yearly(1!)" "Monthly(2!)" "|")
 	    (sequence "TODO(t!)"  "|" "DONE(d!)" "ABORT(a@/!)")
 	    ))
 
     (setq org-todo-keyword-faces
-	  '(("年度" . (:background "#20a0ff" :foreground "black" :weight bold))
-	    ("月度" . (:background "#9a5bbd" :foreground "black" :weight bold))
+	  '(("Yearly" . (:background "#20a0ff" :foreground "black" :weight bold))
+	    ("Monthly" . (:background "#9a5bbd" :foreground "black" :weight bold))
 	    ("TODO" . (:background "DarkOrange" :foreground "black" :weight bold))
 	    ("DONE" . (:background "Darkgreen" :foreground "black" :weight bold)) 
 	    ("ABORT" . (:background "gray" :foreground "black"))
 	    ))
 
-    (setq org-tag-alist '(("@work" . ?w) ("@study" . ?s) ("life" . ?l)))
+    (setq org-tag-alist '(("monthly" . ?m) ("yearly" . ?y)))
 
     ;; 优先级范围和默认任务的优先级
     (setq org-highest-priority ?A)
@@ -849,6 +849,10 @@
 	     ("C-x r b" . counsel-bookmark)
 	     ("C-x r D" . bookmark-delete)
 	     ))
+
+    (use-package counsel-world-clock
+      :ensure t
+      :defer t)
   #+END_SRC
 
 * Avy/Link
@@ -866,7 +870,8 @@
       :bind
       ("C-c l o" . link-hint-open-link)
       ("C-c l c" . link-hint-copy-link)
-      ("C-c l i" . org-insert-link))
+      ("C-c l i" . org-insert-link)
+      ("C-c l s" . org-store-link))
   #+END_SRC
 
 * Company
@@ -1236,7 +1241,7 @@
 	    (?? aw-show-dispatch-help))
       "List of actions for `aw-dispatch-default'."))
   #+END_SRC
-
+  
 * Bongo
 
   #+BEGIN_SRC emacs-lisp
@@ -1314,52 +1319,4 @@
 	     ("C-c C-d" . helpful-at-point)
 	     ("C-h F". helpful-function)
 	     ("C-h C" . helpful-command)))
-  #+END_SRC
-
-* Pyim
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package pyim
-      :ensure t
-      :demand t
-      :bind
-      (("C-\\" . toggle-input-method)
-       ("M-j" . pyim-convert-string-at-point) ;与 pyim-probe-dynamic-english 配合那
-       ("C-;" . pyim-delete-word-from-personal-buffer))
-
-      :config
-      (setq default-input-method "pyim")
-      ;; 拼音方案
-      (setq pyim-default-scheme 'quanpin)
-
-      ;; 设置 pyim 探针设置，这是 pyim 高级功能设置，可以实现 *无痛* 中英文切换 :
-      ;; 我自己使用的中英文动态切换规则是：
-      ;; 1. 光标只有在注释里面时，才可以输入中文。
-      ;; 2. 光标前是汉字字符时，才能输入中文。
-      ;; 3. 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文。
-      (setq-default pyim-english-input-switch-functions
-		    '(pyim-probe-dynamic-english
-		      pyim-probe-isearch-mode
-		      pyim-probe-program-mode
-		      pyim-probe-org-structure-template))
-
-      (setq-default pyim-punctuation-half-width-functions
-		    '(pyim-probe-punctuation-line-beginning
-		      pyim-probe-punctuation-after-punctuation))
-
-      ;; 开启拼音搜索功能
-      (pyim-isearch-mode 1)
-
-      ;; 使用 pupup-el 来绘制选词框, 如果用 emacs26, 建议设置
-      ;; 为 'posframe, 速度很快并且菜单不会变形，不过需要用户
-      ;; 手动安装 posframe 包。
-      (setq pyim-page-tooltip 'posframe)
-
-      ;; 选词框显示5个候选词
-      (setq pyim-page-length 5))
-
-    ;; 激活 basedict 拼音词库，五笔用户请继续阅读 README
-    (use-package pyim-basedict
-      :ensure t
-      :config (pyim-basedict-enable))
   #+END_SRC
