@@ -1,4 +1,4 @@
-(message "hello emacs")
+nnjk(message "hello emacs")
 "hello emacs"
 
 (defun hello-world (name)
@@ -230,7 +230,7 @@ Mon Apr  1 11:22:30 2019
 
 (setq org-agenda-custom-commands
       '(("h" "Agenda and Monthly tasks"
-         ((tag-todo "yearly")
-	  (tag-todo "monthly")
+         ((tags-todo "yearly")
+	  (tags-todo "monthly")
 	  (agenda "")
           ))))
