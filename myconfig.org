@@ -239,37 +239,6 @@
      (add-hook 'after-init-hook #'chunyang-scratch-restore)
    #+END_SRC
 
-** awesome-tab
-
-   #+BEGIN_SRC emacs-lisp
-     (use-package awesome-tab
-       :load-path "~/.emacs.d/site-lisp/awesome-tab"
-       :defer t
-       :init (setq awesome-tab-label-fixed-length 18)
-       :bind (("C-c <right>" . awesome-tab-forward)
-	      ("C-c <left>" . awesome-tab-backward)
-	      ("C-c <down>" . awesome-tab-forward-group)
-	      ("C-c <up>" . awesome-tab-backward-group))
-       :config
-       (awesome-tab-mode -1))
-
-     (defun awesome-tab-hide-tab (x)
-       (let ((name (format "%s" x)))
-	 (or
-	  (string-prefix-p "*epc" name)
-	  (string-prefix-p "*helm" name)
-	  (string-prefix-p "*Compile-Log*" name)
-	  (string-prefix-p "*lsp" name)
-	  (string-prefix-p "*Messages" name)
-	  (string-prefix-p "*dashboard" name)
-	  (string-prefix-p "*xwidget-log" name)
-	  (and (string-prefix-p "magit" name)
-		    (not (file-name-extension name)))
-	  )))
-
-     (awesome-tab-hide-tab t)
-   #+END_SRC
-
 ** delete-block
 
    #+BEGIN_SRC emacs-lisp
