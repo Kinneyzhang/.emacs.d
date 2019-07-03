@@ -229,8 +229,10 @@ Mon Apr  1 11:22:30 2019
 | Jenny   |     |     |     |     |
 
 (setq org-agenda-custom-commands
-      '(("h" "Agenda and Monthly tasks"
-         ((tags-todo "yearly")
-	  (tags-todo "monthly")
+      '(("b" "Agenda and Monthly tasks"
+         ((tags-todo "YEAR")
+	  (tags-todo "MONTH")
 	  (agenda "")
           ))))
+
+

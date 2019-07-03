@@ -15,6 +15,7 @@
    #+BEGIN_SRC emacs-lisp
      (use-package company-english-helper
        :load-path "~/.emacs.d/site-lisp/company-english-helper"
+       :defer t
        :bind (("C-x c e" . toggle-company-english-helper)))
    #+END_SRC
 
@@ -83,12 +84,25 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package aweshell
-       :load-path "./site-lisp/aweshell")
+       :load-path "~/.emacs.d/site-lisp/aweshell"
+       :defer 5)
    #+END_SRC
 
 ** print special symbol
 
    #+BEGIN_SRC emacs-lisp
+     (defun print-symbol-∞ ()
+       "print Infinit"
+       (interactive)
+       (insert "∞"))
+     (global-set-key (kbd "C-c s i f ") 'print-symbol-∞)
+
+     (defun print-symbol-ε ()
+       "print Epsilon"
+       (interactive)
+       (insert "ε"))
+     (global-set-key (kbd "C-c s e p") 'print-symbol-ε)
+
      (defun print-symbol-α ()
        "print Alpha"
        (interactive)
@@ -186,20 +200,24 @@
 
    #+BEGIN_SRC emacs-lisp
      (use-package all-the-icons
-       :load-path "~/.emacs.d/site-lisp/all-the-icons")
+       :load-path "~/.emacs.d/site-lisp/all-the-icons"
+       :defer 5)
    #+END_SRC
 
 ** leetcode
 
    #+BEGIN_SRC emacs-lisp
      (use-package furl
-       :ensure t)
+       :ensure t
+       :defer 5)
 
      (use-package graphql
-       :ensure t)
+       :ensure t
+       :defer 5)
 
      (use-package leetcode
        :load-path "~/.emacs.d/site-lisp/leetcode"
+       :defer 5
        :init (setq leetcode-account "kinneyzhang666@gmail.com"))
    #+END_SRC
 ** scratch-save
@@ -226,13 +244,14 @@
    #+BEGIN_SRC emacs-lisp
      (use-package awesome-tab
        :load-path "~/.emacs.d/site-lisp/awesome-tab"
+       :defer t
        :init (setq awesome-tab-label-fixed-length 18)
        :bind (("C-c <right>" . awesome-tab-forward)
 	      ("C-c <left>" . awesome-tab-backward)
 	      ("C-c <down>" . awesome-tab-forward-group)
 	      ("C-c <up>" . awesome-tab-backward-group))
        :config
-       (awesome-tab-mode 1))
+       (awesome-tab-mode -1))
 
      (defun awesome-tab-hide-tab (x)
        (let ((name (format "%s" x)))
@@ -256,13 +275,16 @@
    #+BEGIN_SRC emacs-lisp
      (use-package delete-block
        :load-path "~/.emacs.d/site-lisp/delete-block"
-       :defer t
+       :defer 5
        :bind (("C-d" . delete-block-forward)
 	      ("<C-backspace>" . delete-block-backward)))
 
    #+END_SRC
 * Key bindings
   #+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "<f9> I") 'bh/punch-in)
+    (global-set-key (kbd "<f9> O") 'bh/punch-out)
+    (global-set-key (kbd "<f12>") 'org-agenda)
 
     (global-set-key (kbd "C-x -") 'split-window-below)
     (global-set-key (kbd "C-x /") 'split-window-right)
@@ -294,8 +316,8 @@
 
     ;;代码缩进
     (add-hook 'prog-mode-hook '(lambda ()
-                                 (local-set-key (kbd "C-M-\\")
-                                                'indent-region-or-buffer)))
+				 (local-set-key (kbd "C-M-\\")
+						'indent-region-or-buffer)))
 
     ;; 延迟加载
     (with-eval-after-load 'dired
@@ -320,6 +342,7 @@
 * Better-defaults
   #+BEGIN_SRC emacs-lisp
     ;;"some better defaults"
+    (global-set-key (kbd "<s-backspace>") 'universal-argument)
     (setq inhibit-startup-message t)
     (setq inhibit-startup-screen t)
     (setq ring-bell-function 'ignore);;消除滑动到底部或顶部时的声音
@@ -338,6 +361,7 @@
     (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认
     (setq org-confirm-babel-evaluate nil);设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
     (setq zone-when-idle 300)
+    (setq exec-path-from-shell-check-startup-files nil)
 
     (org-babel-do-load-languages
      'org-babel-load-languages
@@ -394,11 +418,12 @@
 
     (use-package restart-emacs
       :ensure t
-      :defer t
+      :defer 5
       :bind (("C-x C-c" . restart-emacs)))
 
     (use-package beacon
       :ensure t
+      :defer 5
       :config (beacon-mode 1))
   #+END_SRC
 
@@ -532,7 +557,7 @@
 
     (use-package neotree
       :ensure t
-      :defer t
+      :defer 5
       :bind (("<f8>" . neotree-toggle))
       :config
       (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
@@ -579,23 +604,20 @@
       (add-hook 'prog-mode-hook 'indent-guide-mode)
       (add-hook 'org-mode-hook 'indent-guide-mode)
       (setq indent-guide-delay 0)
+      (setq indent-guide-recursive nil)
       (setq indent-guide-char "|"))
 
     (use-package nyan-mode
       :ensure t
-      :defer t
+      :defer 5
       :init (setq mode-line-format (list '(:eval (list (nyan-create))))))
 
     (use-package wttrin
       :ensure t
-      :defer t
+      :defer 5
       :init
       (setq wttrin-default-cities '("Nanjing" "Huaian" "Hangzhou"))
       (setq wttrin-default-accept-language '("Accept-Language" . "zh-CN")))
-
-    (use-package fireplace
-      :ensure t
-      :defer t)
   #+END_SRC
 * Org-mode
   #+BEGIN_SRC emacs-lisp
@@ -605,52 +627,47 @@
       (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
     (setq org-src-fontify-natively t)
-    (setq org-agenda-files (list "~/org/refile.org" "~/org/gtd.org"))
+    (setq org-agenda-files '("~/org"))
 
     ;; Set to the location of your Org files on your local system
     (setq org-directory "~/org")
     (setq org-default-notes-file "~/org/refile.org")
 
-    ;;启动时加载org-agenda
-    ;; (add-hook 'after-init-hook 'org-agenda-list)
-
-    ;; (setq org-capture-templates 'myconfig)
-    ;; (setq org-capture-templates
-    ;;       '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-    ;; 	 "* TODO %?\n  %i\n"
-    ;; 	 :empty-lines 1)
-    ;; 	("d" "Diary" entry (file+datetree "~/org/diary.org")
-    ;; 	 "* %?\nEntered on %U\n %i\n")
-    ;; 	))
-
     ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
     (setq org-capture-templates
 	  (quote (("t" "todo" entry (file "~/org/refile.org")
-		   "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+		   "* TODO %?\n%U\n" :clock-in t :clock-resume t
+		   :empty-lines 1)
 		  ("r" "respond" entry (file "~/org/refile.org")
-		   "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n%a\n" :clock-in t :clock-resume t :immediate-finish t)
+		   "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t :immediate-finish t
+		   :empty-lines 1)
 		  ("n" "note" entry (file "~/org/refile.org")
-		   "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+		   "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t
+		   :empty-lines 1)
 		  ("j" "Journal" entry (file+datetree "~/org/diary.org")
 		   "* %?\n Entered on %U\n" :clock-in t :clock-resume t)
 		  ("w" "org-protocol" entry (file "~/org/refile.org")
-		   "* TODO Review %c\n%U\n" :immediate-finish t)
+		   "* TODO Review %c\n%U\n" :immediate-finish t
+		   :empty-lines 1)
 		  ("m" "Meeting" entry (file "~/org/refile.org")
-		   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t)
+		   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t
+		   :empty-lines 1)
 		  ("p" "Phone call" entry (file "~/org/refile.org")
-		   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t)
+		   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t
+		   :empty-lines 1)
 		  ("h" "Habit" entry (file "~/org/refile.org")
-		   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"))))
+		   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"
+		   :empty-lines 1))))
 
-    ;; Remove empty LOGBOOK drawers on clock out
-    (defun my/remove-empty-drawer-on-clock-out ()
+
+    (defun bh/remove-empty-drawer-on-clock-out ()
+      "Remove empty LOGBOOK drawers on clock out"
       (interactive)
       (save-excursion
 	(beginning-of-line 0)
-	(org-remove-empty-drawer-at "LOGBOOK" (point))))
+	(org-remove-empty-drawer-at (point))))
 
-    (add-hook 'org-clock-out-hook 'my/remove-empty-drawer-on-clock-out 'append)
-
+    (add-hook 'org-clock-out-hook 'bh/remove-empty-drawer-on-clock-out 'append)
 
     ;; org refile config
     ;;==================================================
@@ -678,31 +695,20 @@
 					    ; Use the current window for indirect buffer display
     (setq org-indirect-buffer-display 'current-window)
 
-    ;;;; Refile settings
+	    ;;;; Refile settings
 					    ; Exclude DONE state tasks from refile targets
-    (defun my/verify-refile-target ()
+    (defun bh/verify-refile-target ()
       "Exclude todo keywords with a done state from refile targets"
       (not (member (nth 2 (org-heading-components)) org-done-keywords)))
 
-    (setq org-refile-target-verify-function 'my/verify-refile-target)
+    (setq org-refile-target-verify-function 'bh/verify-refile-target)
 
-    ;; ==================================================
-    ;;==================================================
+    ;;; ==================================================
+    ;;; ==================================================
 
     (setq org-agenda-span 'day)
 
     (setq org-stuck-projects (quote ("" nil nil "")))
-
-    (defun bh/find-project-task ()
-      "Move point to the parent (project) task if any"
-      (save-restriction
-	(widen)
-	(let ((parent-task (save-excursion (org-back-to-heading 'invisible-ok) (point))))
-	  (while (org-up-heading-safe)
-	    (when (member (nth 2 (org-heading-components)) org-todo-keywords-1)
-	      (setq parent-task (point))))
-	  (goto-char parent-task)
-	  parent-task)))
 
     (defun bh/is-project-p ()
       "Any task with a todo keyword subtask"
@@ -958,7 +964,9 @@
 	    nil
 	  next-headline)))
 
-    ;;--------------------------------------------------
+    (defun org-is-habit-p ())
+
+    ;;; ==================================================
 
     ;; Do not dim blocked tasks
     (setq org-agenda-dim-blocked-tasks nil)
@@ -968,7 +976,17 @@
 
     ;; Custom agenda command definitions
     (setq org-agenda-custom-commands
-	  (quote (("N" "Notes" tags "NOTE"
+	  (quote (("b" "Bujo Agenda"
+		   ((tags-todo "YEAR"
+			       ((org-agenda-overriding-header "Yearly Log")))
+		    (tags-todo "MONTH"
+			       ((org-agenda-overriding-header "Monthly Log")))
+		    (agenda "" nil)
+		    (tags "REFILE"
+			      ((org-agenda-overriding-header "Task To Refile!")
+			       (org-tags-match-list-sublevels nil))))
+		   )
+		  ("N" "Notes" tags "NOTE"
 		   ((org-agenda-overriding-header "Notes")
 		    (org-tags-match-list-sublevels t)))
 		  ("h" "Habits" tags-todo "STYLE=\"habit\""
@@ -1068,8 +1086,20 @@
 		  ("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
 		  ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
+    ;; filtering
+    (defun bh/org-auto-exclude-function (tag)
+      "Automatic task exclusion in the agenda with / RET"
+      (and (cond
+	    ((string= tag "hold")
+	     t)
+	    ((string= tag "farm")
+	     t))
+	   (concat "-" tag)))
 
-    ; Tags with fast selection keys
+    (setq org-agenda-auto-exclude-function 'bh/org-auto-exclude-function)
+
+
+    ;; Tags with fast selection keys
     (setq org-tag-alist (quote ((:startgroup)
 				("@errand" . ?e)
 				("@office" . ?o)
@@ -1085,13 +1115,17 @@
 				("NORANG" . ?N)
 				("crypt" . ?E)
 				("NOTE" . ?n)
+				(:startgroup)
+				("MONTH" . ?m)
+				("YEAR" . ?y)
+				(:endgroup)
 				("CANCELLED" . ?c)
 				("FLAGGED" . ??))))
 
-    ; Allow setting single tags without the menu
+					    ; Allow setting single tags without the menu
     (setq org-fast-tag-selection-single-key (quote expert))
 
-    ; For tag searches ignore tasks with scheduled and deadline dates
+					    ; For tag searches ignore tasks with scheduled and deadline dates
     (setq org-agenda-tags-todo-honor-ignore-options t)
 
     ;; cycle through the todo states but skip setting timestamps.
@@ -1111,6 +1145,160 @@
 	    (?E . (:background "SkyBlue" :foreground "black" :weight bold))
 	    ))
 
+
+    ;; =====================clock setup=============================
+
+    ;; Resume clocking task when emacs is restarted
+    (org-clock-persistence-insinuate)
+    ;;
+    ;; Show lot of clocking history so it's easy to pick items off the C-F11 list
+    (setq org-clock-history-length 23)
+    ;; Resume clocking task on clock-in if the clock is open
+    (setq org-clock-in-resume t)
+    ;; Change tasks to NEXT when clocking in
+    (setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
+    ;; Separate drawers for clocking and logs
+    (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
+    ;; Save clock data and state changes and notes in the LOGBOOK drawer
+    (setq org-clock-into-drawer t)
+    ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+    (setq org-clock-out-remove-zero-time-clocks t)
+    ;; Clock out when moving task to a done state
+    (setq org-clock-out-when-done t)
+    ;; Save the running clock and all clock history when exiting Emacs, load it on startup
+    (setq org-clock-persist t)
+    ;; Do not prompt to resume an active clock
+    (setq org-clock-persist-query-resume nil)
+    ;; Enable auto clock resolution for finding open clocks
+    (setq org-clock-auto-clock-resolution (quote when-no-clock-is-running))
+    ;; Include current clocking task in clock reports
+    (setq org-clock-report-include-clocking-task t)
+
+    (setq bh/keep-clock-running nil)
+
+    (defun bh/clock-in-to-next (kw)
+      "Switch a task from TODO to NEXT when clocking in.
+	Skips capture tasks, projects, and subprojects.
+	Switch projects and subprojects from NEXT back to TODO"
+      (when (not (and (boundp 'org-capture-mode) org-capture-mode))
+	(cond
+	 ((and (member (org-get-todo-state) (list "TODO"))
+	       (bh/is-task-p))
+	  "NEXT")
+	 ((and (member (org-get-todo-state) (list "NEXT"))
+	       (bh/is-project-p))
+	  "TODO"))))
+
+    (defun bh/find-project-task ()
+      "Move point to the parent (project) task if any"
+      (save-restriction
+	(widen)
+	(let ((parent-task (save-excursion (org-back-to-heading 'invisible-ok) (point))))
+	  (while (org-up-heading-safe)
+	    (when (member (nth 2 (org-heading-components)) org-todo-keywords-1)
+	      (setq parent-task (point))))
+	  (goto-char parent-task)
+	  parent-task)))
+
+    (defun bh/punch-in (arg)
+      "Start continuous clocking and set the default task to the
+	selected task.  If no task is selected set the Organization task
+	as the default task."
+      (interactive "p")
+      (setq bh/keep-clock-running t)
+      (if (equal major-mode 'org-agenda-mode)
+	  ;;
+	  ;; We're in the agenda
+	  ;;
+	  (let* ((marker (org-get-at-bol 'org-hd-marker))
+		 (tags (org-with-point-at marker (org-get-tags-at))))
+	    (if (and (eq arg 4) tags)
+		(org-agenda-clock-in '(16))
+	      (bh/clock-in-organization-task-as-default)))
+	;;
+	;; We are not in the agenda
+	;;
+	(save-restriction
+	  (widen)
+					    ; Find the tags on the current task
+	  (if (and (equal major-mode 'org-mode) (not (org-before-first-heading-p)) (eq arg 4))
+	      (org-clock-in '(16))
+	    (bh/clock-in-organization-task-as-default)))))
+
+    (defun bh/punch-out ()
+      (interactive)
+      (setq bh/keep-clock-running nil)
+      (when (org-clock-is-active)
+	(org-clock-out))
+      (org-agenda-remove-restriction-lock))
+
+    (defun bh/clock-in-default-task ()
+      (save-excursion
+	(org-with-point-at org-clock-default-task
+	  (org-clock-in))))
+
+    (defun bh/clock-in-parent-task ()
+      "Move point to the parent (project) task if any and clock in"
+      (let ((parent-task))
+	(save-excursion
+	  (save-restriction
+	    (widen)
+	    (while (and (not parent-task) (org-up-heading-safe))
+	      (when (member (nth 2 (org-heading-components)) org-todo-keywords-1)
+		(setq parent-task (point))))
+	    (if parent-task
+		(org-with-point-at parent-task
+		  (org-clock-in))
+	      (when bh/keep-clock-running
+		(bh/clock-in-default-task)))))))
+
+    (defvar bh/organization-task-id "eb155a82-92b2-4f25-a3c6-0304591af2f9")
+
+    (defun bh/clock-in-organization-task-as-default ()
+      (interactive)
+      (org-with-point-at (org-id-find bh/organization-task-id 'marker)
+	(org-clock-in '(16))))
+
+    (defun bh/clock-out-maybe ()
+      (when (and bh/keep-clock-running
+		 (not org-clock-clocking-in)
+		 (marker-buffer org-clock-default-task)
+		 (not org-clock-resolving-clocks-due-to-idleness))
+	(bh/clock-in-parent-task)))
+
+    (add-hook 'org-clock-out-hook 'bh/clock-out-maybe 'append)
+
+    (setq org-time-stamp-rounding-minutes (quote (1 1)))
+
+    (setq org-agenda-clock-consistency-checks
+	  (quote (:max-duration "4:00"
+				:min-duration 0
+				:max-gap 0
+				:gap-ok-around ("4:00"))))
+
+    ;;; ==================================================
+
+    ;;; =================Time Reporting and Tracking=================================
+    (setq org-clock-out-remove-zero-time-clocks t)
+
+    ;; Agenda clock report parameters
+    (setq org-agenda-clockreport-parameter-plist
+	  (quote (:link t :maxlevel 5 :fileskip0 t :compact t :narrow 80)))
+
+    ;; Set default column view headings: Task Effort Clock_Summary
+    (setq org-columns-default-format "%80ITEM(Task) %10Effort(Effort){:} %10CLOCKSUM")
+
+    ;; global Effort estimate values
+    ;; global STYLE property values for completion
+    (setq org-global-properties (quote (("Effort_ALL" . "0:15 0:30 0:45 1:00 2:00 3:00 4:00 5:00 6:00 0:00")
+					("STYLE_ALL" . "habit"))))
+
+    ;; Agenda log mode items to display (closed and state changes by default)
+    (setq org-agenda-log-mode-items (quote (closed state)))
+
+    ;;; ==================================================
+
+    ;; ==================================================
     ;; 中文换行问题
     (add-hook 'org-mode-hook 
 	      (lambda () (setq truncate-lines nil)))
@@ -1163,19 +1351,30 @@
 
     (use-package calfw-org
       :ensure t
-      :defer t
+      :defer 5
       :bind (("C-x cc" . my-open-calendar)))
 
     (use-package calfw
       :ensure t
-      :defer t)
+      :defer 5)
 
     (require 'calfw-org)
     (require 'calfw)
 
     (use-package move-text
       :ensure t
+      :defer 5
       :config (move-text-default-bindings))
+
+    (use-package htmlize
+      :ensure t
+      :defer 5)
+
+     (use-package idle-org-agenda
+	 :after org-agenda
+	 :ensure t
+	 :init (setq idle-org-agenda-interval 300)
+	 :config (idle-org-agenda-mode))
   #+END_SRC
 
 * Magit
@@ -1183,7 +1382,6 @@
   #+BEGIN_SRC emacs-lisp
     (use-package magit
       :ensure t
-      :defer t
       :bind (("C-x g" . magit-status)))
   #+END_SRC
 
@@ -1229,7 +1427,7 @@
 
     (use-package swiper
       :ensure t
-      :defer t
+      :defer 5
       :bind (("C-s" . swiper))
       :init (setq ivy-use-virtual-buffers t)
       :config
@@ -1246,11 +1444,11 @@
 
     (use-package counsel-osx-app
       :ensure t
-      :defer t)
+      :defer 5)
 
     (use-package spotlight
       :ensure t
-      :defer t)
+      :defer 5)
 
     (use-package all-the-icons-ivy
       :ensure t
@@ -1306,7 +1504,7 @@
 
     (use-package counsel-world-clock
       :ensure t
-      :defer t)
+      :defer 5)
   #+END_SRC
 
 * Avy/Link
@@ -1314,13 +1512,13 @@
   #+BEGIN_SRC emacs-lisp
     (use-package avy
       :ensure t
-      :defer t
+      :defer 5
       :bind (("M-g c" . avy-goto-char-timer)
 	     ("M-g l" . avy-goto-line)))
 
     (use-package link-hint
       :ensure t
-      :defer t
+      :defer 5
       :bind
       ("C-c l o" . link-hint-open-link)
       ("C-c l c" . link-hint-copy-link)
@@ -1332,6 +1530,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package company
       :ensure t
+      :defer 5
       :config
       (setq company-idle-delay 0)
       (setq company-minimum-prefix-length 3)
@@ -1388,7 +1587,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package web-mode
       :ensure t
-      :defer t
+      :defer 5
       :config
       (add-hook 'web-mode-hook 'my-web-mode-indent-setup)
       (add-hook 'web-mode-hook 'my-toggle-web-indent))
@@ -1449,6 +1648,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
       :ensure t
+      :defer t
       :init (setq yas-snippet-dirs
 		  '("~/.emacs.d/snippets"))
       :config
@@ -1457,7 +1657,7 @@
 
   #+END_SRC
 
-* key-Whichl
+* key-Which
 
   #+BEGIN_SRC emacs-lisp
     (use-package which-key
@@ -1491,6 +1691,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package flycheck
       :ensure t
+      :defer 5
       :init
       (progn
 	(define-fringe-bitmap 'my-flycheck-fringe-indicator
@@ -1542,7 +1743,8 @@
 * Popwin
   #+BEGIN_SRC emacs-lisp
     (use-package popwin
-      :ensure t)
+      :ensure t
+      :defer 5)
   #+END_SRC
   
 * Windows & Buffer
@@ -1562,7 +1764,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package elpy
       :ensure t
-      :defer t
+      :defer 5
       :config
       (add-to-list 'package-archives
 		   '("elpy" . "https://jorgenschaefer.github.io/packages/"))
@@ -1590,10 +1792,11 @@
   #+BEGIN_SRC emacs-lisp
     (use-package youdao-dictionary
       :ensure t
-      :defer t
+      :defer 5
       :init
       (setq url-automatic-caching t) ;; Enable Cache
-      :bind (("C-c y y" . youdao-dictionary-search-at-point+)))
+      :bind (("C-c y y" . youdao-dictionary-search-at-point+)
+	     ("C-c y i" . youdao-dictionary-search-from-input)))
   #+END_SRC
 
 * Xwidget-webkit
@@ -1608,7 +1811,7 @@
 
     (use-package search-web
       :ensure t
-      :defer t
+      :defer 5
       :bind (("C-C w u" . browse-url)
 	     ("C-c w w" . search-web)
 	     ("C-c w p" . search-web-at-point)
@@ -1616,7 +1819,7 @@
 
     (use-package browse-at-remote
       :ensure t
-      :defer t
+      :defer 5
       :bind ("C-c w g" . browse-at-remote))
   #+END_SRC
 
@@ -1625,13 +1828,13 @@
   #+BEGIN_SRC emacs-lisp
     (use-package lsp-mode
       :ensure t
-      :defer t
+      :defer 5
       :commands lsp)
 
     ;; optionally
     (use-package lsp-ui
       :ensure t
-      :defer t
+      :defer 5
       :commands lsp-ui-mode)
 
     ;; (use-package company-lsp
@@ -1644,7 +1847,7 @@
 
     (use-package lsp-python-ms
       :ensure t
-      :defer t
+      :defer 5
       :hook (python-mode . lsp)
       :config
 
@@ -1661,7 +1864,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package markdown-mode
       :ensure t
-      :defer t
+      :defer 5
       :mode (("README\\.md\\'" . gfm-mode)
 	     ("\\.md\\'" . markdown-mode)
 	     ("\\.markdown\\'" . markdown-mode))
@@ -1701,17 +1904,12 @@
   #+BEGIN_SRC emacs-lisp
     (use-package bongo
       :ensure t
-      :defer t
       :bind (("C-c m" . bongo-playlist))
+      :init (setq bongo-default-directory "~/Music")
       :config
-      (setq bongo-default-directory "~/Music/网易云音乐"))
-
-    (use-package soundcloud
-      :ensure t
-      :config
-      (require 'emms-setup)
-      (emms-standard)
-      (emms-default-players))
+      (progn
+	(bongo-playlist)
+	(bongo-insert-directory "网易云音乐")))
   #+END_SRC
 
 * Email
@@ -1735,7 +1933,8 @@
 
   #+BEGIN_SRC emacs-lisp
     (use-package podcaster
-      :ensure t)
+      :ensure t
+      :defer 5)
   #+END_SRC
 
 * Hydra
@@ -1743,7 +1942,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package hydra
       :ensure t
-      :defer t)
+      :defer 5)
 
     (defhydra hydra-launch (:color blue)
        "Launch"
@@ -1765,7 +1964,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package helpful
       :ensure t
-      :defer t
+      :defer 5
       :bind (("C-h f" . helpful-callable)
 	     ("C-h v" . helpful-variable)
 	     ("C-h k" . helpful-key)
