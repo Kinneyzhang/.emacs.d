@@ -102,6 +102,7 @@
      ("XXXX" . "#dc752f")
      ("???" . "#dc752f")))
  '(idle-org-agenda-interval 300)
+ '(idle-org-agenda-key "b")
  '(imaxima-bg-color "black")
  '(imaxima-equation-color "Green3")
  '(imaxima-fg-color "DarkGreen")
@@ -135,15 +136,14 @@
  '(nyan-mode t)
  '(nyan-wavy-trail nil)
  '(org-agenda-files
-   '("~/.emacs.d/myconfig.org" "/Users/kinney/org/diary.org" "/Users/kinney/org/gtd.org" "/Users/kinney/org/note.org" "/Users/kinney/org/refile.org"))
+   '("/Users/kinney/org/inbox.org" "/Users/kinney/org/diary.org" "/Users/kinney/org/gtd.org" "/Users/kinney/org/note.org"))
  '(org-agenda-window-setup 'current-window)
- '(org-journal-dir "~/org/entries")
  '(org-pomodoro-ask-upon-killing nil)
  '(package-selected-packages
-   '(idle-org-agenda htmlize soundcloud counsel-world-clock company-box pinboard-popular multi-term spotlight emacs-fireplace wttrin pacmacs nyan-mode ace-popup-menu hackernews counsel-osx-app ivy-posframe posframe frog-jump-buffer dracula-theme xwidgets move-text link-hint indent-guide helpful fancy-battery diredfl column-enforce-mode buffer-move browse-at-remote beacon podcaster lsp-python-ms emms geiser wanderlust proxy-mode sudoku 2048-game bongo counsel-projectile ivy-rich all-the-icons-ivy restart-emacs markdown-preview-mode lsp-ui company-lsp doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex chinese-fonts-setup youdao-dictionary dashboard django-mode alert async auto-complete auto-yasnippet company dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar))
+   '(paredit circe idle-org-agenda htmlize soundcloud counsel-world-clock company-box pinboard-popular multi-term spotlight emacs-fireplace wttrin pacmacs nyan-mode ace-popup-menu hackernews counsel-osx-app ivy-posframe posframe frog-jump-buffer dracula-theme xwidgets move-text link-hint indent-guide helpful fancy-battery diredfl column-enforce-mode buffer-move browse-at-remote beacon podcaster lsp-python-ms emms geiser wanderlust proxy-mode sudoku 2048-game bongo counsel-projectile ivy-rich all-the-icons-ivy restart-emacs markdown-preview-mode lsp-ui company-lsp doom-modeline org-gcal graphql furl calfw calfw-org material-theme doom-themes search-web guess-word emmet-mode neotree all-the-icons-dired spacemacs-theme magit smex chinese-fonts-setup youdao-dictionary dashboard django-mode alert async auto-complete auto-yasnippet company dash epl flycheck hungry-delete iedit ivy js2-mode js2-refactor nodejs-repl org-projectile org-bullets package-build pkg-info popup popwin reveal-in-osx-finder ruby-hash-syntax smartparens swiper use-package web-mode which-key window-numbering yasnippet sr-speedbar))
  '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e"))
  '(podcaster-feeds-urls
-   '("http://storyfm.cn/feed/episodes" "http://www.ximalaya.com/album/5574153.xml" "http://rss.lizhi.fm/rss/14275.xml"))
+   '("http://storyfm.cn/feed/episodes" "http://www.ximalaya.com/album/5574153.xml"))
  '(podcaster-mp3-player "itunes")
  '(popwin-mode t)
  '(popwin:adjust-other-windows nil)

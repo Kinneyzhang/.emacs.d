@@ -251,6 +251,8 @@
    #+END_SRC
 * Key bindings
   #+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-c t v") 'org-tags-view)
+
     (global-set-key (kbd "<f9> I") 'bh/punch-in)
     (global-set-key (kbd "<f9> O") 'bh/punch-out)
     (global-set-key (kbd "<f12>") 'org-agenda)
@@ -331,6 +333,7 @@
     (setq org-confirm-babel-evaluate nil);设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
     (setq zone-when-idle 300)
     (setq exec-path-from-shell-check-startup-files nil)
+    (setq epg-gpg-program "gpg2")
 
     (org-babel-do-load-languages
      'org-babel-load-languages
@@ -600,31 +603,31 @@
 
     ;; Set to the location of your Org files on your local system
     (setq org-directory "~/org")
-    (setq org-default-notes-file "~/org/refile.org")
+    (setq org-default-notes-file "~/org/inbox.org")
 
     ;; Capture templates for: TODO tasks, Notes, appointments, phone calls, meetings, and org-protocol
     (setq org-capture-templates
-	  (quote (("t" "todo" entry (file "~/org/refile.org")
+	  (quote (("t" "todo" entry (file "~/org/inbox.org")
 		   "* TODO %?\n%U\n" :clock-in t :clock-resume t
 		   :empty-lines 1)
-		  ("r" "respond" entry (file "~/org/refile.org")
+		  ("r" "respond" entry (file "~/org/inbox.org")
 		   "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t :immediate-finish t
 		   :empty-lines 1)
-		  ("n" "note" entry (file "~/org/refile.org")
+		  ("n" "note" entry (file "~/org/inbox.org")
 		   "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t
 		   :empty-lines 1)
 		  ("j" "Journal" entry (file+datetree "~/org/diary.org")
 		   "* %?\n Entered on %U\n" :clock-in t :clock-resume t)
-		  ("w" "org-protocol" entry (file "~/org/refile.org")
+		  ("w" "org-protocol" entry (file "~/org/inbox.org")
 		   "* TODO Review %c\n%U\n" :immediate-finish t
 		   :empty-lines 1)
-		  ("m" "Meeting" entry (file "~/org/refile.org")
+		  ("m" "Meeting" entry (file "~/org/inbox.org")
 		   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t
 		   :empty-lines 1)
-		  ("p" "Phone call" entry (file "~/org/refile.org")
+		  ("p" "Phone call" entry (file "~/org/inbox.org")
 		   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t
 		   :empty-lines 1)
-		  ("h" "Habit" entry (file "~/org/refile.org")
+		  ("h" "Habit" entry (file "~/org/inbox.org")
 		   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"
 		   :empty-lines 1))))
 
@@ -945,16 +948,11 @@
 
     ;; Custom agenda command definitions
     (setq org-agenda-custom-commands
-	  (quote (("b" "Bujo Agenda"
-		   ((tags-todo "YEAR"
-			       ((org-agenda-overriding-header "Yearly Log")))
-		    (tags-todo "MONTH"
-			       ((org-agenda-overriding-header "Monthly Log")))
-		    (agenda "" nil)
+	  (quote (("o" "Omni Agenda"
+		   ((agenda "" nil)
 		    (tags "REFILE"
-			      ((org-agenda-overriding-header "Task To Refile!")
-			       (org-tags-match-list-sublevels nil))))
-		   )
+			      ((org-agenda-overriding-header "Inbox, task to refile!")
+			       (org-tags-match-list-sublevels nil)))))
 		  ("N" "Notes" tags "NOTE"
 		   ((org-agenda-overriding-header "Notes")
 		    (org-tags-match-list-sublevels t)))
@@ -1056,40 +1054,32 @@
 		  ("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
 
     ;; filtering
-    (defun bh/org-auto-exclude-function (tag)
-      "Automatic task exclusion in the agenda with / RET"
-      (and (cond
-	    ((string= tag "hold")
-	     t)
-	    ((string= tag "farm")
-	     t))
-	   (concat "-" tag)))
+    ;; (defun bh/org-auto-exclude-function (tag)
+    ;;   "Automatic task exclusion in the agenda with / RET"
+    ;;   (and (cond
+    ;; 	((string= tag "hold")
+    ;; 	 t)
+    ;; 	((string= tag "farm")
+    ;; 	 t))
+    ;;        (concat "-" tag)))
 
-    (setq org-agenda-auto-exclude-function 'bh/org-auto-exclude-function)
+    ;; (setq org-agenda-auto-exclude-function 'bh/org-auto-exclude-function)
 
 
     ;; Tags with fast selection keys
     (setq org-tag-alist (quote ((:startgroup)
-				("@errand" . ?e)
 				("@office" . ?o)
 				("@home" . ?H)
-				("@farm" . ?f)
 				(:endgroup)
 				("WAITING" . ?w)
 				("HOLD" . ?h)
 				("PERSONAL" . ?P)
 				("WORK" . ?W)
-				("FARM" . ?F)
-				("ORG" . ?O)
-				("NORANG" . ?N)
-				("crypt" . ?E)
 				("NOTE" . ?n)
-				(:startgroup)
-				("MONTH" . ?m)
-				("YEAR" . ?y)
-				(:endgroup)
 				("CANCELLED" . ?c)
-				("FLAGGED" . ??))))
+				("FLAGGED" . ??)
+				("emacs" . ?e)
+				)))
 
 					    ; Allow setting single tags without the menu
     (setq org-fast-tag-selection-single-key (quote expert))
@@ -1396,7 +1386,6 @@
 
     (use-package swiper
       :ensure t
-      :defer 5
       :bind (("C-s" . swiper))
       :init (setq ivy-use-virtual-buffers t)
       :config
@@ -1644,6 +1633,10 @@
       :config
       (electric-pair-mode t)
       (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
+
+    (use-package paredit
+      ;; check if the parens is matched
+      :ensure t)
   #+END_SRC
 
 * Hungry-delete
@@ -1940,4 +1933,19 @@
 	     ("C-c C-d" . helpful-at-point)
 	     ("C-h F". helpful-function)
 	     ("C-h C" . helpful-command)))
+  #+END_SRC
+* IRC
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package circe
+      :ensure t)
+
+    (setq circe-network-options
+	  '(("Freenode"
+	     :tls t
+	     :nick "geekinney"
+	     :sasl-username "geekinney"
+	     :sasl-password "nrkinney666"
+	     :channels ("#freenode")
+	     )))
   #+END_SRC
