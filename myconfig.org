@@ -408,6 +408,10 @@
     (setq dired-recursive-deletes 'always)
     (setq dired-recursive-copies 'always);;全部递归拷贝删除文件夹中的文件
 
+    ;;Handy way of getting back to previous places.
+    (bind-key "C-x p" 'pop-to-mark-command)
+    (setq set-mark-command-repeat-pop t)
+
     (put 'dired-find-alternate-file 'disabled nil);;避免每一级目录都产生一个buffer
     (require 'dired-x)
     (setq dired-dwim-target t)
@@ -457,6 +461,10 @@
       :ensure t
       :defer 5
       :config (beacon-mode 1))
+
+    (use-package disable-mouse
+      :ensure t
+      :config (global-disable-mouse-mode))
   #+END_SRC
 
 * Themes and modeline
@@ -635,6 +643,8 @@
     (setq org-src-fontify-natively t)
     (setq org-agenda-files '("~/org"))
 
+    (setq org-agenda-window-setup 'only-window)
+
     ;; Set to the location of your Org files on your local system
     (setq org-directory "~/org")
     (setq org-default-notes-file "~/org/inbox.org")
@@ -644,9 +654,6 @@
 	  (quote (("t" "todo" entry (file "~/org/inbox.org")
 		   "* TODO %?\n%U\n" :clock-in t :clock-resume t
 		   :empty-lines 1)
-		  ("r" "respond" entry (file "~/org/inbox.org")
-		   "* NEXT Respond to %:from on %:subject\nSCHEDULED: %t\n%U\n" :clock-in t :clock-resume t :immediate-finish t
-		   :empty-lines 1)
 		  ("n" "note" entry (file "~/org/inbox.org")
 		   "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t
 		   :empty-lines 1)
@@ -654,12 +661,6 @@
 		   "* %?\n Entered on %U\n" :clock-in t :clock-resume t)
 		  ("w" "org-protocol" entry (file "~/org/inbox.org")
 		   "* TODO Review %c\n%U\n" :immediate-finish t
-		   :empty-lines 1)
-		  ("m" "Meeting" entry (file "~/org/inbox.org")
-		   "* MEETING with %? :MEETING:\n%U" :clock-in t :clock-resume t
-		   :empty-lines 1)
-		  ("p" "Phone call" entry (file "~/org/inbox.org")
-		   "* PHONE %? :PHONE:\n%U" :clock-in t :clock-resume t
 		   :empty-lines 1)
 		  ("h" "Habit" entry (file "~/org/inbox.org")
 		   "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"
@@ -1366,7 +1367,8 @@
      (use-package idle-org-agenda
 	 :after org-agenda
 	 :ensure t
-	 :init (setq idle-org-agenda-interval 300)
+	 :init (setq idle-org-agenda-interval 300
+		     idle-org-agenda-key "o")
 	 :config (idle-org-agenda-mode))
   #+END_SRC
 
@@ -1644,7 +1646,7 @@
   #+BEGIN_SRC emacs-lisp
     (use-package popwin
       :ensure t
-      :defer 5)
+      :config (popwin-mode 1))
   #+END_SRC
   
 * Windows & Buffer
@@ -1697,6 +1699,17 @@
     (use-package search-web
       :ensure t
       :init
+      (setq search-web-engines
+	    '(("Google" "http://www.google.com/search?q=%s" nil)
+	      ("Youtube" "http://www.youtube.com/results?search_query=%s" nil)
+	      ("Stackoveflow" "http://stackoverflow.com/search?q=%s" nil)
+	      ("Sogou" "https://www.sogou.com/web?query=%s" nil)
+	      ("Github" "https://github.com/search?q=%s" nil)
+	      ("Melpa" "https://melpa.org/#/?q=%s" nil)
+	      ("Emacs-China" "https://emacs-china.org/search?q=%s" nil)
+	      ("Wiki-zh" "https://zh.wikipedia.org/wiki/%s" nil)
+	      ("Wiki-en" "https://en.wikipedia.org/wiki/%s" nil)
+	      ))
       :bind (("C-C w u" . browse-url)
 	     ("C-c w w" . search-web)
 	     ("C-c w p" . search-web-at-point)
@@ -1861,4 +1874,15 @@
   #+BEGIN_SRC emacs-lisp
     (use-package django-mode
       :ensure t)
+  #+END_SRC
+* Undo-tree
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package undo-tree
+      :diminish undo-tree-mode
+      :config
+      (progn
+	(global-undo-tree-mode)
+	(setq undo-tree-visualizer-timestamps t)
+	(setq undo-tree-visualizer-diff t)))
   #+END_SRC

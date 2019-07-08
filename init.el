@@ -22,6 +22,8 @@
 
 (require 'custom)
 
+(require 'init-org)
+
 (require 'lang-python)
 
 (require 'lang-javascript)
@@ -29,6 +31,5 @@
 (require 'lang-web)
 
 (require 'lang-c)
-
 
 (org-babel-load-file (expand-file-name "~/.emacs.d/myconfig.org"))
