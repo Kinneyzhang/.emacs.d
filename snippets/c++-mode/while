@@ -3,6 +3,6 @@
 # name: while
 # key: while
 # --
-while(${1:cond}){
+while (${1:cond}) {
 	$0
 }

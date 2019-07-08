@@ -28,3 +28,5 @@ hackernews
 org-clock-save.el
 places
 ido.last
+semanticdb
+ede-projects.el

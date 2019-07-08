@@ -235,4 +235,10 @@ Mon Apr  1 11:22:30 2019
 	  (agenda "")
           ))))
 
+(message "count%s" (propertize "1" 'display '((height 0.8) (raise 0.5))))
 
+(message "hello")
+
+(defun my/show-num ()
+  (interactive)
+  (message "count%s" (propertize "1" 'display '((height 0.8) (raise 0.5)))))

@@ -91,11 +91,65 @@
 ** print special symbol
 
    #+BEGIN_SRC emacs-lisp
+     (defun print-symbol-≥ ()
+       "print more and equal"
+       (interactive)
+       (insert "≥"))
+     (global-set-key (kbd "C-c s m e") 'print-symbol-≥)
+
+     (defun print-symbol-≤ ()
+       "print less and equal"
+       (interactive)
+       (insert "≤"))
+     (global-set-key (kbd "C-c s l e") 'print-symbol-≤)
+
+     (defun print-symbol-≠ ()
+       "print Inequality"
+       (interactive)
+       (insert "≠"))
+     (global-set-key (kbd "C-c s i e") 'print-symbol-≠)
+
+     (defun print-symbol-∃ ()
+       "print existence"
+       (interactive)
+       (insert "∃"))
+     (global-set-key (kbd "C-c s e x") 'print-symbol-∃)
+
+     (defun print-symbol-∀ ()
+       "print Arbitrary"
+       (interactive)
+       (insert "∀"))
+     (global-set-key (kbd "C-c s a b") 'print-symbol-∀)
+
+     (defun print-symbol-⊆ ()
+       "print contained"
+       (interactive)
+       (insert "⊆"))
+     (global-set-key (kbd "C-c s c t") 'print-symbol-⊆)
+
+     (defun print-symbol-∈ ()
+       "print Belong"
+       (interactive)
+       (insert "∈"))
+     (global-set-key (kbd "C-c s b l") 'print-symbol-∈)
+
      (defun print-symbol-∞ ()
        "print Infinit"
        (interactive)
        (insert "∞"))
-     (global-set-key (kbd "C-c s i f ") 'print-symbol-∞)
+     (global-set-key (kbd "C-c s i f") 'print-symbol-∞)
+
+     (defun print-symbol-ξ ()
+       "print ksi"
+       (interactive)
+       (insert "ξ"))
+     (global-set-key (kbd "C-c s k s") 'print-symbol-ξ)
+
+     (defun print-symbol-η ()
+       "print eta"
+       (interactive)
+       (insert "η"))
+     (global-set-key (kbd "C-c s e t") 'print-symbol-η)
 
      (defun print-symbol-ε ()
        "print Epsilon"
@@ -126,6 +180,12 @@
        (interactive)
        (insert "θ"))
      (global-set-key (kbd "C-c s t t") 'print-symbol-θ)
+
+     (defun print-symbol-ζ ()
+       "print Zeta"
+       (interactive)
+       (insert "ζ"))
+     (global-set-key (kbd "C-c s z t") 'print-symbol-ζ)
 
      (defun print-symbol-Δ ()
        "print Delte"
@@ -194,7 +254,7 @@
        (interactive)
        (insert "√"))
      (global-set-key (kbd "C-c s g h") 'print-symbol-√)
-   #+END_SRC
+     #+END_SRC
 
 ** all-the-icons
 
@@ -1496,112 +1556,16 @@
 
     (use-package company-box
       :ensure t
+      :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
       :hook (company-mode . company-box-mode))
   #+END_SRC
+* C++
 
-* JavaScript 
   #+BEGIN_SRC emacs-lisp
-    ;; (use-package js2-mode
-    ;;   :ensure t
-    ;;   :config
-    ;;   ;;js2-mode config for jsfiles    
-    ;;   (setq auto-mode-alist
-    ;; 	(append
-    ;; 	 '(("\\.js\\'" . js2-mode)
-    ;; 	   ("\\.html\\'" . web-mode)
-    ;; 	   )
-    ;; 	 auto-mode-alist)))
-
-    ;;   ;;config for js2's imenu, 列出所有函数
-    ;;   (defun js2-imenu-make-index ()
-    ;;     (interactive)
-    ;;     (save-excursion
-    ;;       ;; (setq imenu-generic-expression '((nil "describe\\(\"\\(.+\\)\"" 1)))
-    ;;       (imenu--generic-function '(("describe" "\\s-*describe\\s-*(\\s-*[\"']\\(.+\\)[\"']\\s-*,.*" 1)
-    ;; 				 ("it" "\\s-*it\\s-*(\\s-*[\"']\\(.+\\)[\"']\\s-*,.*" 1)
-    ;; 				 ("test" "\\s-*test\\s-*(\\s-*[\"']\\(.+\\)[\"']\\s-*,.*" 1)
-    ;; 				 ("before" "\\s-*before\\s-*(\\s-*[\"']\\(.+\\)[\"']\\s-*,.*" 1)
-    ;; 				 ("after" "\\s-*after\\s-*(\\s-*[\"']\\(.+\\)[\"']\\s-*,.*" 1)
-    ;; 				 ("Function" "function[ \t]+\\([a-zA-Z0-9_$.]+\\)[ \t]*(" 1)
-    ;; 				 ("Function" "^[ \t]*\\([a-zA-Z0-9_$.]+\\)[ \t]*=[ \t]*function[ \t]*(" 1)
-    ;; 				 ("Function" "^var[ \t]*\\([a-zA-Z0-9_$.]+\\)[ \t]*=[ \t]*function[ \t]*(" 1)
-    ;; 				 ("Function" "^[ \t]*\\([a-zA-Z0-9_$.]+\\)[ \t]*()[ \t]*{" 1)
-    ;; 				 ("Function" "^[ \t]*\\([a-zA-Z0-9_$.]+\\)[ \t]*:[ \t]*function[ \t]*(" 1)
-    ;; 				 ("Task" "[. \t]task([ \t]*['\"]\\([^'\"]+\\)" 1)))))
-    ;;   (add-hook 'js2-mode-hook
-    ;; 	     (lambda ()
-    ;; 	       (setq imenu-create-index-function 'js2-imenu-make-index)))
-    ;;   (global-set-key (kbd "M-s i") 'counsel-imenu)
-
-    ;;   (use-package js2-refactor
-    ;;     :ensure t
-    ;;     :config
-    ;;     (add-hook 'js2-mode-hook #'js2-refactor-mode)
-    ;;     (js2r-add-keybindings-with-prefix "C-c C-m"))
-
+    (use-package google-c-style
+      :ensure t)
   #+END_SRC
 
-* Web-mode
-  #+BEGIN_SRC emacs-lisp
-    (use-package web-mode
-      :ensure t
-      :defer 5
-      :config
-      (add-hook 'web-mode-hook 'my-web-mode-indent-setup)
-      (add-hook 'web-mode-hook 'my-toggle-web-indent))
-
-    (defun my-web-mode-indent-setup ()
-      (setq web-mode-markup-indent-offset 2) ; web-mode, html tag in html file
-      (setq web-mode-css-indent-offset 2)    ; web-mode, css in html file
-      (setq web-mode-code-indent-offset 2)   ; web-mode, js code in html file
-      )
-
-    ;;change indent style
-    (defun my-toggle-web-indent ()
-      (interactive)
-      ;; web development
-      (if (or (eq major-mode 'js-mode) (eq major-mode 'js2-mode))
-	  (progn
-	    (setq js-indent-level (if (= js-indent-level 2) 4 2))
-	    (setq js2-basic-offset (if (= js2-basic-offset 2) 4 2))))
-
-      (if (eq major-mode 'web-mode)
-	  (progn (setq web-mode-markup-indent-offset (if (= web-mode-markup-indent-offset 2) 4 2))
-		 (setq web-mode-css-indent-offset (if (= web-mode-css-indent-offset 2) 4 2))
-		 (setq web-mode-code-indent-offset (if (= web-mode-code-indent-offset 2) 4 2))))
-      (if (eq major-mode 'css-mode)
-	  (setq css-indent-offset (if (= css-indent-offset 2) 4 2)))
-
-      (setq indent-tabs-mode nil))
-
-    ;;切换web-mode下默认tab空格数
-    (global-set-key (kbd "C-c t i") 'my-toggle-web-indent)
-
-    (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
-
-    (setq web-mode-engines-alist
-	  '(("php"    . "\\.phtml\\'")
-	    ("blade"  . "\\.blade\\.")
-	    ;; ("django"  . "\\.djhtml\\'")
-	    ;; ("django"  . "\\.html?\\'")
-	    )
-	  )
-
-    (use-package emmet-mode
-      :ensure t
-      :defer t
-      :bind (("C-j" . emmet-expand-line))
-      :config 
-      (add-hook 'web-mode-hook 'emmet-mode))
-  #+END_SRC
 * Yasnippet 
   #+BEGIN_SRC emacs-lisp
     (use-package yasnippet
@@ -1720,21 +1684,6 @@
       :config
       (window-numbering-mode 1))
   #+END_SRC
-
-* Python
-
-  #+BEGIN_SRC emacs-lisp
-    (use-package elpy
-      :ensure t
-      :defer 5
-      :config
-      (add-to-list 'package-archives
-		   '("elpy" . "https://jorgenschaefer.github.io/packages/"))
-      (package-initialize)
-      (elpy-enable)
-      )
-  #+END_SRC
-
 * Dashboard
 
   #+BEGIN_SRC emacs-lisp
@@ -1773,7 +1722,7 @@
 
     (use-package search-web
       :ensure t
-      :defer 5
+      :init
       :bind (("C-C w u" . browse-url)
 	     ("C-c w w" . search-web)
 	     ("C-c w p" . search-web-at-point)
@@ -1781,7 +1730,6 @@
 
     (use-package browse-at-remote
       :ensure t
-      :defer 5
       :bind ("C-c w g" . browse-at-remote))
   #+END_SRC
 
@@ -1934,18 +1882,9 @@
 	     ("C-h F". helpful-function)
 	     ("C-h C" . helpful-command)))
   #+END_SRC
-* IRC
+* Django
 
   #+BEGIN_SRC emacs-lisp
-    (use-package circe
+    (use-package django-mode
       :ensure t)
-
-    (setq circe-network-options
-	  '(("Freenode"
-	     :tls t
-	     :nick "geekinney"
-	     :sasl-username "geekinney"
-	     :sasl-password "nrkinney666"
-	     :channels ("#freenode")
-	     )))
   #+END_SRC
