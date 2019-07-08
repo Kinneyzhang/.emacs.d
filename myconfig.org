@@ -461,19 +461,10 @@
 
 * Themes and modeline
   #+BEGIN_SRC emacs-lisp
-    (use-package doom-themes
+    (use-package dracula-theme
       :ensure t
       :config
-      (require 'doom-themes)
-
-      ;; Global settings (defaults)
-      (setq doom-themes-enable-bold t
-	    doom-themes-enable-italic t)
-
-      (load-theme 'doom-one t)
-
-      ;; Corrects (and improves) org-mode's native fontification.
-      (doom-themes-org-config))
+      (enable-theme 'dracula))
 
     (use-package doom-modeline
       :ensure t
@@ -486,23 +477,6 @@
       ;; How wide the mode-line bar should be. It's only respected in GUI.
       (setq doom-modeline-bar-width 3)
 
-      ;; Determines the style used by `doom-modeline-buffer-file-name'.
-      ;;
-      ;; Given ~/Projects/FOSS/emacs/lisp/comint.el
-      ;;   truncate-upto-project => ~/P/F/emacs/lisp/comint.el
-      ;;   truncate-from-project => ~/Projects/FOSS/emacs/l/comint.el
-      ;;   truncate-with-project => emacs/l/comint.el
-      ;;   truncate-except-project => ~/P/F/emacs/l/comint.el
-      ;;   truncate-upto-root => ~/P/F/e/lisp/comint.el
-      ;;   truncate-all => ~/P/F/e/l/comint.el
-      ;;   relative-from-project => emacs/lisp/comint.el
-      ;;   relative-to-project => lisp/comint.el
-      ;;   file-name => comint.el
-      ;;   buffer-name => comint.el<2> (uniquify buffer name)
-      ;;
-      ;; If you are expereicing the laggy issue, especially while editing remote files
-      ;; with tramp, please try `file-name' style.
-      ;; Please refer to https://github.com/bbatsov/projectile/issues/657.
       (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
 
       ;; Whether display icons in mode-line or not.
