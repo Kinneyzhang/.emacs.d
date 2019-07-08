@@ -718,8 +718,8 @@
 
 (use-package calfw-org
   :ensure t
-  :defer 5
-  :bind (("C-x cc" . my-open-calendar))
+  :defer t
+  :bind (("C-x c c" . my-open-calendar))
   :config
   (defun my-open-calendar ()
     (interactive)
@@ -730,10 +730,7 @@
 
 (use-package calfw
   :ensure t
-  :defer 5)
-
-(require 'calfw-org)
-(require 'calfw)
+  :defer t)
 
 (use-package move-text
   :ensure t

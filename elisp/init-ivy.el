@@ -26,6 +26,7 @@
   (ivy-mode 1))
 
 (use-package counsel
+  :defer t
   :ensure nil
   :bind (("M-x" . counsel-M-x)
 	 ("C-c e" . counsel-git)

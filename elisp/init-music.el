@@ -10,7 +10,7 @@
     (bongo-insert-directory "网易云音乐")))
 
 (use-package podcaster
-  :ensure t
-  :defer t)
+  :defer 5
+  :ensure t)
 
 (provide 'init-music)

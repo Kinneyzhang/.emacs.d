@@ -10,7 +10,6 @@
   :bind (("C-x c e" . toggle-company-english-helper)))
 
 (use-package awesome-pair
-  :defer 5
   :load-path "~/.emacs.d/site-lisp/awesome-pair"
   :config
   (dolist (hook (list
@@ -317,6 +316,7 @@
 (global-set-key (kbd "<f2>") 'open-my-misc-file)
 
 (use-package magit
+  :defer t
   :ensure t
   :bind (("C-x g" . magit-status)))
 
@@ -329,6 +329,7 @@
   (global-company-mode t))
 
 (use-package company-box
+  :defer 5
   :ensure t
   :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
   :hook (company-mode . company-box-mode))
@@ -355,9 +356,11 @@
 
 (use-package paredit
   ;; check if the parens is matched
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package hungry-delete
+  :defer 5
   :ensure t
   :config
   (global-hungry-delete-mode))
@@ -437,6 +440,7 @@
 ;; (global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
 
 (use-package search-web
+  :defer t
   :ensure t
   :init
   (setq search-web-engines
@@ -500,6 +504,7 @@
   :init (setq markdown-command "multimarkdown"))
 
 (use-package markdown-preview-mode
+  :defer t
   :ensure t)
 
 (autoload 'wl "wl" "Wanderlust" t)
@@ -540,6 +545,7 @@
 	 ("C-h C" . helpful-command)))
 
 (use-package django-mode
+  :defer t
   :ensure t)
 
 (use-package undo-tree
@@ -551,6 +557,7 @@
     (setq undo-tree-visualizer-diff t)))
 
 (use-package exec-path-from-shell
+  :defer 5
   :if (memq window-system '(ns mac))
   :ensure t
   :config

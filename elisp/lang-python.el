@@ -5,9 +5,11 @@
 ;;; Code:
 
 (use-package python
+  :defer t
   :mode ("\\.py" . python-mode)
   :config
   (use-package elpy
+    :defer t
     :ensure t
     :init
     (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))
@@ -21,15 +23,18 @@
   (elpy-enable))
 
 (use-package pip-requirements
+  :defer t
   :ensure t
   :config
   (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
 
 (use-package py-autopep8
+  :defer t
   :ensure t)
 
 
 (use-package pyenv-mode
+  :defer t
   :ensure t
   :if
   (executable-find "pyenv")

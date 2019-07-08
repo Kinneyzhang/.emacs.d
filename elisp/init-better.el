@@ -89,6 +89,7 @@
   :config (beacon-mode 1))
 
 (use-package disable-mouse
+  :defer 5
   :ensure t
   :config (global-disable-mouse-mode))
 
