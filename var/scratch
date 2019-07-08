@@ -245,13 +245,3 @@ Mon Apr  1 11:22:30 2019
 
 
 ;;--------------------------------------------------
-
-(defun sanityinc/show-org-clock-in-header-line ()
-  (setq-default header-line-format '((" " org-mode-line-string " "))))
-
-(defun sanityinc/hide-org-clock-from-header-line ()
-  (setq-default header-line-format nil))
-
-(add-hook 'org-clock-in-hook 'sanityinc/show-org-clock-in-header-line)
-(add-hook 'org-clock-out-hook 'sanityinc/hide-org-clock-from-header-line)
-(add-hook 'org-clock-cancel-hook 'sanityinc/hide-org-clock-from-header-line)

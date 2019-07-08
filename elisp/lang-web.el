@@ -1,4 +1,5 @@
 (use-package web-mode
+  :defer t
   :ensure t
   :bind (("C-c ]" . emmet-next-edit-point)
          ("C-c [" . emmet-prev-edit-point)
@@ -74,6 +75,7 @@
   ;; snippets for HTML
   ;; https://github.com/smihica/emmet-mode
   (use-package emmet-mode
+    :defer 5
     :ensure t
     :init (setq emmet-move-cursor-between-quotes t) ;; default nil
     :bind (("C-j" . emmet-expand-line))
@@ -117,6 +119,7 @@
 
 ;; configure CSS mode company backends
 (use-package css-mode
+  :defer 5
   :config
   (defun my-css-mode-hook ()
     (set (make-local-variable 'company-backends)
@@ -127,6 +130,7 @@
 ;; impatient mode - Live refresh of web pages
 ;; https://github.com/skeeto/impatient-mode
 (use-package impatient-mode
+  :defer 5
   :ensure t
   :diminish (impatient-mode . " i")
   :commands (impatient-mode))
