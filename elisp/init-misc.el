@@ -418,7 +418,7 @@
   :ensure t
   :init
   (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-  (setq dashboard-banner-logo-title "Happy hacking emacs!  [Author:Kinney] [Email:kinneyzhang666@gmail.com]")
+  (setq dashboard-banner-logo-title "Happy hacking emacs!  [Author:Kinney] [Github:https://github.com/Kinneyzhang/.emacs.d.git]")
   (setq dashboard-startup-banner "~/.emacs.d/img/ying.png")
   (setq dashboard-items '((recents  . 8) (projects . 5)))
   :config
@@ -451,6 +451,7 @@
 	  ("Github" "https://github.com/search?q=%s" nil)
 	  ("Melpa" "https://melpa.org/#/?q=%s" nil)
 	  ("Emacs-China" "https://emacs-china.org/search?q=%s" nil)
+	  ("EmacsWiki" "https://www.emacswiki.org/emacs/%s" nil)
 	  ("Wiki-zh" "https://zh.wikipedia.org/wiki/%s" nil)
 	  ("Wiki-en" "https://en.wikipedia.org/wiki/%s" nil)
 	  ))
@@ -545,7 +546,6 @@
 	 ("C-h C" . helpful-command)))
 
 (use-package django-mode
-  :defer t
   :ensure t)
 
 (use-package undo-tree
@@ -564,6 +564,9 @@
   (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
 
+(use-package plain-org-wiki
+  :load-path "~/.emacs.d/site-lisp/plain-org-wiki"
+  :init (setq pow-directory "~/org"))
 
 (provide 'init-misc)
 

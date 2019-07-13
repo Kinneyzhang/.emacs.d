@@ -5,11 +5,11 @@
 ;;; Code:
 
 (use-package python
-  :defer t
+  :defer 5
   :mode ("\\.py" . python-mode)
   :config
   (use-package elpy
-    :defer t
+    :defer 5
     :ensure t
     :init
     (add-to-list 'auto-mode-alist '("\\.py$" . python-mode))

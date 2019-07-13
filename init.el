@@ -3,7 +3,6 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
@@ -20,37 +19,24 @@
 
 (setq custom-file (expand-file-name "custom.el" (concat user-emacs-directory "elisp/")))
 
-(let (;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
-      (gc-cons-threshold most-positive-fixnum)
-      ;; 清空避免加载远程文件的时候分析文件。
-      (file-name-handler-alist nil))
-
+(let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
+      (file-name-handler-alist nil)) ;; 清空避免加载远程文件的时候分析文件。
+  
   (require 'benchmark-init-modes)
   (require 'benchmark-init)
   (benchmark-init/activate)
   
   (require 'custom)
-
   (require 'init-better)
-
   (require 'init-ui)
-
   (require 'init-window)
-
   (require 'init-org)
-
   (require 'init-ivy)
-
   (require 'init-music)
-
   (require 'init-misc)
-
   (require 'lang-python)
-
+  (require 'init-ruby)
   (require 'lang-javascript)
-
   (require 'lang-web)
-
   (require 'lang-c)
-
   )

@@ -89,8 +89,8 @@
   :config (beacon-mode 1))
 
 (use-package disable-mouse
-  :defer 5
-  :ensure t
-  :config (global-disable-mouse-mode))
+  :defer t
+  :ensure nil
+  :config (global-disable-mouse-mode -1))
 
 (provide 'init-better)

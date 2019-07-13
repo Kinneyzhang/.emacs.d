@@ -245,3 +245,18 @@ Mon Apr  1 11:22:30 2019
 
 
 ;;--------------------------------------------------
+
+
+(save-current-buffer
+  (set-buffer "*scratch*")
+  (goto-char (point-min))
+  (set-buffer "*Messages*"))
+
+(save-excursion
+  (set-buffer "*scratch*")
+  (goto-char (point-min))
+  (set-buffer "*Messages*"))
+
+(window-edges)
+(window-width)
+(window-height)

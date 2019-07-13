@@ -1,10 +1,9 @@
 ;;; Org clock
 (use-package org
   :bind (("C-c c" . org-capture)
+	 ("<f9>" . plain-org-wiki)
 	 ("<f12>" . org-agenda)
 	 ("C-c a" . org-agenda)
-	 ("<f9> I" . bh/punch-in)
-	 ("<f9> O" . bh/punch-out)
 	 ("C-c o l" . org-store-link)
 	 ("C-c t v" . org-tags-view))
   :init
@@ -20,10 +19,10 @@
   ;; Capture templates for: TODO tasks, Notes, diary, habit and org-protocol
   (setq org-capture-templates
 	(quote (("t" "todo" entry (file "~/org/inbox.org")
-		 "* TODO %?\n%U\n" :clock-in t :clock-resume t
+		 "* TODO %?\n%U\n" :clock-resume t
 		 :empty-lines 1)
 		("n" "note" entry (file "~/org/inbox.org")
-		 "* %? :NOTE:\n%U\n" :clock-in t :clock-resume t
+		 "* %? :NOTE:\n%U\n" :clock-resume t
 		 :empty-lines 1)
 		("j" "Journal" entry (file+datetree "~/org/diary.org")
 		 "* %?\n Entered on %U\n" :clock-in t :clock-resume t)
@@ -66,9 +65,6 @@
 			      ;; keybinding for inserting code blocks
 			      (local-set-key (kbd "C-c o i")
 					     'org-insert-src-block)
-			      ;; keybinding for org-pomodoro
-			      (local-set-key (kbd "C-c o p")
-					     'org-pomodoro)
 			      ))
 
   (defun bh/remove-empty-drawer-on-clock-out ()
@@ -715,6 +711,10 @@
   :ensure t
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+(use-package org-agenda-property
+  :ensure t
+  :bind (("C-c o p" . org-property-action)))
 
 (use-package calfw-org
   :ensure t
