@@ -17,6 +17,7 @@ irony
 url
 diary
 .caches
+.cache
 smex-data
 smex-items
 .mc-lists.el

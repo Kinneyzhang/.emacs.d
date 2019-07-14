@@ -30,7 +30,7 @@ ask
 	   (message "hello %s" obj)) "emacs")
 "hello emacs"
 (setq foo (lambda (obj)
-	    (message "hello %s" obj)))
+	    (message "hello %s" obj)))q
 (funcall foo "kinney")
 "hello kinney"
 

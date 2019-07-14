@@ -744,7 +744,7 @@
 (use-package idle-org-agenda
   :after org-agenda
   :ensure t
-  :init (setq idle-org-agenda-interval 300
+  :init (setq idle-org-agenda-interval 600
 	      idle-org-agenda-key "o")
   :config (idle-org-agenda-mode))
 

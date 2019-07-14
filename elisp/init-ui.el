@@ -128,12 +128,6 @@
   :ensure t
   :config (diredfl-global-mode t))
 
-(use-package neotree
-  :ensure t
-  :defer 5
-  :bind (("<f8>" . neotree-toggle))
-  :config
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
 (use-package fancy-battery
   :ensure t
