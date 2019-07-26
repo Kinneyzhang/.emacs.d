@@ -1,3 +1,7 @@
+(use-package snails
+  :load-path "~/.emacs.d/site-lisp/snails"
+  :defer t)
+
 (use-package auto-save
   :load-path "~/.emacs.d/site-lisp/auto-save"
   :config 
@@ -69,6 +73,12 @@
 (use-package aweshell
   :load-path "~/.emacs.d/site-lisp/aweshell"
   :defer 5)
+
+(defun print-symbol-ʃ ()
+  "print jifen"
+  (interactive)
+  (insert "ʃ"))
+(global-set-key (kbd "C-c s j f") 'print-symbol-ʃ)
 
 (defun print-symbol-≥ ()
   "print more and equal"
@@ -154,6 +164,12 @@
   (insert "γ"))
 (global-set-key (kbd "C-c s g m") 'print-symbol-γ)
 
+(defun print-symbol-λ ()
+  "print lambda"
+  (interactive)
+  (insert "λ"))
+(global-set-key (kbd "C-c s l d") 'print-symbol-λ)
+
 (defun print-symbol-θ ()
   "print Theta"
   (interactive)
@@ -207,6 +223,12 @@
   (interactive)
   (insert "φ"))
 (global-set-key (kbd "C-c s p h") 'print-symbol-φ)
+
+(defun print-symbol-Φ ()
+  "print upper Phi"
+  (interactive)
+  (insert "Φ"))
+(global-set-key (kbd "C-c s u p h") 'print-symbol-Φ)
 
 ;;=================================================================
 (defun print-symbol-● ()
@@ -427,10 +449,16 @@
 (use-package youdao-dictionary
   :ensure t
   :defer 5
+  :bind (("C-c y y" . youdao-dictionary-search-at-point)
+	 ("C-c y i" . youdao-dictionary-search-from-input))
   :init
-  (setq url-automatic-caching t) ;; Enable Cache
-  :bind (("C-c y y" . youdao-dictionary-search-at-point+)
-	 ("C-c y i" . youdao-dictionary-search-from-input)))
+  (setq url-automatic-caching t))
+
+(use-package osx-dictionary
+  :ensure t
+  ;; :bind (("C-c y y" . osx-dictionary-search-word-at-point)
+  ;; 	 ("C-c y i" . osx-dictionary-search-input))
+  )
 
 ;;use xwidget-webkit
 ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
@@ -464,37 +492,19 @@
   :ensure t
   :bind ("C-c w g" . browse-at-remote))
 
-(use-package lsp-mode
-  :ensure t
-  :defer 5
-  :commands lsp)
 
-;; optionally
-(use-package lsp-ui
-  :ensure t
-  :defer 5
-  :commands lsp-ui-mode)
-
-;; (use-package company-lsp
+;; (use-package lsp-python-ms
 ;;   :ensure t
-;;   :commands company-lsp)
+;;   :defer 5
+;;   :hook (python-mode . lsp)
+;;   :config
 
-;; (use-package helm-lsp
-;;   :ensure t
-;;   :commands helm-lsp-workspace-symbol)
-
-(use-package lsp-python-ms
-  :ensure t
-  :defer 5
-  :hook (python-mode . lsp)
-  :config
-
-  ;; for dev build of language server
-  (setq lsp-python-ms-dir
-	(expand-file-name "~/python-language-server/output/bin/Release/"))
-  ;; for executable of language server, if it's not symlinked on your PATH
-  (setq lsp-python-ms-executable
-	"~/python-language-server/output/bin/Release/osx-x64/publish/Microsoft.Python.LanguageServer"))
+;;   ;; for dev build of language server
+;;   (setq lsp-python-ms-dir
+;; 	(expand-file-name "~/python-language-server/output/bin/Release/"))
+;;   ;; for executable of language server, if it's not symlinked on your PATH
+;;   (setq lsp-python-ms-executable
+;; 	"~/python-language-server/output/bin/Release/osx-x64/publish/Microsoft.Python.LanguageServer"))
 
 (use-package markdown-mode
   :ensure t
@@ -515,24 +525,25 @@
   :defer t
   :config
   (setq url-gateway-local-host-regexp
-      (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
+	(concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
 
 (use-package hydra
   :ensure t
   :defer 5)
 
 (defhydra hydra-launch (:color blue)
-   "Launch"
-   ("ec" (browse-url "https://www.emacs-china.org") "EmacsChina")
-   ("ew" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
-   ("go" (browse-url "https://www.google.com") "Google")
-   ("gt" (browse-url "https://www.github.com") "Github")
-   ("mp" (browse-url "http://www.melpa.org/#/") "Melpa")
-   ("v2" (browse-url "https://www.v2ex.com") "V2EX")
-   ("yt" (browse-url "https://www.youtube.com") "YouTube")
-   ("fd" (browse-url "https://feedly.com/i/latest") "Feedly")
-   ("s" eshell "shell")
-   ("q" nil "cancel"))
+  "Launch"
+  ("ec" (browse-url "https://www.emacs-china.org") "EmacsChina")
+  ("ew" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
+  ("go" (browse-url "https://www.google.com") "Google")
+  ("gt" (browse-url "https://www.github.com") "Github")
+  ("mp" (browse-url "http://www.melpa.org/#/") "Melpa")
+  ("v2" (browse-url "https://www.v2ex.com") "V2EX")
+  ("yt" (browse-url "https://www.youtube.com") "YouTube")
+  ("fd" (browse-url "https://feedly.com/i/latest") "Feedly")
+  ("gm" (browse-url "https://mail.google.com/mail/u/0/?client=safari#inbox") "Gmail")
+  ("s" eshell "shell")
+  ("q" nil "cancel"))
 (global-set-key (kbd "C-c r") 'hydra-launch/body)
 
 (use-package helpful
@@ -568,5 +579,35 @@
   :load-path "~/.emacs.d/site-lisp/plain-org-wiki"
   :init (setq pow-directory "~/org"))
 
-(provide 'init-misc)
 
+;;;==================================================
+(use-package company-tabnine
+  :ensure t
+  :init ;; Trigger completion immediately.
+  (setq company-idle-delay 0)
+
+  ;; Number the candidates (use M-1, M-2 etc to select completions).
+  (setq company-show-numbers t)
+
+  ;; Use the tab-and-go frontend.
+  ;; Allows TAB to select and complete at the same time.
+  (company-tng-configure-default)
+  (setq company-frontends
+	'(company-tng-frontend
+          company-pseudo-tooltip-frontend
+          company-echo-metadata-frontend))
+  :config (add-to-list 'company-backends #'company-tabnine))
+
+;; The free version of TabNine is good enough,
+;; and below code is recommended that TabNine not always
+;; prompt me to purchase a paid version in a large project.
+(defadvice company-echo-show (around disable-tabnine-upgrade-message activate)
+  (let ((company-message-func (ad-get-arg 0)))
+    (when (and company-message-func
+               (stringp (funcall company-message-func)))
+      (unless (string-match "The free version of TabNine only indexes up to" (funcall company-message-func))
+        ad-do-it))))
+
+;;;==================================================
+
+(provide 'init-misc)

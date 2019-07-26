@@ -31,3 +31,5 @@ places
 ido.last
 semanticdb
 ede-projects.el
+projectile.cache
+transient

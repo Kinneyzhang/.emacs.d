@@ -514,6 +514,7 @@
 			      ("CANCELLED" . ?c)
 			      ("FLAGGED" . ??)
 			      ("emacs" . ?e)
+			      ("blog" . ?b)
 			      )))
 
 					; Allow setting single tags without the menu

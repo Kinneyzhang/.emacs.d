@@ -70,6 +70,7 @@
   :ensure t
   :defer 5)
 
+
 (use-package spotlight
   :ensure t
   :defer 5)
@@ -120,8 +121,8 @@
 (use-package avy
   :ensure t
   :defer 5
-  :bind (("M-g c" . avy-goto-char-timer)
-	 ("M-g l" . avy-goto-line)))
+  :bind (("<f7> c" . avy-goto-char-timer)
+	 ("<f7> l" . avy-goto-line)))
 
 (use-package link-hint
   :ensure t
@@ -133,3 +134,4 @@
   ("C-c l s" . org-store-link))
 
 (provide 'init-ivy)
+
