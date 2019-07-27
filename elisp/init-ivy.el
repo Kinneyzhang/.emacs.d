@@ -121,8 +121,8 @@
 (use-package avy
   :ensure t
   :defer 5
-  :bind (("<f7> c" . avy-goto-char-timer)
-	 ("<f7> l" . avy-goto-line)))
+  :bind (("M-g c" . avy-goto-char-timer)
+	 ("M-g l" . avy-goto-line)))
 
 (use-package link-hint
   :ensure t
