@@ -3,8 +3,28 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(youdao-dictionary ycmd xterm-color xelb winum window-numbering which-key web-mode wanderlust use-package undo-tree treemacs-projectile treemacs-magit tablist sudoku ssass-mode spotlight spacemacs-theme soundcloud smex smartparens shut-up search-web ruby-hash-syntax robe reveal-in-osx-finder restart-emacs pyenv-mode py-autopep8 proxy-mode project-persist-drawer powerline popwin podcaster pip-requirements pinboard-popular paredit pacmacs package-build osx-dictionary org-projectile org-gcal org-bullets org-agenda-property nyan-mode noflet nodejs-repl neotree multi-term move-text mmm-mode math-symbol-lists material-theme markdown-preview-mode magit-popup link-hint libmpdee js2-refactor js-comint ivy-rich ivy-posframe indent-guide impatient-mode image+ iedit idle-org-agenda hungry-delete helpful hackernews graphql goto-chg google-translate ggtags geiser furl flycheck fancy-battery expand-region exec-path-from-shell esxml enh-ruby-mode emmet-mode elpy edit-indirect dracula-theme doom-modeline django-mode disable-mouse diredfl dashboard dash-docs counsel-world-clock counsel-projectile counsel-osx-app company-web company-tern company-tabnine company-posframe company-jedi company-c-headers company-box column-enforce-mode calfw-org calfw buffer-move browse-at-remote bongo benchmark-init beacon auto-yasnippet auto-complete anaconda-mode all-the-icons-ivy all-the-icons-dired ace-popup-menu ace-jump-mode ac-html-bootstrap ac-html-angular 2048-game)))
+ '(ansi-color-names-vector
+   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
+ '(custom-safe-themes
+   '("274fa62b00d732d093fc3f120aca1b31a6bb484492f31081c1814a858e25c72e" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))
+ '(hl-todo-keyword-faces
+   '(("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7")
+     ("OKAY" . "#4f97d7")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#86dc2f")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX" . "#dc752f")
+     ("XXXX" . "#dc752f")
+     ("???" . "#dc752f")))
+ '(pdf-view-midnight-colors '("#b2b2b2" . "#292b2e")))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

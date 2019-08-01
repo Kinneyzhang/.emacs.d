@@ -1,6 +1,6 @@
 (use-package snails
   :load-path "~/.emacs.d/site-lisp/snails"
-  :defer t)
+  :bind (("<f4>" . snails)))
 
 (use-package auto-save
   :load-path "~/.emacs.d/site-lisp/auto-save"
@@ -206,6 +206,12 @@
   (insert "σ"))
 (global-set-key (kbd "C-c s s m") 'print-symbol-σ)
 
+(defun print-symbol-Σ ()
+  "print upper Sigma"
+  (interactive)
+  (insert "Σ"))
+(global-set-key (kbd "C-c s u s m") 'print-symbol-Σ)
+
 (defun print-symbol-ρ ()
   "print Rho"
   (interactive)
@@ -229,6 +235,18 @@
   (interactive)
   (insert "Φ"))
 (global-set-key (kbd "C-c s u p h") 'print-symbol-Φ)
+
+(defun print-symbol-ω ()
+  "print lower Omiga"
+  (interactive)
+  (insert "ω"))
+(global-set-key (kbd "C-c s l o g") 'print-symbol-ω)
+
+(defun print-symbol-Ω ()
+  "print upper Omiga"
+  (interactive)
+  (insert "Ω"))
+(global-set-key (kbd "C-c s u o g") 'print-symbol-Ω)
 
 ;;=================================================================
 (defun print-symbol-● ()
@@ -449,15 +467,15 @@
 (use-package youdao-dictionary
   :ensure t
   :defer 5
-  :bind (("C-c y y" . youdao-dictionary-search-at-point)
-	 ("C-c y i" . youdao-dictionary-search-from-input))
+  ;; :bind (("C-c y y" . youdao-dictionary-search-at-point)
+  ;; 	 ("C-c y i" . youdao-dictionary-search-from-input))
   :init
   (setq url-automatic-caching t))
 
 (use-package osx-dictionary
   :ensure t
-  ;; :bind (("C-c y y" . osx-dictionary-search-word-at-point)
-  ;; 	 ("C-c y i" . osx-dictionary-search-input))
+  :bind (("C-c y y" . osx-dictionary-search-word-at-point)
+	 ("C-c y i" . osx-dictionary-search-input))
   )
 
 ;;use xwidget-webkit
@@ -596,7 +614,8 @@
 	'(company-tng-frontend
           company-pseudo-tooltip-frontend
           company-echo-metadata-frontend))
-  :config (add-to-list 'company-backends #'company-tabnine))
+  :config (add-to-list 'company-backends #'company-tabnine)
+  (company-tabnine nil))
 
 ;; The free version of TabNine is good enough,
 ;; and below code is recommended that TabNine not always

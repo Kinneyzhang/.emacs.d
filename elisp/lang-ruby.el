@@ -18,4 +18,4 @@
   :config (add-hook 'enh-ruby-mode-hook 'robe-mode))
 
 
-(provide 'init-ruby)
+(provide 'lang-ruby)

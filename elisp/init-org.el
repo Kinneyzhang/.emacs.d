@@ -515,6 +515,7 @@
 			      ("FLAGGED" . ??)
 			      ("emacs" . ?e)
 			      ("blog" . ?b)
+			      ("server" . ?s)
 			      )))
 
 					; Allow setting single tags without the menu
@@ -710,6 +711,7 @@
 
 (use-package org-bullets
   :ensure t
+  :init (setq org-bullets-bullet-list '("♥" "●" "◇" "✚" "✜" "☯" "◆" "♠" "♣" "♦" "☢" "❀" "◆" "◖""▶"))
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
@@ -748,6 +750,14 @@
   :init (setq idle-org-agenda-interval 600
 	      idle-org-agenda-key "o")
   :config (idle-org-agenda-mode))
+
+;; org html export
+(setq org-html-doctype "html5")
+(setq org-html-html5-fancy t)
+(setq org-html-head
+      "<link rel=\"stylesheet\" href=\"style.css\">")
+(setq org-html-head-extra
+      "<link rel=\"stylesheet\" href=\"style2.css\">")
 
 
 (provide 'init-org)
