@@ -22,30 +22,30 @@
         web-mode-code-indent-offset 2)
 
   (setq web-mode-engines-alist
-	  '(("php"    . "\\.phtml\\'")
-	    ("blade"  . "\\.blade\\.")
-	    ("django"  . "\\.djhtml\\'")
-	    ("django"  . "\\.html?\\'")))
+	'(("php"    . "\\.phtml\\'")
+	  ("blade"  . "\\.blade\\.")
+	  ("django"  . "\\.djhtml\\'")
+	  ("django"  . "\\.html?\\'")))
 
 
-   ;;change indent style
-    (defun my-toggle-web-indent ()
-      (interactive)
-      (if (or (eq major-mode 'js-mode) (eq major-mode 'js2-mode))
-	  (progn
-	    (setq js-indent-level (if (= js-indent-level 2) 4 2))
-	    (setq js2-basic-offset (if (= js2-basic-offset 2) 4 2))))
+  ;;change indent style
+  (defun my-toggle-web-indent ()
+    (interactive)
+    (if (or (eq major-mode 'js-mode) (eq major-mode 'js2-mode))
+	(progn
+	  (setq js-indent-level (if (= js-indent-level 2) 4 2))
+	  (setq js2-basic-offset (if (= js2-basic-offset 2) 4 2))))
 
-      (if (eq major-mode 'web-mode)
-	  (progn (setq web-mode-markup-indent-offset (if (= web-mode-markup-indent-offset 2) 4 2))
-		 (setq web-mode-css-indent-offset (if (= web-mode-css-indent-offset 2) 4 2))
-		 (setq web-mode-code-indent-offset (if (= web-mode-code-indent-offset 2) 4 2))))
-      (if (eq major-mode 'css-mode)
-	  (setq css-indent-offset (if (= css-indent-offset 2) 4 2)))
+    (if (eq major-mode 'web-mode)
+	(progn (setq web-mode-markup-indent-offset (if (= web-mode-markup-indent-offset 2) 4 2))
+	       (setq web-mode-css-indent-offset (if (= web-mode-css-indent-offset 2) 4 2))
+	       (setq web-mode-code-indent-offset (if (= web-mode-code-indent-offset 2) 4 2))))
+    (if (eq major-mode 'css-mode)
+	(setq css-indent-offset (if (= css-indent-offset 2) 4 2)))
 
-      (setq indent-tabs-mode nil))
+    (setq indent-tabs-mode nil))
 
-    (global-set-key (kbd "C-c t i") 'my-toggle-web-indent)
+  (global-set-key (kbd "C-c t i") 'my-toggle-web-indent)
   
 
   (add-hook 'web-mode-hook 'jsx-flycheck)
@@ -134,5 +134,28 @@
   :ensure t
   :diminish (impatient-mode . " i")
   :commands (impatient-mode))
+
+
+(use-package web-beautify
+  :ensure t
+  :defer 5
+  :config
+  (eval-after-load 'js2-mode
+    '(define-key js2-mode-map (kbd "C-c b") 'web-beautify-js))
+  ;; Or if you're using 'js-mode' (a.k.a 'javascript-mode')
+  (eval-after-load 'js
+    '(define-key js-mode-map (kbd "C-c b") 'web-beautify-js))
+
+  (eval-after-load 'json-mode
+    '(define-key json-mode-map (kbd "C-c b") 'web-beautify-js))
+
+  (eval-after-load 'sgml-mode
+    '(define-key html-mode-map (kbd "C-c b") 'web-beautify-html))
+
+  (eval-after-load 'web-mode
+    '(define-key web-mode-map (kbd "C-c b") 'web-beautify-html))
+
+  (eval-after-load 'css-mode
+    '(define-key css-mode-map (kbd "C-c b") 'web-beautify-css)))
 
 (provide 'lang-web)

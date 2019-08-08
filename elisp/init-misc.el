@@ -74,6 +74,44 @@
   :load-path "~/.emacs.d/site-lisp/aweshell"
   :defer 5)
 
+
+
+(defun print-symbol-τ ()
+  "print to"
+  (interactive)
+  (insert "τ"))
+(global-set-key (kbd "C-c s t o") 'print-symbol-τ)
+
+(defun print-symbol-∂ ()
+  "print round"
+  (interactive)
+  (insert "∂"))
+(global-set-key (kbd "C-c s r d") 'print-symbol-∂)
+
+(defun print-symbol-∮ ()
+  "print qjf"
+  (interactive)
+  (insert "∮")∮)
+(global-set-key (kbd "C-c s q j f") 'print-symbol-∮)
+
+(defun print-symbol-ρ ()
+  "print ru"
+  (interactive)
+  (insert "ρ"))
+(global-set-key (kbd "C-c s r u") 'print-symbol-ρ)
+
+(defun print-symbol-± ()
+  "print plus and minus"
+  (interactive)
+  (insert "±"))
+(global-set-key (kbd "C-c s p m") 'print-symbol-±)
+
+(defun print-symbol-⊥ ()
+  "print perpendicular to"
+  (interactive)
+  (insert "⊥"))
+(global-set-key (kbd "C-c s p t") 'print-symbol-⊥)
+
 (defun print-symbol-ʃ ()
   "print jifen"
   (interactive)
