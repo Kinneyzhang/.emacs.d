@@ -6,10 +6,8 @@
 (package-initialize)
 (require 'package)
 (setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-	     '("gnu"   . "http://elpa.emacs-china.org/gnu/"))
-(add-to-list 'package-archives
-	     '("melpa" . "http://elpa.emacs-china.org/melpa/"))
+(setq package-archives '(("gnu"   . "http://mirrors.cloud.tencent.com/elpa/gnu/")
+                         ("melpa" . "http://mirrors.cloud.tencent.com/elpa/melpa/")))
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
@@ -35,6 +33,8 @@
   (require 'init-ivy)
   (require 'init-music)
   (require 'init-misc)
+  (require 'init-emms)
+  
   (require 'lang-python)
   (require 'lang-ruby)
   (require 'lang-javascript)

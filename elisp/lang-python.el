@@ -5,7 +5,6 @@
 ;;; Code:
 
 (use-package python
-  :defer 5
   :mode ("\\.py" . python-mode)
   :config
   (use-package elpy

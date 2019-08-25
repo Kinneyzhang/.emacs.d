@@ -1,3 +1,23 @@
+(use-package maple-preview
+  :ensure nil
+  :load-path "~/.emacs.d/site-lisp/maple-preview"
+  :commands (maple-preview-mode))
+
+(use-package hexo
+  :load-path "~/.emacs.d/site-lisp/hexo"
+  :init (setq hexo-posix-compatible-shell-file-path "/bin/zsh")
+  :config
+  (defun hexo-my-blog ()
+    (interactive)
+    (hexo "~/Geekstuff/hexoBlog/")))
+
+(use-package grab-mac-link
+  :load-path "~/.emacs.d/site-lisp/grab-mac-link"
+  :bind (("C-c l g" . grab-mac-link)))
+
+(use-package pandoc-mode
+  :load-path "~/.emacs.d/site-lisp/pandoc-mode")
+
 (use-package snails
   :load-path "~/.emacs.d/site-lisp/snails"
   :bind (("<f4>" . snails)))
@@ -73,7 +93,6 @@
 (use-package aweshell
   :load-path "~/.emacs.d/site-lisp/aweshell"
   :defer 5)
-
 
 
 (defun print-symbol-τ ()
@@ -562,19 +581,25 @@
 ;;   (setq lsp-python-ms-executable
 ;; 	"~/python-language-server/output/bin/Release/osx-x64/publish/Microsoft.Python.LanguageServer"))
 
+
+;; markdown and preview
+
 (use-package markdown-mode
   :ensure t
   :defer 5
   :mode (("README\\.md\\'" . gfm-mode)
 	 ("\\.md\\'" . markdown-mode)
 	 ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init
+  (setq markdown-command "multimarkdown")
+  )
 
 (use-package markdown-preview-mode
+  :ensure t
   :defer t
-  :ensure t)
-
-(autoload 'wl "wl" "Wanderlust" t)
+  :bind (("C-c C-c ." . markdown-preview-mode))
+  :init
+  (setq markdown-preview-stylesheets (list "https://blog.geekinney.com/static/css/github-markdown.css")))
 
 (use-package proxy-mode
   :ensure t
@@ -585,7 +610,8 @@
 
 (use-package hydra
   :ensure t
-  :defer 5)
+  :defer 5
+  :bind (("C-c r" . 'hydra-launch/body)))
 
 (defhydra hydra-launch (:color blue)
   "Launch"
@@ -600,7 +626,6 @@
   ("gm" (browse-url "https://mail.google.com/mail/u/0/?client=safari#inbox") "Gmail")
   ("s" eshell "shell")
   ("q" nil "cancel"))
-(global-set-key (kbd "C-c r") 'hydra-launch/body)
 
 (use-package helpful
   :ensure t
@@ -665,6 +690,72 @@
       (unless (string-match "The free version of TabNine only indexes up to" (funcall company-message-func))
         ad-do-it))))
 
+(defun maple/mac-switch-input-source ()
+  (shell-command
+   "osascript -e 'tell application \"System Events\" to tell process \"SystemUIServer\"
+      set currentLayout to get the value of the first menu bar item of menu bar 1 whose description is \"text input\"
+      if currentLayout is not \"ABC\" then
+        tell (1st menu bar item of menu bar 1 whose description is \"text input\") to {click, click (menu 1'\"'\"'s menu item \"ABC\")}
+      end if
+    end tell' &>/dev/null"))
+
+;; (run-with-idle-timer 10 t (maple/mac-switch-input-source))
 ;;;==================================================
+
+(defun insert-current-time () 
+  "Insert the current time" 
+  (interactive "*") 
+  (insert (current-time-string)))
+
+(global-set-key "\C-xt" 'insert-current-time)
+
+;;========================================
+(use-package prodigy
+  :ensure t
+  :config
+  (prodigy-define-service
+    :name "Hexo Server"
+    :command "hexo"
+    :args '("server")
+    :cwd "~/Geekstuff/hexoBlog"
+    :tags '(hexo server)
+    :kill-signal 'sigkill
+    :kill-process-buffer-on-stop t)
+
+  (prodigy-define-service
+    :name "Hexo Deploy"
+    :command "hexo"
+    :args '("deploy" "--generate")
+    :cwd "~/Geekstuff/hexoBlog"
+    :tags '(hexo deploy)
+    :kill-signal 'sigkill
+    :kill-process-buffer-on-stop t))
+
+(use-package org-octopress
+  :ensure t
+  :init
+  (setq org-octopress-directory-top       "~/Geekstuff/hexoBlog")
+  (setq org-octopress-directory-posts     "~/Geekstuff/hexoBlog/source/_posts") ;文章发布目录
+  (setq org-octopress-directory-org-top   "~/Geekstuff/hexoBlog")
+  (setq org-octopress-directory-org-posts "~/Geekstuff/hexoBlog/blog") ;org文章目录
+  (setq org-octopress-setup-file          "~/Geekstuff/hexoBlog/setupfile.org")
+  :config
+  (require 'ox-publish)
+  (defun org-custom-link-img-follow (path)
+    (org-open-file-with-emacs
+     (format "../source/img/%s" path)))   ;the path of the image in local dic
+
+  (defun org-custom-link-img-export (path desc format)
+    (cond
+     ((eq format 'html)
+      (format "<img src=\"/img/%s\" alt=\"%s\"/>" path desc)))) ;the path of the image in webserver
+
+  (org-add-link-type "img" 'org-custom-link-img-follow 'org-custom-link-img-export)
+  )
+
+
+(setq epg-gpg-program "gpg2")
+
+;;==============================
 
 (provide 'init-misc)

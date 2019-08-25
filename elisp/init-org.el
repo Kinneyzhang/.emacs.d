@@ -24,13 +24,16 @@
 		("n" "note" entry (file "~/org/inbox.org")
 		 "* %? :NOTE:\n%U\n" :clock-resume t
 		 :empty-lines 1)
-		("j" "Journal" entry (file+datetree "~/org/diary.org")
-		 "* %?\n Entered on %U\n" :clock-in t :clock-resume t)
+		("j" "Journal entry" entry (function org-journal-find-location)
+		 "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?")
+		;; ("j" "Journal" entry (file+datetree "~/org/diary.org")
+		;;  "* %?\n Entered on %U\\\\\n"
+		;;  :clock-in t :clock-resume t)
 		("w" "org-protocol" entry (file "~/org/inbox.org")
 		 "* TODO Review %c\n%U\n" :immediate-finish t
 		 :empty-lines 1)
 		("h" "Habit" entry (file "~/org/inbox.org")
-		 "* NEXT %?\n%U\n%a\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"
+		 "* NEXT %?\n%U\nSCHEDULED: %(format-time-string \"%<<%Y-%m-%d %a .+1d/3d>>\")\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n"
 		 :empty-lines 1))))
   :config
   ;; org code block
@@ -765,21 +768,27 @@
          "https://blog.geekinney.com/latest"
          "~/org/feeds.org" "Geekblog")))
 
+;; org journal
 
-(use-package org-brain
+(use-package org-journal
   :ensure t
+  :defer t
+  :custom
+  (org-journal-dir "~/org/journal/")
+  (org-journal-date-format "%A, %d %B %Y")
   :init
-  (setq org-brain-path "~/org-brain")
-  ;; ;; For Evil users
-  ;; (with-eval-after-load 'evil
-  ;;   (evil-set-initial-state 'org-brain-visualize-mode 'emacs))
+  (setq org-journal-enable-agenda-integration t)
   :config
-  (setq org-id-track-globally t)
-  (setq org-id-locations-file "~/.emacs.d/.org-id-locations")
-  (push '("b" "Brain" plain (function org-brain-goto-end)
-          "* %i%?" :empty-lines 1)
-        org-capture-templates)
-  (setq org-brain-visualize-default-choices 'all)
-  (setq org-brain-title-max-length 12))
+  (defun org-journal-find-location ()
+    ;; Open today's journal, but specify a non-nil prefix argument in order to
+    ;; inhibit inserting the heading; org-capture will insert the heading.
+    (org-journal-new-entry t)
+    ;; Position point on the journal's top-level heading so that org-capture
+    ;; will add the new entry as a child entry.
+    (goto-char (point-min))
+    
+    )
+  )
+
 
 (provide 'init-org)

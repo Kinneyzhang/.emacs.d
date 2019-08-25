@@ -20,6 +20,7 @@
 (setq zone-when-idle 300)
 (setq exec-path-from-shell-check-startup-files nil)
 (setq epg-gpg-program "gpg2")
+(setq x-select-enable-primary t) ;选中区域自动复制
 
 (org-babel-do-load-languages
  'org-babel-load-languages

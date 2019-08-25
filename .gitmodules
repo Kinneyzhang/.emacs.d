@@ -22,3 +22,15 @@
 [submodule "site-lisp/snails"]
 	path = site-lisp/snails
 	url = https://github.com/manateelazycat/snails.git
+[submodule "site-lisp/pandoc-mode"]
+	path = site-lisp/pandoc-mode
+	url = https://github.com/joostkremers/pandoc-mode.git
+[submodule "site-lisp/grab-mac-link"]
+	path = site-lisp/grab-mac-link
+	url = https://github.com/xuchunyang/grab-mac-link.el.git
+[submodule "site-lisp/hexo"]
+	path = site-lisp/hexo
+	url = https://github.com/kuanyui/hexo.el.git
+[submodule "site-lisp/maple-preview"]
+	path = site-lisp/maple-preview
+	url = https://github.com/honmaple/emacs-maple-preview.git
