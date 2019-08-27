@@ -763,10 +763,10 @@
       "<link rel=\"stylesheet\" href=\"style2.css\">")
 
 ;; org feed
-(setq org-feed-alist
-      '(("Geekblog"
-         "https://blog.geekinney.com/latest"
-         "~/org/feeds.org" "Geekblog")))
+;; (setq org-feed-alist
+;;       '(("Geekblog"
+;;          "https://blog.geekinney.com/latest"
+;;          "~/org/feeds.org" "Geekblog")))
 
 ;; org journal
 
@@ -785,10 +785,29 @@
     (org-journal-new-entry t)
     ;; Position point on the journal's top-level heading so that org-capture
     ;; will add the new entry as a child entry.
-    (goto-char (point-min))
-    
-    )
-  )
+    (goto-char (point-min))))
+
+;; (use-package org-octopress
+;;   :ensure t
+;;   :init
+;;   (setq org-octopress-directory-top       "~/Geekstuff/hexoBlog")
+;;   (setq org-octopress-directory-posts     "~/Geekstuff/hexoBlog/source/_posts") ;文章发布目录
+;;   (setq org-octopress-directory-org-top   "~/Geekstuff/hexoBlog")
+;;   (setq org-octopress-directory-org-posts "~/Geekstuff/hexoBlog/blog") ;org文章目录
+;;   (setq org-octopress-setup-file          "~/Geekstuff/hexoBlog/setupfile.org")
+;;   :config
+;;   (require 'ox-publish)
+;;   (defun org-custom-link-img-follow (path)
+;;     (org-open-file-with-emacs
+;;      (format "../source/img/%s" path)))   ;the path of the image in local dic
+
+;;   (defun org-custom-link-img-export (path desc format)
+;;     (cond
+;;      ((eq format 'html)
+;;       (format "<img src=\"/img/%s\" alt=\"%s\"/>" path desc)))) ;the path of the image in webserver
+
+;;   (org-add-link-type "img" 'org-custom-link-img-follow 'org-custom-link-img-export)
+;;   )
 
 
 (provide 'init-org)

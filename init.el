@@ -33,7 +33,6 @@
   (require 'init-ivy)
   (require 'init-music)
   (require 'init-misc)
-  (require 'init-emms)
   
   (require 'lang-python)
   (require 'lang-ruby)

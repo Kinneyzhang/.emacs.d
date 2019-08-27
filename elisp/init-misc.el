@@ -731,31 +731,6 @@
     :kill-signal 'sigkill
     :kill-process-buffer-on-stop t))
 
-(use-package org-octopress
-  :ensure t
-  :init
-  (setq org-octopress-directory-top       "~/Geekstuff/hexoBlog")
-  (setq org-octopress-directory-posts     "~/Geekstuff/hexoBlog/source/_posts") ;文章发布目录
-  (setq org-octopress-directory-org-top   "~/Geekstuff/hexoBlog")
-  (setq org-octopress-directory-org-posts "~/Geekstuff/hexoBlog/blog") ;org文章目录
-  (setq org-octopress-setup-file          "~/Geekstuff/hexoBlog/setupfile.org")
-  :config
-  (require 'ox-publish)
-  (defun org-custom-link-img-follow (path)
-    (org-open-file-with-emacs
-     (format "../source/img/%s" path)))   ;the path of the image in local dic
-
-  (defun org-custom-link-img-export (path desc format)
-    (cond
-     ((eq format 'html)
-      (format "<img src=\"/img/%s\" alt=\"%s\"/>" path desc)))) ;the path of the image in webserver
-
-  (org-add-link-type "img" 'org-custom-link-img-follow 'org-custom-link-img-export)
-  )
-
-
-(setq epg-gpg-program "gpg2")
-
 ;;==============================
 
 (provide 'init-misc)
