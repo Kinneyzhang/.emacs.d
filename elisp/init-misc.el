@@ -18,9 +18,9 @@
 (use-package pandoc-mode
   :load-path "~/.emacs.d/site-lisp/pandoc-mode")
 
-(use-package snails
-  :load-path "~/.emacs.d/site-lisp/snails"
-  :bind (("<f4>" . snails)))
+;; (use-package snails
+;;   :load-path "~/.emacs.d/site-lisp/snails"
+;;   :bind (("<f4>" . snails)))
 
 (use-package auto-save
   :load-path "~/.emacs.d/site-lisp/auto-save"
@@ -410,7 +410,6 @@
   (find-file "~/.emacs.d/elisp/init-misc.el"))
 
 (global-set-key (kbd "<f1>") 'open-my-init-file)
-(global-set-key (kbd "<f2>") 'open-my-misc-file)
 
 (use-package magit
   :defer t
@@ -591,7 +590,7 @@
 	 ("\\.md\\'" . markdown-mode)
 	 ("\\.markdown\\'" . markdown-mode))
   :init
-  (setq markdown-command "multimarkdown")
+  (setq markdown-command "markdown_py")
   )
 
 (use-package markdown-preview-mode
@@ -599,7 +598,9 @@
   :defer t
   :bind (("C-c C-c ." . markdown-preview-mode))
   :init
-  (setq markdown-preview-stylesheets (list "https://blog.geekinney.com/static/css/github-markdown.css")))
+  (setq markdown-preview-stylesheets
+	(list "https://blog.geekinney.com/static/css/github-markdown.css"
+	      "~/.emacs.d/config-file/extra-css/extra-mardown.css")))
 
 (use-package proxy-mode
   :ensure t
@@ -702,35 +703,29 @@
 ;; (run-with-idle-timer 10 t (maple/mac-switch-input-source))
 ;;;==================================================
 
-(defun insert-current-time () 
+(defun insert-current-date () 
   "Insert the current time" 
-  (interactive "*") 
-  (insert (current-time-string)))
+  (interactive "*")
+  (insert (format-time-string "%B %d, %Y" (current-time))))
 
-(global-set-key "\C-xt" 'insert-current-time)
-
-;;========================================
-(use-package prodigy
-  :ensure t
-  :config
-  (prodigy-define-service
-    :name "Hexo Server"
-    :command "hexo"
-    :args '("server")
-    :cwd "~/Geekstuff/hexoBlog"
-    :tags '(hexo server)
-    :kill-signal 'sigkill
-    :kill-process-buffer-on-stop t)
-
-  (prodigy-define-service
-    :name "Hexo Deploy"
-    :command "hexo"
-    :args '("deploy" "--generate")
-    :cwd "~/Geekstuff/hexoBlog"
-    :tags '(hexo deploy)
-    :kill-signal 'sigkill
-    :kill-process-buffer-on-stop t))
+(global-set-key "\C-xt" 'insert-current-date)
 
 ;;==============================
+
+;; (use-package openwith
+;;   :ensure t
+;;   :config
+;;   (setq openwith-associations
+;;         (cond
+;;          ((string-equal system-type "darwin")
+;;           '(("\\.\\(dmg\\|doc\\|docs\\|xls\\|xlsx\\)$"
+;;              "open" (file))
+;;             ("\\.\\(mp4\\|mp3\\|webm\\|avi\\|flv\\|mov\\)$"
+;;              "mplayer" ("-a" "VLC" file))))
+;;          ((string-equal system-type "gnu/linux")
+;;           '(("\\.\\(mp4\\|mp3\\|webm\\|avi\\|flv\\|mov\\)$"
+;;              "xdg-open" (file))))))
+;;   (openwith-mode +1))
+
 
 (provide 'init-misc)

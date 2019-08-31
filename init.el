@@ -4,6 +4,7 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
+(windmove-default-keybindings)
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives '(("gnu"   . "http://mirrors.cloud.tencent.com/elpa/gnu/")
@@ -17,6 +18,7 @@
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
 (setq custom-file (expand-file-name "custom.el" (concat user-emacs-directory "elisp/")))
+
 
 (let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
       (file-name-handler-alist nil)) ;; 清空避免加载远程文件的时候分析文件。

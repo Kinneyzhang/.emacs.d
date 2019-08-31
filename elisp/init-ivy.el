@@ -44,12 +44,15 @@
   :ensure t
   :init
   (progn
-    (setq ivy-posframe-parameters '((left-fringe . 8) (right-fringe . 8)))
-    (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+    ;; (setq ivy-posframe-parameters '((left-fringe . 8) (right-fringe . 8)))
+    (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
     (setq ivy-posframe-height nil)
-    (setq ivy-posframe-width 100))
+    (setq ivy-posframe-width 120))
   :config
-  (ivy-posframe-mode t))
+  (ivy-posframe-mode))
+
+(defun ivy-posframe-display-at-frame-top-center (str)
+  (ivy-posframe--display str #'posframe-poshandler-frame-top-center))
 
 ;; projectile
 (use-package projectile
@@ -101,7 +104,7 @@
 	   (lambda (cand) (get-buffer cand)))
 	  counsel-M-x
 	  (:columns
-	   ((counsel-M-x-transformer (:width 40))  ; thr original transfomer
+	   ((counsel-M-x-transformer (:width 80))  ; thr original transfomer
 	    (ivy-rich-counsel-function-docstring (:face font-lock-doc-face))))  ; return the docstring of the command
 	  counsel-describe-function
 	  (:columns

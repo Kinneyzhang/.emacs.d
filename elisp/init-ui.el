@@ -10,6 +10,10 @@
 (global-hl-line-mode -1);;光标行高亮
 
 (global-hi-lock-mode 1) ;;使能高亮
+
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . light))
+
 (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
 
 (setq inhibit-splash-screen nil);取消默认启动窗口

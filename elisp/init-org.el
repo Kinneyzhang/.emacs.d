@@ -1,7 +1,7 @@
 ;;; Org clock
 (use-package org
   :bind (("C-c c" . org-capture)
-	 ("<f9>" . plain-org-wiki)
+	 ("<f11>" . plain-org-wiki)
 	 ("<f12>" . org-agenda)
 	 ("C-c a" . org-agenda)
 	 ("C-c o l" . org-store-link)
@@ -772,12 +772,12 @@
 
 (use-package org-journal
   :ensure t
-  :defer t
   :custom
   (org-journal-dir "~/org/journal/")
   (org-journal-date-format "%A, %d %B %Y")
   :init
   (setq org-journal-enable-agenda-integration t)
+  :bind (("C-c j" . calendar))
   :config
   (defun org-journal-find-location ()
     ;; Open today's journal, but specify a non-nil prefix argument in order to

@@ -33,3 +33,4 @@ semanticdb
 ede-projects.el
 projectile.cache
 transient
+config-file
