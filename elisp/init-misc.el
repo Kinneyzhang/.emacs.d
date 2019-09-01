@@ -1,26 +1,17 @@
-(use-package maple-preview
-  :ensure nil
-  :load-path "~/.emacs.d/site-lisp/maple-preview"
-  :commands (maple-preview-mode))
-
-(use-package hexo
-  :load-path "~/.emacs.d/site-lisp/hexo"
-  :init (setq hexo-posix-compatible-shell-file-path "/bin/zsh")
+(use-package org-download
+  :ensure t
+  :defer 5
+  :init (setq-default org-download-image-dir "~/Pictures/org")
   :config
-  (defun hexo-my-blog ()
-    (interactive)
-    (hexo "~/Geekstuff/hexoBlog/")))
+  (add-hook 'dired-mode-hook 'org-download-enable))
 
 (use-package grab-mac-link
   :load-path "~/.emacs.d/site-lisp/grab-mac-link"
   :bind (("C-c l g" . grab-mac-link)))
 
-(use-package pandoc-mode
-  :load-path "~/.emacs.d/site-lisp/pandoc-mode")
-
-;; (use-package snails
-;;   :load-path "~/.emacs.d/site-lisp/snails"
-;;   :bind (("<f4>" . snails)))
+(use-package snails
+  :load-path "~/.emacs.d/site-lisp/snails"
+  :bind (("<f4>" . snails)))
 
 (use-package auto-save
   :load-path "~/.emacs.d/site-lisp/auto-save"
@@ -590,12 +581,10 @@
 	 ("\\.md\\'" . markdown-mode)
 	 ("\\.markdown\\'" . markdown-mode))
   :init
-  (setq markdown-command "markdown_py")
-  )
+  (setq markdown-command "markdown_py"))
 
 (use-package markdown-preview-mode
   :ensure t
-  :defer t
   :bind (("C-c C-c ." . markdown-preview-mode))
   :init
   (setq markdown-preview-stylesheets
@@ -625,6 +614,8 @@
   ("yt" (browse-url "https://www.youtube.com") "YouTube")
   ("fd" (browse-url "https://feedly.com/i/latest") "Feedly")
   ("gm" (browse-url "https://mail.google.com/mail/u/0/?client=safari#inbox") "Gmail")
+  ("gb" (browse-url "https://blog.geekinney.com") "Geekblog")
+  ("ga" (browse-url "https://blog.geekinney.com/admin") "Geekblog-Admin")
   ("s" eshell "shell")
   ("q" nil "cancel"))
 
