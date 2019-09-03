@@ -81,10 +81,6 @@
   (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-left)
   (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
 
-(use-package aweshell
-  :load-path "~/.emacs.d/site-lisp/aweshell"
-  :defer 5)
-
 
 (defun print-symbol-τ ()
   "print to"
@@ -598,36 +594,29 @@
   (setq url-gateway-local-host-regexp
 	(concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
 
-(use-package hydra
-  :ensure t
-  :defer 5
-  :bind (("C-c r" . 'hydra-launch/body)))
-
-(defhydra hydra-launch (:color blue)
-  "Launch"
-  ("ec" (browse-url "https://www.emacs-china.org") "EmacsChina")
-  ("ew" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
-  ("go" (browse-url "https://www.google.com") "Google")
-  ("gt" (browse-url "https://www.github.com") "Github")
-  ("mp" (browse-url "http://www.melpa.org/#/") "Melpa")
-  ("v2" (browse-url "https://www.v2ex.com") "V2EX")
-  ("yt" (browse-url "https://www.youtube.com") "YouTube")
-  ("fd" (browse-url "https://feedly.com/i/latest") "Feedly")
-  ("gm" (browse-url "https://mail.google.com/mail/u/0/?client=safari#inbox") "Gmail")
-  ("gb" (browse-url "https://blog.geekinney.com") "Geekblog")
-  ("ga" (browse-url "https://blog.geekinney.com/admin") "Geekblog-Admin")
-  ("s" eshell "shell")
-  ("q" nil "cancel"))
 
 (use-package helpful
   :ensure t
   :defer 5
-  :bind (("C-h f" . helpful-callable)
-	 ("C-h v" . helpful-variable)
-	 ("C-h k" . helpful-key)
-	 ("C-c C-d" . helpful-at-point)
-	 ("C-h F". helpful-function)
-	 ("C-h C" . helpful-command)))
+  :pretty-hydra
+  ((:color teal :quit-key "q")
+   ("Helpful"
+    (("f" helpful-callable "callable")
+     ("v" helpful-variable "variable")
+     ("k" helpful-key "key")
+     ("c" helpful-command "command")
+     ("d" helpful-at-point "thing at point"))))
+  :bind ("C-h" . helpful-hydra/body))
+
+;; (use-package helpful
+;;   :ensure t
+;;   :defer 5
+;;   :bind (("C-h f" . helpful-callable)
+;; 	 ("C-h v" . helpful-variable)
+;; 	 ("C-h k" . helpful-key)
+;; 	 ("C-c C-d" . helpful-at-point)
+;; 	 ("C-h F". helpful-function)
+;; 	 ("C-h C" . helpful-command)))
 
 (use-package django-mode
   :ensure t)

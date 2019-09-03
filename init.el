@@ -28,6 +28,7 @@
   (benchmark-init/activate)
   
   (require 'custom)
+  (require 'init-hydra)
   (require 'init-better)
   (require 'init-ui)
   (require 'init-window)
@@ -35,6 +36,7 @@
   (require 'init-ivy)
   (require 'init-music)
   (require 'init-misc)
+  (require 'init-elfeed)
   
   (require 'lang-python)
   (require 'lang-ruby)

@@ -7,9 +7,6 @@
 [submodule "site-lisp/company-english-helper"]
 	path = site-lisp/company-english-helper
 	url = https://github.com/manateelazycat/company-english-helper.git
-[submodule "site-lisp/aweshell"]
-	path = site-lisp/aweshell
-	url = https://github.com/manateelazycat/aweshell.git
 [submodule "site-lisp/leetcode"]
 	path = site-lisp/leetcode
 	url = https://github.com/kaiwk/leetcode.el.git
@@ -25,3 +22,6 @@
 [submodule "site-lisp/grab-mac-link"]
 	path = site-lisp/grab-mac-link
 	url = https://github.com/xuchunyang/grab-mac-link.el.git
+[submodule "site-lisp/hydra-posframe"]
+	path = site-lisp/hydra-posframe
+	url = https://github.com/Ladicle/hydra-posframe.git
