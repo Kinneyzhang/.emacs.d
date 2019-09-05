@@ -9,20 +9,47 @@
 
 (global-hl-line-mode -1);;光标行高亮
 
-(global-hi-lock-mode 1) ;;使能高亮
-
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . light))
 
+(setq icon-title-format nil)
+(setq frame-title-format t)
+(setq multiple-frames t)
+
 (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
-
 (setq inhibit-splash-screen nil);取消默认启动窗口
-
 (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
-
 (setq-default cursor-type 'box);变光标, setq-default设置全局
 
 ;;==================================================
+
+(use-package dashboard
+  :ensure t
+  :init
+  (setq dashboard-center-content t)
+  (setq dashboard-set-navigator t)
+  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+  (setq dashboard-banner-logo-title "Happy hacking emacs!  [Author:Kinney] [Github:https://github.com/Kinneyzhang/.emacs.d.git]")
+  (setq dashboard-startup-banner "~/.emacs.d/img/ying.png")
+  (setq dashboard-items '((recents  . 8) (projects . 5)))
+    ;; Format: "(icon title help action face prefix suffix)"
+  ;; (setq dashboard-navigator-buttons
+  ;; 	`(;; line1
+  ;; 	  ((,(all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0)
+  ;; 	    "Homepage"
+  ;; 	    "Browse homepage"
+  ;; 	    (lambda (&rest _) (browse-url "homepage")))
+  ;; 	   ("★" "Star" "Show stars" (lambda (&rest _) (show-stars)) warning)
+  ;; 	   ("?" "" "?/h" #'show-help nil "<" ">"))
+  ;; 	  ;; line 2
+  ;; 	  ((,(all-the-icons-faicon "linkedin" :height 1.1 :v-adjust 0.0)
+  ;; 	    "Linkedin"
+  ;; 	    ""
+  ;; 	    (lambda (&rest _) (browse-url "homepage")))
+  ;; 	   ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
+  :config
+  (dashboard-setup-startup-hook))
+
 
 (use-package dracula-theme
   :ensure t
@@ -117,9 +144,6 @@
   (setq doom-modeline-irc-stylize 'identity)
   )
 
-(use-package all-the-icons
-  :defer 5
-  :load-path "~/.emacs.d/site-lisp/all-the-icons")
 
 (use-package all-the-icons-dired
   :ensure t
@@ -127,7 +151,7 @@
   (require 'all-the-icons-dired)
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
- ;; colorful dired-mode
+;; colorful dired-mode
 (use-package diredfl
   :ensure t
   :config (diredfl-global-mode t))

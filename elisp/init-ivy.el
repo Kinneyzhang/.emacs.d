@@ -44,7 +44,7 @@
   :ensure t
   :init
   (progn
-    ;; (setq ivy-posframe-parameters '((left-fringe . 8) (right-fringe . 8)))
+    (setq ivy-posframe-parameters '((left-fringe . 8) (right-fringe . 8)))
     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
     (setq ivy-posframe-height nil)
     (setq ivy-posframe-width 120))

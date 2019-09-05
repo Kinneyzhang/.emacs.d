@@ -1,13 +1,3 @@
-(use-package darkroom
-  :ensure t
-  :defer t
-  :bind (("C-c d" . darkroom-tentative-mode)))
-
-;; (defun my/dark-mode ()
-;;   (interactive)
-;;   (set-window-margins (selected-window) 40 40))
-
-
 (use-package org-download
   :ensure t
   :defer 5
@@ -344,7 +334,7 @@
 (defun chunyang-scratch-save ()
   (ignore-errors
     (with-current-buffer "*scratch*"
-      (write-region nil nil "~/.emacs.d/var/scratch"))))
+      (write-region nil nil "~/.emacs.d/config-file/scratch"))))
 
 (defun chunyang-scratch-restore ()
   (let ((f "~/.emacs.d/var/scratch"))
@@ -436,10 +426,6 @@
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode))
 
-(use-package which-key
-  :ensure t
-  :config
-  (which-key-mode))
 
 (use-package smartparens
   :ensure t
@@ -447,10 +433,6 @@
   (electric-pair-mode t)
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
 
-(use-package paredit
-  ;; check if the parens is matched
-  :ensure t
-  :defer t)
 
 (use-package hungry-delete
   :defer 5
@@ -507,61 +489,12 @@
   (add-hook 'java-mode-hook 'flycheck-mode)
   (add-hook 'web-mode-hook 'flycheck-mode))
 
-(use-package dashboard
-  :ensure t
-  :init
-  (setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-  (setq dashboard-banner-logo-title "Happy hacking emacs!  [Author:Kinney] [Github:https://github.com/Kinneyzhang/.emacs.d.git]")
-  (setq dashboard-startup-banner "~/.emacs.d/img/ying.png")
-  (setq dashboard-items '((recents  . 8) (projects . 5)))
-  :config
-  (dashboard-setup-startup-hook))
-
-(use-package youdao-dictionary
-  :ensure t
-  :defer 5
-  ;; :bind (("C-c y y" . youdao-dictionary-search-at-point)
-  ;; 	 ("C-c y i" . youdao-dictionary-search-from-input))
-  :init
-  (setq url-automatic-caching t))
-
-(use-package osx-dictionary
-  :ensure t
-  :bind (("C-c y y" . osx-dictionary-search-word-at-point)
-	 ("C-c y i" . osx-dictionary-search-input))
-  )
-
 ;;use xwidget-webkit
 ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
 ;; (defun browse-url-default-browser (url &rest args)
 ;;   "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
 ;;   (xwidget-webkit-browse-url url args))
 ;; (global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
-
-(use-package search-web
-  :defer t
-  :ensure t
-  :init
-  (setq search-web-engines
-	'(("Google" "http://www.google.com/search?q=%s" nil)
-	  ("Youtube" "http://www.youtube.com/results?search_query=%s" nil)
-	  ("Stackoveflow" "http://stackoverflow.com/search?q=%s" nil)
-	  ("Sogou" "https://www.sogou.com/web?query=%s" nil)
-	  ("Github" "https://github.com/search?q=%s" nil)
-	  ("Melpa" "https://melpa.org/#/?q=%s" nil)
-	  ("Emacs-China" "https://emacs-china.org/search?q=%s" nil)
-	  ("EmacsWiki" "https://www.emacswiki.org/emacs/%s" nil)
-	  ("Wiki-zh" "https://zh.wikipedia.org/wiki/%s" nil)
-	  ("Wiki-en" "https://en.wikipedia.org/wiki/%s" nil)
-	  ))
-  :bind (("C-C w u" . browse-url)
-	 ("C-c w w" . search-web)
-	 ("C-c w p" . search-web-at-point)
-	 ("C-c w r" . search-web-region)))
-
-(use-package browse-at-remote
-  :ensure t
-  :bind ("C-c w g" . browse-at-remote))
 
 
 ;; (use-package lsp-python-ms
@@ -597,13 +530,6 @@
 	(list "https://blog.geekinney.com/static/css/github-markdown.css"
 	      "~/.emacs.d/config-file/extra-css/extra-mardown.css")))
 
-(use-package proxy-mode
-  :ensure t
-  :defer 5
-  :init
-  (setq proxy-mode-socks-proxy '("geekinney.com" "124.156.188.197" 10808 5))
-  (setq url-gateway-local-host-regexp
-      (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
 
 (use-package helpful
   :ensure t
@@ -692,13 +618,6 @@
 
 ;; (run-with-idle-timer 10 t (maple/mac-switch-input-source))
 ;;;==================================================
-
-(defun insert-current-date () 
-  "Insert the current time" 
-  (interactive "*")
-  (insert (format-time-string "%B %d, %Y" (current-time))))
-
-(global-set-key "\C-xt" 'insert-current-date)
 
 ;;==============================
 

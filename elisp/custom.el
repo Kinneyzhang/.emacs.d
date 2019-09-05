@@ -3,9 +3,30 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (darkroom youdao-dictionary ycmd xterm-color xelb winum window-numbering which-key web-mode web-beautify wanderlust w3m use-package undo-tree treemacs-projectile treemacs-magit sudoku ssass-mode spotlight spinner spacemacs-theme soundcloud smex smartparens shut-up search-web ruby-hash-syntax robe reveal-in-osx-finder restart-emacs python pyenv-mode py-autopep8 proxy-mode project-persist-drawer powerline popwin podcaster pip-requirements pinboard-popular php-mode paredit pacmacs package-build osx-dictionary org-projectile org-octopress org-journal org-gcal org-download org-bullets org-agenda-property nyan-mode noflet nodejs-repl neotree navigel multi-term move-text mmm-mode mingus math-symbol-lists material-theme markdown-preview-mode major-mode-hydra magit-popup link-hint js2-refactor js-comint ivy-rich ivy-posframe indent-guide impatient-mode image+ iedit idle-org-agenda hungry-delete helpful hackernews habitica graphql goto-chg ggtags geiser furl flycheck fancy-battery expand-region exec-path-from-shell esxml enh-ruby-mode emmet-mode elpy elfeed edit-indirect dracula-theme doom-themes doom-modeline django-mode disable-mouse diredfl dashboard dash-docs counsel-world-clock counsel-projectile counsel-osx-app company-web company-tern company-tabnine company-posframe company-jedi company-c-headers company-box column-enforce-mode calfw-org calfw buffer-move browse-at-remote bongo benchmark-init beacon auto-yasnippet auto-complete anaconda-mode all-the-icons-ivy all-the-icons-dired ace-popup-menu ace-jump-mode ac-html-bootstrap ac-html-angular 2048-game))))
+ '(bookmark-default-file "~/.emacs.d/config-file/bookmarks")
+ '(default-frame-alist
+    (quote
+     ((ns-appearance . dark)
+      (ns-transparent-titlebar . t)
+      (left-fringe . 1)
+      (right-fringe . 1))))
+ '(eshell-directory-name "~/.emacs.d/config-file/eshell/")
+ '(ido-save-directory-list-file "~/.emacs.d/config-file/ido.last")
+ '(org-clock-persist-file "~/.emacs.d/config-file/org-clock-save.el")
+ '(org-id-locations-file "~/.emacs.d/config-file/.org-id-locations")
+ '(projectile-cache-file "/Users/kinney/.emacs.d/config-file/projectile.cache")
+ '(projectile-known-projects-file
+   "/Users/kinney/.emacs.d/config-file/projectile-bookmarks.eld")
+ '(recentf-save-file "~/.emacs.d/config-file/recentf")
+ '(save-place-file "~/.emacs.d/config-file/places")
+ '(semanticdb-default-save-directory "~/.emacs.d/config-file/semanticdb")
+ '(smex-save-file "~/.emacs.d/config-file/smex-items")
+ '(transient-history-file "~/.emacs.d/config-file/transient/history.el")
+ '(transient-levels-file "~/.emacs.d/config-file/transient/levels.el")
+ '(transient-values-file "~/.emacs.d/config-file/transient/values.el")
+ '(url-configuration-directory "~/.emacs.d/config-file/url/")
+ '(url-cookie-file "/Users/kinney/.emacs.d/config-file/url/cookies")
+ '(w3m-default-save-directory "~/Downloads"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

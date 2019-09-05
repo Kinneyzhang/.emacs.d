@@ -17,25 +17,28 @@
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
-(setq custom-file (expand-file-name "custom.el" (concat user-emacs-directory "elisp/")))
-
+(setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 
 (let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
       (file-name-handler-alist nil)) ;; 清空避免加载远程文件的时候分析文件。
   
   (require 'benchmark-init-modes)
   (require 'benchmark-init)
-  (benchmark-init/activate)  
-  (require 'custom)
+  (benchmark-init/activate)
+
+  (load (concat user-emacs-directory "elisp/custom.el"))
+
+  (require 'init-utils)
+  (require 'init-ui)
+  (require 'init-ivy)
   (require 'init-hydra)
   (require 'init-better)
-  (require 'init-ui)
   (require 'init-window)
-  (require 'init-org)
-  (require 'init-ivy)
-  (require 'init-music)
   (require 'init-misc)
+  (require 'init-org)
+  (require 'init-music)
   (require 'init-elfeed)
+  (require 'doom-cyberpunk-theme)
   
   (require 'lang-python)
   (require 'lang-ruby)
