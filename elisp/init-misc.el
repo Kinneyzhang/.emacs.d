@@ -1,3 +1,13 @@
+(use-package darkroom
+  :ensure t
+  :defer t
+  :bind (("C-c d" . darkroom-tentative-mode)))
+
+;; (defun my/dark-mode ()
+;;   (interactive)
+;;   (set-window-margins (selected-window) 40 40))
+
+
 (use-package org-download
   :ensure t
   :defer 5
@@ -589,11 +599,11 @@
 
 (use-package proxy-mode
   :ensure t
-  :defer t
-  :config
+  :defer 5
+  :init
+  (setq proxy-mode-socks-proxy '("geekinney.com" "124.156.188.197" 10808 5))
   (setq url-gateway-local-host-regexp
-	(concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
-
+      (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
 
 (use-package helpful
   :ensure t
@@ -706,6 +716,5 @@
 ;;           '(("\\.\\(mp4\\|mp3\\|webm\\|avi\\|flv\\|mov\\)$"
 ;;              "xdg-open" (file))))))
 ;;   (openwith-mode +1))
-
 
 (provide 'init-misc)

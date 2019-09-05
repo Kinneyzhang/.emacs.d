@@ -25,8 +25,7 @@
   
   (require 'benchmark-init-modes)
   (require 'benchmark-init)
-  (benchmark-init/activate)
-  
+  (benchmark-init/activate)  
   (require 'custom)
   (require 'init-hydra)
   (require 'init-better)

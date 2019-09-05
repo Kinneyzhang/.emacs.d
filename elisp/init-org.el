@@ -92,18 +92,54 @@
 	  ("n" "note" entry (file "~/org/inbox.org")
 	   "* %? :NOTE:\n%U\n" :clock-resume t
 	   :empty-lines 1)
+	  ;; ("j" "Journal entry" entry (function org-journal-find-location)
+	  ;;  "* %(format-time-string org-journal-time-format)%?")
 	  ("j" "Journal entry" entry (function org-journal-find-location)
-	   "* %(format-time-string org-journal-time-format)%^{Title}\n%i%?")
+	   "* %(format-time-string org-journal-time-format)%?")
 	  ("w" "org-protocol" entry (file "~/org/inbox.org")
 	   "* TODO Review %c\n%U\n" :immediate-finish t
 	   :empty-lines 1)
-	  ("h" "Habit" entry (file "~/org/inbox.org")
-	   "* NEXT %?\n%U\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: NEXT\n:END:\n")
+	  ("h" "Habit" entry (file "~/org/gtd.org")
+	   "* TODO %?\n%U\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: TODO\n:END:\n")
 	  ))
   :config
 
   ;;; org habit
-					;Enable habit tracking (and a bunch of other modules)
+  (require 'org-habit)
+  (defvar my/org-habit-show-graphs-everywhere nil
+    "If non-nil, show habit graphs in all types of agenda buffers.
+Normally, habits display consistency graphs only in
+\"agenda\"-type agenda buffers, not in other types of agenda
+buffers.  Set this variable to any non-nil variable to show
+consistency graphs in all Org mode agendas.")
+
+  (defun my/org-agenda-mark-habits ()
+    "Mark all habits in current agenda for graph display.
+
+This function enforces `my/org-habit-show-graphs-everywhere' by
+marking all habits in the current agenda as such.  When run just
+before `org-agenda-finalize' (such as by advice; unfortunately,
+`org-agenda-finalize-hook' is run too late), this has the effect
+of displaying consistency graphs for these habits.
+
+When `my/org-habit-show-graphs-everywhere' is nil, this function
+has no effect."
+    (when (and my/org-habit-show-graphs-everywhere
+	       (not (get-text-property (point) 'org-series)))
+      (let ((cursor (point))
+	    item data) 
+	(while (setq cursor (next-single-property-change cursor 'org-marker))
+	  (setq item (get-text-property cursor 'org-marker))
+	  (when (and item (org-is-habit-p item)) 
+	    (with-current-buffer (marker-buffer item)
+	      (setq data (org-habit-parse-todo item))) 
+	    (put-text-property cursor
+			       (next-single-property-change cursor 'org-marker)
+			       'org-habit-p data))))))
+
+  (advice-add #'org-agenda-finalize :before #'my/org-agenda-mark-habits)
+  
+  ;;Enable habit tracking (and a bunch of other modules)
   (setq org-modules (quote (org-bbdb
 			    org-bibtex
 			    org-crypt
@@ -697,15 +733,36 @@
   (org-journal-date-format "%A, %d %B %Y")
   :init
   (setq org-journal-enable-agenda-integration t)
-  :bind (("C-c j" . calendar))
+  :bind (("C-c j c" . calendar)
+	 ("C-c j t" . journal-file-today)
+	 ("C-c j y" . journal-file-yesterday))
+  :preface
+  (defun get-journal-file-today ()
+    "Gets filename for today's journal entry."
+    (let ((daily-name (format-time-string "%Y%m%d")))
+      (expand-file-name (concat org-journal-dir daily-name))))
+
+  (defun journal-file-today ()
+    "Creates and load a journal file based on today's date."
+    (interactive)
+    (find-file (get-journal-file-today)))
+
+  (defun get-journal-file-yesterday ()
+    "Gets filename for yesterday's journal entry."
+    (let* ((yesterday (time-subtract (current-time) (days-to-time 1)))
+	   (daily-name (format-time-string "%Y%m%d" yesterday)))
+      (expand-file-name (concat org-journal-dir daily-name))))
+
+  (defun journal-file-yesterday ()
+    "Creates and load a file based on yesterday's date."
+    (interactive)
+    (find-file (get-journal-file-yesterday)))
   :config
   (defun org-journal-find-location ()
-    ;; Open today's journal, but specify a non-nil prefix argument in order to
-    ;; inhibit inserting the heading; org-capture will insert the heading.
     (org-journal-new-entry t)
-    ;; Position point on the journal's top-level heading so that org-capture
-    ;; will add the new entry as a child entry.
-    (goto-char (point-min))))
+    ;; (find-file-noselect (get-journal-file-today))
+    (goto-char (point-min)))
+  )
 
 ;; (use-package org-octopress
 ;;   :ensure t
