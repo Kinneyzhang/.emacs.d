@@ -1,3 +1,6 @@
+(use-package diminish
+  :ensure t)
+
 (use-package org-download
   :ensure t
   :defer 5

@@ -20,6 +20,8 @@
 
 (prefer-coding-system 'utf-8)
 
+(add-hook 'org-mode-hook (lambda () (setq toggle-truncate-lines t)))
+
 (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认
 (setq org-confirm-babel-evaluate nil);设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
 (setq zone-when-idle 300)

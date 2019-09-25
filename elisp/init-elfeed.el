@@ -65,8 +65,7 @@
   (setq elfeed-db-directory (locate-user-emacs-file "config-file/elfeed")
         elfeed-show-entry-switch #'pop-to-buffer
         elfeed-show-entry-delete #'delete-window
-        elfeed-feeds '("https://blog.geekinney.com/feed"
-		       "https://www.reddit.com/r/emacs.rss"
+        elfeed-feeds '("https://blog.geekinney.com/feed.xml"
 		       )))
 
 (provide 'init-elfeed)
