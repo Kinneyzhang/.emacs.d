@@ -1,5 +1,13 @@
 ;;; init-utils
 
+(use-package auto-save
+  :load-path "~/.emacs.d/site-lisp/auto-save"
+  :config
+  (auto-save-enable)  ;; 开启自动保存功能。
+  (setq auto-save-slient t) ;; 自动保存的时候静悄悄的， 不要打扰我
+  (setq auto-save-delete-trailing-whitespace nil))
+
+
 (use-package paredit
   ;; check if the parens is matched
   :ensure t
@@ -12,6 +20,27 @@
 
 (use-package all-the-icons
   :load-path "~/.emacs.d/site-lisp/all-the-icons")
+
+;;google translate
+(use-package google-translate
+  :ensure t
+  :init
+  (setq google-translate-base-url
+	"http://translate.google.cn/translate_a/single")
+  (setq google-translate-listen-url
+	"http://translate.google.cn/translate_tts")
+  (setq google-translate-backend-method 'curl)
+  (setq google-translate-default-source-language "en")
+  (setq google-translate-default-target-language "zh-CN")  
+  :config
+  (when (and (string-match "0.11.18"
+			   (google-translate-version))
+             (>= (time-to-seconds)
+		 (time-to-seconds
+                  (encode-time 0 0 0 23 9 2018))))
+    (defun google-translate--get-b-d1 ()
+      ;; TKK='427110.1469889687'
+      (list 427110 1469889687))))
 
 (use-package youdao-dictionary
   :ensure t
@@ -59,25 +88,25 @@
   :init
   (setq proxy-mode-socks-proxy '("geekinney.com" "124.156.188.197" 10808 5))
   (setq url-gateway-local-host-regexp
-      (concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
-
-
-(defun insert-current-date () 
-  "Insert the current time" 
-  (interactive "*")
-  (insert (format-time-string "%B %d, %Y" (current-time))))
-
-(global-set-key "\C-xt" 'insert-current-date)
+	(concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
 
 (use-package darkroom
   :ensure t
   :defer t
   :bind (("C-c d" . darkroom-tentative-mode)))
 
-;; (defun my/dark-mode ()
-;;   (interactive)
-;;   (set-window-margins (selected-window) 40 40))
+(defun my/insert-current-time ()
+  "Insert the current time"
+  (interactive "*")
+  (insert (format-time-string "%Y-%m-%d %H:%M:%S" (current-time))))
 
+(defun my/insert-current-date ()
+  "Insert the current time"
+  (interactive "*")
+  (insert (format-time-string "%b %d %a" (current-time))))
+
+(global-set-key (kbd "C-c t t") 'my/insert-current-time)
+(global-set-key (kbd "C-c t d") 'my/insert-current-date)
 
 (provide 'init-utils)
 

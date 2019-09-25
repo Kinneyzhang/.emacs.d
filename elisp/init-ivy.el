@@ -44,7 +44,7 @@
   :ensure t
   :init
   (progn
-    (setq ivy-posframe-parameters '((left-fringe . 8) (right-fringe . 8)))
+    (setq ivy-posframe-parameters '((left-fringe . 6) (right-fringe . 6)))
     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
     (setq ivy-posframe-height nil)
     (setq ivy-posframe-width 120))
@@ -98,7 +98,7 @@
 	    (ivy-rich-switch-buffer-size (:width 7))  ; return the buffer size
 	    (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right)); return the buffer indicators
 	    (ivy-rich-switch-buffer-major-mode (:width 12 :face warning))          ; return the major mode info
-	    (ivy-rich-switch-buffer-project (:width 15 :face success))             ; return project name using `projectile'
+	    (ivy-rich-switch-buffer-project (:width 15 :face success))          ; return project name using `projectile'
 	    (ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))))))  ; return file path relative to project root or `default-directory' if project is nil
 	   :predicate
 	   (lambda (cand) (get-buffer cand)))

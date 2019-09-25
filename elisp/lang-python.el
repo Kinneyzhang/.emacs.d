@@ -6,6 +6,7 @@
 
 (use-package python
   :mode ("\\.py" . python-mode)
+  :init (setq python-shell-interpreter "/usr/local/bin/python3")
   :config
   (use-package elpy
     :defer 5

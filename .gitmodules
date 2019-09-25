@@ -25,3 +25,9 @@
 [submodule "site-lisp/hydra-posframe"]
 	path = site-lisp/hydra-posframe
 	url = https://github.com/Ladicle/hydra-posframe.git
+[submodule "site-lisp/auto-save"]
+	path = site-lisp/auto-save
+	url = https://github.com/manateelazycat/auto-save.git
+[submodule "site-lisp/org-jekyll-mode"]
+	path = site-lisp/org-jekyll-mode
+	url = https://github.com/jsuper/org-jekyll-mode.git

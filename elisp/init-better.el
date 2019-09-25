@@ -1,4 +1,4 @@
-;;; some better defaults
+```;;; some better defaults
 (global-set-key (kbd "<s-backspace>") 'universal-argument)
 (setq inhibit-startup-message t)
 (setq inhibit-startup-screen t)
@@ -13,14 +13,19 @@
 (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
 (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
 (fset 'yes-or-no-p 'y-or-n-p);;用y/s代替yes/no
-(setq default-buffer-file-coding-system 'utf-8) ;;emacs编码设置
+
+(setq default-buffer-file-coding-system 'utf-8)
+(setq bookmark-file-coding-system 'utf-8)
+(setq magit-git-output-coding-system 'utf-8)
+
 (prefer-coding-system 'utf-8)
+
 (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认
 (setq org-confirm-babel-evaluate nil);设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
 (setq zone-when-idle 300)
 (setq exec-path-from-shell-check-startup-files nil)
 (setq epg-gpg-program "gpg2")
-(setq x-select-enable-primary t) ;选中区域自动复制
+(setq x-select-enable-primary nil) ;不选中区域自动复制
 
 (org-babel-do-load-languages
  'org-babel-load-languages

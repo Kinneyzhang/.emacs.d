@@ -45,15 +45,6 @@
      ("<" self-insert-command "ins"))))
   :hook ((org-mode . (lambda ()
                        "Beautify Org Checkbox Symbol"
-                       (push '("[ ]" . ?☐) prettify-symbols-alist)
-                       (push '("[X]" . ?☑) prettify-symbols-alist)
-                       (push '("[-]" . ?❍) prettify-symbols-alist)
-                       (push '("#+BEGIN_SRC" . ?✎) prettify-symbols-alist)
-                       (push '("#+END_SRC" . ?□) prettify-symbols-alist)
-                       (push '("#+BEGIN_QUOTE" . ?») prettify-symbols-alist)
-                       (push '("#+END_QUOTE" . ?«) prettify-symbols-alist)
-                       (push '("#+HEADERS" . ?☰) prettify-symbols-alist)
-                       (prettify-symbols-mode 1)
 		       (local-set-key (kbd "C-<tab>") 'yas/expand-from-trigger-key)
 		       (local-set-key (kbd "C-c o e") 'org-edit-src-code)
 		       (local-set-key (kbd "C-c o i") 'org-insert-src-block)
@@ -87,21 +78,25 @@
 	;; Capture templates for: TODO tasks, Notes, diary, habit and org-protocol
 	org-capture-templates
 	'(("t" "todo" entry (file "~/org/inbox.org")
-	   "* TODO %?\n%U\n" :clock-resume t
+	   "* TODO %?\n" :clock-resume t
 	   :empty-lines 1)
-	  ("n" "note" entry (file "~/org/inbox.org")
-	   "* %? :NOTE:\n%U\n" :clock-resume t
-	   :empty-lines 1)
-	  ;; ("j" "Journal entry" entry (function org-journal-find-location)
-	  ;;  "* %(format-time-string org-journal-time-format)%?")
+	  
+	  ;; ("t" "todo" entry (file "~/org/inbox.org")
+	  ;;  "* TODO %?\n  :LOGBOOK:\n  - Added %U\n  :END:" :clock-resume t
+	  ;;  :empty-lines 1)
+	  
+	  ;; ("n" "note" entry (file "~/org/inbox.org")
+	  ;;  "* %? :NOTE:\n%U\n" :clock-resume t
+	  ;;  :empty-lines 1)
+	  
 	  ("j" "Journal entry" entry (function org-journal-find-location)
 	   "* %(format-time-string org-journal-time-format)%?")
 	  ("w" "org-protocol" entry (file "~/org/inbox.org")
 	   "* TODO Review %c\n%U\n" :immediate-finish t
 	   :empty-lines 1)
 	  ("h" "Habit" entry (file "~/org/gtd.org")
-	   "* TODO %?\n%U\n:PROPERTIES:\n:STYLE: habit\n:REPEAT_TO_STATE: TODO\n:END:\n")
-	  ))
+	   "* NEXT %?\n  :PROPERTIES:\n  :STYLE: habit\n  :REPEAT_TO_STATE: NEXT\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
+	   )))
   :config
 
   ;;; org habit
@@ -127,18 +122,18 @@ has no effect."
     (when (and my/org-habit-show-graphs-everywhere
 	       (not (get-text-property (point) 'org-series)))
       (let ((cursor (point))
-	    item data) 
+	    item data)
 	(while (setq cursor (next-single-property-change cursor 'org-marker))
 	  (setq item (get-text-property cursor 'org-marker))
-	  (when (and item (org-is-habit-p item)) 
+	  (when (and item (org-is-habit-p item))
 	    (with-current-buffer (marker-buffer item)
-	      (setq data (org-habit-parse-todo item))) 
+	      (setq data (org-habit-parse-todo item)))
 	    (put-text-property cursor
 			       (next-single-property-change cursor 'org-marker)
 			       'org-habit-p data))))))
 
   (advice-add #'org-agenda-finalize :before #'my/org-agenda-mark-habits)
-  
+
   ;;Enable habit tracking (and a bunch of other modules)
   (setq org-modules (quote (org-bbdb
 			    org-bibtex
@@ -157,11 +152,11 @@ has no effect."
 			    org-vm
 			    org-wl
 			    org-w3m)))
-  
+
 					; position the habit graph on the agenda to the right of the default
-  (setq org-habit-graph-column 50)
+  (setq org-habit-graph-column 30)
   ;;; org habit end
-  
+
   ;;; org code block
   (defun org-insert-src-block (src-code-type)
     "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
@@ -490,30 +485,40 @@ has no effect."
     ;;; ==================================================
 
   ;; Do not dim blocked tasks
-  (setq org-agenda-dim-blocked-tasks nil)
+  (setq org-agenda-dim-blocked-tasks t)
   ;; Compact the block agenda view
   (setq org-agenda-compact-blocks t)
   ;; Custom agenda command definitions
   (setq org-agenda-custom-commands
-	(quote (("o" "Omni Agenda"
-		 ((agenda "" nil)
-		  (tags "REFILE"
-			((org-agenda-overriding-header "Inbox, task to refile!")
-			 (org-tags-match-list-sublevels nil)))))
-		)))
+  	(quote (("o" "Omni Agenda"
+  		 ((agenda "" nil)
+  		  (tags "REFILE-emacs-blog"
+  			((org-agenda-overriding-header "\n------------Inbox, Tasks to Refile------------\n Other")
+  			 (org-tags-match-list-sublevels nil)))
+		  (tags-todo "habit"
+			     ((org-agenda-overriding-header "\nHabits")
+			      (org-tags-match-list-sublevels nil)))
+		  (tags-todo "emacs"
+			     ((org-agenda-overriding-header "\nEmacs")
+			      (org-tags-match-list-sublevels nil)))
+		  (tags-todo "blog"
+			     ((org-agenda-overriding-header "\nBlog")
+			      (org-tags-match-list-sublevels nil)))
+		  ))
+  		)))
 
 
   (setq org-todo-keywords
-	(quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
-		(sequence "WAITING(w@/!)" "HOLD(h@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
+	(quote ((sequence "TODO(t)" "NEXT(n)" "SOMEDAY(s)" "|" "DONE(d!)")
+		(sequence "WAITING(w@/!)" "|" "CANCELLED(c@/!)" "PHONE" "MEETING"))))
 
 
   (setq org-todo-keyword-faces
 	(quote (("TODO" :foreground "red" :weight bold)
 		("NEXT" :foreground "blue" :weight bold)
 		("DONE" :foreground "forest green" :weight bold)
-		("WAITING" :foreground "orange" :weight bold)
-		("HOLD" :foreground "magenta" :weight bold)
+		("SOMEDAY" :foreground "orange" :weight bold)
+		("WAITING" :foreground "magenta" :weight bold)
 		("CANCELLED" :foreground "forest green" :weight bold)
 		("MEETING" :foreground "forest green" :weight bold)
 		("PHONE" :foreground "forest green" :weight bold))))
@@ -522,11 +527,10 @@ has no effect."
   (setq org-todo-state-tags-triggers
 	(quote (("CANCELLED" ("CANCELLED" . t))
 		("WAITING" ("WAITING" . t))
-		("HOLD" ("WAITING") ("HOLD" . t))
-		(done ("WAITING") ("HOLD"))
-		("TODO" ("WAITING") ("CANCELLED") ("HOLD"))
-		("NEXT" ("WAITING") ("CANCELLED") ("HOLD"))
-		("DONE" ("WAITING") ("CANCELLED") ("HOLD")))))
+		(done ("WAITING"))
+		("TODO" ("WAITING") ("CANCELLED"))
+		("NEXT" ("WAITING") ("CANCELLED"))
+		("DONE" ("WAITING") ("CANCELLED")))))
 
   ;; Tags with fast selection keys
   (setq org-tag-alist (quote ((:startgroup)
@@ -534,7 +538,6 @@ has no effect."
 			      ("@home" . ?H)
 			      (:endgroup)
 			      ("WAITING" . ?w)
-			      ("HOLD" . ?h)
 			      ("PERSONAL" . ?P)
 			      ("WORK" . ?W)
 			      ("NOTE" . ?n)
@@ -543,6 +546,7 @@ has no effect."
 			      ("emacs" . ?e)
 			      ("blog" . ?b)
 			      ("server" . ?s)
+			      ("habit" . ?h)
 			      )))
 
 					; Allow setting single tags without the menu
@@ -581,7 +585,7 @@ has no effect."
   ;; Change tasks to NEXT when clocking in
   (setq org-clock-in-switch-to-state 'bh/clock-in-to-next)
   ;; Separate drawers for clocking and logs
-  (setq org-drawers (quote ("PROPERTIES" "LOGBOOK")))
+  (setq org-drawers (quote ("LOGBOOK")))
   ;; Save clock data and state changes and notes in the LOGBOOK drawer
   (setq org-clock-into-drawer t)
   ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
@@ -630,7 +634,7 @@ has no effect."
 			      :max-gap 0
 			      :gap-ok-around ("4:00"))))
 
-  
+
   ;;; Show the clocked-in task - if any - in the header line
   (defun sanityinc/show-org-clock-in-header-line ()
     (setq-default header-line-format '((" " org-mode-line-string " "))))
@@ -662,15 +666,18 @@ has no effect."
 
   ;; ==================================================
   ;; 中文换行问题
-  (add-hook 'org-mode-hook 
+  (add-hook 'org-mode-hook
 	    (lambda () (setq truncate-lines nil)))
 
   )
 
+(use-package org-pomodoro
+  :ensure t
+  :bind (("<f10>" . org-pomodoro)))
 
 (use-package org-bullets
   :ensure t
-  :init (setq org-bullets-bullet-list '("♥" "●" "◇" "✚" "✜" "☯" "◆" "♠" "♣" "♦" "☢" "❀" "◆" "◖""▶"))
+  :init (setq org-bullets-bullet-list '("◉" "○"	"✸" "✿"))
   :config
   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
@@ -713,19 +720,8 @@ has no effect."
 ;; org html export
 (setq org-html-doctype "html5")
 (setq org-html-html5-fancy t)
-(setq org-html-head
-      "<link rel=\"stylesheet\" href=\"style.css\">")
-(setq org-html-head-extra
-      "<link rel=\"stylesheet\" href=\"style2.css\">")
-
-;; org feed
-;; (setq org-feed-alist
-;;       '(("Geekblog"
-;;          "https://blog.geekinney.com/latest"
-;;          "~/org/feeds.org" "Geekblog")))
 
 ;; org journal
-
 (use-package org-journal
   :ensure t
   :custom
@@ -764,27 +760,25 @@ has no effect."
     (goto-char (point-min)))
   )
 
-;; (use-package org-octopress
-;;   :ensure t
-;;   :init
-;;   (setq org-octopress-directory-top       "~/Geekstuff/hexoBlog")
-;;   (setq org-octopress-directory-posts     "~/Geekstuff/hexoBlog/source/_posts") ;文章发布目录
-;;   (setq org-octopress-directory-org-top   "~/Geekstuff/hexoBlog")
-;;   (setq org-octopress-directory-org-posts "~/Geekstuff/hexoBlog/blog") ;org文章目录
-;;   (setq org-octopress-setup-file          "~/Geekstuff/hexoBlog/setupfile.org")
-;;   :config
-;;   (require 'ox-publish)
-;;   (defun org-custom-link-img-follow (path)
-;;     (org-open-file-with-emacs
-;;      (format "../source/img/%s" path)))   ;the path of the image in local dic
-
-;;   (defun org-custom-link-img-export (path desc format)
-;;     (cond
-;;      ((eq format 'html)
-;;       (format "<img src=\"/img/%s\" alt=\"%s\"/>" path desc)))) ;the path of the image in webserver
-
-;;   (org-add-link-type "img" 'org-custom-link-img-follow 'org-custom-link-img-export)
+(use-package ox-jekyll-md
+  :ensure t)
 ;;   )
+(use-package org2jekyll
+  :ensure t)
 
+(use-package auto-org-md
+  :ensure t)
+
+(setq org-publish-project-alist 
+      '(("jekyll"
+	 :body-only t
+	 :base-directory "~/Geekstuff/huxBlog/org"
+	 :publishing-directory "~/Geekstuff/huxBlog/_post")))
+
+(use-package org-jekyll-mode
+  :load-path "~/.emacs.d/site-lisp/org-jekyll-mode"
+  :init
+  (setq org-jekyll/jekyll-project-root "~/Geekstuff/huxBlog")
+  (setq org-jekyll/org-mode-project-root "~/Geekstuff/huxBlog/org"))
 
 (provide 'init-org)

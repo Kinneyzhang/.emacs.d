@@ -10,7 +10,8 @@
 
 (use-package mingus
   :ensure t
-  :defer t
+  :defer 5
+  :init (setq mingus-mode-always-modeline t)
   :bind (("C-c m" . mingus)))
 
 (use-package podcaster

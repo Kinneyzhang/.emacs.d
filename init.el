@@ -1,4 +1,4 @@
-;; Added export PATH="/path/to/code/cask/bin:$PATH" by Package.el.
+;; Addedrec export PATH="/path/to/code/cask/bin:$PATH" by Package.el.
 ;; This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
@@ -19,9 +19,9 @@
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 
-(let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
+(let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速	启动速度。
       (file-name-handler-alist nil)) ;; 清空避免加载远程文件的时候分析文件。
-  
+
   (require 'benchmark-init-modes)
   (require 'benchmark-init)
   (benchmark-init/activate)
@@ -39,7 +39,7 @@
   (require 'init-music)
   (require 'init-elfeed)
   (require 'doom-cyberpunk-theme)
-  
+
   (require 'lang-python)
   (require 'lang-ruby)
   (require 'lang-javascript)
