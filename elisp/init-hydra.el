@@ -22,7 +22,7 @@
   ("fd" (browse-url "https://feedly.com/i/latest") "Feedly")
   ("gm" (browse-url "https://mail.google.com/mail/u/0/?client=safari#inbox") "Gmail")
   ("gb" (browse-url "https://blog.geekinney.com") "Geekblog")
-  ("ga" (browse-url "https://blog.geekinney.com/admin") "Geekblog-Admin")
+  ("rd" (browse-url "https://www.reddit.com") "Reddit")
   ("s" multi-term "multi-term")
   ("q" nil "cancel"))
 

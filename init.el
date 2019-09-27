@@ -3,7 +3,7 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-(package-initialize)
+;;(package-initialize)
 (windmove-default-keybindings)
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -38,7 +38,7 @@
   (require 'init-org)
   (require 'init-music)
   (require 'init-elfeed)
-  (require 'doom-cyberpunk-theme)
+  ;; (require 'doom-cyberpunk-theme)
 
   (require 'lang-python)
   (require 'lang-ruby)

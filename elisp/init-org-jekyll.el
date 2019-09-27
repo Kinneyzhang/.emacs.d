@@ -17,11 +17,11 @@
 
 (setq org-publish-project-alist
       '(
-        ("org-jekyll" ;; settings for cute-jumper.github.io
-         :base-directory "~/org/blog"
+        ("jekyll-post"
+         :base-directory "~/org/blog/_posts"
          :base-extension "org"
-         :publishing-directory "~/Geekstuff/huxBlog"
-         :recursive t
+         :publishing-directory "~/Geekstuff/huxBlog/_posts"
+         :recursive nil
          :publishing-function org-html-publish-to-html
          :with-toc nil
          :headline-levels 4
@@ -31,8 +31,25 @@
          :table-of-contents nil
          ;; :section-numbers 2
 	 ;; :html_head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../config-file/css/my-org-export.css\" />"
-         :body-only t)
+         :body-only t
+	 )
 
+	("jekyll-bookmark"
+	 :base-directory "~/org/blog/_pages"
+         :base-extension "org"
+         :publishing-directory "~/Geekstuff/huxBlog/_includes/bookmark"
+         :recursive nil
+         :publishing-function org-html-publish-to-html
+         :with-toc nil
+         :headline-levels 1
+         :auto-preamble nil
+         :auto-sitemap nil
+         :html-extension "html"
+         :table-of-contents nil
+	 :section-numbers nil
+	 :body-only t
+	 )
+	
         ;; ("org-jekyll-static"
         ;;   :base-directory "~/org/blog/assets/"
         ;;   :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"

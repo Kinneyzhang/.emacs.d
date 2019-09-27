@@ -85,10 +85,9 @@
 	  ;;  "* TODO %?\n  :LOGBOOK:\n  - Added %U\n  :END:" :clock-resume t
 	  ;;  :empty-lines 1)
 	  
-	  ;; ("n" "note" entry (file "~/org/inbox.org")
-	  ;;  "* %? :NOTE:\n%U\n" :clock-resume t
-	  ;;  :empty-lines 1)
-	  
+	  ("b" "bookmark" entry (file+headline "~/org/blog/_pages/bookmark.org" "Misc")
+	   "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
+	   :empty-lines 1)
 	  ("j" "Journal entry" entry (function org-journal-find-location)
 	   "* %(format-time-string org-journal-time-format)%?")
 	  ("w" "org-protocol" entry (file "~/org/inbox.org")

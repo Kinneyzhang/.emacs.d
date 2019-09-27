@@ -488,12 +488,12 @@
   (add-hook 'java-mode-hook 'flycheck-mode)
   (add-hook 'web-mode-hook 'flycheck-mode))
 
-;;use xwidget-webkit
-;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
-;; (defun browse-url-default-browser (url &rest args)
-;;   "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
-;;   (xwidget-webkit-browse-url url args))
-;; (global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
+;; use xwidget-webkit
+(setq browse-url-browser-function 'xwidget-webkit-browse-url)
+(defun browse-url-default-browser (url &rest args)
+  "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
+  (xwidget-webkit-browse-url url args))
+(global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
 
 
 ;; (use-package lsp-python-ms
@@ -602,7 +602,7 @@
 (defadvice company-echo-show (around disable-tabnine-upgrade-message activate)
   (let ((company-message-func (ad-get-arg 0)))
     (when (and company-message-func
-               (stringp (funcall company-message-func)))
+	       (stringp (funcall company-message-func)))
       (unless (string-match "The free version of TabNine only indexes up to" (funcall company-message-func))
         ad-do-it))))
 
