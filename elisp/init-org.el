@@ -70,14 +70,18 @@
                     (self-insert-command 1)))))
   :init
   (setq org-src-fontify-natively t
-	org-agenda-files '("~/org")
+	org-agenda-files '("~/iCloud/org")
 	org-agenda-window-setup 'current-window
-	org-agenda-window-setup 'current-window
-	org-directory "~/org"
-	org-default-notes-file "~/org/inbox.org"
+	org-directory "~/iCloud"
+	org-default-notes-file "~/iCloud/org/inbox.org"
+	;; Set to the name of the file where new notes will be stored
+	;org-mobile-inbox-for-pull "~/org/inbox.org"
+	;; Set to <your Dropbox root directory>/MobileOrg.
+	;org-mobile-directory "~/Dropbox/Apps/MobileOrg"
+	
 	;; Capture templates for: TODO tasks, Notes, diary, habit and org-protocol
 	org-capture-templates
-	'(("t" "todo" entry (file "~/org/inbox.org")
+	'(("t" "todo" entry (file "~/iCloud/org/inbox.org")
 	   "* TODO %?\n" :clock-resume t
 	   :empty-lines 1)
 	  
@@ -85,15 +89,16 @@
 	  ;;  "* TODO %?\n  :LOGBOOK:\n  - Added %U\n  :END:" :clock-resume t
 	  ;;  :empty-lines 1)
 	  
-	  ("b" "bookmark" entry (file+headline "~/org/blog/_pages/bookmark.org" "Misc")
-	   "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:\n\n"
+	  ("b" "bookmark" entry (file+headline "~/iCloud/blog/_pages/bookmark.org" "Misc")
+	   "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:"
 	   :empty-lines 1)
-	  ("j" "Journal entry" entry (function org-journal-find-location)
-	   "* %(format-time-string org-journal-time-format)%?")
-	  ("w" "org-protocol" entry (file "~/org/inbox.org")
+	  ("j" "晨间日记" entry (function org-journal-find-location)
+	   "* %(format-time-string org-journal-time-format)晨间日记\n** 天气/温度：\n** 晨间日记第  天\n** 纪念日：\n** 生日：\n** 计划\n\n** 学习\n** 金钱\n** 健康\n** 兴趣\n** 人际\n"
+	   )
+	  ("w" "org-protocol" entry (file "~/iCloud/org/inbox.org")
 	   "* TODO Review %c\n%U\n" :immediate-finish t
 	   :empty-lines 1)
-	  ("h" "Habit" entry (file "~/org/gtd.org")
+	  ("h" "Habit" entry (file "~/iCloud/org/gtd.org")
 	   "* NEXT %?\n  :PROPERTIES:\n  :STYLE: habit\n  :REPEAT_TO_STATE: NEXT\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
 	   )))
   :config
@@ -492,7 +497,7 @@ has no effect."
   	(quote (("o" "Omni Agenda"
   		 ((agenda "" nil)
   		  (tags "REFILE-emacs-blog"
-  			((org-agenda-overriding-header "\n------------Inbox, Tasks to Refile------------\n Other")
+  			((org-agenda-overriding-header "\n------------Inbox, Tasks to Refile------------\nMisc")
   			 (org-tags-match-list-sublevels nil)))
 		  (tags-todo "habit"
 			     ((org-agenda-overriding-header "\nHabits")
@@ -500,9 +505,9 @@ has no effect."
 		  (tags-todo "emacs"
 			     ((org-agenda-overriding-header "\nEmacs")
 			      (org-tags-match-list-sublevels nil)))
-		  (tags-todo "blog"
-			     ((org-agenda-overriding-header "\nBlog")
-			      (org-tags-match-list-sublevels nil)))
+		  ;; (tags-todo "blog"
+		  ;; 	     ((org-agenda-overriding-header "\nBlog")
+		  ;; 	      (org-tags-match-list-sublevels nil)))
 		  ))
   		)))
 
@@ -755,7 +760,7 @@ contextual information."
 (use-package org-journal
   :ensure t
   :custom
-  (org-journal-dir "~/org/journal/")
+  (org-journal-dir "~/iCloud/journal/")
   (org-journal-date-format "%A, %d %B %Y")
   :init
   (setq org-journal-enable-agenda-integration t)

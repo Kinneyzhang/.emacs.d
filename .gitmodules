@@ -28,3 +28,9 @@
 [submodule "site-lisp/auto-save"]
 	path = site-lisp/auto-save
 	url = https://github.com/manateelazycat/auto-save.git
+[submodule "site-lisp/symon"]
+	path = site-lisp/symon
+	url = https://github.com/zk-phi/symon.git
+[submodule "site-lisp/org-mac-iCal"]
+	path = site-lisp/org-mac-iCal
+	url = https://github.com/ndw/org-mac-iCal.git

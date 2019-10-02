@@ -1,5 +1,40 @@
 ;;; init-utils
 
+;; generate qrcode
+(setq lexical-binding t)
+(defun my/qr-encode (str &optional buf)
+  "Encode STR as a QR code.
+Return a new buffer or BUF with the code in it."
+  (interactive "MString to encode: ")
+  (let ((buffer (get-buffer-create (or buf "*QR Code*")))
+        (format (if (display-graphic-p) "PNG" "UTF8"))
+        (inhibit-read-only t))
+    (with-current-buffer buffer
+      (delete-region (point-min) (point-max)))
+    (make-process
+     :name "qrencode" :buffer buffer
+     :command `("qrencode" ,str "-t" ,format "-o" "-")
+     :coding 'no-conversion
+     ;; seems only the filter function is able to move point to top
+     :filter (lambda (process string)
+               (with-current-buffer (process-buffer process)
+                 (insert string)
+                 (goto-char (point-min))
+                 (set-marker (process-mark process) (point))))
+     :sentinel (lambda (process change)
+                 (when (string= change "finished\n")
+                   (with-current-buffer (process-buffer process)
+                     (cond ((string= format "PNG")
+                            (image-mode)
+                            (image-transform-fit-to-height))
+                           (t ;(string= format "UTF8")
+                            (text-mode)
+                            (decode-coding-region (point-min) (point-max) 'utf-8)))))))
+    (when (called-interactively-p 'interactive)
+      (display-buffer buffer))
+    buffer))
+;; =========================
+
 (use-package auto-save
   :load-path "~/.emacs.d/site-lisp/auto-save"
   :config

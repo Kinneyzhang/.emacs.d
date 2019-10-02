@@ -18,7 +18,7 @@
 (setq org-publish-project-alist
       '(
         ("jekyll-post"
-         :base-directory "~/org/blog/_posts"
+         :base-directory "~/iCloud/blog/_posts"
          :base-extension "org"
          :publishing-directory "~/Geekstuff/huxBlog/_posts"
          :recursive nil
@@ -35,7 +35,7 @@
 	 )
 
 	("jekyll-bookmark"
-	 :base-directory "~/org/blog/_pages"
+	 :base-directory "~/iCloud/blog/_pages"
          :base-extension "org"
          :publishing-directory "~/Geekstuff/huxBlog/_includes/bookmark"
          :recursive nil
@@ -60,7 +60,7 @@
         ;; ("jekyll-cheukyin-github-io" :components ("jekyll-cheukyin" "org-static-cheukyin"))
         ))
 
-(defvar jekyll-directory (expand-file-name "~/org/blog/")
+(defvar jekyll-directory (expand-file-name "~/iCloud/blog/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")
