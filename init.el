@@ -18,6 +18,7 @@
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
+(setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 
 (let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速	启动速度。
       (file-name-handler-alist nil)) ;; 清空避免加载远程文件的时候分析文件。
@@ -39,7 +40,6 @@
   (require 'init-music)
   (require 'init-elfeed)
   ;; (require 'doom-cyberpunk-theme)
-
   (require 'lang-python)
   (require 'lang-ruby)
   (require 'lang-javascript)

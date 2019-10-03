@@ -30,7 +30,6 @@
          :html-extension "html"
          :table-of-contents nil
          ;; :section-numbers 2
-	 ;; :html_head "<link rel=\"stylesheet\" type=\"text/css\" href=\"../config-file/css/my-org-export.css\" />"
          :body-only t
 	 )
 
@@ -50,17 +49,18 @@
 	 :body-only t
 	 )
 	
-        ;; ("org-jekyll-static"
-        ;;   :base-directory "~/org/blog/assets/"
-        ;;   :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
-        ;;   :publishing-directory "~/Cheukyin.github.io/assets/"
-        ;;   :recursive t
-        ;;   :publishing-function org-publish-attachment)
+        ("jekyll-static"
+         :base-directory "~/iCloud/blog/assets"
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
+         :publishing-directory "~/Geekstuff/huxBlog/assets"
+         :recursive t
+         :publishing-function org-publish-attachment)
 
-        ;; ("jekyll-cheukyin-github-io" :components ("jekyll-cheukyin" "org-static-cheukyin"))
+	("jekyll"
+         :components ("jekyll-post" "jekyll-static"))
         ))
 
-(defvar jekyll-directory (expand-file-name "~/iCloud/blog/")
+(defvar jekyll-directory (concat icloud-directory "blog/")
   "Path to Jekyll blog.")
 (defvar jekyll-drafts-dir "_drafts/"
   "Relative path to drafts directory.")

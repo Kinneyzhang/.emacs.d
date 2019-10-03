@@ -3,17 +3,14 @@
   :config
   (global-git-gutter-mode +1)
   (custom-set-variables
-   '(git-gutter:update-interval 2))
-  (custom-set-variables
-   '(git-gutter:modified-sign "  ") ;; two space
-   '(git-gutter:added-sign "++")    ;; multiple character is OK
-   '(git-gutter:deleted-sign "--"))
-
+   '(git-gutter:update-interval 1)
+   '(git-gutter:modified-sign " ") ;; two space
+   '(git-gutter:added-sign "+")    ;; multiple character is OK
+   '(git-gutter:deleted-sign "-")
+   '(git-gutter:lighter " GG"))
   (set-face-background 'git-gutter:modified "purple") ;; background color
   (set-face-foreground 'git-gutter:added "green")
   (set-face-foreground 'git-gutter:deleted "red")
-  (custom-set-variables
-   '(git-gutter:lighter " GG"))
   )
 
 (use-package bm
@@ -26,7 +23,7 @@
   ;; Allow cross-buffer 'next'
   (setq bm-cycle-all-buffers t)
   ;; where to store persistant files
-  (setq bm-repository-file "~/.emacs.d/bm-repository")
+  (setq bm-repository-file "~/.emacs.d/config-file/bm-repository")
   ;; save bookmarks
   (setq-default bm-buffer-persistence t)
   ;; Loading the repository from file when on start up.
@@ -60,18 +57,16 @@
          ("C-<f2>" . bm-toggle))
   )
 
-(use-package quelpa-use-package :ensure t)
+(use-package quelpa-use-package
+  :ensure t)
+
+(use-package org-ql
+  :ensure t)
+
 (use-package prescient :ensure t :config (prescient-persist-mode))
 (use-package ivy-prescient :ensure t :config (ivy-prescient-mode))
 (use-package company-prescient :ensure t :config (company-prescient-mode))
 
-(use-package org-mac-iCal
-  :load-path "~/.emacs.d/site-lisp/org-mac-iCal"
-  :init
-  (setq org-agenda-include-diary nil)
-  :config
-  (add-to-list 'org-modules 'org-mac-iCal)
-  )
 (use-package org-analyzer
   :ensure t)
 
