@@ -1,3 +1,6 @@
+(use-package offlineimap
+  :ensure t)
+
 (use-package git-gutter
   :ensure t
   :config
@@ -368,6 +371,11 @@
 (global-set-key (kbd "C-c s u o g") 'print-symbol-Ω)
 
 ;;=================================================================
+(defun print-symbol-◉ ()
+  (interactive)
+  (insert "◉"))
+(global-set-key (kbd "C-c s t d") 'print-symbol-◉) ;;solid dot
+
 (defun print-symbol-● ()
   (interactive)
   (insert "●"))
@@ -655,23 +663,24 @@
 
 
 ;;;==================================================
-(use-package company-tabnine
-  :ensure t
-  :init ;; Trigger completion immediately.
-  (setq company-idle-delay 0)
+;; (use-package company-tabnine
+;;   :ensure t
+;;   :init ;; Trigger completion immediately.
+;;   (setq company-idle-delay 0)
 
-  ;; Number the candidates (use M-1, M-2 etc to select completions).
-  (setq company-show-numbers t)
+;;   ;; Number the candidates (use M-1, M-2 etc to select completions).
+;;   (setq company-show-numbers t)
 
-  ;; Use the tab-and-go frontend.
-  ;; Allows TAB to select and complete at the same time.
-  (company-tng-configure-default)
-  (setq company-frontends
-	'(company-tng-frontend
-          company-pseudo-tooltip-frontend
-          company-echo-metadata-frontend))
-  :config (add-to-list 'company-backends #'company-tabnine)
-  (company-tabnine nil))
+;;   ;; Use the tab-and-go frontend.
+;;   ;; Allows TAB to select and complete at the same time.
+;;   (company-tng-configure-default)
+;;   (setq company-frontends
+;; 	'(company-tng-frontend
+;;           company-pseudo-tooltip-frontend
+;;           company-echo-metadata-frontend))
+;;   :config
+;;   (add-to-list 'company-backends #'company-tabnine)
+;;   (company-tabnine nil))
 
 ;; The free version of TabNine is good enough,
 ;; and below code is recommended that TabNine not always

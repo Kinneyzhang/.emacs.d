@@ -1,4 +1,4 @@
-```;;; some better defaults
+;;; some better defaults
 (global-set-key (kbd "<s-backspace>") 'universal-argument)
 (setq inhibit-startup-message t)
 (setq inhibit-startup-screen t)

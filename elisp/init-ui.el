@@ -17,11 +17,15 @@
 (setq multiple-frames t)
 
 (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
-(setq inhibit-splash-screen nil);取消默认启动窗口
 (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
+(toggle-frame-maximized)
+(setq inhibit-splash-screen nil);取消默认启动窗口
 (setq-default cursor-type 'box);变光标, setq-default设置全局
 
 ;;==================================================
+(use-package dracula-theme
+  :ensure t)
+(load-theme 'dracula)
 
 (use-package dashboard
   :ensure t
@@ -49,12 +53,6 @@
   ;; 	   ("⚑" nil "Show flags" (lambda (&rest _) (message "flag")) error))))
   :config
   (dashboard-setup-startup-hook))
-
-
-(use-package dracula-theme
-  :ensure t
-  :config
-  (enable-theme 'dracula))
 
 (use-package doom-modeline
   :ensure t

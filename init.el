@@ -17,6 +17,9 @@
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 
@@ -26,7 +29,7 @@
   (require 'benchmark-init-modes)
   (require 'benchmark-init)
   (benchmark-init/activate)
-
+  
   (load (concat user-emacs-directory "elisp/custom.el"))
 
   (require 'init-utils)
@@ -48,4 +51,5 @@
   (require 'lang-php)
 
   (require 'init-org-jekyll)
+  (require 'init-mu4e)
   )

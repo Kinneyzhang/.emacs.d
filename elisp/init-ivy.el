@@ -136,5 +136,8 @@
   ("C-c l i" . org-insert-link)
   ("C-c l s" . org-store-link))
 
+(use-package ivy-pass
+  :ensure t)
+
 (provide 'init-ivy)
 

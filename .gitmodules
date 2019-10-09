@@ -31,3 +31,6 @@
 [submodule "site-lisp/symon"]
 	path = site-lisp/symon
 	url = https://github.com/zk-phi/symon.git
+[submodule "site-lisp/ros"]
+	path = site-lisp/ros
+	url = https://github.com/LionyxML/ros.git

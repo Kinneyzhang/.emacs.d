@@ -36,3 +36,4 @@ transient
 config-file
 .local
 quelpa
+network-security.data

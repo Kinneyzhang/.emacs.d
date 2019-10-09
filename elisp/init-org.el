@@ -75,9 +75,9 @@
 	org-directory "~/iCloud"
 	org-default-notes-file "~/iCloud/org/inbox.org"
 	;; Set to the name of the file where new notes will be stored
-	;org-mobile-inbox-for-pull "~/org/inbox.org"
+					;org-mobile-inbox-for-pull "~/org/inbox.org"
 	;; Set to <your Dropbox root directory>/MobileOrg.
-	;org-mobile-directory "~/Dropbox/Apps/MobileOrg"
+					;org-mobile-directory "~/Dropbox/Apps/MobileOrg"
 	
 	;; Capture templates for: TODO tasks, Notes, diary, habit and org-protocol
 	org-capture-templates
@@ -794,5 +794,40 @@ contextual information."
     ;; (find-file-noselect (get-journal-file-today))
     (goto-char (point-min)))
   )
+
+;; https://www.emacswiki.org/emacs/string-utils.el
+(setq org-html-postamble nil)
+(defun string-utils-escape-double-quotes (str-val)
+  "Return STR-VAL with every double-quote escaped with backslash."
+  (save-match-data
+    (replace-regexp-in-string "\"" "\\\\\"" str-val)))
+
+(defun string-utils-escape-backslash (str-val)
+  "Return STR-VAL with every backslash escaped with an additional backslash."
+  (save-match-data
+    (replace-regexp-in-string "\\\\" "\\\\\\\\" str-val)))
+
+(setq as-tmpl "set TITLE to \"%s\"
+set NBODY to \"%s\"
+tell application \"Notes\"
+        tell folder \"Org\"
+                if not (note named TITLE exists) then
+                        make new note with properties {name:TITLE}
+                end if
+                set body of note TITLE to NBODY
+        end tell
+end tell")
+
+(defun my/org-to-apple-note-export ()
+  (interactive)
+  (let ((title (file-name-base (buffer-file-name))))
+    (with-current-buffer (org-export-to-buffer 'html "*orgmode-to-apple-notes*")
+      (let ((body (string-utils-escape-double-quotes
+                   (string-utils-escape-backslash (buffer-string)))))
+        ;; install title + body into template above and send to notes
+        (do-applescript (format as-tmpl title body))
+        ;; get rid of temp orgmode-to-apple-notes buffer
+        (kill-buffer))
+      )))
 
 (provide 'init-org)
