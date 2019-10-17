@@ -22,6 +22,8 @@
 (setq mu4e-trash-folder  "/Gmail/Trash")
 ;; saved messages
 (setq mu4e-trash-folder  "/Gmail/Archive")
+;; attachment save dir
+(setq mu4e-attachment-dir "~/Documents/Mu4e")
 
 (require 'mu4e-contrib)
 (setq mu4e-html2text-command 'mu4e-shr2text)

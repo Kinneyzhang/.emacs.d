@@ -1,19 +1,4 @@
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '( (scheme . t)
-    (latex . t)
-    (css . t)
-    (ruby . t)
-    (shell . t)
-    (python . t)
-    (emacs-lisp . t)
-    (matlab . t)
-    (C . t)))
-(setq org-confirm-babel-evaluate nil)
-
-(setq org-src-fontify-natively t)
-
-;; (setq org-export-with-sub-superscripts nil)
+;;; init-org-jekyll
 
 (setq org-publish-project-alist
       '(
@@ -23,13 +8,14 @@
          :publishing-directory "~/Geekstuff/huxBlog/_posts"
          :recursive nil
          :publishing-function org-html-publish-to-html
-         :with-toc nil
-         :headline-levels 4
-         :auto-preamble nil
-         :auto-sitemap nil
-         :html-extension "html"
-         :table-of-contents nil
+	 ;;; 注释的选项不做全局定义，在文件头部定义
+         ;; :with-toc nil
+         ;; :headline-levels 4
+         ;; :auto-preamble nil
+	 ;; :table-of-contents nil
          ;; :section-numbers 2
+         ;; :auto-sitemap nil
+         :html-extension "html"
          :body-only t
 	 )
 
@@ -39,13 +25,14 @@
          :publishing-directory "~/Geekstuff/huxBlog/_includes/bookmark"
          :recursive nil
          :publishing-function org-html-publish-to-html
-         :with-toc nil
-         :headline-levels 1
-         :auto-preamble nil
-         :auto-sitemap nil
-         :html-extension "html"
-         :table-of-contents nil
-	 :section-numbers nil
+	 ;;; 注释的选项不做全局定义，在文件头部定义
+         ;; :with-toc nil
+         ;; :headline-levels 1
+         ;; :auto-preamble nil
+         ;; :auto-sitemap nil
+         ;; :html-extension "html"
+         ;; :table-of-contents nil
+	 ;; :section-numbers nil
 	 :body-only t
 	 )
 	

@@ -1,5 +1,5 @@
 #name : OPTIONS
 #contributor : Rick Moynihan <rick@sourcesmouth.co.uk>
 # --
-#+OPTIONS: ${0}
+#+OPTIONS: ${1:toc:t num:0 H:1 html-postamble:t}
 

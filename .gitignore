@@ -37,3 +37,4 @@ config-file
 .local
 quelpa
 network-security.data
+*old-org.el

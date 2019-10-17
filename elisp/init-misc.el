@@ -1,20 +1,23 @@
-(use-package offlineimap
+(use-package org-noter
   :ensure t)
 
-(use-package git-gutter
-  :ensure t
-  :config
-  (global-git-gutter-mode +1)
-  (custom-set-variables
-   '(git-gutter:update-interval 1)
-   '(git-gutter:modified-sign " ") ;; two space
-   '(git-gutter:added-sign "+")    ;; multiple character is OK
-   '(git-gutter:deleted-sign "-")
-   '(git-gutter:lighter " GG"))
-  (set-face-background 'git-gutter:modified "purple") ;; background color
-  (set-face-foreground 'git-gutter:added "green")
-  (set-face-foreground 'git-gutter:deleted "red")
-  )
+(use-package ledger-mode
+  :ensure t)
+
+;; (use-package git-gutter
+;;   :ensure t
+;;   :config
+;;   (global-git-gutter-mode +1)
+;;   (custom-set-variables
+;;    '(git-gutter:update-interval 1)
+;;    '(git-gutter:modified-sign " ") ;; two space
+;;    '(git-gutter:added-sign "+")    ;; multiple character is OK
+;;    '(git-gutter:deleted-sign "-")
+;;    '(git-gutter:lighter " GG"))
+;;   (set-face-background 'git-gutter:modified "purple") ;; background color
+;;   (set-face-foreground 'git-gutter:added "green")
+;;   (set-face-foreground 'git-gutter:deleted "red")
+;;   )
 
 (use-package bm
   :ensure t
@@ -572,14 +575,6 @@
   (add-hook 'js2-mode-hook 'flycheck-mode)
   (add-hook 'java-mode-hook 'flycheck-mode)
   (add-hook 'web-mode-hook 'flycheck-mode))
-
-;; use xwidget-webkit
-(setq browse-url-browser-function 'xwidget-webkit-browse-url)
-(defun browse-url-default-browser (url &rest args)
-  "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
-  (xwidget-webkit-browse-url url args))
-(global-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
-
 
 ;; (use-package lsp-python-ms
 ;;   :ensure t

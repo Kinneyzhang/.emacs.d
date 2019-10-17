@@ -1,0 +1,5 @@
+#name : OPTIONS2
+#contributor : Rick Moynihan <rick@sourcesmouth.co.uk>
+# --
+#+OPTIONS: ${1:author:t creator:t timestamp:t email:t}
+
