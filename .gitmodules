@@ -34,3 +34,12 @@
 [submodule "site-lisp/ros"]
 	path = site-lisp/ros
 	url = https://github.com/LionyxML/ros.git
+[submodule "site-lisp/awesome-tray"]
+	path = site-lisp/awesome-tray
+	url = https://github.com/manateelazycat/awesome-tray.git
+[submodule "site-lisp/brain-fm"]
+	path = site-lisp/brain-fm
+	url = https://github.com/dakra/brain-fm.git
+[submodule "site-lisp/justify-kp"]
+	path = site-lisp/justify-kp
+	url = https://github.com/Fuco1/justify-kp.git

@@ -1,5 +1,12 @@
 ;;; init-utils
 
+;; proxy setting
+(use-package proxy-mode
+  :ensure t
+  :init
+  (setq url-gateway-local-host-regexp
+	(concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
+
 ;; generate qrcode
 (setq lexical-binding t)
 (defun my/qr-encode (str &optional buf)
@@ -34,6 +41,8 @@ Return a new buffer or BUF with the code in it."
       (display-buffer buffer))
     buffer))
 ;; =========================
+(use-package general
+  :ensure t)
 
 (use-package auto-save
   :load-path "~/.emacs.d/site-lisp/auto-save"
@@ -92,7 +101,7 @@ Return a new buffer or BUF with the code in it."
   )
 
 (use-package search-web
-  :defer t
+  :defer 5
   :ensure t
   :init
   (setq search-web-engines
@@ -124,7 +133,6 @@ Return a new buffer or BUF with the code in it."
   :ensure t
   :bind ("C-c w g" . browse-at-remote))
 
-
 (use-package proxy-mode
   :ensure t
   :defer 5
@@ -146,10 +154,13 @@ Return a new buffer or BUF with the code in it."
 (defun my/insert-current-date ()
   "Insert the current time"
   (interactive "*")
-  (insert (format-time-string "%b %d %a" (current-time))))
+  (insert (format-time-string "%b %d, %Y" (current-time))))
 
 (global-set-key (kbd "C-c t t") 'my/insert-current-time)
 (global-set-key (kbd "C-c t d") 'my/insert-current-date)
+
+(use-package password-generator
+  :ensure t)
 
 (provide 'init-utils)
 

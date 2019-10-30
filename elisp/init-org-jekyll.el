@@ -9,10 +9,10 @@
          :recursive nil
          :publishing-function org-html-publish-to-html
 	 ;;; 注释的选项不做全局定义，在文件头部定义
-         ;; :with-toc nil
+         :with-toc nil
          ;; :headline-levels 4
          ;; :auto-preamble nil
-	 ;; :table-of-contents nil
+	 :table-of-contents nil
          ;; :section-numbers 2
          ;; :auto-sitemap nil
          :html-extension "html"
@@ -26,12 +26,12 @@
          :recursive nil
          :publishing-function org-html-publish-to-html
 	 ;;; 注释的选项不做全局定义，在文件头部定义
-         ;; :with-toc nil
+         :with-toc nil
          ;; :headline-levels 1
          ;; :auto-preamble nil
          ;; :auto-sitemap nil
          ;; :html-extension "html"
-         ;; :table-of-contents nil
+         :table-of-contents nil
 	 ;; :section-numbers nil
 	 :body-only t
 	 )

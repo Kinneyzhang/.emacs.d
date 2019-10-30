@@ -1,8 +1,74 @@
+(use-package nov
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+  (defun my-nov-font-setup ()
+    (face-remap-add-relative 'variable-pitch :family "Liberation Serif"
+                             :height 1.0))
+  (add-hook 'nov-mode-hook 'my-nov-font-setup)
+  ;; (setq nov-text-width 80)
+  (setq nov-text-width t)
+  (setq visual-fill-column-center-text t)
+  (add-hook 'nov-mode-hook 'visual-line-mode)
+  (add-hook 'nov-mode-hook 'visual-fill-column-mode)
+
+  (use-package justify-kp
+    :load-path "~/.emacs.d/site-lisp/justify-kp"
+    :config
+    (defun my-nov-window-configuration-change-hook ()
+      (my-nov-post-html-render-hook)
+      (remove-hook 'window-configuration-change-hook
+  		   'my-nov-window-configuration-change-hook
+  		   t))
+    
+    (defun my-nov-post-html-render-hook ()
+      (if (get-buffer-window)
+  	  (let ((max-width (pj-line-width))
+		buffer-read-only)
+            (save-excursion
+              (goto-char (point-min))
+              (while (not (eobp))
+		(when (not (looking-at "^[[:space:]]*$"))
+  		  (goto-char (line-end-position))
+  		  (when (> (shr-pixel-column) max-width)
+                    (goto-char (line-beginning-position))
+                    (pj-justify)))
+		(forward-line 1))))
+	(add-hook 'window-configuration-change-hook
+  		  'my-nov-window-configuration-change-hook
+  		  nil t)))
+
+    (add-hook 'nov-post-html-render-hook 'my-nov-post-html-render-hook)
+    ))
+
+(use-package hide-mode-line
+  :ensure t
+  :config
+  (add-hook 'completion-list-mode-hook #'hide-mode-line-mode)
+  (add-hook 'neotree-mode-hook #'hide-mode-line-mode))
+
+(use-package org-alert
+  :ensure nil
+  :init (setq alert-default-style 'libnotify))
+
+(use-package org-timeline
+  :ensure t
+  :config (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append))
+
+(use-package org-beautify-theme
+  :ensure t)
+
 (use-package org-noter
   :ensure t)
 
 (use-package ledger-mode
   :ensure t)
+
+(use-package flycheck-ledger
+  :ensure t
+  :config
+  (eval-after-load 'flycheck
+    '(require 'flycheck-ledger)))
 
 ;; (use-package git-gutter
 ;;   :ensure t
@@ -377,7 +443,7 @@
 (defun print-symbol-◉ ()
   (interactive)
   (insert "◉"))
-(global-set-key (kbd "C-c s t d") 'print-symbol-◉) ;;solid dot
+(global-set-key (kbd "C-c s t d") 'print-symbol-◉)
 
 (defun print-symbol-● ()
   (interactive)
@@ -574,7 +640,9 @@
   (add-hook 'python-mode-hook 'flycheck-mode)
   (add-hook 'js2-mode-hook 'flycheck-mode)
   (add-hook 'java-mode-hook 'flycheck-mode)
-  (add-hook 'web-mode-hook 'flycheck-mode))
+  (add-hook 'web-mode-hook 'flycheck-mode)
+  (add-hook 'ledger-mode-hook 'flycheck-mode)
+  )
 
 ;; (use-package lsp-python-ms
 ;;   :ensure t
@@ -690,11 +758,11 @@
 (defun maple/mac-switch-input-source ()
   (shell-command
    "osascript -e 'tell application \"System Events\" to tell process \"SystemUIServer\"
-      set currentLayout to get the value of the first menu bar item of menu bar 1 whose description is \"text input\"
-      if currentLayout is not \"ABC\" then
-        tell (1st menu bar item of menu bar 1 whose description is \"text input\") to {click, click (menu 1'\"'\"'s menu item \"ABC\")}
-      end if
-    end tell' &>/dev/null"))
+   set currentLayout to get the value of the first menu bar item of menu bar 1 whose description is \"text input\"
+   if currentLayout is not \"ABC\" then
+   tell (1st menu bar item of menu bar 1 whose description is \"text input\") to {click, click (menu 1'\"'\"'s menu item \"ABC\")}
+   end if
+   end tell' &>/dev/null"))
 
 ;; (run-with-idle-timer 10 t (maple/mac-switch-input-source))
 ;;;==================================================

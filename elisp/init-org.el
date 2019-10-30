@@ -60,9 +60,11 @@
 
 (use-package org-habit
   :init
-  (setq org-habit-graph-column 75
-        org-habit-preceding-days 30
-        org-habit-following-days 1
+  (setq org-habit-show-habits t
+	org-habit-show-all-today nil
+	org-habit-graph-column 75
+	org-habit-preceding-days 30
+	org-habit-following-days 1
         org-habit-today-glyph ?@)
   :config
   (defvar my/org-habit-show-graphs-everywhere nil)
@@ -81,6 +83,16 @@
 			       (next-single-property-change cursor 'org-marker)
 			       'org-habit-p data))))))
   (advice-add #'org-agenda-finalize :before #'my/org-agenda-mark-habits))
+
+;; repeating task
+(defun diary-last-day-of-month (date)
+  "Return `t` if DATE is the last day of the month."
+  (let* ((day (calendar-extract-day date))
+         (month (calendar-extract-month date))
+         (year (calendar-extract-year date))
+         (last-day-of-month
+          (calendar-last-day-of-month month year)))
+    (= day last-day-of-month)))
 
 ;; org-bable
 (org-babel-do-load-languages
@@ -153,10 +165,10 @@
 	 "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:"
 	 :empty-lines 1)
 	("j" "晨间日记" entry (function org-journal-find-location)
-	 "* %(format-time-string org-journal-time-format)晨间日记\n** 天气/温度/地点：\n** 晨间日记第  天\n** 纪念日：\n** 生日：\n** 计划\n\n** 学习\n** 健康\n** 兴趣\n** 人际\n"
+	 "* %(format-time-string org-journal-time-format)晨间日记\n** 天气/温度/地点：\n** 晨间日记第  天\n** 纪念日：\n** 生日：\n\n** 总结\n** 学习\n** 健康\n** 兴趣\n** 人际\n"
 	 )
 	("h" "Habit" entry (file "~/iCloud/org/gtd.org")
-	 "* TODO %?\n  :PROPERTIES:\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
+	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
 	 )
 	))
 
@@ -372,7 +384,7 @@
 (setq org-agenda-skip-scheduled-if-done t
       org-agenda-skip-deadline-if-done t
       org-agenda-include-deadlines t
-      org-agenda-include-diary t
+      org-agenda-include-diary nil
       org-agenda-block-separator nil
       org-agenda-compact-blocks t
       org-agenda-start-with-log-mode t)
@@ -381,13 +393,11 @@
       '(("o" "Main Agenda"
          ((agenda "" ((org-agenda-span 'day)
 		      (org-super-agenda-groups
-                       '((:name "Today"
+                       '((:name "Daily Agenda"
                                 :time-grid t
-                                :date today
-                                :todo "TODAY"
-                                :scheduled today
+				:habit t
                                 :order 1)
-                         (:name "Due Today"
+			 (:name "Due Today"
                                 :deadline today
                                 :order 2)
                          (:name "Overdue"
@@ -396,13 +406,14 @@
                          (:name "Due Soon"
                                 :deadline future
                                 :order 4)
+			 (:discard (:anything t))
 			 ))
                       ))
 	  (alltodo "" ((org-agenda-overriding-header "")
 		       (org-super-agenda-groups
-			'((:name "to Refile"
+			'((:name "Inbox"
 				 :tag "INBOX")
-			  (:name "In Progress"
+			  (:name "Next To Do!"
 				 :todo "NEXT")
 			  (:name "Important"
                                  :tag "Important"
@@ -410,12 +421,18 @@
 			  (:name "Waiting"
                                  :todo "WAITING")
 			  (:name "Active Projects"
+				 :todo "PROJ")
+			  (:discard (:tag "SOMEDAY" :tag "PROJECT" :habit t))))))))
+	("p" "Project Agneda"
+	 ((alltodo "" ((org-agenda-overriding-header "Project Agenda")
+		       (org-super-agenda-groups
+			'((:name "Active Projects"
 				 :and (:tag "PROJECT" :not (:tag "SOMEDAY")))
-			  (:discard (:habit t :tag "SOMEDAY"))
+
+			  (:discard (:tag "APPT" :tag "INBOX" :tag "SOMEDAY" :habit t :not (:todo "TODO")))
 			  ))
-		       ))
-	  ))
-	("p" "Someday & Project Agenda"
+		       ))))
+	("s" "Someday & Project Agenda"
 	 ((alltodo "" ((org-agenda-overriding-header "Someday & Project Agenda")
 		       (org-super-agenda-groups
 			'((:name "Someday Projects"
@@ -424,13 +441,14 @@
 				 :and (:tag "emacs" :tag "SOMEDAY"))
 			  (:name "Books/articles to Read:"
 				 :and (:tag "reading" :tag "SOMEDAY"))
-			  (:name "Films/videos to watch"
+			  (:name "Films/videos to watch:"
 				 :and (:tag "watching" :tag "SOMEDAY"))
+			  (:name "Blog in Plan:"
+				 :and (:tag "blog" :tag "SOMEDAY"))
 			  (:discard (:not (:tag "SOMEDAY")))
 			  ))
 		       ))))
 	))
-
 
 (use-package org-super-agenda
   :ensure t
