@@ -23,11 +23,10 @@
 (setq-default cursor-type 'box);变光标, setq-default设置全局
 
 ;;==================================================
-;; (use-package dracula-theme
-;;   :ensure t)
-;; (load-theme 'dracula)
-
-(load-theme 'org-beautify)
+(use-package org-beautify-theme
+  :ensure t
+  :config
+  (load-theme 'org-beautify))
 
 (use-package dashboard
   :ensure t
@@ -110,7 +109,6 @@
 (use-package all-the-icons-dired
   :ensure t
   :config
-  (require 'all-the-icons-dired)
   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 ;; colorful dired-mode

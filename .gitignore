@@ -38,3 +38,5 @@ config-file
 quelpa
 network-security.data
 *old-org.el
+nov-places
+prescient-save.el

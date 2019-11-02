@@ -57,6 +57,7 @@
 
 ;; company-c-headers
 (use-package company-c-headers
+  :ensure t
   :config
   (add-to-list 'company-backends 'company-c-headers))
 ;; git@github.com:syohex/emacs-counsel-gtags.git

@@ -3,7 +3,7 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
-;;(package-initialize)
+(package-initialize)
 (windmove-default-keybindings)
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -17,18 +17,17 @@
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 
 (let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速	启动速度。
       (file-name-handler-alist nil)) ;; 清空避免加载远程文件的时候分析文件。
 
-  (require 'benchmark-init-modes)
-  (require 'benchmark-init)
-  (benchmark-init/activate)
+(use-package benchmark-init
+  :ensure t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
   
   (load (concat user-emacs-directory "elisp/custom.el"))
 
@@ -42,7 +41,7 @@
   (require 'init-org)
   (require 'init-music)
   (require 'init-elfeed)
-  ;; (require 'doom-cyberpunk-theme)
+  ;;(require 'doom-cyberpunk-theme)
   (require 'lang-python)
   (require 'lang-ruby)
   (require 'lang-javascript)
@@ -50,5 +49,5 @@
   (require 'lang-c)
   (require 'lang-php)
   (require 'init-org-jekyll)
-  ;; (require 'init-mu4e)
+  ;;(require 'init-mu4e)
   )

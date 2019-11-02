@@ -1,3 +1,5 @@
+
+
 (use-package nov
   :ensure t
   :config
@@ -48,7 +50,7 @@
   (add-hook 'neotree-mode-hook #'hide-mode-line-mode))
 
 (use-package org-alert
-  :ensure nil
+  :ensure t
   :init (setq alert-default-style 'libnotify))
 
 (use-package org-timeline
@@ -705,6 +707,7 @@
   :ensure t)
 
 (use-package undo-tree
+  :ensure t
   :diminish undo-tree-mode
   :config
   (progn
