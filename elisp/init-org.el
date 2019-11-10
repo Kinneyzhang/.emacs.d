@@ -117,6 +117,7 @@
 (setq org-clock-out-when-done t)
 ;; Save the running clock and all clock history when exiting Emacs, load it on startup
 (setq org-clock-persist t)
+(setq org-clock-persist-file (concat config-dir "org-clock-save.el"))
 ;; Do not prompt to resume an active clock
 (setq org-clock-persist-query-resume nil)
 ;; Enable auto clock resolution for finding open clocks
@@ -154,6 +155,9 @@
 (setq org-capture-templates
       '(("i" "inbox" entry (file "~/iCloud/org/gtd.org")
 	 "* TODO %? :INBOX:\n" :clock-resume t
+	 :empty-lines 1)
+	("n" "next" entry (file "~/iCloud/org/gtd.org")
+	 "* NEXT %?" :clock-resume t
 	 :empty-lines 1)
 	("a" "appointment" entry (file "~/iCloud/org/gtd.org")
 	 "* APPT %? :APPT:\n"
@@ -589,11 +593,12 @@ contextual information."
   (org-journal-dir "~/iCloud/journal/")
   (org-journal-date-format "%A, %d %B %Y")
   :init
-  (setq org-journal-enable-agenda-integration t)
+  (setq org-journal-enable-agenda-integration nil)
   :bind (("C-c j c" . calendar)
 	 ("C-c j t" . journal-file-today)
 	 ("C-c j y" . journal-file-yesterday))
   :config
+  (require 'org-journal)
   (defun org-journal-find-location ()
     (org-journal-new-entry t)
     (goto-char (point-min)))
@@ -644,9 +649,4 @@ end tell")
   (deft-directory "~/iCloud/blog/_posts")
   (deft-use-filename-as-title t))
 
-(use-package pdf-tools
-  :ensure t
-  :config
-  (pdf-tools-install))
-
-(provide 'init-org)
+  (provide 'init-org)

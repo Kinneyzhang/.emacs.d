@@ -155,6 +155,22 @@ Return a new buffer or BUF with the code in it."
 (use-package password-generator
   :ensure t)
 
+(defun chunyang-scratch-save ()
+  (ignore-errors
+    (with-current-buffer "*scratch*"
+      (write-region nil nil (concat config-dir "scratch")))))
+
+(defun chunyang-scratch-restore ()
+  (let ((f (concat config-dir "scratch")))
+    (when (file-exists-p f)
+      (with-current-buffer "*scratch*"
+	(erase-buffer)
+	(insert-file-contents f)))))
+
+(add-hook 'kill-emacs-hook #'chunyang-scratch-save)
+(add-hook 'after-init-hook #'chunyang-scratch-restore)
+
+
 (provide 'init-utils)
 
 ;;; init-utils.el ends here

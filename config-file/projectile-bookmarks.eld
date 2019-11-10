@@ -1,0 +1,1 @@
+("~/.emacs.d/" "~/Library/Mobile Documents/com~apple~CloudDocs/my-hugo/" "~/Library/Mobile Documents/com~apple~CloudDocs/my-hugo/themes/mainroad/" "~/Library/Mobile Documents/com~apple~CloudDocs/my-hugo/public/")

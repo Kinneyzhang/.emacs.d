@@ -158,4 +158,7 @@
   (eval-after-load 'css-mode
     '(define-key css-mode-map (kbd "C-c b") 'web-beautify-css)))
 
+(use-package instant-rename-tag
+  :load-path "~/.emacs.d/site-lisp/instant-rename-tag")
+
 (provide 'lang-web)

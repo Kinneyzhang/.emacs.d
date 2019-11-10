@@ -1,4 +1,51 @@
+;; some other config file
+(setq url-configuration-directory (concat config-dir "url/"))
 
+(use-package w3m
+  :ensure t
+  :commands w3m-goto-url w3m-search
+  :init
+  (setq w3m-use-cookies t)
+  ;; clean up the w3m buffers:
+  (add-hook 'w3m-display-functions 'w3m-hide-stuff)
+  (add-hook 'w3m-mode 'ace-link-mode)
+  (global-set-key (kbd "C-c w m") 'w3m-goto-url)
+  (global-set-key (kbd "C-c w l") 'browse-url-at-point)
+  (global-set-key (kbd "C-c w s") 'w3m-search)
+  :config
+  (define-key w3m-mode-map (kbd "&") 'w3m-view-url-with-external-browser))
+
+(use-package smart-comment
+  :ensure t
+  :bind ("M-;" . smart-comment))
+
+(use-package peep-dired
+  :ensure t
+  :defer t ; don't access `dired-mode-map' until `peep-dired' is loaded
+  :bind (:map dired-mode-map
+              ("P" . peep-dired)))
+
+(use-package easy-hugo
+  :ensure t
+  :init
+  (setq easy-hugo-basedir "~/iCloud/HugoBlog/")
+  (setq easy-hugo-postdir "content/posts"))
+
+(use-package ox-hugo
+  :ensure t
+  :after ox
+  :init
+  (setq org-hugo-section "posts"))
+
+(use-package tramp-term
+  :ensure t)
+
+(use-package multi-term
+  :ensure t
+  :init
+  (setq multi-term-program "/bin/zsh")
+  ;; Use Emacs terminfo, not system terminfo, mac系统出现了4m
+  (setq system-uses-terminfo nil))
 
 (use-package nov
   :ensure t
@@ -97,7 +144,7 @@
   ;; Allow cross-buffer 'next'
   (setq bm-cycle-all-buffers t)
   ;; where to store persistant files
-  (setq bm-repository-file "~/.emacs.d/config-file/bm-repository")
+  (setq bm-repository-file (concat config-dir "~/.emacs.d/config-file/bm-repository"))
   ;; save bookmarks
   (setq-default bm-buffer-persistence t)
   ;; Loading the repository from file when on start up.
@@ -137,7 +184,10 @@
 (use-package org-ql
   :ensure t)
 
-(use-package prescient :ensure t :config (prescient-persist-mode))
+(use-package prescient
+  :ensure t
+  :init (setq prescient-save-file (concat config-dir "prescient-save.el"))
+  :config (prescient-persist-mode))
 (use-package ivy-prescient :ensure t :config (ivy-prescient-mode))
 (use-package company-prescient :ensure t :config (company-prescient-mode))
 
@@ -485,21 +535,6 @@
   :defer t
   :init (setq leetcode-account "kinneyzhang666@gmail.com"))
 
-(defun chunyang-scratch-save ()
-  (ignore-errors
-    (with-current-buffer "*scratch*"
-      (write-region nil nil "~/.emacs.d/config-file/scratch"))))
-
-(defun chunyang-scratch-restore ()
-  (let ((f "~/.emacs.d/var/scratch"))
-    (when (file-exists-p f)
-      (with-current-buffer "*scratch*"
-	(erase-buffer)
-	(insert-file-contents f)))))
-
-(add-hook 'kill-emacs-hook #'chunyang-scratch-save)
-(add-hook 'after-init-hook #'chunyang-scratch-restore)
-
 (use-package delete-block
   :load-path "~/.emacs.d/site-lisp/delete-block"
   :defer 5
@@ -539,9 +574,34 @@
 (with-eval-after-load 'dired
   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file))
 
-;;标记后智能选中区域
-(global-set-key (kbd "C-=") 'er/expand-region)
+(use-package expand-region
+  :ensure t
+  :config
+  (defun ha/expand-region (lines)
+    "Prefix-oriented wrapper around Magnar's `er/expand-region'.
 
+Call with LINES equal to 1 (given no prefix), it expands the
+region as normal.  When LINES given a positive number, selects
+the current line and number of lines specified.  When LINES is a
+negative number, selects the current line and the previous lines
+specified.  Select the current line if the LINES prefix is zero."
+    (interactive "p")
+    (cond ((= lines 1)   (er/expand-region 1))
+          ((< lines 0)   (ha/expand-previous-line-as-region lines))
+          (t             (ha/expand-next-line-as-region (1+ lines)))))
+
+  (defun ha/expand-next-line-as-region (lines)
+    (message "lines = %d" lines)
+    (beginning-of-line)
+    (set-mark (point))
+    (end-of-line lines))
+
+  (defun ha/expand-previous-line-as-region (lines)
+    (end-of-line)
+    (set-mark (point))
+    (beginning-of-line (1+ lines)))
+
+  :bind ("C-=" . ha/expand-region))
 
 (defun open-my-init-file()
   (interactive)
@@ -579,7 +639,8 @@
 	      '("~/.emacs.d/snippets"))
   :config
   (yas-reload-all)
-  (add-hook 'prog-mode-hook #'yas-minor-mode))
+  (add-hook 'prog-mode-hook #'yas-minor-mode)
+  (add-hook 'org-mode-hook #'yas-minor-mode))
 
 
 (use-package smartparens
@@ -671,15 +732,6 @@
   :init
   (setq markdown-command "markdown_py"))
 
-(use-package markdown-preview-mode
-  :ensure t
-  :bind (("C-c C-c ." . markdown-preview-mode))
-  :init
-  (setq markdown-preview-stylesheets
-	(list "https://blog.geekinney.com/static/css/github-markdown.css"
-	      "~/.emacs.d/config-file/extra-css/extra-mardown.css")))
-
-
 (use-package helpful
   :ensure t
   :defer 5
@@ -722,11 +774,6 @@
   :config
   (setq exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
-
-(use-package plain-org-wiki
-  :load-path "~/.emacs.d/site-lisp/plain-org-wiki"
-  :init (setq pow-directory "~/iCloud/org"))
-
 
 ;;;==================================================
 ;; (use-package company-tabnine

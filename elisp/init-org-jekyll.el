@@ -1,11 +1,12 @@
 ;;; init-org-jekyll
+(setq org-html-htmlize-output-type nil) ;; 导出时不加行间样式！
 
 (setq org-publish-project-alist
       '(
         ("jekyll-post"
          :base-directory "~/iCloud/blog/_posts"
          :base-extension "org"
-         :publishing-directory "~/Geekstuff/huxBlog/_posts"
+         :publishing-directory "~/iCloud/huxBlog/_posts"
          :recursive nil
          :publishing-function org-html-publish-to-html
 	 ;;; 注释的选项不做全局定义，在文件头部定义
@@ -22,7 +23,7 @@
 	("jekyll-bookmark"
 	 :base-directory "~/iCloud/blog/_pages"
          :base-extension "org"
-         :publishing-directory "~/Geekstuff/huxBlog/_includes/bookmark"
+         :publishing-directory "~/iCloud/huxBlog/_includes/bookmark"
          :recursive nil
          :publishing-function org-html-publish-to-html
 	 ;;; 注释的选项不做全局定义，在文件头部定义
@@ -39,7 +40,7 @@
         ("jekyll-static"
          :base-directory "~/iCloud/blog/assets"
          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|php"
-         :publishing-directory "~/Geekstuff/huxBlog/assets"
+         :publishing-directory "~/iCloud/huxBlog/assets"
          :recursive t
          :publishing-function org-publish-attachment)
 

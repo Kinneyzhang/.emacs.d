@@ -1,0 +1,7 @@
+;;; Elfeed Database Index (version 4)
+
+;; Dummy index for backwards compatablity:
+(:version "0.0.3" :feeds #s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.800000011920929 data ()) :entries #s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.800000011920929 data ()) :index [cl-struct-avl-tree- [nil nil nil 0] elfeed-db-compare])
+
+;; Real index:
+(:version 4 :feeds #s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.8125 data ()) :entries #s(hash-table size 65 test equal rehash-size 1.5 rehash-threshold 0.8125 data ()) :index #s(avl-tree- [nil nil nil 0] elfeed-db-compare))

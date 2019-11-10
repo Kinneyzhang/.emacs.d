@@ -1,0 +1,30 @@
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8 -*- 
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("2019.ledger"
+ (filename . "~/iCloud/org/2019.ledger")
+ (front-context-string)
+ (rear-context-string . "Y\n    资产:借记卡:浦发\n")
+ (position . 5624))
+("_posts"
+ (filename . "~/iCloud/blog/_posts/")
+ (front-context-string . "2019-08-02-think")
+ (rear-context-string . " Oct 25 13:15  ")
+ (position . 462))
+("iCloud"
+ (filename . "~/iCloud/")
+ (front-context-string . ".DS_Store\n  drwx")
+ (rear-context-string . " Nov  2 23:23  ")
+ (position . 241))
+("bookmark.org"
+ (filename . "~/iCloud/blog/_pages/bookmark.org")
+ (front-context-string . "#+STARTUP: conte")
+ (rear-context-string)
+ (position . 1))
+("org-capture-last-stored"
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20191110")
+ (front-context-string . "** 10:06 晨间日记\n**")
+ (rear-context-string . "0 November 2019\n")
+ (position . 28))
+)
