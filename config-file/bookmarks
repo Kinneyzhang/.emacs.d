@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("2019.ledger"
+(("emacs-lisp-learning-note.org"
+ (filename . "~/iCloud/blog/emacs-lisp-learning-note.org")
+ (front-context-string . "#+STARTUP: conte")
+ (rear-context-string)
+ (position . 1))
+("2019.ledger"
  (filename . "~/iCloud/org/2019.ledger")
  (front-context-string)
  (rear-context-string . "Y\n    资产:借记卡:浦发\n")
@@ -18,13 +23,13 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("bookmark.org"
- (filename . "~/iCloud/blog/_pages/bookmark.org")
- (front-context-string . "#+STARTUP: conte")
- (rear-context-string)
- (position . 1))
+ (filename . "~/iCloud/blog/bookmark.org")
+ (front-context-string . "\n* SSR节点\n** *IP*")
+ (rear-context-string . "GO_DRAFT: false\n")
+ (position . 227))
 ("org-capture-last-stored"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20191110")
- (front-context-string . "** 10:06 晨间日记\n**")
- (rear-context-string . "0 November 2019\n")
- (position . 28))
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20191123")
+ (front-context-string . "** 10:27 晨间日记\n**")
+ (rear-context-string . "3 November 2019\n")
+ (position . 30))
 )

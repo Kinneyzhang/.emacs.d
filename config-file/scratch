@@ -1,1 +1,216 @@
 ;; happy hacking emacs.
+
+(op/do-publication t nil nil t)
+
+
+;;;
+
+(buffer-name (current-buffer))
+
+(apply)
+
+(car (last '(1 2 3 4 5)))
+
+(remove-if-not (lambda (x) (> x 5)) '(1 2 3 4 5 6 7 8 9 10))
+
+(cdr '(1 2 3 4 5))
+
+(nthcdr 2 '(1 2 3 4 5))
+
+(delq 6 '(1 6 3 4))
+
+(delete '(5) '(1 2 (5) 3 4))
+
+(coerce '(1 2 "hello" "emacs") 'vector)
+
+(coerce [1 2 "hello" "emacs"] 'list)
+
+(number-sequence 2 11 3)
+
+(setq alist '(a b c d e))
+alist
+(push 'f alist)
+(pop alist)
+
+(defvar language-list
+  '(
+    ("io" . ((:command . "io")
+             (:description . "Run IO Language script")))
+    ("lua" . ((:command . "lua")
+              (:description . "Run Lua script")))
+    ("groovy" . ((:command . "groovy")
+                 (:description . "Run Groovy")))
+    ("scala" . ((:command . "scala")
+                (:cmdopt . "-Dfile.encoding=UTF-8")
+                (:description . "Run Scala file with scala commmyand")))
+
+    ("haml" . ((:command . "haml")
+               (:exec    . "%c %o %s")
+               (:description . "Convert HAML to HTML")))
+    ("sass" . ((:command . "sass")
+               (:exec    . "%c %o --no-cac")))
+    ))
+
+(mapcar #'cdr language-list)
+
+(defvar plst (list :buffer (current-buffer) :line 10 :pos 2000))
+(plist-get plst :line)
+(plist-member plst :line)
+plst
+(plist-put plst :winconf (current-window-configuration))
+
+(defun plist-alist (plist)
+  (if (null plist)
+      '()
+    (cons
+     (list (car plist) (cadr plist))
+     (plist->alist (cddr plist)))))
+
+(plist-alist (list :x 10 :y 20 :name "point"))
+
+(defun alist-plist (assocl)
+  (if (null assocl)
+      '()
+    (let
+	((hd (car assocl))
+	 (tl (cdr assocl)))
+      (cons (car hd)
+	    (cons (cadr hd)
+		  (alist->plist tl))))))
+
+(alist-plist (plist->alist (list :x 10 :y 20 :name "point"))) 
+
+(defun plist-clist (plist)
+  (if (null plist)
+      '()
+    (cons
+     (cons (car plist) (cadr plist))
+     (plist-clist (cddr plist)))))
+
+(plist-clist (list :x 10 :y 20 :name "point"))
+
+(split-string "emacs is cool")
+(split-string "emacs is cool " "m" t)
+
+(format-time-string "%Y-%m-%d %H:%M:%S" (current-time))
+
+(string-match "emacs" "happy hacking emacs")
+
+(make-string 100 ??)
+
+(symbol-name 'emacs)
+(intern "emacs")
+
+(read-from-string "(hello hello)")
+
+;; symbol
+(setq test '(1 2 3 4 5))
+test
+(symbolp 'test)
+(symbolp test)
+(boundp 'test)
+(symbol-value 'test)
+
+(defun funct ()
+  (message "hello"))
+(funct)
+(fboundp 'funct)
+(symbolp 'funct)
+(symbol-function 'funct)
+(symbol-function #'funct)
+
+(subrp (symbol-function 'goto-char))
+
+(mapcar #'eval '((+ 1 1) (* 2 3) (/ 4 2)))
+
+(setq x 10)
+
+(if (> x 5)
+    ;; Then Statement
+    (progn
+      (message "Positive Number")
+      (print "Greater than five")
+      (split-window-vertically)
+      78 ;;  Return Value
+      )
+  ;; Else Statement
+  (progn
+    (print "Less than five")
+    (split-window-horizontally)
+    12 ;;  Return Value
+    ))
+
+(setq a 7)
+
+(cond
+ ((evenp a) a)       ;; if   (a % 2 == 0)    ==> a
+ ((> a 7) (/ a 2))   ;; elif (a > 7)         ==> a/2
+ ((< a 5) (- a 1))   ;; elif (a < 5)         ==> a-1
+ (t 7)               ;; else                 ==> 7
+ )
+
+(defun test-cl-case (operation x y)
+  (cl-case operation
+    (:mul (* x y))
+    (:add (+ x y))
+    (:sub (- x y))
+    (:div (/ x y))
+    (otherwise nil)))
+
+((test-cl-case :mul 2 10))
+
+(loop for i from 2 to 4 collecting (* i 2))
+(loop for i from 2 to 4 summing (* i 2))
+(loop for i in '(2 3 4)
+      do (print (+ 1 i)))
+(loop for i below 5 collecting i)
+
+(loop
+ for x in '(a b c)
+ for y in '(1 2 3 4)
+ collect (list x y))
+
+(loop
+ for (a b) in '((x 1) (y 2) (z 3))
+ collect (list b a))
+
+(loop for i upto 20
+      if (oddp i)
+      collect i into odds
+      else
+      collect i into evens
+      finally (return (values odds evens)))
+
+(mapcar 'capitalize '("emacs" "is" "very" "cool"))
+
+(setq anno (lambda (x) (* x x)))
+(mapcar anno '(1 2 3 4))
+
+(remove-if 'null '(2 nil 5 nil "hello" 6 7))
+
+(defun range (step start stop)
+  (if (> start stop)
+      nil
+    (cons start
+	  (range step (+ step start) stop))))
+
+(range 2 4 10)
+
+(remove-if-not (lambda (x) (= (% x 2) 0))
+	       (range 1 0 10))
+
+(setq my/list '((1 2 3) (a b c) (q w "hello")))
+(add-to-list 'my/list '(5 6 "ss"))
+
+
+(defun my/countdown (interval)
+  (interactive "set the interval: "))
+
+(run-with-timer "10 sec" nil 'my/terminal-notifier)
+(defun my/terminal-notifier (title )
+  (shell-command
+   "terminal-notifier -title title -subtitle \"new tag detected\" -message \"Finished\" -appIcon http://vjeantet.fr/images/logo.png"))
+
+(run-at-time "13:20" nil 'my/terminal-notifier)
+
+(call-process)

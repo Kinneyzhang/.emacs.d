@@ -15,6 +15,7 @@
 (setq icon-title-format nil)
 (setq frame-title-format t)
 (setq multiple-frames t)
+(setq display-battery-mode nil)
 
 (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
 (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口

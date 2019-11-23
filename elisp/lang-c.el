@@ -29,13 +29,15 @@
   (semantic-mode 1))
 
 (use-package ede
-  :defer t
+  :defer 5
+  :ensure t
   :config
   ;; Enable EDE only in C/C++
   (global-ede-mode))
 
 (use-package ggtags
-  :defer t
+  :defer 5
+  :ensure t
   :config
   (ggtags-mode 1)
   (add-hook 'c-mode-common-hook
@@ -55,7 +57,7 @@
     (define-key map (kbd "C-c <")   'ggtags-prev-mark)
     (define-key map (kbd "C-c >")   'ggtags-next-mark)))
 
-;; company-c-headers
+;;company-c-headers
 (use-package company-c-headers
   :ensure t
   :config
@@ -83,5 +85,11 @@
 (add-hook 'c-mode-common-hook 'alexott/cedet-hook)
 (add-hook 'c-mode-hook 'alexott/cedet-hook)
 (add-hook 'c++-mode-hook 'alexott/cedet-hook)
+
+(defun your-g++-compile-and-run ()
+  (interactive)
+  (compile (format "g++ %s" (buffer-file-name))))
+
+(define-key c++-mode-map (kbd "<f5>") #'your-g++-compile-and-run)
 
 (provide 'lang-c)

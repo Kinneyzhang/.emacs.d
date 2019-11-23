@@ -32,3 +32,5 @@ quelpa
 network-security.data
 *old-org.el
 nov-places
+org-journal.cache
+semanticdb

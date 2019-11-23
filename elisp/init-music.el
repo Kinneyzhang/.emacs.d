@@ -1,10 +1,4 @@
 ;;; include music and podcast config
-(use-package mingus
-  :ensure t
-  :defer 5
-  :init (setq mingus-mode-always-modeline nil)
-  :bind (("C-c m" . mingus)))
-
 (use-package podcaster
   :defer 5
   :ensure t

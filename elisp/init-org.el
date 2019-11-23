@@ -131,6 +131,7 @@
 (defun my/show-org-clock-in-header-line ()
   (setq-default header-line-format '((" " org-mode-line-string " "))))
 
+
 (defun my/hide-org-clock-from-header-line ()
   (setq-default header-line-format nil))
 
@@ -138,12 +139,43 @@
 (add-hook 'org-clock-out-hook 'my/hide-org-clock-from-header-line)
 (add-hook 'org-clock-cancel-hook 'my/hide-org-clock-from-header-line)
 
+(use-package org-pomodoro
+  :ensure t
+  :init
+  (setq org-pomodoro-length 40
+	org-pomodoro-short-break-length 5
+	org-pomodoro-long-break-length 15
+	org-pomodoro-long-break-frequency 3
+	org-pomodoro-ask-upon-killing t)
+  (define-key org-agenda-mode-map "P" 'org-pomodoro)
+  (add-hook 'org-pomodoro-finished-hook
+	    (lambda ()
+	      (notify-osx "Pomodoro completed!" "Time for a break.")))
+  (add-hook 'org-pomodoro-break-finished-hook
+	    (lambda ()
+	      (notify-osx "Pomodoro Short Break Finished" "Ready for Another?")))
+  (add-hook 'org-pomodoro-long-break-finished-hook
+	    (lambda ()
+	      (notify-osx "Pomodoro Long Break Finished" "Ready for Another?")))
+  (add-hook 'org-pomodoro-killed-hook    
+	    (lambda ()
+	      (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!")))
+  :config
+  (defun notify-osx (title message)   
+    (call-process "terminal-notifier"		 
+		  nil 0 nil		 
+		  "-group" "Emacs"		 
+		  "-title" title		 
+		  "-sender" "org.gnu.Emacs"		 
+		  "-message" message		 
+		  "-activate" "oeg.gnu.Emacs")))
+
 ;;; ==========================================================================
 ;;; Org Mode for GTD
 
 (require 'find-lisp)
 (setq jethro/org-agenda-directory (expand-file-name "~/iCloud/"))
-(setq my/blog-bookmark-file (expand-file-name "~/iCloud/blog/_pages/bookmark.org"))
+(setq my/blog-bookmark-file (expand-file-name "~/iCloud/blog/bookmark.org"))
 (setq org-agenda-files '("~/iCloud/org/gtd.org"))
 
 (setq org-src-fontify-natively t)
@@ -165,7 +197,7 @@
 	("p" "project" entry (file "~/iCloud/org/gtd.org")
 	 "* PROJ %? [%] :PROJECT:\n :PROPERTIES:\n :CATEGORY: project\n :END:\n** TODO \n" :clock-resume t
 	 :empty-lines 1)
-	("b" "bookmark" entry (file+headline "~/iCloud/blog/_pages/bookmark.org" "Misc")
+	("b" "bookmark" entry (file+headline "~/iCloud/blog/bookmark.org" "Misc")
 	 "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:"
 	 :empty-lines 1)
 	("j" "晨间日记" entry (function org-journal-find-location)
@@ -368,7 +400,7 @@
   (org-agenda-todo "TODO"))
 
 (define-key org-agenda-mode-map "r" 'jethro/org-process-inbox)
-(define-key org-agenda-mode-map "R" 'org-agenda-refile)
+;; (define-key org-agenda-mode-map "R" 'org-agenda-refile)
 (define-key org-agenda-mode-map "c" 'jethro/org-inbox-capture)
 (define-key org-agenda-mode-map "+" 'my/make-someday-task-active)
 (define-key org-agenda-mode-map "-" 'my/make-someday-task-inactive)
@@ -426,20 +458,10 @@
                                  :todo "WAITING")
 			  (:name "Active Projects"
 				 :todo "PROJ")
-			  (:discard (:tag "SOMEDAY" :tag "PROJECT" :habit t))))))))
-	("p" "Project Agneda"
-	 ((alltodo "" ((org-agenda-overriding-header "Project Agenda")
-		       (org-super-agenda-groups
-			'((:name "Active Projects"
+			  (:name "Detail Projects"
 				 :and (:tag "PROJECT" :not (:tag "SOMEDAY")))
-
-			  (:discard (:tag "APPT" :tag "INBOX" :tag "SOMEDAY" :habit t :not (:todo "TODO")))
-			  ))
-		       ))))
-	("s" "Someday & Project Agenda"
-	 ((alltodo "" ((org-agenda-overriding-header "Someday & Project Agenda")
-		       (org-super-agenda-groups
-			'((:name "Someday Projects"
+			  
+			  (:name "---------------------------------------------\n Someday Projects"
 				 :and (:tag "PROJECT" :tag "SOMEDAY"))
 			  (:name "Emacs Stuff:"
 				 :and (:tag "emacs" :tag "SOMEDAY"))
@@ -449,9 +471,24 @@
 				 :and (:tag "watching" :tag "SOMEDAY"))
 			  (:name "Blog in Plan:"
 				 :and (:tag "blog" :tag "SOMEDAY"))
-			  (:discard (:not (:tag "SOMEDAY")))
-			  ))
-		       ))))
+			  
+			  (:discard (:tag "PROJECT" :habit t))))))))
+	;; ("s" "Someday & Project Agenda"
+	;;  ((alltodo "" ((org-agenda-overriding-header "Someday & Project Agenda")
+	;; 	       (org-super-agenda-groups
+	;; 		'((:name "Someday Projects"
+	;; 			 :and (:tag "PROJECT" :tag "SOMEDAY"))
+	;; 		  (:name "Emacs Stuff:"
+	;; 			 :and (:tag "emacs" :tag "SOMEDAY"))
+	;; 		  (:name "Books/articles to Read:"
+	;; 			 :and (:tag "reading" :tag "SOMEDAY"))
+	;; 		  (:name "Films/videos to watch:"
+	;; 			 :and (:tag "watching" :tag "SOMEDAY"))
+	;; 		  (:name "Blog in Plan:"
+	;; 			 :and (:tag "blog" :tag "SOMEDAY"))
+	;; 		  (:discard (:not (:tag "SOMEDAY")))
+	;; 		  ))
+	;; 	       ))))
 	))
 
 (use-package org-super-agenda
@@ -552,6 +589,7 @@
   :config (idle-org-agenda-mode))
 
 ;; org html export
+(setq org-html-htmlize-output-type "inline-css") ;; 导出时不加行间样式！
 (setq org-html-doctype "html5")
 (setq org-html-html5-fancy t)
 (defun org-html-src-block2 (src-block _contents info)
@@ -649,4 +687,26 @@ end tell")
   (deft-directory "~/iCloud/blog/_posts")
   (deft-use-filename-as-title t))
 
-  (provide 'init-org)
+(use-package org-page
+  :ensure t
+  :init
+  (setq op/repository-directory "~/iCloud/org-page/")
+  (setq op/site-domain "Kinneyzhang.github.io")
+  (setq op/theme 'phaer)
+  (setq op/site-main-title "Geekinney Blog")
+  (setq op/site-sub-title "记录生活，记录思考")
+  ;; (setq op/personal-disqus-shortname "your_disqus_shortname")
+  (setq op/personal-github-link "https://github.com/Kinneyzhang")
+  ;; (setq op/personal-google-analytics-id "your google analytics id")
+  )
+
+(require 'simple-httpd)
+(defun my/org-page-preview (&optional site)
+  "test the org-page's main repository"
+  (interactive)
+  (op/do-publication t nil nil t)
+  (httpd-serve-directory "~/iCloud/org-page/"))
+
+(setq system-name "localhost")
+
+(provide 'init-org)

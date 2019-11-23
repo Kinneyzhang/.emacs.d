@@ -1,5 +1,34 @@
 ;;; init-utils
 
+;; thyme clock
+(defun my/thyme-start ()
+  "start thyme clock"
+  (interactive)
+  (do-applescript
+   "tell application \"Thyme\" 
+   start 
+   end tell"))
+
+(defun my/thyme-pause ()
+  "pause thyme clock"
+  (interactive)
+  (do-applescript
+   "tell application \"Thyme\" 
+   pause
+   end tell"))
+
+(defun my/thyme-finish ()
+  "stop thyme clock"
+  (interactive)
+  (do-applescript
+   "tell application \"Thyme\" 
+   stop
+   end tell"))
+
+(defalias 'mts' #'my/thyme-start)
+(defalias 'mtp' #'my/thyme-pause)
+(defalias 'mtf' #'my/thyme-finish)
+
 ;; generate qrcode
 (setq lexical-binding t)
 (defun my/qr-encode (str &optional buf)
@@ -82,15 +111,15 @@ Return a new buffer or BUF with the code in it."
 (use-package youdao-dictionary
   :ensure t
   :defer 5
-  ;; :bind (("C-c y y" . youdao-dictionary-search-at-point)
-  ;; 	 ("C-c y i" . youdao-dictionary-search-from-input))
+  :bind (("C-c y y" . youdao-dictionary-search-at-point+)
+  	 ("C-c y i" . youdao-dictionary-search-from-input))
   :init
   (setq url-automatic-caching t))
 
 (use-package osx-dictionary
   :ensure t
-  :bind (("C-c y y" . osx-dictionary-search-word-at-point)
-	 ("C-c y i" . osx-dictionary-search-input))
+  ;; :bind (("C-c y y" . osx-dictionary-search-word-at-point)
+  ;; 	 ("C-c y i" . osx-dictionary-search-input))
   )
 
 (use-package search-web

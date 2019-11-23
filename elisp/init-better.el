@@ -17,10 +17,11 @@
 (setq default-buffer-file-coding-system 'utf-8)
 (setq bookmark-file-coding-system 'utf-8)
 (setq magit-git-output-coding-system 'utf-8)
+(setq bookmark-save-flag 1)
 
 (prefer-coding-system 'utf-8)
 
-(add-hook 'org-mode-hook (lambda () (setq toggle-truncate-lines t)))
+(add-hook 'org-mode-hook (lambda () (toggle-truncate-lines 1)))
 
 (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认
 (setq org-confirm-babel-evaluate nil);设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp

@@ -1,0 +1,14 @@
+;; Emacs-W3 HTTP cookies file
+;; Automatically generated file!!! DO NOT EDIT!!!
+
+(setq url-cookie-storage
+ '((".youdao.com"
+  [url-cookie "OUTFOX_SEARCH_USER_ID" "-782110294@112.2.94.226" "Mon, 15-Nov-2049 02:36:10 GMT" "/" ".youdao.com" nil]))
+)
+(setq url-cookie-secure-storage
+ 'nil)
+
+;; Local Variables:
+;; version-control: never
+;; no-byte-compile: t
+;; End:

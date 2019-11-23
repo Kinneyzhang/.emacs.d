@@ -1,5 +1,55 @@
 ;; some other config file
 (setq url-configuration-directory (concat config-dir "url/"))
+(setq transient-history-file (concat config-dir "transient/history.el")
+      transient-levels-file (concat config-dir "transient/levels.el")
+      transient-values-file (concat config-dir "transient/valuess.el"))
+
+(use-package moz-controller
+  :ensure t)
+
+(use-package org-wiki
+  :ensure nil
+  :init
+  (setq org-wiki-location "~/iCloud/wiki")
+  (setq org-wiki-default-read-only t)
+  (setq org-wiki-server-port "8000")
+  (setq org-wiki-server-host "127.0.0.1")
+  (setq org-wiki-template
+	(string-trim
+	 "
+#+TITLE: %n
+#+DESCRIPTION:
+#+STARTUP: showall
+#+DATE: %d
+
+- [[wiki:index][Index]]
+
+- Related: 
+
+- Parent: 
+
+* %n
+"))
+  :config
+  (defalias 'w-h #'org-wiki-helm)
+  (defalias 'w-s #'org-wiki-switch)
+  (defalias 'w-hf  #'org-wiki-helm-frame)
+  (defalias 'w-hr #'org-wiki-helm-read-only)
+  (defalias 'w-i #'org-wiki-index)
+  (defalias 'w-n #'org-wiki-new)
+  (defalias 'w-in #'org-wiki-insert-new)
+  (defalias 'w-il #'org-wiki-insert-link)
+  (defalias 'w-ad #'org-wiki-asset-dired)
+  (defalias 'og2h #'org-html-export-to-html)
+  (defalias 'w-close #'org-wiki-close)
+  ;; (let ((url "https://raw.githubusercontent.com/caiorss/org-wiki/master/org-wiki.el"))     
+  ;;   (with-current-buffer (url-retrieve-synchronously url)
+  ;;     (goto-char (point-min))
+  ;;     (re-search-forward "^$")
+  ;;     (delete-region (point) (point-min))
+  ;;     (kill-whole-line)
+  ;;     (package-install-from-buffer)))
+  )
 
 (use-package w3m
   :ensure t
@@ -24,18 +74,6 @@
   :defer t ; don't access `dired-mode-map' until `peep-dired' is loaded
   :bind (:map dired-mode-map
               ("P" . peep-dired)))
-
-(use-package easy-hugo
-  :ensure t
-  :init
-  (setq easy-hugo-basedir "~/iCloud/HugoBlog/")
-  (setq easy-hugo-postdir "content/posts"))
-
-(use-package ox-hugo
-  :ensure t
-  :after ox
-  :init
-  (setq org-hugo-section "posts"))
 
 (use-package tramp-term
   :ensure t)
@@ -96,9 +134,11 @@
   (add-hook 'completion-list-mode-hook #'hide-mode-line-mode)
   (add-hook 'neotree-mode-hook #'hide-mode-line-mode))
 
-(use-package org-alert
-  :ensure t
-  :init (setq alert-default-style 'libnotify))
+;; (use-package org-alert
+;;   :ensure nil
+;;   :init (setq alert-default-style 'libnotify)
+;;   :config
+;;   (require 'org-alert))
 
 (use-package org-timeline
   :ensure t
@@ -144,7 +184,7 @@
   ;; Allow cross-buffer 'next'
   (setq bm-cycle-all-buffers t)
   ;; where to store persistant files
-  (setq bm-repository-file (concat config-dir "~/.emacs.d/config-file/bm-repository"))
+  (setq bm-repository-file (concat config-dir "bm-repository"))
   ;; save bookmarks
   (setq-default bm-buffer-persistence t)
   ;; Loading the repository from file when on start up.
@@ -732,28 +772,18 @@ specified.  Select the current line if the LINES prefix is zero."
   :init
   (setq markdown-command "markdown_py"))
 
-(use-package helpful
-  :ensure t
-  :defer 5
-  :pretty-hydra
-  ((:color teal :quit-key "q")
-   ("Helpful"
-    (("f" helpful-callable "callable")
-     ("v" helpful-variable "variable")
-     ("k" helpful-key "key")
-     ("c" helpful-command "command")
-     ("d" helpful-at-point "thing at point"))))
-  :bind ("C-h" . helpful-hydra/body))
-
 ;; (use-package helpful
 ;;   :ensure t
 ;;   :defer 5
-;;   :bind (("C-h f" . helpful-callable)
-;; 	 ("C-h v" . helpful-variable)
-;; 	 ("C-h k" . helpful-key)
-;; 	 ("C-c C-d" . helpful-at-point)
-;; 	 ("C-h F". helpful-function)
-;; 	 ("C-h C" . helpful-command)))
+;;   :pretty-hydra
+;;   ((:color teal :quit-key "q")
+;;    ("Helpful"
+;;     (("f" helpful-callable "callable")
+;;      ("v" helpful-variable "variable")
+;;      ("k" helpful-key "key")
+;;      ("c" helpful-command "command")
+;;      ("d" helpful-at-point "thing at point"))))
+;;   :bind ("C-h" . helpful-hydra/body))
 
 (use-package django-mode
   :ensure t)
