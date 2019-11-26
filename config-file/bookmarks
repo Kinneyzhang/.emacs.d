@@ -28,8 +28,8 @@
  (rear-context-string . "GO_DRAFT: false\n")
  (position . 227))
 ("org-capture-last-stored"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20191123")
- (front-context-string . "** 10:27 晨间日记\n**")
- (rear-context-string . "3 November 2019\n")
- (position . 30))
+ (filename . "~/iCloud/org/gtd.org")
+ (front-context-string . "* APPT 去桥北表姐家   ")
+ (rear-context-string . "  1:00\n  :END:\n\n")
+ (position . 17971))
 )

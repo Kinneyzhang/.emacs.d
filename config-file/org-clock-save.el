@@ -1,2 +1,2 @@
-;; org-clock-save.el - localhost at <2019-11-22 Fri 23:33>
-(setq org-clock-stored-history '(("/Users/kinney/iCloud/org/gtd.org" . 14734) ("/Users/kinney/iCloud/org/gtd.org" . 13465) ("/Users/kinney/iCloud/org/gtd.org" . 14926) ("/Users/kinney/iCloud/org/gtd.org" . 15731) ("/Users/kinney/iCloud/org/gtd.org" . 16032)))
+;; org-clock-save.el - localhost at <2019-11-26 Tue 21:07>
+(setq org-clock-stored-history '(("/Users/kinney/iCloud/org/gtd.org" . 16565) ("/Users/kinney/iCloud/org/gtd.org" . 15630) ("/Users/kinney/iCloud/org/gtd.org" . 14169) ("/Users/kinney/iCloud/org/gtd.org" . 16866) ("/Users/kinney/iCloud/org/gtd.org" . 17748)))

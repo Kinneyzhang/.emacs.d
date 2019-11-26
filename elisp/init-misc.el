@@ -18,15 +18,14 @@
 	(string-trim
 	 "
 #+TITLE: %n
+#+DATE: %d
 #+DESCRIPTION:
 #+STARTUP: showall
-#+DATE: %d
+#+OPTIONS: toc:nil H:2 num:0
 
-- [[wiki:index][Index]]
-
-- Related: 
-
-- Parent: 
+#+BEGIN_CENTER
+[[wiki:index][Home Page]] / Related / Parent 
+#+END_CENTER
 
 * %n
 "))

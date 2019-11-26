@@ -23,6 +23,7 @@
   ("gm" (browse-url "https://mail.google.com/mail/u/0/?client=safari#inbox") "Gmail")
   ("gb" (browse-url "https://blog.geekinney.com") "Geekblog")
   ("rd" (browse-url "https://www.reddit.com") "Reddit")
+  ("om" (browse-url "https://orgmode.org/org.html") "OrgMode Manual")
   ("s" multi-term "multi-term")
   ("q" nil "cancel"))
 
