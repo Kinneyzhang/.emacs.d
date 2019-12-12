@@ -45,9 +45,23 @@ contextual information."
 (setq org-export-with-email t)
 (setq org-export-with-date t)
 (setq org-export-with-creator t)
+(setq org-html-preamble t)
 (setq org-html-postamble t)
 (setq org-html-postamble-format
-      '(("en" "<p class=\"author\">Author: %a (%e)</p>
+      '((
+	 "en"
+	 "<div id=\"disqus_thread\"></div>
+<script>
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://geekinney-blog.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href=\"https://disqus.com/?ref_noscript\">comments powered by Disqus.</a></noscript>
+
+<p class=\"author\">Author: %a (%e)</p>
 <p class=\"date\">Date: %d</p>
 <p class=\"creator\">%c</p>\n")))
 
@@ -59,7 +73,7 @@ contextual information."
 	 :base-extension "org"
 	 :recursive nil
 	 :base-directory "~/iCloud/blog_site/org/"
-	 :publishing-directory "~/iCloud/blog_site/html/"
+	 :publishing-directory "~/iCloud/blog_site/post/"
 	 :publishing-function org-html-publish-to-html
 	 :html-head
 	 "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://blog.geekinney.com/static/ostyle.css\"/>
@@ -99,5 +113,10 @@ contextual information."
 	 :body-only nil
 	 )
 	))
+
+(defun my/org-publish-project-force (proj)
+  (interactive "sEnter the project name: ")
+  (org-publish proj t t)
+  )
 
 (provide 'init-blog)

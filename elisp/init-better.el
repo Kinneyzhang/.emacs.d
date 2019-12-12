@@ -18,6 +18,7 @@
 (setq bookmark-file-coding-system 'utf-8)
 (setq magit-git-output-coding-system 'utf-8)
 (setq bookmark-save-flag 1)
+(setq org-image-actual-width nil)
 
 (prefer-coding-system 'utf-8)
 
@@ -29,13 +30,7 @@
 (setq zone-when-idle 300)
 (setq exec-path-from-shell-check-startup-files nil)
 (setq epg-gpg-program "gpg2")
-(setq x-select-enable-primary nil) ;不选中区域自动复制
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (python . t)
-   ))
+(setq x-select-enable-primary nil) ;t:选中区域自动复制
 
 ;; 默认分割成左右两个窗口
 ;; (setq split-height-threshold nil)

@@ -7,49 +7,6 @@
 (use-package moz-controller
   :ensure t)
 
-(use-package org-wiki
-  :ensure nil
-  :init
-  (setq org-wiki-location "~/iCloud/wiki")
-  (setq org-wiki-default-read-only t)
-  (setq org-wiki-server-port "8000")
-  (setq org-wiki-server-host "127.0.0.1")
-  (setq org-wiki-template
-	(string-trim
-	 "
-#+TITLE: %n
-#+DATE: %d
-#+DESCRIPTION:
-#+STARTUP: showall
-#+OPTIONS: toc:nil H:2 num:0
-
-#+BEGIN_CENTER
-[[wiki:index][Home Page]] / Related / Parent 
-#+END_CENTER
-
-* %n
-"))
-  :config
-  (defalias 'w-h #'org-wiki-helm)
-  (defalias 'w-s #'org-wiki-switch)
-  (defalias 'w-hf  #'org-wiki-helm-frame)
-  (defalias 'w-hr #'org-wiki-helm-read-only)
-  (defalias 'w-i #'org-wiki-index)
-  (defalias 'w-n #'org-wiki-new)
-  (defalias 'w-in #'org-wiki-insert-new)
-  (defalias 'w-il #'org-wiki-insert-link)
-  (defalias 'w-ad #'org-wiki-asset-dired)
-  (defalias 'og2h #'org-html-export-to-html)
-  (defalias 'w-close #'org-wiki-close)
-  ;; (let ((url "https://raw.githubusercontent.com/caiorss/org-wiki/master/org-wiki.el"))     
-  ;;   (with-current-buffer (url-retrieve-synchronously url)
-  ;;     (goto-char (point-min))
-  ;;     (re-search-forward "^$")
-  ;;     (delete-region (point) (point-min))
-  ;;     (kill-whole-line)
-  ;;     (package-install-from-buffer)))
-  )
-
 (use-package w3m
   :ensure t
   :commands w3m-goto-url w3m-search
@@ -212,9 +169,6 @@
   ;; Then new bookmarks can be saved before the buffer is reverted.
   ;; Make sure bookmarks is saved before check-in (and revert-buffer)
   (add-hook 'vc-before-checkin-hook #'bm-buffer-save)
-  :bind (("<f2>" . bm-next)
-         ("S-<f2>" . bm-previous)
-         ("C-<f2>" . bm-toggle))
   )
 
 (use-package quelpa-use-package

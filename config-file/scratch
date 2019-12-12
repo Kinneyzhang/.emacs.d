@@ -206,11 +206,48 @@ test
 (defun my/countdown (interval)
   (interactive "set the interval: "))
 
-(run-with-timer "10 sec" nil 'my/terminal-notifier)
-(defun my/terminal-notifier (title )
+(defun my/terminal-notifier (title subtitle message)
   (shell-command
-   "terminal-notifier -title title -subtitle \"new tag detected\" -message \"Finished\" -appIcon http://vjeantet.fr/images/logo.png"))
+   (concat "terminal-notifier -title " title " -subtitle " subtitle " -message " message)))
 
-(run-at-time "13:20" nil 'my/terminal-notifier)
+(run-with-timer "10 sec" nil #'my/terminal-notifier '("hello test" "this is subtitle" "this is msg"))
+
+;; (defun my/terminal-notifier (title msg)
+;;   (call-process "terminal-notifier" nil 0 nil "-group" "Emacs"  "-title" title "-activate" "org.gnu.Emacs" "-message" msg))
+
+(run-at-time "13:24" nil '(my/terminal-notifier "hello test" "this is subtitle" "this is msg"))
 
 (call-process)
+
+(require 'chart)
+
+(defun the-fastest-elpa-mirror ()
+  (interactive)
+  (let* ((urls
+          (mapcar
+           (lambda (part)
+             (concat "http://" part "archive-contents"))
+           '("melpa.org/packages/"
+             "www.mirrorservice.org/sites/melpa.org/packages/"
+             "emacs-china.org/melpa/"
+             "mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"
+             "mirrors.163.com/elpa/melpa/"
+             "mirrors.cloud.tencent.com/elpa/melpa/")))
+         (durations
+          (mapcar
+           (lambda (url)
+             (let ((start (current-time)))
+               (message "Fetching %s" url)
+               (call-process "curl" nil nil nil "--max-time" "10" url)
+               (float-time (time-subtract (current-time) start))))
+           urls)))
+    (chart-bar-quickie
+     'horizontal
+     "The fastest elpa mirror"
+     (mapcar (lambda (url) (url-host (url-generic-parse-url url))) urls) "Elpa"
+     (mapcar (lambda (d) (* 1e3 d)) durations) "ms")
+    (message "%s" durations)))
+
+
+<link rel=\"stylesheet\" type=\"text/css\" href=\"https://blog.geekinney.com/static/ostyle.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"https://blog.geekinney.com/static/ostyle2.css\"/>

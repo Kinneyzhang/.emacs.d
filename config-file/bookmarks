@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("emacs-lisp-learning-note.org"
+(("bookmark.org"
+ (filename . "~/iCloud/blog_site/org/bookmark.org")
+ (front-context-string . "#+TITLE: 链接收藏\n#+")
+ (rear-context-string)
+ (position . 1))
+("habit-recording.org"
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/habit-recording.org")
+ (front-context-string . "  C: go to sleep")
+ (rear-context-string . "before 22:00; \n\n")
+ (position . 173))
+("emacs-lisp-learning-note.org"
  (filename . "~/iCloud/blog/emacs-lisp-learning-note.org")
  (front-context-string . "#+STARTUP: conte")
  (rear-context-string)
@@ -22,14 +32,9 @@
  (front-context-string . ".DS_Store\n  drwx")
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
-("bookmark.org"
- (filename . "~/iCloud/blog/bookmark.org")
- (front-context-string . "\n* SSR节点\n** *IP*")
- (rear-context-string . "GO_DRAFT: false\n")
- (position . 227))
 ("org-capture-last-stored"
  (filename . "~/iCloud/org/gtd.org")
- (front-context-string . "* APPT 去桥北表姐家   ")
- (rear-context-string . "  1:00\n  :END:\n\n")
- (position . 17971))
+ (front-context-string)
+ (rear-context-string . "  1:29\n  :END:\n\n")
+ (position . 23685))
 )

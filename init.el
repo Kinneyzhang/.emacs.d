@@ -52,6 +52,7 @@
   ;; (require 'init-org-jekyll)
   (require 'init-org)
   (require 'init-pdf)
+  (require 'init-blog)
   (require 'init-test)
   ;;(require 'init-mu4e)
   )

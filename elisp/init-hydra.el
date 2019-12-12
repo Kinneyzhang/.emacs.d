@@ -24,7 +24,7 @@
   ("gb" (browse-url "https://blog.geekinney.com") "Geekblog")
   ("rd" (browse-url "https://www.reddit.com") "Reddit")
   ("om" (browse-url "https://orgmode.org/org.html") "OrgMode Manual")
-  ("s" multi-term "multi-term")
+  ("tm" vterm "multi-term")
   ("q" nil "cancel"))
 
 (use-package major-mode-hydra

@@ -107,7 +107,9 @@
     (matlab . t)
     (C . t)
     (ledger . t)
+    (jupyter . t)
     ))
+
 (setq org-confirm-babel-evaluate nil)
 
 ;; org clock
@@ -201,7 +203,7 @@
 	 "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:"
 	 :empty-lines 1)
 	("j" "晨间日记" entry (function org-journal-find-location)
-	 "* %(format-time-string org-journal-time-format)晨间日记\n** 天气/温度/地点：\n** 晨间日记第  天\n** 纪念日：\n** 生日：\n\n** 总结\n** 学习\n** 健康\n** 兴趣\n** 人际\n"
+	 "* %(format-time-string org-journal-time-format)晨间日记\n** 天气/温度/地点：\n** 纪念日：\n** 生日：\n\n** 总结\n** 学习\n** 健康\n** 兴趣\n** 人际\n"
 	 )
 	("h" "Habit" entry (file "~/iCloud/org/gtd.org")
 	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
@@ -650,5 +652,46 @@ end tell")
   (deft-default-extension "org")
   (deft-directory "~/iCloud/blog_site/org/")
   (deft-use-filename-as-title t))
+
+(use-package org-wiki
+  :ensure t
+  :init
+  (setq org-wiki-location "~/iCloud/wiki")
+  (setq org-wiki-default-read-only nil)
+  (setq org-wiki-server-port "8000")
+  (setq org-wiki-server-host "127.0.0.1")
+  (setq org-wiki-template
+	(string-trim
+	 "
+#+TITLE: %n
+#+DATE: %d
+#+STARTUP: showall
+#+OPTIONS: toc:nil H:2 num:0
+
+#+BEGIN_CENTER
+[[wiki:index][Home Page]] / Parent 
+#+END_CENTER
+
+"))
+  :config
+  (defalias 'w-h #'org-wiki-helm)
+  (defalias 'w-s #'org-wiki-switch)
+  (defalias 'w-hf  #'org-wiki-helm-frame)
+  (defalias 'w-hr #'org-wiki-helm-read-only)
+  (defalias 'w-i #'org-wiki-index)
+  (defalias 'w-n #'org-wiki-new)
+  (defalias 'w-in #'org-wiki-insert-new)
+  (defalias 'w-il #'org-wiki-insert-link)
+  (defalias 'w-ad #'org-wiki-asset-dired)
+  (defalias 'og2h #'org-html-export-to-html)
+  (defalias 'w-close #'org-wiki-close)
+  ;; (let ((url "https://raw.githubusercontent.com/caiorss/org-wiki/master/org-wiki.el"))     
+  ;;   (with-current-buffer (url-retrieve-synchronously url)
+  ;;     (goto-char (point-min))
+  ;;     (re-search-forward "^$")
+  ;;     (delete-region (point) (point-min))
+  ;;     (kill-whole-line)
+  ;;     (package-install-from-buffer)))
+  )
 
 (provide 'init-org)
