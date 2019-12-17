@@ -219,6 +219,8 @@ test
 
 (call-process)
 
+;; ------------------------------------------------------------------
+
 (require 'chart)
 
 (defun the-fastest-elpa-mirror ()
@@ -248,6 +250,145 @@ test
      (mapcar (lambda (d) (* 1e3 d)) durations) "ms")
     (message "%s" durations)))
 
+;;-----------------------------------------------
 
-<link rel=\"stylesheet\" type=\"text/css\" href=\"https://blog.geekinney.com/static/ostyle.css\"/>
-<link rel=\"stylesheet\" type=\"text/css\" href=\"https://blog.geekinney.com/static/ostyle2.css\"/>
+(defun my/quick-search-and-open (choice)
+  "Choices for directories and files."
+  (interactive "c[a]pp | [b]ookmark | [w]eb |")
+  (cond
+   ((eq choice ?a)
+    (counsel-osx-app))
+   ((eq choice ?b)
+    (counsel-bookmark))
+   ((eq choice ?w)
+    (search-web))
+   (t (message "Quit"))))
+
+(defstruct account id name gender)
+
+(setq user1 (make-account :id 19150133 :name "kinney" :gender "man"))
+
+(account-id user1)
+user1
+(account-name user1)
+
+`(hello emacs emacs is very cool ,(* 3 5))
+
+(defmacro λ (args body)
+  `(lambda ,args ,body))
+
+(λ (x) (+ x 3))
+
+(get-buffer-create "foobar")
+(switch-to-buffer-other-window "foobar")
+
+(defun within-buffer (name func)
+  (let (currbuff (current-buffer))
+    (switch-to-buffer name)
+    (funcall func)
+    (switch-to-buffer currbuff)))
+
+(within-buffer "foobar" (lambda () (insert "happy hacking emacs!")))
+
+(with-current-buffer (get-buffer-create "foobar")
+  (insert "hello emacs"))
+
+(defun buffer-mode (buffer-or-string)
+  "Returns the major mode associated with a buffer."
+  (with-current-buffer buffer-or-string
+    major-mode))
+
+(mapcar (lambda (b)(let((name (buffer-name b))
+			(type (buffer-mode (buffer-name b))))
+		     (list name type)))
+	(buffer-list))
+
+major-mode
+
+;; -----------------------------------------------------------------------------------
+
+(defun workflow/learn-emacs-lisp ()
+  (interactive)
+  (bookmark-jump "emacs-lisp-learning-note.org")
+  (switch-to-buffer-other-window "*scratch*")
+  (browse-url "http://caiorss.github.io/Emacs-Elisp-Programming/Elisp_Programming.html"))
+
+(defun workflow/write-morning-journal ()
+  (interactive)
+  (delete-other-windows)
+  (org-capture nil "j")
+  (ace-window)
+  (dired-jump)
+  (dired-previous-line))
+
+(require 'hydra)
+(defhydra hydra-workflow (global-map "C-c w f")
+  ("e" workflow/learn-emacs-lisp "learn elisp")
+  ("j" workflow/write-morning-journal "write journal"))
+
+;; ------------------------------------------------------
+
+(defun buffer-content (name)
+  (with-current-buffer name
+    (buffer-substring-no-properties (point-min) (point-max))))
+
+(buffer-content "*Help*")
+
+(defun get-selection ()
+  (interactive)
+  (buffer-substring-no-properties (region-beginning) (region-end)))
+
+(defun get-current-line ()
+  (interactive)
+  "Get current line, where the cursor lies in the current buffer"
+  (replace-regexp-in-string "[\n|\s\t]+$" "" (thing-at-point 'line t))
+  )
+(get-current-line)
+
+;;; setcdr
+;; (setcdr CELL NEWCDR)
+;; Set the cdr of CELL to be NEWCDR.  Returns NEWCDR.
+
+(setq my-list '(1 2 3 4 5))
+(cdr my-list)
+(setcdr (cdr my-list) '(a b c))
+(setcdr (cdr my-list) nil)
+my-list
+
+email: kinneyzhang666@gmail.com
+(thing-at-point 'email)
+
+(message "Hello world")
+(message-box "happy hacking emacs!")
+
+(directory-files "~/iCloud/blog_site")
+
+(defun file-content (filename)
+  (interactive "fFind file: ")
+  (with-temp-buffer
+    (insert-file-contents filename)
+    (buffer-substring-no-properties (point-min) (point-max))))
+
+(file-content "~/iCloud/TEMP/test.cpp")
+
+(find-file "~/iCloud/TEMP/test.cpp")
+
+(insert-file-contents "~/iCloud/TEMP/test.cpp")
+
+;;; ------------------------------------------------
+
+(defun file-contents (filename)
+  (interactive "fFind file: ")
+  (with-temp-buffer
+    (insert-file-contents filename) ;; 先将文件内容插入临时buffer，再读取内容
+    (buffer-substring-no-properties (point-min) (point-max))))
+
+(defun my/org-journal-combination ()
+  (interactive)
+  (let ((journal-files (cdr (cdr (directory-files "~/iCloud/journal/")))))
+    (dolist (file journal-files)
+      (append-to-file (file-contents (concat "~/iCloud/journal/" file)) nil "~/iCloud/org-journal.org"))))
+
+;;;------------------------------------------------------
+
+(info "(emacs) Regexps")

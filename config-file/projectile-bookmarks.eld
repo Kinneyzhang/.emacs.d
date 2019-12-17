@@ -1,1 +1,1 @@
-("~/.emacs.d/" "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/" "~/Library/Mobile Documents/com~apple~CloudDocs/geekstuff/C-Plus-Plus/" "~/Library/Mobile Documents/com~apple~CloudDocs/program_work/" "~/Library/Mobile Documents/com~apple~CloudDocs/program_org/")
+("~/.emacs.d/" "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/" "~/Library/Mobile Documents/com~apple~CloudDocs/program_work/" "~/Library/Mobile Documents/com~apple~CloudDocs/geekstuff/C-Plus-Plus/" "~/Library/Mobile Documents/com~apple~CloudDocs/program_org/")

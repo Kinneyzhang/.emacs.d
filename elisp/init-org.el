@@ -47,7 +47,7 @@
 	      "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
 	      "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
 	      "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
-	      "scheme" "sqlite")))
+	      "scheme" "sqlite" "html")))
        (list (ido-completing-read "Source code type: " src-code-types))))
     (progn
       (newline-and-indent)
@@ -198,9 +198,6 @@
 	 :empty-lines 1)
 	("p" "project" entry (file "~/iCloud/org/gtd.org")
 	 "* PROJ %? [%] :PROJECT:\n :PROPERTIES:\n :CATEGORY: project\n :END:\n** TODO \n" :clock-resume t
-	 :empty-lines 1)
-	("b" "bookmark" entry (file+headline "~/iCloud/blog/bookmark.org" "Misc")
-	 "* %?\n:PROPERTIES:\n:CREATED: %U\n:END:"
 	 :empty-lines 1)
 	("j" "晨间日记" entry (function org-journal-find-location)
 	 "* %(format-time-string org-journal-time-format)晨间日记\n** 天气/温度/地点：\n** 纪念日：\n** 生日：\n\n** 总结\n** 学习\n** 健康\n** 兴趣\n** 人际\n"
