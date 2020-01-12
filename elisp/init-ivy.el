@@ -1,8 +1,9 @@
 ;;; include ivy avy counsel swiper and some packages using them.
 (use-package ivy
-  :ensure nil
+  :ensure t
   :diminish (ivy-mode . "")
-  :bind (("C-x b" . ivy-switch-buffer))
+  :bind (("C-x b" . ivy-switch-buffer)
+	 ("C-x C-f" . counsel-find-file))
   :config
   (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
@@ -26,7 +27,7 @@
   (ivy-mode 1))
 
 (use-package counsel
-  :defer t
+  :defer 5
   :ensure nil
   :init (setq bookmark-default-file (concat config-dir "bookmarks"))
   :bind (("M-x" . counsel-M-x)

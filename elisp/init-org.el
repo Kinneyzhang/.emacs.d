@@ -200,7 +200,7 @@
 	 "* PROJ %? [%] :PROJECT:\n :PROPERTIES:\n :CATEGORY: project\n :END:\n** TODO \n" :clock-resume t
 	 :empty-lines 1)
 	("j" "晨间日记" entry (function org-journal-find-location)
-	 "* %(format-time-string org-journal-time-format)晨间日记\n** 天气/温度/地点：\n** 纪念日：\n** 生日：\n\n** 总结\n** 学习\n** 健康\n** 兴趣\n** 人际\n"
+	 "* %(format-time-string org-journal-time-format)晨间日记\n** 天气/温度/地点：\n** 总结\n"
 	 )
 	("h" "Habit" entry (file "~/iCloud/org/gtd.org")
 	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
@@ -279,6 +279,7 @@
 			    ("watching" . ?w)
 			    ("learning" . ?l)
 			    ("habit" . ?h)
+			    ("drill" . ?D)
 			    )))
 
 (setq org-fast-tag-selection-single-key nil)
@@ -690,5 +691,10 @@ end tell")
   ;;     (kill-whole-line)
   ;;     (package-install-from-buffer)))
   )
+
+(use-package org-drill
+  :ensure t
+  :config
+  (add-to-list 'org-modules 'org-drill))
 
 (provide 'init-org)

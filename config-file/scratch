@@ -392,3 +392,66 @@ email: kinneyzhang666@gmail.com
 ;;;------------------------------------------------------
 
 (info "(emacs) Regexps")
+
+ivy-views
+
+(ivy-push-view)
+
+(setq ivy-views '(("test" (horz (buffer "*scratch*" 369) (buffer "*Org Agenda*" 1)))))
+
+(ivy-switch-view)
+
+(defun my/window-layout-save ()
+  "save window layout"
+  (interactive)
+  (let ((layout-file "~/.emacs.d/config-file/window-layout"))
+    (ivy-push-view)
+    (append-to-file (prin1-to-string ivy-views) nil layout-file)
+    ))
+
+(defun my/window-layout-delete ()
+  "delete window layout"
+  (interactive)
+  (let ((layout-file "~/.emacs.d/config-file/window-layout"))
+    (ivy-pop-view)
+    (if (eq ivy-views nil)
+	(append-to-file "" "" layout-file)
+      (append-to-file (prin1-to-string ivy-views) "" layout-file))))
+
+(defun my/window-layout-load ()
+  "load window layout"
+  (interactive)
+  (let* ((layout-file "~/.emacs.d/config-file/window-layout")
+	 (ivy-views-string (with-temp-buffer
+			     (insert-file-contents layout-file)
+			     (buffer-substring-no-properties (point-min) (point-max)))))
+    (if (string= ivy-views-string "")
+	(message "no window layout has been saved.")
+      (progn
+	(setq ivy-views (read ivy-views-string))
+	(ivy-switch-view)))
+    ))
+
+(setq ivy-views '())
+
+ivy-views
+
+(with-temp-buffer
+  (insert-file-contents "~/.emacs.d/config-file/window-layout")
+  (buffer-substring-no-properties (point-min) (point-max)))
+
+;; -------------------------------------------------------------
+
+(defun my/print-upper-region ()
+  (interactive)
+  (when (region-active-p)
+    (message "%S" (let ((string (buffer-substring (region-beginning)
+						  (region-end))))
+		    (with-temp-buffer
+		      (insert string)
+		      (upcase-region (point-min)
+				     (point-max))
+		      (buffer-substring-no-properties (point-min)
+						      (point-max)))))))
+
+

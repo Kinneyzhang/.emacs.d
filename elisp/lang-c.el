@@ -14,26 +14,24 @@
   ;; "java": The default style for java-mode (see below)
   ;; "user": When you want to define your own style
   (setq c-default-style "cc-mode") ;; set style to "gnu"
-  (setq gdb-many-windows t ;; use gdb-many-windows by default
-	gdb-show-main t)
+  ;; (setq gdb-many-windows t ;; use gdb-many-windows by default
+  ;; 	gdb-show-main t)
+  )
 
-  (define-key c-mode-map  [(tab)] 'company-complete)
-  (define-key c++-mode-map  [(tab)] 'company-complete))
+;; (use-package semantic
+;;   :defer 5
+;;   :config
+;;   (global-semanticdb-minor-mode 1)
+;;   (global-semantic-idle-scheduler-mode 1)
+;;   (global-semantic-stickyfunc-mode 1)
+;;   (semantic-mode 1))
 
-(use-package semantic
-  :defer 5
-  :config
-  (global-semanticdb-minor-mode 1)
-  (global-semantic-idle-scheduler-mode 1)
-  (global-semantic-stickyfunc-mode 1)
-  (semantic-mode 1))
-
-(use-package ede
-  :defer 5
-  :ensure t
-  :config
-  ;; Enable EDE only in C/C++
-  (global-ede-mode))
+;; (use-package ede
+;;   :defer 5
+;;   :ensure t
+;;   :config
+;;   ;; Enable EDE only in C/C++
+;;   (global-ede-mode))
 
 ;; (use-package ggtags
 ;;   :defer 5
@@ -75,21 +73,5 @@
 					;    ;(define-key counsel-gtags-mode-map (kbd "M-r") 'counsel-gtags-find-reference)
 					;    ;(define-key counsel-gtags-mode-map (kbd "M-s") 'counsel-gtags-find-symbol)
 					;    (define-key counsel-gtags-mode-map (kbd "M-,") 'counsel-gtags-pop-stack)))
-
-(defun alexott/cedet-hook ()
-  (local-set-key (kbd "C-c C-j") 'semantic-ia-fast-jump)
-  (local-set-key (kbd "C-c C-s") 'semantic-ia-show-summary))
-
-;; hs-minor-mode for folding source code
-(add-hook 'c-mode-common-hook 'hs-minor-mode)
-(add-hook 'c-mode-common-hook 'alexott/cedet-hook)
-(add-hook 'c-mode-hook 'alexott/cedet-hook)
-(add-hook 'c++-mode-hook 'alexott/cedet-hook)
-
-(defun your-g++-compile-and-run ()
-  (interactive)
-  (compile (format "g++ %s" (buffer-file-name))))
-
-(define-key c++-mode-map (kbd "<f5>") #'your-g++-compile-and-run)
 
 (provide 'lang-c)

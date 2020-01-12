@@ -21,7 +21,7 @@
 (setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 (setq config-dir (expand-file-name (concat user-emacs-directory "config-file/")))
 
-(let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速	启动速度。
+(let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
       (file-name-handler-alist nil)) ;; 清空避免加载远程文件的时候分析文件。
 
 (use-package benchmark-init
@@ -49,6 +49,7 @@
   (require 'lang-web)
   (require 'lang-c)
   (require 'lang-php)
+  (require 'lang-elisp)
   ;; (require 'init-org-jekyll)
   (require 'init-org)
   (require 'init-pdf)
