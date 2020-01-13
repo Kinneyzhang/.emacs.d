@@ -187,11 +187,6 @@
 (use-package org-analyzer
   :ensure t)
 
-(use-package symon
-  :load-path "~/.emacs.d/site-lisp/symon"
-  :config
-  (symon-mode -1))
-
 (use-package diminish
   :ensure t)
 

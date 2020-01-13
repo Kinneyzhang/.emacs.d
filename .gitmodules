@@ -22,24 +22,12 @@
 [submodule "site-lisp/grab-mac-link"]
 	path = site-lisp/grab-mac-link
 	url = https://github.com/xuchunyang/grab-mac-link.el.git
-[submodule "site-lisp/hydra-posframe"]
-	path = site-lisp/hydra-posframe
-	url = https://github.com/Ladicle/hydra-posframe.git
 [submodule "site-lisp/auto-save"]
 	path = site-lisp/auto-save
 	url = https://github.com/manateelazycat/auto-save.git
-[submodule "site-lisp/symon"]
-	path = site-lisp/symon
-	url = https://github.com/zk-phi/symon.git
 [submodule "site-lisp/ros"]
 	path = site-lisp/ros
 	url = https://github.com/LionyxML/ros.git
-[submodule "site-lisp/awesome-tray"]
-	path = site-lisp/awesome-tray
-	url = https://github.com/manateelazycat/awesome-tray.git
-[submodule "site-lisp/brain-fm"]
-	path = site-lisp/brain-fm
-	url = https://github.com/dakra/brain-fm.git
 [submodule "site-lisp/justify-kp"]
 	path = site-lisp/justify-kp
 	url = https://github.com/Fuco1/justify-kp.git

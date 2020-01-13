@@ -25,7 +25,5 @@
 		 (window-height . 0.3)))
   )
 
-(use-package jupyter
-  :ensure t)
 
 (provide 'init-test)

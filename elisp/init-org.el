@@ -12,7 +12,6 @@
       (when mod (insert mod) (forward-line))
       (when text (insert text))))
   :bind (("C-c c" . org-capture)
-	 ("<f11>" . plain-org-wiki)
 	 ("<f12>" . org-agenda)
 	 ("C-c a" . org-agenda)
 	 ("C-c o l" . org-store-link)
