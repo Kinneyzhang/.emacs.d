@@ -25,9 +25,6 @@
 [submodule "site-lisp/auto-save"]
 	path = site-lisp/auto-save
 	url = https://github.com/manateelazycat/auto-save.git
-[submodule "site-lisp/ros"]
-	path = site-lisp/ros
-	url = https://github.com/LionyxML/ros.git
 [submodule "site-lisp/justify-kp"]
 	path = site-lisp/justify-kp
 	url = https://github.com/Fuco1/justify-kp.git

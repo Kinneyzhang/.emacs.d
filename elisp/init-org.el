@@ -106,7 +106,6 @@
     (matlab . t)
     (C . t)
     (ledger . t)
-    (jupyter . t)
     ))
 
 (setq org-confirm-babel-evaluate nil)
