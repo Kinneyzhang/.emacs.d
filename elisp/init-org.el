@@ -599,10 +599,11 @@
 	 ("C-c j y" . journal-file-yesterday))
   :config
   (require 'org-journal)
+  )
+
   (defun org-journal-find-location ()
     (org-journal-new-entry t)
     (goto-char (point-min)))
-  )
 
 ;; https://www.emacswiki.org/emacs/string-utils.el
 (setq org-html-postamble nil)
