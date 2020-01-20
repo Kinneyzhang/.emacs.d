@@ -46,8 +46,26 @@ contextual information."
 (setq org-export-with-email t)
 (setq org-export-with-date t)
 (setq org-export-with-creator t)
-(setq org-html-preamble t)
+;; (setq org-html-preamble t)
 (setq org-html-postamble t)
+
+(setq org-html-creator-string
+      "<a href=\"https://www.gnu.org/software/emacs/\">Emacs</a> 26.3 (<a href=\"https://orgmode.org\">Org</a> mode 9.1.9)")
+
+;; (setq org-html-home/up-format
+;;       "
+;; <div id=\"org-div-header\">
+;; <div class=\"toptitle\">
+;; <span href=\"/post/index.html\">Geekinney Blog</span>
+;; </div>
+;; <div class=\"topnav\">
+;; <a href=\"/post/index.html\"> Home </a>&nbsp;|&nbsp;
+;; <a href=\"/post/bookmark.html\"> 链接收藏 </a>  &nbsp;|&nbsp;
+;; <a href=\"/post/videos-collection.html\"> 视频收藏 </a>  &nbsp;|&nbsp;
+;; <a href=\"https://github.com/Kinneyzhang\"> Github </a>&nbsp;|&nbsp;
+;; </div>
+;; </div>")
+
 (setq org-html-postamble-format
       '((
 	 "en"
@@ -97,8 +115,28 @@ setTimeout(function () {
 <p class=\"date\">Date: %d</p>
 <p class=\"creator\">%c</p>\n")))
 
-(setq org-html-creator-string
-      "<a href=\"https://www.gnu.org/software/emacs/\">Emacs</a> 26.3 (<a href=\"https://orgmode.org\">Org</a> mode 9.1.9)")
+;; (setq my/html-head
+;;   "
+;; <link rel=\"shortcut icon\" href=\"/static/img/favicon.ico\"/>
+;; <link rel=\"bookmark\" href=\"/static/img/favicon.ico\" type=\"image/x-icon\"/>
+
+;; <!-- Google Analytics -->
+;; <script>
+;; (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+;; (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+;; m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+;; })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+;; ga('create', 'UA-149578968-1', 'auto');
+;; ga('send', 'pageview');
+;; </script>
+;; <!-- End Google Analytics -->
+
+;; <link rel=\"stylesheet\" type=\"text/css\" href=\"/static/ostyle.css\"/>
+;; <link rel=\"stylesheet\" type=\"text/css\" href=\"/static/ostyle2.css\"/>
+
+;; <script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js\"></script>
+;; <script>var hlf=function(){Array.prototype.forEach.call(document.querySelectorAll(\"pre.src\"),function(t){var e;e=t.getAttribute(\"class\").toLowerCase(),e=e.replace(/src-(\w+)/,\"src-$1 $1\"),console.log(e),t.setAttribute(\"class\",e),hljs.highlightBlock(t)})};addEventListener(\"DOMContentLoaded\",hlf);</script>
+;; ")
 
 (setq org-publish-project-alist
       '(("geekblog"
@@ -107,19 +145,20 @@ setTimeout(function () {
 	 :base-directory "~/iCloud/blog_site/org/"
 	 :publishing-directory "~/iCloud/blog_site/post/"
 	 :publishing-function org-html-publish-to-html
-	 :html-home/up-format "
+	 :html-home/up-format
+	 "
 <div id=\"org-div-header\">
 <div class=\"toptitle\">
 <span href=\"/post/index.html\">Geekinney Blog</span>
 </div>
 <div class=\"topnav\">
 <a href=\"/post/index.html\"> Home </a>&nbsp;|&nbsp;
-<a href=\"/post/bookmark.html\"> 链接收藏 </a>  &nbsp;|&nbsp;
-<a href=\"/post/videos-collection.html\"> 视频收藏 </a>  &nbsp;|&nbsp;
-<a href=\"https://github.com/Kinneyzhang\"> Github </a>&nbsp;|&nbsp;
+<a href=\"/post/bookmark.html\"> 链接收藏 </a>&nbsp;|&nbsp;
+<a href=\"/post/videos-collection.html\"> 视频收藏</a>&nbsp;|&nbsp;
+<a href=\"https://github.com/Kinneyzhang\"> Github </a>&nbsp;
 </div>
-</div>
-"
+</div>"
+	 
 	 :html-head
 	 "
 <link rel=\"shortcut icon\" href=\"/static/img/favicon.ico\"/>
@@ -142,38 +181,35 @@ ga('send', 'pageview');
 <script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js\"></script>
 <script>var hlf=function(){Array.prototype.forEach.call(document.querySelectorAll(\"pre.src\"),function(t){var e;e=t.getAttribute(\"class\").toLowerCase(),e=e.replace(/src-(\w+)/,\"src-$1 $1\"),console.log(e),t.setAttribute(\"class\",e),hljs.highlightBlock(t)})};addEventListener(\"DOMContentLoaded\",hlf);</script>
 "
-	 :html-link-home "/"
-	 :html-link-up "/" 
-	 :auto-preamble t
+	 :auto-postamble t
 	 :auto-sitemap nil
+	 :html-link-home "/"
+	 :html-link-up "/"
 	 :html-extension "html"
 	 :body-only nil
 	 )
+
+	;; ("org-journal"
+	;;  :base-extension "org"
+	;;  :recursive nil
+	;;  :base-directory "~/iCloud/blog_site/journal/"
+	;;  :publishing-directory "~/iCloud/blog_site/post/"
+	;;  :publishing-function org-html-publish-to-html
+	;;  :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/journal.css\"/>"
+	 
+	;;  :auto-preamble nil
+	;;  :auto-postamble nil
+	;;  :auto-sitemap nil
+	;;  :html-extension "html"
+	;;  :body-only nil
+	;;  )
 	
 	("org-wiki"
 	 :base-extension "org"
 	 :recursive nil
 	 :base-directory "~/iCloud/wiki/"
 	 :publishing-directory "~/iCloud/wiki_site/"
-	 :publishing-function org-html-publish-to-html
-	 :html-head
-	 "<!-- Google Analytics -->
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-149578968-1', 'auto');
-ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
-
-<link rel=\"stylesheet\" type=\"text/css\" href=\"https://blog.geekinney.com/static/ostyle.css\"/>
-<link rel=\"stylesheet\" type=\"text/css\" href=\"https://blog.geekinney.com/static/ostyle2.css\"/>
-<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js\"></script>
-<script>var hlf=function(){Array.prototype.forEach.call(document.querySelectorAll(\"pre.src\"),function(t){var e;e=t.getAttribute(\"class\").toLowerCase(),e=e.replace(/src-(\w+)/,\"src-$1 $1\"),console.log(e),t.setAttribute(\"class\",e),hljs.highlightBlock(t)})};addEventListener(\"DOMContentLoaded\",hlf);</script>
-<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/googlecode.min.css\"/>"
+	 :publishing-function org-html-publish-to-htmld
 	 ;; :with-toc nil
 	 ;; :headline-levels 4
 	 ;; :table-of-contents nil

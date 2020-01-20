@@ -19,6 +19,7 @@
 (setq magit-git-output-coding-system 'utf-8)
 (setq bookmark-save-flag 1)
 (setq org-image-actual-width nil)
+;; (set-frame-font "monaco 12")
 
 (prefer-coding-system 'utf-8)
 

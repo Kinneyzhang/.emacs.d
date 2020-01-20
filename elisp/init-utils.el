@@ -129,6 +129,7 @@ Return a new buffer or BUF with the code in it."
   (setq search-web-engines
 	'(("Google" "http://www.google.com/search?q=%s" nil)
 	  ("Youtube" "http://www.youtube.com/results?search_query=%s" nil)
+	  ("Bilibili" "https://search.bilibili.com/all?keyword=%s" nil)
 	  ("Stackoveflow" "http://stackoverflow.com/search?q=%s" nil)
 	  ("Sogou" "https://www.sogou.com/web?query=%s" nil)
 	  ("Github" "https://github.com/search?q=%s" nil)

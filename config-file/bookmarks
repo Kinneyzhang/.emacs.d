@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("emacs-lisp-learning-note.org"
+(("my-journal-2020.org"
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/my-journal-2020.org")
+ (front-context-string . "\n*** 几句话总结一下今天？\n")
+ (rear-context-string . "》\n\n** 21:31 晚间总结")
+ (position . 567))
+("emacs-lisp-learning-note.org"
  (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/emacs-lisp-learning-note.org")
  (front-context-string . "s\n学习到 [[http://c")
  (rear-context-string . " Window Function")
@@ -33,8 +38,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20200113")
- (front-context-string . "** 08:33 晨间日记\n**")
- (rear-context-string . "13 January 2020\n")
- (position . 27))
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20200120")
+ (front-context-string . "** 21:31 晚间总结\n**")
+ (rear-context-string . "] 阅读《傅雷家书》2小时\n*\n")
+ (position . 467))
 )

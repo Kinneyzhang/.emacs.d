@@ -197,8 +197,11 @@
 	("p" "project" entry (file "~/iCloud/org/gtd.org")
 	 "* PROJ %? [%] :PROJECT:\n :PROPERTIES:\n :CATEGORY: project\n :END:\n** TODO \n" :clock-resume t
 	 :empty-lines 1)
-	("j" "晨间日记" entry (function org-journal-find-location)
-	 "* %(format-time-string org-journal-time-format)晨间日记\n** 天气/温度/地点：\n** 总结\n"
+	("m" "晨间记录" entry (function org-journal-find-location)
+	 "* %(format-time-string org-journal-time-format)晨间记录\n** 天气/温度/地点：\n** 早上好，昨晚睡得怎么样？\n** 我的人生目标是什么？（长期短期，不同方面）\n** 今天打算怎么安排？（上午，下午，晚上）"
+	 )
+	("e" "晚间总结" entry (function org-journal-find-location)
+	 "* %(format-time-string org-journal-time-format)晚间总结\n** 今天做了些什么？\n** 今天有什么值得夸奖自己的地方？（鼓励）\n** 今天有什么待改进的地方？（反思）\n** 还有什么想说的？(感悟)"
 	 )
 	("h" "Habit" entry (file "~/iCloud/org/gtd.org")
 	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
@@ -601,9 +604,9 @@
   (require 'org-journal)
   )
 
-  (defun org-journal-find-location ()
-    (org-journal-new-entry t)
-    (goto-char (point-min)))
+(defun org-journal-find-location ()
+  (org-journal-new-entry t)
+  (goto-char (point-min)))
 
 ;; https://www.emacswiki.org/emacs/string-utils.el
 (setq org-html-postamble nil)
