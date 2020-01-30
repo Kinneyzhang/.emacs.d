@@ -5,7 +5,8 @@
 	pdf-view-use-imagemagick nil
 	doc-view-resolution 800)
   :config
-  (pdf-tools-install))
+  ;; (pdf-tools-install)
+  )
 
 (defun pdf-view-use-scaling-p ()
   "Return t if scaling should be used."

@@ -31,3 +31,6 @@
 [submodule "site-lisp/justify-kp"]
 	path = site-lisp/justify-kp
 	url = https://github.com/Fuco1/justify-kp.git
+[submodule "site-lisp/emacs-application-framework"]
+	path = site-lisp/emacs-application-framework
+	url = https://github.com/manateelazycat/emacs-application-framework.git

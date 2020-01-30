@@ -17,6 +17,8 @@
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
+(setq user-full-name "kinneyzhang")
+(setq user-mail-address "kinneyzhang666@gmail.com")
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 (setq config-dir (expand-file-name (concat user-emacs-directory "config-file/")))

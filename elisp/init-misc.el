@@ -1,8 +1,13 @@
-;; some other config file
-(setq url-configuration-directory (concat config-dir "url/"))
-(setq transient-history-file (concat config-dir "transient/history.el")
-      transient-levels-file (concat config-dir "transient/levels.el")
-      transient-values-file (concat config-dir "transient/valuess.el"))
+(use-package eaf
+  :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
+  :custom
+  (eaf-find-alternate-file-in-dired t)
+  :config
+  (eaf-bind-key scroll_up "RET" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key scroll_down_page "DEL" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+  (eaf-bind-key take_photo "p" eaf-camera-keybinding))
 
 (use-package moz-controller
   :ensure t)

@@ -1,1 +1,1 @@
-("~/Library/Mobile Documents/com~apple~CloudDocs/config/.emacs.d/" "~/Library/Mobile Documents/com~apple~CloudDocs/program_org/" "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/" "~/Library/Mobile Documents/com~apple~CloudDocs/考研/" "~/Library/Mobile Documents/com~apple~CloudDocs/program_work/" "~/.emacs.d/" "~/.emacs.d.doom/" "~/Library/Mobile Documents/com~apple~CloudDocs/geekstuff/C-Plus-Plus/")
+("~/.emacs.d/" "~/.emacs.d/site-lisp/emacs-application-framework/")
