@@ -1,8 +1,5 @@
-;; some other config file
-(setq url-configuration-directory (concat config-dir "url/"))
-(setq transient-history-file (concat config-dir "transient/history.el")
-      transient-levels-file (concat config-dir "transient/levels.el")
-      transient-values-file (concat config-dir "transient/valuess.el"))
+(use-package ox-rss
+  :load-path "~/.emacs.d/site-lisp/ox-rss")
 
 (use-package moz-controller
   :ensure t)
@@ -95,10 +92,6 @@
 ;;   :init (setq alert-default-style 'libnotify)
 ;;   :config
 ;;   (require 'org-alert))
-
-(use-package org-timeline
-  :ensure t
-  :config (add-hook 'org-agenda-finalize-hook 'org-timeline-insert-timeline :append))
 
 (use-package org-beautify-theme
   :ensure t)

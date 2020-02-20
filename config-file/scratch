@@ -92,7 +92,7 @@ plst
 (split-string "emacs is cool")
 (split-string "emacs is cool " "m" t)
 
-(format-time-string "%Y-%m-%d %H:%M:%S" (current-time))
+(format-time-string "%Y-%m-%d")
 
 (string-match "emacs" "happy hacking emacs")
 
@@ -389,52 +389,67 @@ email: kinneyzhang666@gmail.com
     (dolist (file journal-files)
       (append-to-file (file-contents (concat "~/iCloud/journal/" file)) nil "~/iCloud/org-journal.org"))))
 
+
+(defun my/mood-diary-quick-capture ()
+  (interactive)
+  (let ((mood-diary-file "~/iCloud/blog_site/org/my-mood-diary-2020.org")
+	(mood-diary-template
+	 (concat (with-temp-buffer
+		   (insert "**")
+		   (backward-char)
+		   (my/insert-current-time)
+		   (buffer-substring-no-properties (point-min) (point-max)))
+		 "\n\n\n-----\n")))
+    (find-file mood-diary-file)
+    (append-to-file mood-diary-template nil mood-diary-file))
+  )
+
 ;;;------------------------------------------------------
 
 (info "(emacs) Regexps")
 
-ivy-views
+;; ivy-views
 
-(ivy-push-view)
+;; (ivy-push-view)
 
-(setq ivy-views '(("test" (horz (buffer "*scratch*" 369) (buffer "*Org Agenda*" 1)))))
+;; (setq ivy-views '(("test" (horz (buffer "*scratch*" 369) (buffer "*Org Agenda*" 1)))))
 
-(ivy-switch-view)
+;; (ivy-switch-view)
 
-(defun my/window-layout-save ()
-  "save window layout"
-  (interactive)
-  (let ((layout-file "~/.emacs.d/config-file/window-layout"))
-    (ivy-push-view)
-    (append-to-file (prin1-to-string ivy-views) nil layout-file)
-    ))
+;; (defun my/window-layout-save ()
+;;   "save window layout"
+;;   (interactive)
+;;   (let ((layout-file "~/.emacs.d/config-file/window-layout"))
+;;     (ivy-push-view)
+;;     (append-to-file (prin1-to-string ivy-views) nil layout-file)
+;;     ))
 
-(defun my/window-layout-delete ()
-  "delete window layout"
-  (interactive)
-  (let ((layout-file "~/.emacs.d/config-file/window-layout"))
-    (ivy-pop-view)
-    (if (eq ivy-views nil)
-	(append-to-file "" "" layout-file)
-      (append-to-file (prin1-to-string ivy-views) "" layout-file))))
+;; (defun my/window-layout-delete ()
+;;   "delete window layout"
+;;   (interactive)
+;;   (let ((layout-file "~/.emacs.d/config-file/window-layout"))
+;;     (ivy-pop-view)
+;;     (if (eq ivy-views nil)
+;; 	(append-to-file "" "" layout-file)
+;;       (append-to-file (prin1-to-string ivy-views) "" layout-file))))
 
-(defun my/window-layout-load ()
-  "load window layout"
-  (interactive)
-  (let* ((layout-file "~/.emacs.d/config-file/window-layout")
-	 (ivy-views-string (with-temp-buffer
-			     (insert-file-contents layout-file)
-			     (buffer-substring-no-properties (point-min) (point-max)))))
-    (if (string= ivy-views-string "")
-	(message "no window layout has been saved.")
-      (progn
-	(setq ivy-views (read ivy-views-string))
-	(ivy-switch-view)))
-    ))
+;; (defun my/window-layout-load ()
+;;   "load window layout"
+;;   (interactive)
+;;   (let* ((layout-file "~/.emacs.d/config-file/window-layout")
+;; 	 (ivy-views-string (with-temp-buffer
+;; 			     (insert-file-contents layout-file)
+;; 			     (buffer-substring-no-properties (point-min) (point-max)))))
+;;     (if (string= ivy-views-string "")
+;; 	(message "no window layout has been saved.")
+;;       (progn
+;; 	(setq ivy-views (read ivy-views-string))
+;; 	(ivy-switch-view)))
+;;     ))
 
-(setq ivy-views '())
+;; (setq ivy-views '())
 
-ivy-views
+;; ivy-views
 
 (with-temp-buffer
   (insert-file-contents "~/.emacs.d/config-file/window-layout")
@@ -455,3 +470,367 @@ ivy-views
 						      (point-max)))))))
 
 
+119.28.186.136
+
+(buffer-live-p (get-buffer "*scratch"))
+
+;; (defun my/org-insert-grid-imag (row col)
+;;   "insert imag in mood diary, use it as a macro"
+;;   (interactive)
+;;   (let* ((img-row1 "<div class=\"img-row\">\n")
+;; 	 (img-row2 "</div>\n")
+;; 	 (img-col "<a href=\"\"><img src=\"\"></a>\n")
+;; 	 (img-col-string (apply #'concat (make-list col img-col)))
+;; 	 (img-entire-row-string (concat img-row1 img-col-string img-row2))
+;; 	 (img-entire-string (apply #'concat (make-list row img-entire-row-string))))
+;;     (insert
+;;      (concat
+;;       "#+begin_export html\n<div class=\"img-container\">\n"
+;;       img-entire-string
+;;       "</div>\n#+end_export\n"
+;;       ))
+;;     (point)
+;;     ))u
+;; 修改，使用插入html tag和字符移动，更简便。
+
+(defun my/insert-html-tag-with-attr (tag single &optional attr)
+  "insert a html tag and some attributes at cursor point"
+  ;; (interactive "sinput tag name: \nsis single tag? [y or n]: ")
+  (if (eq nil single)
+      (progn
+	(insert (concat "<" tag ">" "</" tag ">"))
+	(backward-char (+ 4 (length tag)))
+	(mapcar (lambda (x) (insert (concat " " (car x) "=" "\"" (cadr x) "\""))) attr)
+	(forward-char)
+	single
+	)
+    (progn
+      (insert (concat "<" tag "/>"))
+      (backward-char 2)
+      (mapcar (lambda (x) (insert (concat " " (car x) "=" "\"" (cadr x) "\""))) attr)
+      (forward-char 2)
+      single
+      )))
+
+(my/insert-html-tag-with-attr "img" t)
+(my/insert-html-tag-with-attr "div" nil)
+(my/org-insert-grid-imag 1 1 '("https"))
+
+;;===================================================================
+
+;; example 参考interactive
+(defun org-table-create (&optional size)
+  "Query for a size and insert a table skeleton.
+SIZE is a string Columns x Rows like for example \"3x2\"."
+  (interactive "P")
+  (unless size
+    (setq size (read-string
+		(concat "Table size Columns x Rows [e.g. "
+			org-table-default-size "]: ")
+		"" nil org-table-default-size)))
+
+  (let* ((pos (point))
+	 (indent (make-string (current-column) ?\ ))
+	 (split (org-split-string size " *x *"))
+	 (rows (string-to-number (nth 1 split)))
+	 (columns (string-to-number (car split)))
+	 (line (concat (apply 'concat indent "|" (make-list columns "  |"))
+		       "\n")))
+    (if (string-match "^[ \t]*$" (buffer-substring-no-properties
+				  (point-at-bol) (point)))
+	(beginning-of-line 1)
+      (newline))
+    ;; (mapcar (lambda (x) (insert line)) (make-list rows t))
+    (dotimes (_ rows) (insert line))
+    (goto-char pos)
+    (when (> rows 1)
+      ;; Insert a hline after the first row.
+      (end-of-line 1)
+      (insert "\n|-")
+      (goto-char pos))
+    (org-table-align)))
+
+#+begin_export html
+<div class="img-container">
+<div class="img-row">
+<a href="https://geekinney-1258820352.cos.ap-hongkong.myqcloud.com/geekblog/img/cook-20200212.png">
+<img src="https://geekinney-1258820352.cos.ap-hongkong.myqcloud.com/geekblog/img/cook-20200212.png">
+</a>
+</div>
+</div>
+#+end_export
+
+(progn
+  (insert "#+begin_export html\n \n#+end_export\n")
+  (backward-char 14)
+  )
+
+var theme_css = document.getElementById(\"pagestyle\").getAttribute(\"href\");
+var theme = theme_css.split(\"/\")[2].split(\".\")[0];
+
+document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+
+<link id=\"pagestyle\" rel=\"stylesheet\" type=\"text/css\" href=\"/static/light.css\"/>
+
+新的index摘要页面设计：定义宏，参数为链接，设计宏（标题，摘要，字数，日期，标签）
+
+
+(my/blog-generate-index '("at-the-end-of-2019.org" "experience-of-setting-up-my-own-blog-site.org"))
+
+(insert (my/blog-generate-index '("at-the-end-of-2019.org" "experience-of-setting-up-my-own-blog-site.org")))
+
+(defun my/blog-generate-index (posts)
+  (interactive)
+  
+  )
+
+(insert (my/blog-generate-index '("at-the-end-of-2019.org"
+				  "emacs-lisp-guide-learning-note.org"
+				  "experience-of-setting-up-my-own-blog-site.org"
+				  "emacs-lisp-learning-note.org"
+				  "using-org-to-blog-with-jekyll.org"
+				  "listen-music-in-emacs.org"
+				  "reading-notes-of-how-to-read-a-book-efficiently.org"
+				  "get-started-with-emacs.org"
+				  "thinking-about-cs-teaching-in-college.org"
+				  "thinking-about-journaling.org"
+				  "pick-up-reading-after-read-the-moon-and-sixpence.org"
+				  "reading-notes-of-bullet-journal.org"
+				  "emacs-learning-note.org"
+				  )))
+
+
+
+;; (defun tt-get-heading-info ()
+;;   "show org-heading-components result"
+;;   (interactive)
+;;   (let ((x (org-heading-components)))
+;;     (with-output-to-temp-buffer "*xah temp out*"
+;;       (print x))))
+
+
+(split-string "learn-emacs.org" "\\.")
+;; 解析html思路
+;; 列表第一个元素为tag名称，列表剩余部分解析plist，转换为属性，特别的":inner为标签间的值。剩余的列表递归解析"
+("div" :class "post-div"
+ ("h3" ("a" :href "url" "post-title"))
+ ("p" :inner "digest")
+ ("code" ("a" :href "url" "tag"))
+ ("span" "date")
+ )
+(html-parse-single-list '("div" :class "post-div"
+			  ("h3" :class "hello" ("a" :href "url" "post-title"))
+			  ("p" "digest")
+			  ("code" ("a" :href "url" "tag"))
+			  ("span" "date")
+			  ))
+
+;; (defun html-parse-get-html-list (plist)
+;;   "获取新的list"
+;;   (let ((html-list plist))
+;;     (if (and (symbolp (car html-string)) (not (null html-string)))
+;; 	(setq html-list (html-parse-get-html-list (cddr html-string)))
+;;       (progn
+;; 	(if (or (stringp (car html-string)) (numberp (car html-string)))
+;; 	    (setq html-list (cdr html-string)))
+;; 	(if (listp (car html-string))
+;; 	    (setq html-list (html-parse-get-html-list (car html-string))))
+;; 	;; (if (null plist)
+;; 	;;     )
+;; 	))
+;;     html-list))
+
+
+(defvar html-parse-single-tag-list
+  '("br" "hr" "img" "input" "meta" "link" "param"))
+
+(defun html-parse-single-list (list)
+  (interactive)
+  (let ((tag (car list))
+	(plist (cdr list))
+	(alist (html-parse-get-alist (cdr list)))
+	)
+    (with-current-buffer (get-buffer-create "*html-parse*")
+      (my/insert-html-tag-with-attr tag alist)
+      (progn
+	(setq inner-text (html-parse-get-inner-text plist))
+	(if (eq nil inner-text)
+	    ()
+	  (insert (html-parse-get-inner-text plist))))
+      (progn
+	(setq html-list (html-parse-get-html-list plist))
+	(if (eq nil html-list)
+	    (forward-char (+ 3 (length tag)))
+	  (html-parse-single-list html-list)))
+      (buffer-substring-no-properties (point-min) (point-max)))
+    ))
+
+(defun html-parse-get-alist (plist)
+  "将html标签的属性转化为alist形式"
+  ;; nil也是symbol类型
+  (if (or (null plist) (not (symbolp (car plist)))) 
+      '()
+    (cons
+     (list (substring (symbol-name (car plist)) 1) (cadr plist))
+     (html-parse-get-alist (cddr plist)))))
+
+(defun html-parse-get-inner-text (plist)
+  "获取html标签内部的文本"
+  (let ((inner-text nil))
+    (if (and (symbolp (car plist)) (not (null plist)))
+	(setq inner-text (html-parse-get-inner-text (cddr plist)))
+      (progn
+	(if (listp (car plist))
+	    (setq inner-text nil))
+	(if (or (stringp (car plist)) (numberp (car plist)))
+	    (setq inner-text (car plist)))
+	))
+    inner-text))
+;; (html-parse-get-inner-text '(:class "class" "heello" ("tag")))
+
+(defun html-parse-get-html-list (plist)
+  "获取新的list"
+  (let ((plist plist))
+    (if (and (symbolp (car plist)) (not (null plist)))
+	(setq plist (html-parse-get-html-list (cddr plist)))
+      (progn
+	(if (or (stringp (car plist)) (numberp (car plist)))
+	    (setq plist (cdr plist)))
+	(if (listp (car plist))
+	    (setq plist (car plist)))
+	(if (null plist)
+	    (setq plist ))
+	))
+    plist))
+
+;; (html-parse-get-html-list '(:key "key" ("tag") ("tag2")))
+;; (insert (html-parse-get-inner-text '(:key "key")))
+
+;; (defun html-parse-cursor-process (plist)
+;;   "如果(car plist)为nil则跳出一级标签，如果为string则跳过两个元素，如果为list则进入标签处理"
+;;   (let ((el (car plist)))
+;;     (if (listp el)
+;; 	(progn
+;; 	  (forward-char 1)
+;; 	  (html-parse-single-list (car plist))
+;; 	  ))
+;;     (if (symbolp el)
+;; 	(html-parse-cursor-process (cddr plist)))
+;;     (if (eq nil el)
+;; 	(if (eq t has-inner)
+;; 	    (forward-char (+ (length tag) 4 inner-len))
+;; 	  (forward-char (+ (length tag) 4))
+;; 	  ))
+;;     ))
+
+(html-parse-single-list '("div" :class "post-div"
+			  ("h3" ("a" :href "url" "post-title"))
+			  ("p" :inner "digest")
+			  ("code" ("a" :href "url" "tag"))
+			  ("span" "date")
+			  ))
+
+
+;; (defun html-parse-single-list (list)
+;;   (interactive)
+;;   (let ((tag (car list))
+;; 	(plist (cdr list))
+;; 	(alist (html-parse-plist-alist (cdr list)))
+;; 	(has-inner nil)
+;; 	(inner-len 0)
+;; 	(html-string "")
+;; 	)
+;;     (if (eq nil plist)
+;; 	(print "end!")
+;;       (with-temp-buffer
+;; 	(if (not (memq tag html-parse-single-tag-list))
+;; 	    (progn
+;; 	      (insert (concat "<" tag ">" "</" tag ">"))
+;; 	      (backward-char (+ 4 (length tag)))
+;; 	      (mapcar (lambda (prop)
+;; 			(if (eq (car prop) :inner)
+;; 			    (progn
+;; 			      (setq has-inner t)
+;; 			      (setq inner-len (length (plist-get prop :inner)))
+;; 			      (forward-char 1)
+;; 			      (insert (cadr prop))
+;; 			      (backward-char (+ 1 inner-len)))
+;; 			  (progn
+;; 			    (insert (concat " " (substring (symbol-name (car prop)) 1) "=\"" (cadr prop) "\""))))
+;; 			) alist)
+;; 	      (html-parse-cursor-process plist)
+;; 	      (setq html-string (buffer-substring-no-properties (point-min) (point-max))))
+;; 	  (progn
+;; 	    (insert (concat "<" tag "/>"))
+;; 	    (mapcar (lambda (prop)
+;; 		      (backward-char 2)
+;; 		      (insert " " (car prop) "=\"" (cadr prop) "\"")) alist)
+;; 	    (forward-char 2)
+;; 	    (html-parse-single-list))
+;; 	  )))
+;;     html-string))
+
+(setq plist '(:class "hello"))
+(substring (symbol-name (car plist)) 1)
+
+(defun my/blog-generate-org (slug title category)
+  (interactive "sinput slug: \nsinput title: \nsinput category: ")
+  (let* ((blog-org-dir "~/iCloud/blog_site/org/")
+	 (blog-org-file (concat blog-org-dir slug ".org"))
+	 (blog-org-created-date (format-time-string "%Y-%m-%d"))
+	 (blog-org-head-template (concat "#+TITLE: " title "\n#+DATE: " blog-org-created-date "\n#+CATEGORY: " category "\n#+INCLUDE: \"../code/post-info.org\"\n#+STARTUP: content\n#+OPTIONS: toc:nil H:2 num:2\n#+TOC: headlines:2\n")))
+    (if (file-exists-p blog-org-file)
+	(find-file blog-org-file)
+      (progn
+	(find-file blog-org-file)
+	(insert blog-org-head-template)))))
+
+;;------------------------------------------------
+(defun my/convert-video-to-gif (video gif)
+  "convert video to gif, support mov and mp4"
+  (interactive "svideo name: \nsgif name: " )
+  (let* ((video-path "~/Movies/")
+	 (mov-path (concat video-path "mov"))
+	 (mp4-path (concat video-path "mp4"))
+	 (gif-path "~/Pictures/gif/")
+	 (video-name (car (split-string video "\\.")))
+	 (mp4-name (concat video-name ".mp4")))
+    (if (string= (cadr (split-string video "\\.")) "mov")
+	(progn
+	  (my/convert-mov-to-mp4 video (concat video-name ".mp4"))
+	  (my/convert-mp4-to-gif mp4-name gif))
+      (my/convert-mp4-to-gif video gif)
+      )
+    ))
+
+(defun my/convert-mov-to-mp4 (mov mp4)
+  "convert mov video to mp4 video"
+  (interactive "smov name: \nsmp4 name: ")
+  (let ((mov-path "~/Movies/mov/")
+	(mp4-path "~/Movies/mp4/"))
+    (shell-command (concat "ffmpeg -i " mov-path mov " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " mp4-path mp4))
+    (message "%s convert to %s successfully!" mov mp4)
+    ))
+
+(defun my/convert-mp4-to-gif (mp4 gif)
+  "convert mp4 video to gif pic"
+  (interactive "smp4 name: \nsgif name: ")
+  (let ((mp4-path "~/Movies/mp4/")
+	(gif-path "~/Pictures/gif/"))
+    (shell-command (concat "ffmpeg -i " mp4-path mp4 " -r 5 " gif-path gif))
+    (message "%s convert to %s successfully!" mp4 gif)
+    ))
+
+(defun my/video-compress-or-convert (video new)
+  (interactive "fvideo path: \nfnew item path: ")
+  (let ((video-format (cadr (split-string video "\\."))))
+    (if (string= video-format "gif")
+	(progn
+	  (shell-command (concat "ffmpeg -i " video " -r 5 " new))
+	  (message "%s convert to %s successfully!" video new))
+      (progn
+	(shell-command (concat "ffmpeg -i " video " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " new))
+	(message "%s compress or convert to %s successfully!" video new))
+)
+    ))

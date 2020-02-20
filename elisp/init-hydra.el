@@ -14,9 +14,11 @@
 (defhydra hydra-launch (:color pink)
   "
 ^Goto website "
+  ("xe" (browse-url "http://ergoemacs.org/emacs/emacs.html") "XahEmacs")
+  ("db" (browse-url "https://www.douban.com") "Douban")
   ("ec" (browse-url "https://www.emacs-china.org") "EmacsChina")
   ("ew" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
-  ("el" (browse-url "http://caiorss.github.io/Emacs-Elisp-Programming/Elisp_Programming.html") "Elisp")
+  ("el" (browse-url "https://www.gnu.org/software/emacs/manual/html_mono/elisp.html") "Elisp")
   ("go" (browse-url "https://www.google.com") "Google")
   ("gt" (browse-url "https://www.github.com") "Github")
   ("mp" (browse-url "http://www.melpa.org/#/") "Melpa")

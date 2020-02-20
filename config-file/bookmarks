@@ -2,7 +2,27 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("my-journal-2020.org"
+(("org-capture-last-stored-marker"
+ (filename . "~/iCloud/org/project.org")
+ (front-context-string . "** TODO 解决未修改文件也")
+ (rear-context-string . "2-20 Thu 00:00]\n")
+ (position . 3810))
+("my-mood-diary-2020.org"
+ (filename . "~/iCloud/blog_site/org/my-mood-diary-2020.org")
+ (front-context-string)
+ (rear-context-string . "思考便可由果溯因。\n-----\n")
+ (position . 365))
+("org-refile-last-stored"
+ (filename . "~/iCloud/org/project.org")
+ (front-context-string . "** TODO 解决未修改文件也")
+ (rear-context-string . "2-20 Thu 00:00]\n")
+ (position . 3810))
+("2020.ledger"
+ (filename . "~/iCloud/org2/2020.ledger")
+ (front-context-string . "    收入:红包:春节\n   ")
+ (rear-context-string . "20/01/25 * 新年红包\n")
+ (position . 2824))
+("my-journal-2020.org"
  (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/my-journal-2020.org")
  (front-context-string . "\n*** 几句话总结一下今天？\n")
  (rear-context-string . "》\n\n** 21:31 晚间总结")
@@ -19,14 +39,9 @@
  (position . 1))
 ("habit-recording.org"
  (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/habit-recording.org")
- (front-context-string . "  C: go to sleep")
- (rear-context-string . "before 22:00; \n\n")
- (position . 173))
-("2019.ledger"
- (filename . "~/iCloud/org/2019.ledger")
- (front-context-string)
- (rear-context-string . "Y\n    资产:借记卡:浦发\n")
- (position . 5624))
+ (front-context-string . "\n#+begin_center\n")
+ (rear-context-string . "以恒。\n#+end_quote\n")
+ (position . 156))
 ("_posts"
  (filename . "~/iCloud/blog/_posts/")
  (front-context-string . "2019-08-02-think")
@@ -38,8 +53,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20200120")
- (front-context-string . "** 21:31 晚间总结\n**")
- (rear-context-string . "] 阅读《傅雷家书》2小时\n*\n")
- (position . 467))
+ (filename . "~/iCloud/org/task.org")
+ (front-context-string . "* TODO 解决未修改文件也导")
+ (rear-context-string . "		  :@research:\n")
+ (position . 9574))
 )

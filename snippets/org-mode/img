@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: img
+# key: img
+# --
+#+begin_export html
+<div class="img-container">
+     <div class="img-row">
+     	  <a href="$1">
+		<img src="$2" alt="$3">
+		</a>
+    </div>
+</div>
+#+end_export

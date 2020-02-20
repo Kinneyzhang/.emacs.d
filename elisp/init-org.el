@@ -16,7 +16,19 @@
 	 ("C-c a" . org-agenda)
 	 ("C-c o l" . org-store-link)
 	 ("C-c t v" . org-tags-view)
-	 ))
+	 )
+  :config
+  (progn
+    ;; when opening a org file, don't collapse headings
+    (setq org-startup-folded nil)
+    ;; wrap long lines. don't let it disappear to the right
+    (setq org-startup-truncated nil)
+    ;; when in a url link, enter key should open it
+    (setq org-return-follows-link t)
+    ;; make org-mode” syntax color embedded source code
+    (setq org-src-fontify-natively t)
+    ;;
+    ))
 
 
 (use-package org-src
@@ -175,36 +187,33 @@
 
 (require 'find-lisp)
 (setq jethro/org-agenda-directory (expand-file-name "~/iCloud/"))
-(setq my/blog-bookmark-file (expand-file-name "~/iCloud/blog/bookmark.org"))
-(setq org-agenda-files '("~/iCloud/org/gtd.org"))
+(setq org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org" "~/iCloud/org/inbox.org" "~/iCloud/org/someday.org"))
 
 (setq org-src-fontify-natively t)
 (setq org-agenda-window-setup 'current-window)
-;; (setq org-directory "~/iCloud")
+(setq org-directory "~/iCloud/org/")
 
 ;;; Stage 1: Collecting
 
 (setq org-capture-templates
-      '(("i" "inbox" entry (file "~/iCloud/org/gtd.org")
-	 "* TODO %? :INBOX:\n" :clock-resume t
-	 :empty-lines 1)
-	("n" "next" entry (file "~/iCloud/org/gtd.org")
-	 "* NEXT %?" :clock-resume t
-	 :empty-lines 1)
-	("a" "appointment" entry (file "~/iCloud/org/gtd.org")
-	 "* APPT %? :APPT:\n"
-	 :empty-lines 1)
-	("p" "project" entry (file "~/iCloud/org/gtd.org")
-	 "* PROJ %? [%] :PROJECT:\n :PROPERTIES:\n :CATEGORY: project\n :END:\n** TODO \n" :clock-resume t
-	 :empty-lines 1)
+      '(("i" "inbox" entry (file "~/iCloud/org/inbox.org")
+	 "* TODO %?" :clock-resume t)
+	("t" "task" entry (file "~/iCloud/org/task.org")
+	 "* TODO %?" :clock-resume t)
+	("s" "someday" entry (file "~/iCloud/org/someday.org")
+	 "* TODO %?" :clock-resume t)
+	("a" "appointment" entry (file "~/iCloud/org/task.org")
+	 "* APPT %?")
+	("p" "project" entry (file "~/iCloud/org/project.org")
+	 "* PROJ %? [%]\n** TODO" :clock-resume t)
+	("h" "habit" entry (file "~/iCloud/org/task.org")
+	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
+	 )
 	("m" "晨间记录" entry (function org-journal-find-location)
-	 "* %(format-time-string org-journal-time-format)晨间记录\n** 天气/温度/地点：\n** 早上好，昨晚睡得怎么样？\n** 我的人生目标是什么？（长期短期，不同方面）\n** 今天打算怎么安排？（上午，下午，晚上）"
+	 "* %(format-time-string org-journal-time-format)晨间记录\n** 天气/温度/地点：\n** 早上好，昨晚睡得怎么样？\n** 当前在培养的习惯是？\n** 我的人生目标是什么？（长期短期，不同方面）\n** 今天打算怎么安排？（上午，下午，晚上）"
 	 )
 	("e" "晚间总结" entry (function org-journal-find-location)
-	 "* %(format-time-string org-journal-time-format)晚间总结\n** 今天做了些什么？\n** 今天有什么值得夸奖自己的地方？（鼓励）\n** 今天有什么待改进的地方？（反思）\n** 还有什么想说的？(感悟)"
-	 )
-	("h" "Habit" entry (file "~/iCloud/org/gtd.org")
-	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
+	 "* %(format-time-string org-journal-time-format)晚间总结\n** 今天做了些什么？\n** 今天有什么值得夸奖自己的地方？（鼓励）\n** 今天有什么待改进的地方？（反思）\n** 还有什么想说的？（感悟）"
 	 )
 	))
 
@@ -217,7 +226,7 @@
 
 (setq org-todo-keywords
       '((sequence "TODO(t)" "NEXT(n)" "APPT(a)" "PROJ(p)" "|" "DONE(d)")
-        (sequence "WAITING(w@/!)" "|" "DEFFERED(f@/!)" "CANCELLED(c@/!)")))
+        (sequence "WAITING(w@/!)" "DEFFERED(f@/!)" "|" "CANCELLED(c@/!)")))
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "red" :weight bold)
@@ -226,8 +235,8 @@
 	      ("APPT" :foreground "orange" :weight bold)
 	      ("PROJ" :foreground "grey" :weight bold)
 	      ("WAITING" :foreground "magenta" :weight bold)
-	      ("DEFFERED" :foreground "forest green" :weight bold)
 	      ("CANCELLED" :foreground "forest green" :weight bold)
+	      ("DEFFERED" :foreground "forest green" :weight bold)
 	      )))
 
 (setq org-log-done 'time)
@@ -238,15 +247,13 @@
 
 ;; 优先级范围和默认任务的优先级
 (setq org-highest-priority ?A)
-(setq org-lowest-priority  ?E)
-(setq org-default-priority ?C)
+(setq org-lowest-priority  ?C)
+(setq org-default-priority ?B)
 ;; 优先级醒目外观
 (setq org-priority-faces
       '((?A . (:background "red" :foreground "white" :weight bold))
 	(?B . (:background "DarkOrange" :foreground "white" :weight bold))
-	(?C . (:background "yellow" :foreground "DarkGreen" :weight bold))
-	(?D . (:background "DodgerBlue" :foreground "black" :weight bold))
-	(?E . (:background "SkyBlue" :foreground "black" :weight bold))
+	(?C . (:background "SkyBlue" :foreground "black" :weight bold))
 	))
 
 ;; effort
@@ -257,30 +264,24 @@
 ;; The Process
 					; Step 1: Clarifying
 
+(define-key org-mode-map (kbd "C-c C-q") 'counsel-org-tag)
 (setq org-tag-alist (quote ((:startgroup)
-			    ("@office" . ?O)
-                            ("@home" . ?H)
+			    ("@read/review" . ?w)
+			    ("@study" . ?s)
+			    ("@research" . ?r)
+			    ("@life" . ?l)
+			    (:endgroup)
+			    (:newline)
+			    (:startgroup)
+			    ("child" . ?c)
+			    ("mother" . ?m)
+			    ("father" . ?f)
 			    (:endgroup)
                             (:newline)
-                            ("WAITING" . ?W)
-                            ("CANCELLED" . ?C)
-
-			    ("emacs" . ?e)
-			    ("blog" . ?b)
-			    ("geekstuff" . ?g)
-
-			    ("INBOX" . ?i)
-			    ("PROJECT" . ?p)
-			    ("APPT" . ?a)
-			    ("SOMEDAY" . ?s)
-			    ("DONE" . ?d)
-			    
-			    ("ONEOFF" . ?o)
-			    ("reading" . ?r)
-			    ("watching" . ?w)
-			    ("learning" . ?l)
-			    ("habit" . ?h)
-			    ("drill" . ?D)
+			    ("#buy" . ?b)
+			    ("#emacs" . ?e)
+			    ("#article" . ?a)
+			    ("#video" . ?v)
 			    )))
 
 (setq org-fast-tag-selection-single-key nil)
@@ -296,8 +297,10 @@
 ;; 			   ("someday.org" :level . 1)
 ;; 			   ("bookmark.org" :maxlevel . 2)))
 
-(setq org-refile-targets '(("gtd.org" :maxlevel . 1)
-			   (my/blog-bookmark-file :maxlevel . 1)))
+(setq org-refile-targets '(("task.org" :level . 0)
+			   ("someday.org" :level . 0)
+			   ("project.org" :level . 1)
+			   ))
 
 
 (defvar jethro/org-agenda-bulk-process-key ?f
@@ -316,7 +319,6 @@
   (org-agenda-set-effort)
   (org-agenda-refile)
   )
-
 
 (defvar jethro/org-current-effort "1:00" "Current effort for agenda items.")
 
@@ -379,8 +381,6 @@
                  (if (not org-agenda-persistent-marks) "" " (kept marked)")))
     ))
 
-
-
 (defun jethro/org-inbox-capture ()
   (interactive)
   "Capture a task in agenda mode."
@@ -414,10 +414,14 @@
 
 (add-hook 'org-clock-in-hook 'jethro/set-todo-state-next 'append)
 
-
 ;;; Stage 3: Reviewing
 
 ;; Custom agenda Commands
+(use-package org-super-agenda
+  :ensure t
+  :init (setq org-super-agenda-groups t)
+  :config (org-super-agenda-mode t))
+
 (setq org-agenda-skip-scheduled-if-done t
       org-agenda-skip-deadline-if-done t
       org-agenda-include-deadlines t
@@ -432,9 +436,9 @@
 		      (org-super-agenda-groups
                        '((:name "Daily Agenda"
                                 :time-grid t
-				:habit t
+		      		:habit t
                                 :order 1)
-			 (:name "Due Today"
+		      	 (:name "Due Today"
                                 :deadline today
                                 :order 2)
                          (:name "Overdue"
@@ -443,70 +447,58 @@
                          (:name "Due Soon"
                                 :deadline future
                                 :order 4)
-			 (:discard (:anything t))
-			 ))
+		      	 (:discard (:anything t))
+		      	 ))
                       ))
-	  (alltodo "" ((org-agenda-overriding-header "")
+	  (alltodo "" ((org-agenda-overriding-header "................................................................................")
 		       (org-super-agenda-groups
-			'((:name "Inbox"
-				 :tag "INBOX")
-			  (:name "Next To Do!"
-				 :todo "NEXT")
-			  (:name "Important"
-                                 :tag "Important"
-                                 :priority "A")
-			  (:name "Waiting"
-                                 :todo "WAITING")
-			  (:name "Active Projects"
-				 :todo "PROJ")
-			  (:name "Detail Projects"
-				 :and (:tag "PROJECT" :not (:tag "SOMEDAY")))
-			  
-			  (:name "---------------------------------------------\n Someday Projects"
-				 :and (:tag "PROJECT" :tag "SOMEDAY"))
-			  (:name "Emacs Stuff:"
-				 :and (:tag "emacs" :tag "SOMEDAY"))
-			  (:name "Books/articles to Read:"
-				 :and (:tag "reading" :tag "SOMEDAY"))
-			  (:name "Films/videos to watch:"
-				 :and (:tag "watching" :tag "SOMEDAY"))
-			  (:name "Blog in Plan:"
-				 :and (:tag "blog" :tag "SOMEDAY"))
-			  
-			  (:discard (:tag "PROJECT" :habit t))))))))
-	;; ("s" "Someday & Project Agenda"
-	;;  ((alltodo "" ((org-agenda-overriding-header "Someday & Project Agenda")
-	;; 	       (org-super-agenda-groups
-	;; 		'((:name "Someday Projects"
-	;; 			 :and (:tag "PROJECT" :tag "SOMEDAY"))
-	;; 		  (:name "Emacs Stuff:"
-	;; 			 :and (:tag "emacs" :tag "SOMEDAY"))
-	;; 		  (:name "Books/articles to Read:"
-	;; 			 :and (:tag "reading" :tag "SOMEDAY"))
-	;; 		  (:name "Films/videos to watch:"
-	;; 			 :and (:tag "watching" :tag "SOMEDAY"))
-	;; 		  (:name "Blog in Plan:"
-	;; 			 :and (:tag "blog" :tag "SOMEDAY"))
-	;; 		  (:discard (:not (:tag "SOMEDAY")))
-	;; 		  ))
-	;; 	       ))))
+			'((:name "Monthly todo"
+				 :and (:todo ("TODO" "NEXT") :category ("Task") :not (:habit t)))
+			  (:name "Wait for response"
+				 :and (:todo ("WAITING") :not (:habit t)))
+			  (:discard (:anything t))
+			  ))))
+	  (alltodo "" ((org-agenda-overriding-header "")
+		       (org-agenda-skip-function 'jethro/org-agenda-skip-all-siblings-but-first)
+		       (org-super-agenda-groups
+			'((:name "Project review"
+				 :and (:category "Project")
+				 )
+			  (:discard (:anything t))
+			  ))))
+	  )
+	 ((org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org"))))
+	
+	("i" "Inbox Agenda"
+	 ((alltodo "" ((org-agenda-overriding-header "Inbox Agenda")
+		       (org-super-agenda-groups
+			'((:name "Need to handle:"
+				 :category "Inbox")
+			  ))
+		       )))
+	 ((org-agenda-files '("~/iCloud/org/inbox.org"))))
+	
+	("p" "Someday/Maybe Agenda"
+	 ((alltodo "" ((org-agenda-overriding-header "Someday/Maybe Agenda")
+		       (org-super-agenda-groups
+			'((:name "Goods to buy"
+				 :tag "#buy")
+			  (:name "Books to read"
+				 :tag "#book")
+			  ))
+		       )))
+	 ((org-agenda-files '("~/iCloud/org/someday.org"))))
 	))
-
-(use-package org-super-agenda
-  :ensure t
-  :init (setq org-super-agenda-groups t)
-  :config (org-super-agenda-mode t))
-
 
 (defun jethro/org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
   (let (should-skip-entry)
     (unless (or (org-current-is-todo)
-                (not (org-get-scheduled-time (point))))
+		(not (org-get-scheduled-time (point))))
       (setq should-skip-entry t)) ;; 当前是不是TODO且当前有scheduled time才设置跳过
     (save-excursion
       (while (and (not should-skip-entry) (org-goto-sibling t))
-        (when (org-current-is-todo)
+	(when (org-current-is-todo)
 	  (setq should-skip-entry t)))) ;; 在当不跳过且走到兄弟节点时循环，如何当前为TODO则跳过。
     (when should-skip-entry
       (or (outline-next-heading)
@@ -516,11 +508,11 @@
   "Skip all but heading entry."
   (let (should-skip-entry)
     (unless (or (org-current-is-todo)
-                (not (org-get-scheduled-time (point))))
+		(not (org-get-scheduled-time (point))))
       (setq should-skip-entry t))
     (save-excursion
       (while (and (not should-skip-entry) (org-goto-sibling t))
-        (when (org-current-is-todo)
+	(when (org-current-is-todo)
 	  (setq should-skip-entry t))))
     (when should-skip-entry
       (or (outline-next-heading)
@@ -637,21 +629,32 @@ end tell")
     (with-current-buffer (org-export-to-buffer 'html "*orgmode-to-apple-notes*")
       (let ((body (string-utils-escape-double-quotes
 		   (string-utils-escape-backslash (buffer-string)))))
-        ;; install title + body into template above and send to notes
-        (do-applescript (format as-tmpl title body))
-        ;; get rid of temp orgmode-to-apple-notes buffer
-        (kill-buffer))
+	;; install title + body into template above and send to notes
+	(do-applescript (format as-tmpl title body))
+	;; get rid of temp orgmode-to-apple-notes buffer
+	(kill-buffer))
       )))
 
 (use-package deft
   :ensure t
-  :after org
   :bind
-  (("C-c n" . deft))
-  :custom
-  (deft-default-extension "org")
-  (deft-directory "~/iCloud/blog_site/org/")
-  (deft-use-filename-as-title t))
+  (("C-x d" . deft-find-file)
+   ("C-x C-d" . deft))
+  :config
+  (setq deft-extensions '("txt" "tex" "org" "md"))
+  (setq deft-directory "~/iCloud/blog_site/org/")
+  (setq deft-recursive t)
+  (setq deft-file-naming-rules '((noslash . "_")))
+  (setq deft-text-mode 'org-mode)
+  (setq deft-use-filter-string-for-filename t)
+  (setq deft-org-mode-title-prefix t)
+  (setq deft-use-filename-as-title nil)
+  (setq deft-strip-summary-regexp
+	(concat "\\("
+		"[\n\t]" ;; blank
+		"\\|^#\\+[[:upper:]_]+:.*$" ;; org-mode metadata
+		"\\|^#\\+[[:alnum:]_]+:.*$" ;; org-mode metadata
+		"\\)")))
 
 (use-package org-wiki
   :ensure t
@@ -693,10 +696,5 @@ end tell")
   ;;     (kill-whole-line)
   ;;     (package-install-from-buffer)))
   )
-
-(use-package org-drill
-  :ensure t
-  :config
-  (add-to-list 'org-modules 'org-drill))
 
 (provide 'init-org)

@@ -2,10 +2,11 @@
 # name: blog
 # key: blog
 # --
-#+TITLE: ${}
-#+DATE: ${}
+#+TITLE: $1
+#+DATE: $2
+#+CATEGORY: $3
 #+STARTUP: content
 #+OPTIONS: toc:nil H:2 num:2
-#+INCLUDE: ../code/header.org
+#+INCLUDE: ../code/post-info.org
 #+TOC: headlines:2
 

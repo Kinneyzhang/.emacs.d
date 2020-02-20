@@ -65,5 +65,91 @@
 (define-key org-mode-map (kbd "<drag-n-drop>") 'my-dnd-func)
 (define-key org-mode-map (kbd "<C-drag-n-drop>") 'my-dnd-func)
 (define-key org-mode-map (kbd "<M-drag-n-drop>") 'my-dnd-func)
+;;----------------------------------------------
+
+;; (html-parse-single-list '("div" :class "post-div"
+;; 			  ("h3" :class "hello" ("a" :href "url" "post-title"))
+;; 			  ("p" "digest")
+;; 			  ("code" ("a" :href "url" "tag"))
+;; 			  ("span" "date")
+;; 			  ))
+
+(defvar html-parse-single-tag-list
+  '("br" "hr" "img" "input" "meta" "link" "param"))
+
+(defun html-parse-single-list (list)
+  (interactive)
+  (let ((tag (car list))
+	(plist (cdr list))
+	(alist (html-parse-get-alist (cdr list)))
+	)
+    (with-current-buffer (get-buffer-create "*html-parse*")
+      (my/insert-html-tag-with-attr tag alist)
+      (progn
+	(setq inner-text (html-parse-get-inner-text plist))
+	(if (eq nil inner-text)
+	    ()
+	  (insert (html-parse-get-inner-text plist))))
+      (progn
+	(setq html-list (html-parse-get-html-list plist))
+	(if (eq nil html-list)
+	    (forward-char (+ 3 (length tag)))
+	  (html-parse-single-list html-list)))
+      (buffer-substring-no-properties (point-min) (point-max)))
+    ))
+
+(defun html-parse-get-alist (plist)
+  "将html标签的属性转化为alist形式"
+  ;; nil也是symbol类型
+  (if (or (null plist) (not (symbolp (car plist)))) 
+      '()
+    (cons
+     (list (substring (symbol-name (car plist)) 1) (cadr plist))
+     (html-parse-get-alist (cddr plist)))))
+
+(defun html-parse-get-inner-text (plist)
+  "获取html标签内部的文本"
+  (let ((inner-text nil))
+    (if (and (symbolp (car plist)) (not (null plist)))
+	(setq inner-text (html-parse-get-inner-text (cddr plist)))
+      (progn
+	(if (listp (car plist))
+	    (setq inner-text nil))
+	(if (or (stringp (car plist)) (numberp (car plist)))
+	    (setq inner-text (car plist)))
+	))
+    inner-text))
+;; (html-parse-get-inner-text '(:class "class" "heello" ("tag")))
+
+(defun html-parse-get-html-list (plist)
+  "获取新的list"
+  (let ((plist plist))
+    (if (and (symbolp (car plist)) (not (null plist)))
+	(setq plist (html-parse-get-html-list (cddr plist)))
+      (progn
+	(if (or (stringp (car plist)) (numberp (car plist)))
+	    (setq plist (cdr plist)))
+	(if (listp (car plist))
+	    (setq plist (car plist)))
+	(if (null plist)
+	    (setq plist))
+	))
+    plist))
+;;-----------------------------------------------
+(defun my/video-compress-and-convert (video new)
+  (interactive "fvideo path: \nfnew item path: ")
+  (let ((video-format (cadr (split-string video "\\."))))
+    (if (string= video-format "gif")
+	(progn
+	  (shell-command (concat "ffmpeg -i " video " -r 5 " new))
+	  (message "%s convert to %s successfully!" video new))
+      (progn
+	(shell-command
+	 (concat "ffmpeg -i " video " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " new))
+	(message "%s compress and convert to %s successfully!" video new))
+      )
+    ))
+;;---------------------------------------------------
 
 (provide 'init-test)
+

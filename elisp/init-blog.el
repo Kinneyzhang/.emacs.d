@@ -46,97 +46,59 @@ contextual information."
 (setq org-export-with-email t)
 (setq org-export-with-date t)
 (setq org-export-with-creator t)
-;; (setq org-html-preamble t)
+(setq org-html-preamble nil)
 (setq org-html-postamble t)
 
 (setq org-html-creator-string
       "<a href=\"https://www.gnu.org/software/emacs/\">Emacs</a> 26.3 (<a href=\"https://orgmode.org\">Org</a> mode 9.1.9)")
 
-;; (setq org-html-home/up-format
-;;       "
-;; <div id=\"org-div-header\">
-;; <div class=\"toptitle\">
-;; <span href=\"/post/index.html\">Geekinney Blog</span>
-;; </div>
-;; <div class=\"topnav\">
-;; <a href=\"/post/index.html\"> Home </a>&nbsp;|&nbsp;
-;; <a href=\"/post/bookmark.html\"> 链接收藏 </a>  &nbsp;|&nbsp;
-;; <a href=\"/post/videos-collection.html\"> 视频收藏 </a>  &nbsp;|&nbsp;
-;; <a href=\"https://github.com/Kinneyzhang\"> Github </a>&nbsp;|&nbsp;
-;; </div>
-;; </div>")
-
 (setq org-html-postamble-format
       '((
 	 "en"
 	 "
-<div id=\"disqus_thread\"></div>
+<script src=\"/static/jQuery.min.js\"></script>
+<script src=\"/static/Valine.min.js\"></script>
+<script src=\"/static/highlight.min.js\"></script>
+<script>var hlf=function(){Array.prototype.forEach.call(document.querySelectorAll(\"pre.src\"),function(t){var e;e=t.getAttribute(\"class\").toLowerCase(),e=e.replace(/src-(\w+)/,\"src-$1 $1\"),console.log(e),t.setAttribute(\"class\",e),hljs.highlightBlock(t)})};addEventListener(\"DOMContentLoaded\",hlf);</script>
+
+<div id=\"vcomments\"></div>
 <script>
-function loadDisqus() {
-  // Disqus 安装代码
-  var d = document, s = d.createElement('script');
-  s.src = 'https://geekinney-blog.disqus.com/embed.js';
-  s.setAttribute('data-timestamp', +new Date());
-  (d.head || d.body).appendChild(s);
-}
-
-// 通过检查 window 对象确认是否在浏览器中运行
-var runningOnBrowser = typeof window !== \"undefined\";
-// 通过检查 scroll 事件 API 和 User-Agent 来匹配爬虫
-var isBot = runningOnBrowser && !(\"onscroll\" in window) || typeof navigator !== \"undefined\" && /(gle|ing|ro|msn)bot|crawl|spider|yand|duckgo/i.test(navigator.userAgent);
-// 检查当前浏览器是否支持 IntersectionObserver API
-var supportsIntersectionObserver = runningOnBrowser && \"IntersectionObserver\" in window;
-
-// 一个小 hack，将耗时任务包裹在 setTimeout(() => { }, 1) 中，可以推迟到 Event Loop 的任务队列中、等待主调用栈清空后才执行，在绝大部分浏览器中都有效
-// 其实这个 hack 本来是用于优化骨架屏显示的。一些浏览器总是等 JavaScript 执行完了才开始页面渲染，导致骨架屏起不到降低 FCP 的优化效果，所以通过 hack 将耗时函数放到骨架屏渲染完成后再进行。
-setTimeout(function () {
-  if (!isBot && supportsIntersectionObserver) {
-    // 当前环境不是爬虫、并且浏览器兼容 IntersectionObserver API
-    var disqus_observer = new IntersectionObserver(function(entries) {
-      // 当前视窗中已出现 Disqus 评论框所在位置
-      if (entries[0].isIntersecting) {
-        // 加载 Disqus
-        loadDisqus();
-        // 停止当前的 Observer
-        disqus_observer.disconnect();
-      }
-    }, { threshold: [0] });
-    // 设置让 Observer 观察 #disqus_thread 元素
-    disqus_observer.observe(document.getElementById('disqus_thread'));
-  } else {
-    // 当前环境是爬虫、或当前浏览器其不兼容 IntersectionObserver API
-    // 直接加载 Disqus
-    loadDisqus();
-  }
-}, 1);
+new Valine({
+el: '#vcomments',
+appId: 'jVMbXK6tJDtPCzR3Mp0V5L6V-gzGzoHsz',
+appKey: 'SX4oRFXp8K7KgeGhKTTDy3VI',
+notify:false,
+verify:false,
+avatar:'identicon',
+placeholder: '留下你的评论吧～'
+})
 </script>
-
 <p class=\"author\">Author: %a (%e)</p>
 <p class=\"date\">Date: %d</p>
-<p class=\"creator\">%c</p>\n")))
+<p class=\"creator\">%c</p>\n
 
-;; (setq my/html-head
-;;   "
-;; <link rel=\"shortcut icon\" href=\"/static/img/favicon.ico\"/>
-;; <link rel=\"bookmark\" href=\"/static/img/favicon.ico\" type=\"image/x-icon\"/>
+<script>
+$(document).ready(function(){
+var theme = sessionStorage.getItem(\"theme\");
+if(theme==\"dark\"){
+document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+}else if(theme==\"light\"){
+document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+}else{
+sessionStorage.setItem(\"theme\",\"light\");
+}});
 
-;; <!-- Google Analytics -->
-;; <script>
-;; (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-;; (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-;; m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-;; })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-;; ga('create', 'UA-149578968-1', 'auto');
-;; ga('send', 'pageview');
-;; </script>
-;; <!-- End Google Analytics -->
-
-;; <link rel=\"stylesheet\" type=\"text/css\" href=\"/static/ostyle.css\"/>
-;; <link rel=\"stylesheet\" type=\"text/css\" href=\"/static/ostyle2.css\"/>
-
-;; <script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js\"></script>
-;; <script>var hlf=function(){Array.prototype.forEach.call(document.querySelectorAll(\"pre.src\"),function(t){var e;e=t.getAttribute(\"class\").toLowerCase(),e=e.replace(/src-(\w+)/,\"src-$1 $1\"),console.log(e),t.setAttribute(\"class\",e),hljs.highlightBlock(t)})};addEventListener(\"DOMContentLoaded\",hlf);</script>
-;; ")
+function switchTheme(){
+if(sessionStorage.getItem(\"flag\")==\"false\"){
+document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+sessionStorage.setItem(\"theme\",\"light\");
+sessionStorage.setItem(\"flag\", \"true\");
+}else{
+document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+sessionStorage.setItem(\"theme\",\"dark\");
+sessionStorage.setItem(\"flag\", \"false\");
+}};
+</script>")))
 
 (setq org-publish-project-alist
       '(("geekblog"
@@ -145,25 +107,11 @@ setTimeout(function () {
 	 :base-directory "~/iCloud/blog_site/org/"
 	 :publishing-directory "~/iCloud/blog_site/post/"
 	 :publishing-function org-html-publish-to-html
-	 :html-home/up-format
-	 "
-<div id=\"org-div-header\">
-<div class=\"toptitle\">
-<span href=\"/post/index.html\">Geekinney Blog</span>
-</div>
-<div class=\"topnav\">
-<a href=\"/post/index.html\"> Home </a>&nbsp;|&nbsp;
-<a href=\"/post/bookmark.html\"> 链接收藏 </a>&nbsp;|&nbsp;
-<a href=\"/post/videos-collection.html\"> 视频收藏</a>&nbsp;|&nbsp;
-<a href=\"https://github.com/Kinneyzhang\"> Github </a>&nbsp;
-</div>
-</div>"
-	 
 	 :html-head
 	 "
 <link rel=\"shortcut icon\" href=\"/static/img/favicon.ico\"/>
 <link rel=\"bookmark\" href=\"/static/img/favicon.ico\" type=\"image/x-icon\"/>
-
+<link id=\"pagestyle\" rel=\"stylesheet\" type=\"text/css\" href=\"/static/light.css\"/>
 <!-- Google Analytics -->
 <script>
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -174,21 +122,47 @@ ga('create', 'UA-149578968-1', 'auto');
 ga('send', 'pageview');
 </script>
 <!-- End Google Analytics -->
-
-<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/ostyle.css\"/>
-<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/ostyle2.css\"/>
-
-<script src=\"https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js\"></script>
-<script>var hlf=function(){Array.prototype.forEach.call(document.querySelectorAll(\"pre.src\"),function(t){var e;e=t.getAttribute(\"class\").toLowerCase(),e=e.replace(/src-(\w+)/,\"src-$1 $1\"),console.log(e),t.setAttribute(\"class\",e),hljs.highlightBlock(t)})};addEventListener(\"DOMContentLoaded\",hlf);</script>
 "
-	 :auto-postamble t
-	 :auto-sitemap nil
+	 :html-home/up-format
+	 "
+<div id=\"org-div-header\">
+<div class=\"toptitle\">
+<span href=\"/post/index.html\">Geekinney Blog</span>
+<span onclick=\"switchTheme();\">切换主题</span>
+</div>
+<div class=\"topnav\">
+<a href=\"/post/index.html\">首页</a>&nbsp;|&nbsp;
+<a href=\"/post/archive.html\">归档</a>&nbsp;|&nbsp;
+<a href=\"/post/category.html\">分类</a>&nbsp;|&nbsp;
+<a href=\"https://github.com/Kinneyzhang\">Github</a>&nbsp;
+</div>
+</div>"
+	 :sitemap-file-entry-format "%d ====> %t"
+	 :sitemap-sort-files anti-chronologically
+	 :sitemap-filename "sitemap.org"
+	 :sitemap-title nil
+	 :auto-sitemap t
+	 
 	 :html-link-home "/"
 	 :html-link-up "/"
 	 :html-extension "html"
 	 :body-only nil
 	 )
 
+	;; ("geekblog_rss"
+	;;  :base-directory "~/iCloud/blog_site/org/"
+	;;  :base-extension "org"
+	;;  :rss-image-url "https://blog.geekinney.com/static/img/rss.png"
+	;;  :html-link-home "https://blog.geekinney.com"
+	;;  :html-link-use-abs-url t
+	;;  :rss-extension "xml"
+	;;  :publishing-directory "~/iCloud/blog_site/"
+	;;  :publishing-function (org-rss-publish-to-rss)
+	;;  :section-numbers nil
+	;;  :exclude "index.org"            ;; To exclude all files...
+	;;  :include (".*")   ;; ... except index.org.
+	;;  :table-of-contents nil)
+	
 	;; ("org-journal"
 	;;  :base-extension "org"
 	;;  :recursive nil
@@ -196,7 +170,7 @@ ga('send', 'pageview');
 	;;  :publishing-directory "~/iCloud/blog_site/post/"
 	;;  :publishing-function org-html-publish-to-html
 	;;  :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/journal.css\"/>"
-	 
+	
 	;;  :auto-preamble nil
 	;;  :auto-postamble nil
 	;;  :auto-sitemap nil
@@ -226,17 +200,128 @@ ga('send', 'pageview');
   (org-publish proj t nil)
   )
 
-(defun capture-blog-post-file ()
-  (let* ((title (read-string "Slug: "))
-         (slug (replace-regexp-in-string "[^a-z]+" "-" (downcase title))))
-    (expand-file-name
-     (format "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/post/%s.org"
-             (format-time-string "%Y" (current-time))
-             slug))))
+(defun my/blog-generate-org (slug title category)
+  (interactive "sinput slug: \nsinput title: \nsinput category: ")
+  (let* ((blog-org-dir "~/iCloud/blog_site/org/")
+	 (blog-org-file (concat blog-org-dir slug ".org"))
+	 (blog-org-created-date (format-time-string "%Y-%m-%d"))
+	 (blog-org-head-template (concat "#+TITLE: " title "\n#+DATE: " blog-org-created-date "\n#+CATEGORY: " category "\n#+INCLUDE: \"../code/post-info.org\"\n#+STARTUP: content\n#+OPTIONS: toc:nil H:2 num:2\n#+TOC: headlines:2\n")))
+    (if (file-exists-p blog-org-file)
+	(find-file blog-org-file)
+      (progn
+	(find-file blog-org-file)
+	(insert blog-org-head-template)))))
 
-(add-to-list 'org-capture-templates
-             '("b" "Blog Post" plain
-               (file (capture-blog-post-file))
-	       (file "~/iCloud/blog_site/code/template.org")))
+;;--------------------------------------------------
+(defvar html-parse-single-tag-list
+  '("img" "br" "hr" "input" "meta" "link" "param"))
+
+(defun my/insert-html-tag-with-attr (tag &optional attr)
+  "insert a html tag and some attributes at cursor point"
+  ;; (interactive "sinput tag name: \nsis single tag? [y or n]: ")
+  (let ((single-tag-list '("img" "br" "hr" "input" "meta" "link" "param")))
+    (if (member tag single-tag-list)
+	(progn
+	  (insert (concat "<" tag "/>"))
+	  (backward-char 2)
+	  (mapcar (lambda (x) (insert (concat " " (car x) "=" "\"" (cadr x) "\""))) attr)
+	  (forward-char 2)
+	  )
+      (progn
+	(insert (concat "<" tag ">" "</" tag ">"))
+	(backward-char (+ 4 (length tag)))
+	(mapcar (lambda (x) (insert (concat " " (car x) "=" "\"" (cadr x) "\""))) attr)
+	(forward-char 1)
+	))
+    ))
+
+(defun my/org-grid-img (row col ulist)
+  "insert imag in mood diary, use it as a macro"
+  (interactive)
+  (let ((html-parse-single-tag-list '("img" "br" "hr" "input" "meta" "link" "param"))
+	(row (string-to-number row))
+	(col (string-to-number col))
+	(ulist (read ulist)))
+    (with-temp-buffer
+      (insert "#+begin_export html\n \n#+end_export")
+      (backward-char 14)
+      (my/insert-html-tag-with-attr "div" '(("class" "img-container")))
+      (dotimes (i row)	
+	(my/insert-html-tag-with-attr "div" '(("class" "img-row")))
+	(dotimes (j col)
+	  (setq url (nth (+ j (* i col)) ulist))
+	  (my/insert-html-tag-with-attr "a" (list (list "href" url)))
+	  (my/insert-html-tag-with-attr "img" (list (list "src" url)))
+	  (forward-char 6))
+	(forward-char 8))
+      (buffer-substring-no-properties (point-min) (point-max))
+      )
+    ))
+
+;; (my/org-grid-img "2" "2" "(\"hello\" \"emacs\" \"happy\" \"happy\")")
+
+;; (my/blog-generate-index '("elisp-hack-video-compress-and-convert-format.org"))
+(defun my/blog-generate-index (posts)
+  "generate blog index page"
+  (interactive)
+  (let ((post-dir "~/iCloud/blog_site/org/")
+	(category-url "https://blog.geekinney.com/post/category.html")
+	(html-str ""))
+    (if (stringp posts)
+	(setq posts (read posts)))
+    (mapcar (lambda (post)
+	      (with-temp-buffer
+		(setq post-url (concat "https://blog.geekinney.com/post/" (car (split-string post "\\.")) ".html"))
+		(insert-file-contents (concat post-dir post))
+		(setq count (my/word-count))
+		(goto-char (point-min))
+		(re-search-forward "^#\\+TITLE")
+		(setq title (plist-get (cadr (org-element-at-point)) :value))
+		(goto-char (point-min))
+		(re-search-forward "^#\\+DATE")
+		(setq date (plist-get (cadr (org-element-at-point)) :value))
+		(goto-char (point-min))
+		(re-search-forward "^#\\+CATEGORY")
+		(setq category (plist-get (cadr (org-element-at-point)) :value))
+		(setq buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" (buffer-substring-no-properties (point-min) (point-max))))
+		(setq buffer-string (replace-regexp-in-string ".*\\* " "" buffer-string))
+		(setq buffer-string (replace-regexp-in-string ".*\\*.+\\*" "" buffer-string))
+		(setq buffer-string (replace-regexp-in-string ".*\\*\\* " "" buffer-string))
+		(setq buffer-string (replace-regexp-in-string ".*\\*\\*\\* " "" buffer-string))
+		(setq buffer-string (replace-regexp-in-string "^\n+" "" buffer-string))
+		(setq buffer-string (replace-regexp-in-string "^\n+" "" buffer-string))
+		(setq buffer-string (replace-regexp-in-string "^\n+" "" buffer-string))
+		(setq buffer-string (replace-regexp-in-string "^\n+" "" buffer-string))
+		(setq buffer-string (replace-regexp-in-string "^\n+" "" buffer-string))
+		(setq digest (substring buffer-string 0 170))
+		;; (setq posts-str (concat posts-str "*" title "*" "\n\n" digest "...\\\\" "\n" "=" category "=" "\t\t\t" date "\n-----\n"))
+		
+		(erase-buffer)
+
+		;; (insert "#+begin_export html\n\n#+end_export")
+		;; (backward-char 13)
+		
+		(my/insert-html-tag-with-attr "div" '(("class" "post-div")))
+		(my/insert-html-tag-with-attr "h3")
+		(my/insert-html-tag-with-attr "a" (list (list "href" post-url)))
+		(insert title)
+		(forward-char 9)
+		(my/insert-html-tag-with-attr "p")
+		(insert (concat digest " ...... "))
+		(my/insert-html-tag-with-attr "a" (list (list "href" post-url)))
+		(insert "阅读全文")
+		(forward-char 8)
+		(my/insert-html-tag-with-attr "code")
+		(my/insert-html-tag-with-attr "a" (list (list "href" category-url)))
+		(insert category)
+		(forward-char 11)
+		(my/insert-html-tag-with-attr "span")
+		(insert date)
+		(forward-char 13)
+		(insert "\n\n")
+		(setq html-str (concat html-str (buffer-substring-no-properties (point-min) (point-max))))
+		))
+	    posts)
+    (concat "#+begin_export html\n" html-str "#+end_export")))
 
 (provide 'init-blog)
