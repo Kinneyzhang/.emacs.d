@@ -4,9 +4,9 @@
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
 (("org-capture-last-stored-marker"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO 解决未修改文件也")
- (rear-context-string . "2-20 Thu 00:00]\n")
- (position . 3810))
+ (front-context-string . "** TODO elisp封装I")
+ (rear-context-string . "O 解决未修改文件也导出的问题\n")
+ (position . 3854))
 ("my-mood-diary-2020.org"
  (filename . "~/iCloud/blog_site/org/my-mood-diary-2020.org")
  (front-context-string)
@@ -14,9 +14,9 @@
  (position . 365))
 ("org-refile-last-stored"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO 解决未修改文件也")
- (rear-context-string . "2-20 Thu 00:00]\n")
- (position . 3810))
+ (front-context-string . "** TODO elisp封装I")
+ (rear-context-string . "O 解决未修改文件也导出的问题\n")
+ (position . 3854))
 ("2020.ledger"
  (filename . "~/iCloud/org2/2020.ledger")
  (front-context-string . "    收入:红包:春节\n   ")
@@ -54,7 +54,7 @@
  (position . 241))
 ("org-capture-last-stored"
  (filename . "~/iCloud/org/task.org")
- (front-context-string . "* TODO 解决未修改文件也导")
+ (front-context-string . "* TODO 安装manjaro")
  (rear-context-string . "		  :@research:\n")
- (position . 9574))
+ (position . 9712))
 )

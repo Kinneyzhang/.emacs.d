@@ -1,1 +1,1 @@
-("~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/" "~/Library/Mobile Documents/com~apple~CloudDocs/config/.emacs.d/" "~/Library/Mobile Documents/com~apple~CloudDocs/program_org/")
+("~/Library/Mobile Documents/com~apple~CloudDocs/config/.emacs.d/" "~/Library/Mobile Documents/com~apple~CloudDocs/program_org/" "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/")

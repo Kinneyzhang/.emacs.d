@@ -1,10 +1,5 @@
 #+STARTUP: showall hidestars
 * Emacs Configuration
-** Screenshot
-   [[./img/emacs-ui1.png]]
-   [[./img/emacs-ui2.png]]
-   [[./img/emacs-ui3.png]]
-
 ** Install
    * Clone this repo to your ~/.emacs.d directory. If you already have .emacs.d, back-up it!
      #+BEGIN_SRC sh

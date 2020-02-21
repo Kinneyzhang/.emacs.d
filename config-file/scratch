@@ -787,41 +787,6 @@ document.getElementById(\"pagestyle\").href=\"/static/light.css\";
 	(insert blog-org-head-template)))))
 
 ;;------------------------------------------------
-(defun my/convert-video-to-gif (video gif)
-  "convert video to gif, support mov and mp4"
-  (interactive "svideo name: \nsgif name: " )
-  (let* ((video-path "~/Movies/")
-	 (mov-path (concat video-path "mov"))
-	 (mp4-path (concat video-path "mp4"))
-	 (gif-path "~/Pictures/gif/")
-	 (video-name (car (split-string video "\\.")))
-	 (mp4-name (concat video-name ".mp4")))
-    (if (string= (cadr (split-string video "\\.")) "mov")
-	(progn
-	  (my/convert-mov-to-mp4 video (concat video-name ".mp4"))
-	  (my/convert-mp4-to-gif mp4-name gif))
-      (my/convert-mp4-to-gif video gif)
-      )
-    ))
-
-(defun my/convert-mov-to-mp4 (mov mp4)
-  "convert mov video to mp4 video"
-  (interactive "smov name: \nsmp4 name: ")
-  (let ((mov-path "~/Movies/mov/")
-	(mp4-path "~/Movies/mp4/"))
-    (shell-command (concat "ffmpeg -i " mov-path mov " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " mp4-path mp4))
-    (message "%s convert to %s successfully!" mov mp4)
-    ))
-
-(defun my/convert-mp4-to-gif (mp4 gif)
-  "convert mp4 video to gif pic"
-  (interactive "smp4 name: \nsgif name: ")
-  (let ((mp4-path "~/Movies/mp4/")
-	(gif-path "~/Pictures/gif/"))
-    (shell-command (concat "ffmpeg -i " mp4-path mp4 " -r 5 " gif-path gif))
-    (message "%s convert to %s successfully!" mp4 gif)
-    ))
-
 (defun my/video-compress-or-convert (video new)
   (interactive "fvideo path: \nfnew item path: ")
   (let ((video-format (cadr (split-string video "\\."))))
@@ -832,5 +797,18 @@ document.getElementById(\"pagestyle\").href=\"/static/light.css\";
       (progn
 	(shell-command (concat "ffmpeg -i " video " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " new))
 	(message "%s compress or convert to %s successfully!" video new))
-)
+      )
     ))
+;;-------------------------------------------------
+;; (run-with-idle-timer 5 t 'my/mac-switch-input-source)
+(add-hook 'focus-in-hook 'my/mac-switch-input-source)
+(defun my/mac-switch-input-source ()
+  (interactive)
+  (shell-command
+   "osascript -e 'tell application \"System Events\" to tell process \"SystemUIServer\"
+      set currentLayout to get the value of the first menu bar item of menu bar 1 whose description is \"text input\"
+      if currentLayout is not \"ABC\" then
+        tell (1st menu bar item of menu bar 1 whose description is \"text input\") to {click, click (menu 1'\"'\"'s menu item \"ABC\")}
+      end if
+    end tell' &>/dev/null"))
+;;================================================

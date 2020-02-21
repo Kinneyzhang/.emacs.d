@@ -3,7 +3,7 @@
 ;; https://gongzhitaao.org/orgcss/org.css
 
 ;; org html export
-(setq org-html-htmlize-output-type "inline-css") ;; 导出时不加行间样式！
+(setq org-html-htmlize-output-type nil) ;; 导出时不加行间样式！
 (setq org-html-doctype "html5")
 (setq org-html-html5-fancy t)
 
@@ -134,6 +134,7 @@ ga('send', 'pageview');
 <a href=\"/post/index.html\">首页</a>&nbsp;|&nbsp;
 <a href=\"/post/archive.html\">归档</a>&nbsp;|&nbsp;
 <a href=\"/post/category.html\">分类</a>&nbsp;|&nbsp;
+<a href=\"/post/friendly-link.html\">友链</a>&nbsp;|&nbsp;
 <a href=\"https://github.com/Kinneyzhang\">Github</a>&nbsp;
 </div>
 </div>"
@@ -199,8 +200,12 @@ ga('send', 'pageview');
   (interactive "sEnter the project name: ")
   (org-publish proj t nil)
   )
+(defun my/org-publish-current-file ()
+  (interactive)
+  (let ((file buffer-file-name))
+    (org-publish-file file (car org-publish-project-alist))))
 
-(defun my/blog-generate-org (slug title category)
+(defun my/blog-new-post (slug title category)
   (interactive "sinput slug: \nsinput title: \nsinput category: ")
   (let* ((blog-org-dir "~/iCloud/blog_site/org/")
 	 (blog-org-file (concat blog-org-dir slug ".org"))
