@@ -205,12 +205,16 @@ ga('send', 'pageview');
 
 (defun my/org-publish-project (proj)
   (interactive "sEnter the project name: ")
-  (org-publish proj nil nil))
+  (org-publish proj nil nil)
+  (shell-command "~/iCloud/blog_site/deploy.sh")
+  (message "%s deployed successfully" proj))
 
 (defun my/org-publish-current-file ()
   (interactive)
   (let ((file buffer-file-name))
-    (org-publish-file file (car org-publish-project-alist))))
+    (org-publish-file file (car org-publish-project-alist))
+    (shell-command "~/iCloud/blog_site/deploy.sh")
+    (message "%s deployed successfully" file)))
 
 (defun my/blog-new-post (slug title category)
   (interactive "sinput slug: \nsinput title: \nsinput category: ")
