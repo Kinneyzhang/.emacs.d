@@ -18,6 +18,7 @@ smex-items
 .mc-lists.el
 pyim
 request
+url
 newsticker
 hackernews
 .org-id-locations

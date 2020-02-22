@@ -53,8 +53,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/iCloud/org/task.org")
- (front-context-string . "* TODO 安装manjaro")
- (rear-context-string . "		  :@research:\n")
- (position . 9712))
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20200222")
+ (front-context-string . "** 07:16 晨间记录\n**")
+ (rear-context-string . "2 February 2020\n")
+ (position . 30))
 )
