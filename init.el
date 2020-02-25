@@ -8,7 +8,8 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives '(("gnu"   . "http://mirrors.cloud.tencent.com/elpa/gnu/")
-                         ("melpa" . "http://mirrors.cloud.tencent.com/elpa/melpa/")))
+                         ("melpa" . "http://mirrors.cloud.tencent.com/elpa/melpa/")
+			 ("ublt" . "https://elpa.ubolonton.org/packages/")))
 
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
@@ -16,6 +17,7 @@
   (package-install 'use-package))
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
+(add-to-list 'load-path (concat user-emacs-directory "site-lisp"))
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))

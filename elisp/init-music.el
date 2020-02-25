@@ -20,8 +20,6 @@
   (require 'emms-streams)
   (require 'emms-stream-info)
   ;; (setq emms-stream-info-backend 'mpv)
-  (setq emms-directory (concat config-dir "emms/")
-	emms-stream-file (concat config-dir "streams.emms"))
   :config
   (define-emms-simple-player afplay '(file)
     (regexp-opt '(".mp3" ".m4a" ".aac" ".flac"))

@@ -320,7 +320,8 @@ Return a new buffer or BUF with the code in it."
       if currentLayout is not \"ABC\" then
         tell (1st menu bar item of menu bar 1 whose description is \"text input\") to {click, click (menu 1'\"'\"'s menu item \"ABC\")}
       end if
-    end tell' &>/dev/null"))
+    end tell' &>/dev/null")
+  (message "Input source has changed to ABC!"))
 
 (provide 'init-utils)
 

@@ -3,6 +3,8 @@
 ;; https://gongzhitaao.org/orgcss/org.css
 
 ;; org html export
+(setq org-html-head-include-scripts nil)
+(setq org-html-head-include-default-style nil)
 (setq org-html-htmlize-output-type nil) ;; 导出时不加行间样式！
 (setq org-html-doctype "html5")
 (setq org-html-html5-fancy t)
@@ -38,27 +40,89 @@ contextual information."
                         lang label code))))))
 
 (advice-add 'org-html-src-block :override 'org-html-src-block2)
-
-
+;;-------------------------------------------------------------
 (setq user-full-name "Kinney Zhang")
 (setq user-mail-address "kinneyzhang666@gmail.com")
 (setq org-export-with-author t)
 (setq org-export-with-email t)
 (setq org-export-with-date t)
 (setq org-export-with-creator t)
-(setq org-html-preamble nil)
-(setq org-html-postamble t)
 
 (setq org-html-creator-string
       "<a href=\"https://www.gnu.org/software/emacs/\">Emacs</a> 26.3 (<a href=\"https://orgmode.org\">Org</a> mode 9.1.9)")
 
-(setq org-html-postamble-format
-      '((
-	 "en"
+(setq my/html-head
+      "
+<link rel=\"shortcut icon\" href=\"/static/img/favicon.ico\"/>
+<link rel=\"bookmark\" href=\"/static/img/favicon.ico\" type=\"image/x-icon\"/>
+<link id=\"pagestyle\" rel=\"stylesheet\" type=\"text/css\" href=\"/static/light.css\"/>
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-149578968-1', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+")
+
+(setq my/html-home/up-format
+      "
+<div id=\"org-div-header\">
+<div class=\"toptitle\">
+<span href=\"/post/index.html\">Geekinney Blog</span>
+<span onclick=\"switchTheme();\">切换主题</span>
+</div>
+<div class=\"topnav\">
+<a href=\"/index.html\">首页</a>&nbsp;|&nbsp;
+<a href=\"/archive.html\">归档</a>&nbsp;|&nbsp;
+<a href=\"/category.html\">分类</a>&nbsp;|&nbsp;
+<a href=\"/bookmark.html\">书签</a>&nbsp;|&nbsp;
+<a href=\"/friendly-link.html\">友链</a>&nbsp;|&nbsp;
+<a href=\"/message.html\">留言</a>&nbsp;|&nbsp;
+<a href=\"https://github.com/Kinneyzhang\">Github</a>&nbsp;
+</div>
+</div>")
+
+(setq my/org-html-postamble-of-page
+      '(("en"
+	 "
+<script src=\"/static/jQuery.min.js\"></script>
+<script>var hlf=function(){Array.prototype.forEach.call(document.querySelectorAll(\"pre.src\"),function(t){var e;e=t.getAttribute(\"class\").toLowerCase(),e=e.replace(/src-(\w+)/,\"src-$1 $1\"),console.log(e),t.setAttribute(\"class\",e),hljs.highlightBlock(t)})};addEventListener(\"DOMContentLoaded\",hlf);</script>
+
+<p class=\"author\">Author: %a (%e)</p>
+<p class=\"creator\">%c</p>\n
+
+<script>
+$(document).ready(function(){
+var theme = sessionStorage.getItem(\"theme\");
+if(theme==\"dark\"){
+document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+}else if(theme==\"light\"){
+document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+}else{
+sessionStorage.setItem(\"theme\",\"light\");
+}});
+
+function switchTheme(){
+if(sessionStorage.getItem(\"flag\")==\"false\"){
+document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+sessionStorage.setItem(\"theme\",\"light\");
+sessionStorage.setItem(\"flag\", \"true\");
+}else{
+document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+sessionStorage.setItem(\"theme\",\"dark\");
+sessionStorage.setItem(\"flag\", \"false\");
+}};
+</script>")))
+
+(setq my/org-html-postamble-of-post
+      '(("en"
 	 "
 <script src=\"/static/jQuery.min.js\"></script>
 <script src=\"/static/Valine.min.js\"></script>
-<script src=\"/static/highlight.min.js\"></script>
 <script>var hlf=function(){Array.prototype.forEach.call(document.querySelectorAll(\"pre.src\"),function(t){var e;e=t.getAttribute(\"class\").toLowerCase(),e=e.replace(/src-(\w+)/,\"src-$1 $1\"),console.log(e),t.setAttribute(\"class\",e),hljs.highlightBlock(t)})};addEventListener(\"DOMContentLoaded\",hlf);</script>
 
 <div id=\"vcomments\"></div>
@@ -67,9 +131,10 @@ new Valine({
 el: '#vcomments',
 appId: 'jVMbXK6tJDtPCzR3Mp0V5L6V-gzGzoHsz',
 appKey: 'SX4oRFXp8K7KgeGhKTTDy3VI',
-notify:false,
-verify:false,
-avatar:'identicon',
+visitor: true,
+notify: true,
+verify: false,
+avatar: 'identicon',
 placeholder: '留下你的评论吧～'
 })
 </script>
@@ -101,120 +166,58 @@ sessionStorage.setItem(\"flag\", \"false\");
 </script>")))
 
 (setq org-publish-project-alist
-      '(("geekblog"
+      `(("blog_page"
+	 :base-extension "org"
+	 :recursive nil
+	 :base-directory "~/iCloud/blog_site/page/"
+	 :publishing-directory "~/iCloud/blog_site/"
+	 :publishing-function org-html-publish-to-html
+	 ;; :preparation-function (my/blog-generate-sitemap-xml my/blog-generate-index-org)
+	 :completion-function my/blog-push-to-github
+	 :html-link-home "/"
+	 :html-link-up "/"
+	 :html-postamble t
+	 :html-head ,my/html-head
+	 :html-home/up-format ,my/html-home/up-format
+	 :html-postamble-format ,my/org-html-postamble-of-page
+	 )
+	("blog_org"
 	 :base-extension "org"
 	 :recursive nil
 	 :base-directory "~/iCloud/blog_site/org/"
 	 :publishing-directory "~/iCloud/blog_site/post/"
 	 :publishing-function org-html-publish-to-html
-	 :html-head
-	 "
-<link rel=\"shortcut icon\" href=\"/static/img/favicon.ico\"/>
-<link rel=\"bookmark\" href=\"/static/img/favicon.ico\" type=\"image/x-icon\"/>
-<link id=\"pagestyle\" rel=\"stylesheet\" type=\"text/css\" href=\"/static/light.css\"/>
-<!-- Google Analytics -->
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-149578968-1', 'auto');
-ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
-"
-	 :html-home/up-format
-	 "
-<div id=\"org-div-header\">
-<div class=\"toptitle\">
-<span href=\"/post/index.html\">Geekinney Blog</span>
-<span onclick=\"switchTheme();\">切换主题</span>
-</div>
-<div class=\"topnav\">
-<a href=\"/post/index.html\">首页</a>&nbsp;|&nbsp;
-<a href=\"/post/archive.html\">归档</a>&nbsp;|&nbsp;
-<a href=\"/post/category.html\">分类</a>&nbsp;|&nbsp;
-<a href=\"/post/friendly-link.html\">友链</a>&nbsp;|&nbsp;
-<a href=\"https://github.com/Kinneyzhang\">Github</a>&nbsp;
-</div>
-</div>"
-	 :sitemap-file-entry-format "%d ====> %t"
-	 :sitemap-sort-files anti-chronologically
-	 :sitemap-filename "sitemap.org"
-	 :sitemap-title nil
-	 :auto-sitemap t
-	 
+	 :preparation-function (my/blog-generate-sitemap-xml my/blog-generate-index-org)
+	 :completion-function my/blog-push-to-github
 	 :html-link-home "/"
 	 :html-link-up "/"
-	 :html-extension "html"
-	 :body-only nil
+	 :html-postamble t
+	 :html-head ,my/html-head
+	 :html-home/up-format ,my/html-home/up-format
+	 :html-postamble-format ,my/org-html-postamble-of-post
 	 )
-
-	;; ("geekblog_rss"
-	;;  :base-directory "~/iCloud/blog_site/org/"
-	;;  :base-extension "org"
-	;;  :rss-image-url "https://blog.geekinney.com/static/img/rss.png"
-	;;  :html-link-home "https://blog.geekinney.com"
-	;;  :html-link-use-abs-url t
-	;;  :rss-extension "xml"
-	;;  :publishing-directory "~/iCloud/blog_site/"
-	;;  :publishing-function (org-rss-publish-to-rss)
-	;;  :section-numbers nil
-	;;  :exclude "index.org"            ;; To exclude all files...
-	;;  :include (".*")   ;; ... except index.org.
-	;;  :table-of-contents nil)
-	
-	;; ("org-journal"
-	;;  :base-extension "org"
-	;;  :recursive nil
-	;;  :base-directory "~/iCloud/blog_site/journal/"
-	;;  :publishing-directory "~/iCloud/blog_site/post/"
-	;;  :publishing-function org-html-publish-to-html
-	;;  :html-head "<link rel=\"stylesheet\" type=\"text/css\" href=\"/static/journal.css\"/>"
-	
-	;;  :auto-preamble nil
-	;;  :auto-postamble nil
-	;;  :auto-sitemap nil
-	;;  :html-extension "html"
-	;;  :body-only nil
-	;;  )
-	
-	("org-wiki"
-	 :base-extension "org"
-	 :recursive nil
-	 :base-directory "~/iCloud/wiki/"
-	 :publishing-directory "~/iCloud/wiki_site/"
-	 :publishing-function org-html-publish-to-htmld
-	 ;; :with-toc nil
-	 ;; :headline-levels 4
-	 ;; :table-of-contents nil
-	 ;; :section-numbers nil
-	 :auto-preamble t
-	 :auto-sitemap nil
-	 :html-extension "html"
-	 :body-only nil
-	 )
+	("geekblog"
+	 :components ("blog_page" "blog_org"))
 	))
+
+;;-------------------------------------------------------
+(defun my/blog-push-to-github (&optional proj)
+  (progn
+    (shell-command "~/iCloud/blog_site/deploy.sh")
+    (message "blog deployed successfully!")))
 
 (defun my/org-publish-project-force (proj)
   (interactive "sEnter the project name: ")
-  (org-publish proj t nil)
-  (shell-command "~/iCloud/blog_site/deploy.sh")
-  (message "%s deployed successfully" proj)
-  )
+  (org-publish proj t nil))
 
 (defun my/org-publish-project (proj)
   (interactive "sEnter the project name: ")
-  (org-publish proj nil nil)
-  (shell-command "~/iCloud/blog_site/deploy.sh")
-  (message "%s deployed successfully" proj))
+  (org-publish proj nil nil))
 
 (defun my/org-publish-current-file ()
   (interactive)
   (let ((file buffer-file-name))
-    (org-publish-file file (car org-publish-project-alist))
-    (shell-command "~/iCloud/blog_site/deploy.sh")
-    (message "%s deployed successfully" file)))
+    (org-publish-file file (car org-publish-project-alist))))
 
 (defun my/blog-new-post (slug title category)
   (interactive "sinput slug: \nsinput title: \nsinput category: ")
@@ -275,20 +278,95 @@ ga('send', 'pageview');
     ))
 
 ;; (my/org-grid-img "2" "2" "(\"hello\" \"emacs\" \"happy\" \"happy\")")
+;;;==========================================================
+(defvar blog-root-dir "~/iCloud/blog_site/")
+(defvar blog-post-dir "~/iCloud/blog_site/org/")
+(defvar blog-html-dir "~/iCloud/blog_site/post/")
+(defvar blog-page-dir "~/iCloud/blog_site/page/")
+(defvar blog-site-domain "https://blog.geekinney.com/")
 
-;; (my/blog-generate-index '("elisp-hack-video-compress-and-convert-format.org"))
-(defun my/blog-generate-index (posts)
-  "generate blog index page"
-  (interactive)
-  (let ((post-dir "~/iCloud/blog_site/org/")
-	(category-url "https://blog.geekinney.com/post/category.html")
-	(html-str ""))
+;; generate sitemap.xml
+(defun my/blog-generate-sitemap-format (posts)
+  (let ((xml-str ""))
     (if (stringp posts)
 	(setq posts (read posts)))
     (mapcar (lambda (post)
 	      (with-temp-buffer
-		(setq post-url (concat "https://blog.geekinney.com/post/" (car (split-string post "\\.")) ".html"))
-		(insert-file-contents (concat post-dir post))
+		(setq post-url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
+		(insert-file-contents (concat blog-post-dir post))
+		(goto-char (point-min))
+		(re-search-forward "^#\\+DATE")
+		(setq date (plist-get (cadr (org-element-at-point)) :value))
+		(erase-buffer)
+		(my/insert-html-tag-with-attr "url")
+		(my/insert-html-tag-with-attr "loc")
+		(insert post-url)
+		(forward-char 6)
+		(my/insert-html-tag-with-attr "lastmod")
+		(insert date)
+		(forward-char 10)
+		(my/insert-html-tag-with-attr "changefreq")
+		(insert "daily")
+		(forward-char 13)
+		(my/insert-html-tag-with-attr "priority")
+		(insert "0.8")
+		(forward-char 17)
+		(insert "\n")
+		(setq xml-str (concat xml-str (buffer-substring-no-properties (point-min) (point-max))))
+		(erase-buffer)
+		))
+	    posts)
+    (concat "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" xml-str "</urlset>")
+    ))
+
+(defun my/blog-generate-sitemap-xml (&optional proj)
+  (interactive)
+  (let ((index-page (concat blog-page-dir "index.org"))
+	(sitemap-xml (concat blog-root-dir "sitemap.xml")))
+    (with-temp-buffer
+      (insert (my/blog-generate-sitemap-format (my/blog-posts-sorted-by-date)))
+      (write-file sitemap-xml))
+    (message "sitemap.xml deployed successfully!")
+    ))
+;;;-------------------------------------------------
+;; generate index.org
+(defun list-car-string-less (list1 list2)
+  "compare the car of list1 to list2, which is a string"
+  (if (string< (car list1) (car list2))
+      (eq t t)
+    (eq t nil)))
+
+(defun my/blog-posts-sorted-by-date ()
+  "make all posts name a list by date"
+  (interactive)
+  (let ((post-files (cdr (cdr (directory-files blog-post-dir))))
+	(date-post-list '())
+	(post-list '()))
+    (mapcar (lambda (post)
+	      (with-temp-buffer
+		(insert-file-contents (concat blog-post-dir post))
+		(goto-char (point-min))
+		(re-search-forward "^#\\+DATE")
+		(setq date (plist-get (cadr (org-element-at-point)) :value))
+		(setq date-post-pair (list date post))
+		(setq date-post-list (cons date-post-pair date-post-list))
+		(erase-buffer)
+		))
+	    post-files)
+    (setq date-post-list-sorted (sort date-post-list 'list-car-string-less))
+    (mapcar (lambda (e)
+	      (setq post-list (cons (cadr e) post-list)))
+	    date-post-list-sorted)
+    post-list))
+
+(defun my/blog-generate-digest-html (posts)
+  "generate blog digest page html"
+  (let ((html-str "")
+	(category-url (concat blog-site-domain "category.html")))
+    (mapcar (lambda (post)
+	      (with-temp-buffer
+		(setq post-url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
+		(insert-file-contents (concat blog-post-dir post))
 		(setq count (my/word-count))
 		(goto-char (point-min))
 		(re-search-forward "^#\\+TITLE")
@@ -300,30 +378,30 @@ ga('send', 'pageview');
 		(re-search-forward "^#\\+CATEGORY")
 		(setq category (plist-get (cadr (org-element-at-point)) :value))
 		(setq buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" (buffer-substring-no-properties (point-min) (point-max)))
-		      buffer-string (replace-regexp-in-string ".*\\* " "" buffer-string)
-		      buffer-string (replace-regexp-in-string ".*\\*.+\\*" "" buffer-string)
-		      buffer-string (replace-regexp-in-string ".*\\*\\* " "" buffer-string)
-		      buffer-string (replace-regexp-in-string ".*\\*\\*\\* " "" buffer-string)
-		      buffer-string (replace-regexp-in-string "^\n+" "" buffer-string)
-		      buffer-string (replace-regexp-in-string "^\n+" "" buffer-string)
-		      buffer-string (replace-regexp-in-string "^\n+" "" buffer-string)
-		      buffer-string (replace-regexp-in-string "^\n+" "" buffer-string))
+		      buffer-string (replace-regexp-in-string "\\([a-zA-Z0-9]\\)[ ]+\\(\\cc\\)" "" buffer-string)
+		      buffer-string (replace-regexp-in-string "\\[\\[.+\\]\\[" "" buffer-string)
+		      buffer-string (replace-regexp-in-string "\\]\\]" "" buffer-string))
+		(dotimes (i 8) (setq buffer-string (replace-regexp-in-string "^*+" "" buffer-string)))
+		(dotimes (i 8) (setq buffer-string (replace-regexp-in-string "^|-*|" "" buffer-string)))
+		(dotimes (i 8) (setq buffer-string (replace-regexp-in-string "\n+" "" buffer-string)))
+		(dotimes (i 10) (setq buffer-string (replace-regexp-in-string "[ ]+" "" buffer-string)))
 		(setq digest (substring buffer-string 0 170))
 		
 		(erase-buffer)
-		
+
+		;;可封装，elisp解析html
 		(my/insert-html-tag-with-attr "div" '(("class" "post-div")))
 		(my/insert-html-tag-with-attr "h3")
-		(my/insert-html-tag-with-attr "a" (list (list "href" post-url)))
+		(my/insert-html-tag-with-attr "a" `(("href" ,post-url)))
 		(insert title)
 		(forward-char 9)
 		(my/insert-html-tag-with-attr "p")
 		(insert (concat digest " ...... "))
-		(my/insert-html-tag-with-attr "a" (list (list "href" post-url)))
+		(my/insert-html-tag-with-attr "a" `(("href" ,post-url)))
 		(insert "阅读全文")
 		(forward-char 8)
 		(my/insert-html-tag-with-attr "code")
-		(my/insert-html-tag-with-attr "a" (list (list "href" category-url)))
+		(my/insert-html-tag-with-attr "a" `(("href" ,category-url)))
 		(insert category)
 		(forward-char 11)
 		(my/insert-html-tag-with-attr "span")
@@ -333,6 +411,18 @@ ga('send', 'pageview');
 		(setq html-str (concat html-str (buffer-substring-no-properties (point-min) (point-max))))
 		))
 	    posts)
-    (concat "#+begin_export html\n" html-str "#+end_export")))
+    html-str))
+
+(defun my/blog-generate-index-org (&optional proj)
+  "generate blog index.org file"
+  (interactive)
+  (let* ((html-str (my/blog-generate-digest-html (my/blog-posts-sorted-by-date)))
+	 (index-str (concat "#+TITLE: Geekinney Blog\n#+OPTIONS: title:nil\n#+begin_export html\n" html-str "#+end_export")))
+    (with-temp-buffer
+      (insert index-str)
+      (write-file (concat blog-page-dir "index.org")))))
+
+;;; --------------------------------------------------
+;; generate archive.org
 
 (provide 'init-blog)

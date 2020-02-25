@@ -19,6 +19,7 @@
 (setq magit-git-output-coding-system 'utf-8)
 (setq bookmark-save-flag 1)
 (setq org-image-actual-width nil)
+(setq show-trailing-whitespace t)
 ;; (set-frame-font "monaco 12")
 
 (prefer-coding-system 'utf-8)
@@ -99,5 +100,13 @@
   :defer t
   :ensure nil
   :config (global-disable-mouse-mode -1))
+
+(defun my/split-three-window ()
+  (interactive)
+  (delete-other-windows)
+  (split-window-right)
+  (split-window-right)
+  (balance-windows))
+(global-set-key (kbd "C-x 3") 'my/split-three-window)
 
 (provide 'init-better)

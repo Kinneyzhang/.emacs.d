@@ -1,3 +1,13 @@
+(use-package tree-sitter
+  :ensure t
+  :config
+  (add-hook 'c++-mode-hook #'tree-sitter-mode))
+;; eval once
+;; (tree-sitter-langs-install)
+
+(use-package color-rg
+  :load-path "~/.emacs.d/site-lisp/color-rg")
+
 (use-package ox-rss
   :load-path "~/.emacs.d/site-lisp/ox-rss")
 
@@ -22,21 +32,8 @@
   :ensure t
   :bind ("M-;" . smart-comment))
 
-(use-package peep-dired
-  :ensure t
-  :defer t ; don't access `dired-mode-map' until `peep-dired' is loaded
-  :bind (:map dired-mode-map
-              ("P" . peep-dired)))
-
 (use-package tramp-term
   :ensure t)
-
-(use-package multi-term
-  :ensure t
-  :init
-  (setq multi-term-program "/bin/zsh")
-  ;; Use Emacs terminfo, not system terminfo, mac系统出现了4m
-  (setq system-uses-terminfo nil))
 
 (use-package nov
   :ensure t
@@ -92,9 +89,6 @@
 ;;   :init (setq alert-default-style 'libnotify)
 ;;   :config
 ;;   (require 'org-alert))
-
-(use-package org-beautify-theme
-  :ensure t)
 
 (use-package org-noter
   :ensure t)
@@ -195,8 +189,7 @@
   :bind (("C-c l g" . grab-mac-link)))
 
 (use-package snails
-  :load-path "~/.emacs.d/site-lisp/snails"
-  :bind (("<f4>" . snails)))
+  :load-path "~/.emacs.d/site-lisp/snails")
 
 
 (use-package company-english-helper
@@ -539,8 +532,6 @@
 (global-set-key (kbd "C-x c f") 'customize-face)
 (global-set-key (kbd "C-x c t") 'customize-themes)
 (global-set-key (kbd "C-x c v") 'customize-variable)
-
-
 
 (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
 

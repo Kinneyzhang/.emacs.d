@@ -302,6 +302,14 @@
 			   ("project.org" :level . 1)
 			   ))
 
+;; my org-agenda process function
+(defun my/org-task-someday-todo ()
+  (interactive)
+  (org-refile )
+  )
+
+(defun my/org-task-monthly-todo ()
+  )
 
 (defvar jethro/org-agenda-bulk-process-key ?f
   "Default key for bulk processing inbox items.")

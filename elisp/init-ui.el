@@ -137,9 +137,4 @@
   (setq indent-guide-recursive nil)
   (setq indent-guide-char "|"))
 
-(use-package nyan-mode
-  :ensure t
-  :defer 5
-  :init (setq mode-line-format (list '(:eval (list (nyan-create))))))
-
 (provide 'init-ui)

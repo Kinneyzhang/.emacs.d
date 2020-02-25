@@ -1,6 +1,5 @@
 ;; C-IDE based on https://github.com/tuhdo/emacs-c-ide-demo
 (use-package cc-mode
-  :defer t
   :config
   ;; Available C style:
   ;; "gnu": The default style for GNU projects

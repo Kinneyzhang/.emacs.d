@@ -2,11 +2,16 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("org-capture-last-stored-marker"
+(("data-structure.org"
+ (filename . "~/iCloud/考研/data-structure.org")
+ (front-context-string . "\n   顺序存储使用数组构建\\\\")
+ (rear-context-string . "2\n\n* 线性表\n** 顺序存储")
+ (position . 165))
+("org-capture-last-stored-marker"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO elisp封装I")
- (rear-context-string . "O 解决未修改文件也导出的问题\n")
- (position . 3854))
+ (front-context-string . "** TODO 去除导出html")
+ (rear-context-string . "n.html\n   :END:\n")
+ (position . 3675))
 ("my-mood-diary-2020.org"
  (filename . "~/iCloud/blog_site/org/my-mood-diary-2020.org")
  (front-context-string)
@@ -14,11 +19,11 @@
  (position . 365))
 ("org-refile-last-stored"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO elisp封装I")
- (rear-context-string . "O 解决未修改文件也导出的问题\n")
- (position . 3854))
+ (front-context-string . "** TODO 去除导出html")
+ (rear-context-string . "n.html\n   :END:\n")
+ (position . 3675))
 ("2020.ledger"
- (filename . "~/iCloud/org2/2020.ledger")
+ (filename . "~/iCloud/org/2020.ledger")
  (front-context-string . "    收入:红包:春节\n   ")
  (rear-context-string . "20/01/25 * 新年红包\n")
  (position . 2824))
@@ -38,7 +43,7 @@
  (rear-context-string)
  (position . 1))
 ("habit-recording.org"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/habit-recording.org")
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/habit-recording-2020.org")
  (front-context-string . "\n#+begin_center\n")
  (rear-context-string . "以恒。\n#+end_quote\n")
  (position . 156))
@@ -53,8 +58,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20200222")
- (front-context-string . "** 07:16 晨间记录\n**")
- (rear-context-string . "2 February 2020\n")
- (position . 30))
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20200225")
+ (front-context-string . "** 22:56 晚间总结\n**")
+ (rear-context-string . "5 February 2020\n")
+ (position . 29))
 )

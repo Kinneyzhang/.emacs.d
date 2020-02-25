@@ -9,8 +9,8 @@
 (use-package vterm-toggle
   :ensure t
   :bind
-  (("<f2>" . vterm-toggle)
-   ("C-<f2>" . vterm-toggle-cd))
+  (("M-<f1>" . vterm-toggle)
+   ("M-<f2>" . vterm-toggle-cd))
   :config
   (define-key vterm-mode-map (kbd "s-n") 'vterm-toggle-forward)
   (define-key vterm-mode-map (kbd "s-p") 'vterm-toggle-backward)

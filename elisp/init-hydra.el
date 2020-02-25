@@ -7,41 +7,14 @@
              hydra-keyboard-quit
              hydra--call-interactively-remap-maybe
              hydra-show-hint
-             hydra-set-transient-map)
-  :bind (("C-c r" . 'hydra-launch/body)
-	 ("C-c w f" . 'hydra-workflow/body)))
-
-(defhydra hydra-launch (:color pink)
-  "
-^Goto website "
-  ("xe" (browse-url "http://ergoemacs.org/emacs/emacs.html") "XahEmacs")
-  ("db" (browse-url "https://www.douban.com") "Douban")
-  ("ec" (browse-url "https://www.emacs-china.org") "EmacsChina")
-  ("ew" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
-  ("el" (browse-url "https://www.gnu.org/software/emacs/manual/html_mono/elisp.html") "Elisp")
-  ("go" (browse-url "https://www.google.com") "Google")
-  ("gt" (browse-url "https://www.github.com") "Github")
-  ("mp" (browse-url "http://www.melpa.org/#/") "Melpa")
-  ("v2" (browse-url "https://www.v2ex.com") "V2EX")
-  ("yt" (browse-url "https://www.youtube.com") "YouTube")
-  ("fd" (browse-url "https://feedly.com/i/latest") "Feedly")
-  ("gm" (browse-url "https://mail.google.com/mail/u/0/?client=safari#inbox") "Gmail")
-  ("gb" (browse-url "https://blog.geekinney.com") "Geekblog")
-  ("rd" (browse-url "https://www.reddit.com") "Reddit")
-  ("om" (browse-url "https://orgmode.org/org.html") "OrgMode Manual")
-  ("tm" vterm "multi-term")
-  ("q" nil "cancel" :color blue))
-
-(use-package major-mode-hydra
-  :ensure t
-  :bind
-  ("<f6>" . major-mode-hydra))
+             hydra-set-transient-map))
 
 (use-package pretty-hydra
   :ensure t
+  :bind (("<f2>" . emacs-hydra/body)
+	 ("C-c r" . hydra-launch/body))
   :init
-  (cl-defun pretty-hydra-title (title &optional icon-type icon-name
-                                      &key face height v-adjust)
+  (cl-defun pretty-hydra-title (title &optional icon-type icon-name &key face height v-adjust)
     "Add an icon in the hydra title."
     (let ((face (or face `(:foreground ,(face-background 'highlight))))
           (height (or height 1.0))
@@ -53,37 +26,55 @@
              (concat
               (apply f (list icon-name :face face :height height :v-adjust v-adjust))
               " "))))
-       (propertize title 'face face))))
+       (propertize title 'face face)))))
+
+
+;; Global toggles
+(pretty-hydra-define emacs-hydra
+  (:color amaranth :exit t)
+  ("Basic"
+   (("f" find-file "find file")
+    ("b" ivy-switch-buffer "switch buffer")
+    ("s" swiper "swiper search")
+    ("c" org-capture "org capture")
+    ("a" org-agenda "org agenda")
+    )
+   "Open Browser"
+   (("w w" search-web "with engine")
+    ("w u" browse-url "with url")
+    ("w p" search-web-at-point "point")
+    ("w r" search-web-region "region")
+    ("w g" browse-at-remote "remote"))
+   "Describe"
+   (("h f" describe-function "function")
+    ("h v" describe-variable "variable")
+    ("h k" describe-key "key"))
+   "Avy"
+   (("g c" avy-goto-char-timer "goto char")
+    ("g l" avy-goto-line "goto line"))
+   ))
+
+(pretty-hydra-define hydra-launch
+  (:color amaranth :exit t)
+  ("Goto website"
+   (("x e" (browse-url "http://ergoemacs.org/emacs/emacs.html") "XahEmacs")
+    ("d b" (browse-url "https://www.douban.com") "Douban")
+    ("e c" (browse-url "https://www.emacs-china.org") "EmacsChina")
+    ("e w" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
+    ("e l" (browse-url "https://www.gnu.org/software/emacs/manual/html_mono/elisp.html") "Elisp")
+    ("g o" (browse-url "https://www.google.com") "Google")
+    ("g t" (browse-url "https://www.github.com") "Github")
+    ("m p" (browse-url "http://www.melpa.org/#/") "Melpa")
+    ("v 2" (browse-url "https://www.v2ex.com") "V2EX")
+    ("y t" (browse-url "https://www.youtube.com") "YouTube")
+    ("f d" (browse-url "https://feedly.com/i/latest") "Feedly")
+    ("g m" (browse-url "https://mail.google.com/mail/u/0/?client=safari#inbox") "Gmail")
+    ("g b" (browse-url "https://blog.geekinney.com") "Geekblog")
+    ("r d" (browse-url "https://www.reddit.com") "Reddit")
+    ("o m" (browse-url "https://orgmode.org/org.html") "OrgMode Manual")
+    ("v t" vterm "vterm")
+    ))
   )
-
-;; (use-package hydra-posframe
-;;   :defer 5
-;;   :load-path "~/.emacs.d/site-lisp/hydra-posframe"
-;;   :hook (after-init . hydra-posframe-enable))
-
-(defhydra hydra-workflow (:color pink :hint nil)
-  "workflow "
-  ("e" (my/learn-emacs-lisp) "learn elisp")
-  ("j" (my/write-morning-journal) "write journal")
-  ("c" (my/learn-c-plus-plus-algorithms) "learn C++")
-  ("q" nil "cancel" :color blue))
-
-(defun my/learn-emacs-lisp ()
-  (bookmark-jump "emacs-lisp-learning-note.org")
-  (switch-to-buffer-other-window "*scratch*")
-  (browse-url "http://caiorss.github.io/Emacs-Elisp-Programming/Elisp_Programming.html"))
-
-(defun my/write-morning-journal ()
-  (delete-other-windows)
-  (org-capture nil "j")
-  (ace-window)
-  (dired-jump)
-  (dired-previous-line))
-
-(defun my/learn-c-plus-plus-algorithms ()
-  (dired "~/iCloud/geekstuff/C-Plus-Plus/")
-  (split-window-horizontally)
-  (dired "~/iCloud/program_work/c-plus-plus-algorithms/"))
 
 (provide 'init-hydra)
 
