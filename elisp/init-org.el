@@ -27,7 +27,8 @@
     (setq org-return-follows-link t)
     ;; make org-mode” syntax color embedded source code
     (setq org-src-fontify-natively t)
-    ;;
+    ;; how the source code edit buffer is displayed
+    (setq org-src-window-setup "current-window")
     ))
 
 
@@ -49,6 +50,7 @@
   (org-src-tab-acts-natively t)
   (org-edit-src-content-indentation 0)
   :config
+  (add-to-list 'org-src-lang-modes '("html" . web))
   ;;; org code block
   (defun org-insert-src-block (src-code-type)
     "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
@@ -60,14 +62,13 @@
 	      "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
 	      "scheme" "sqlite" "html")))
        (list (ido-completing-read "Source code type: " src-code-types))))
-    (progn
+    (save-excursion
       (newline-and-indent)
       (insert (format "#+BEGIN_SRC %s\n" src-code-type))
       (newline-and-indent)
       (insert "#+END_SRC\n")
       (previous-line 2)
-      (org-edit-src-code)))
-  (add-to-list 'org-src-lang-modes '("html" . web)))
+      (org-edit-src-code))))
 
 (use-package org-habit
   :init
@@ -118,6 +119,7 @@
     (matlab . t)
     (C . t)
     (ledger . t)
+    (org . t)
     ))
 
 (setq org-confirm-babel-evaluate nil)
@@ -265,23 +267,23 @@
 					; Step 1: Clarifying
 
 (define-key org-mode-map (kbd "C-c C-q") 'counsel-org-tag)
+;; 标签设置的细不一定好，关键要对自己有意义。
 (setq org-tag-alist (quote ((:startgroup)
-			    ("@read/review" . ?w)
 			    ("@study" . ?s)
-			    ("@research" . ?r)
-			    ("@life" . ?l)
+			    ("@free" . ?f)
+			    ("@work" . ?w)
 			    (:endgroup)
 			    (:newline)
 			    (:startgroup)
-			    ("child" . ?c)
-			    ("mother" . ?m)
-			    ("father" . ?f)
+			    ;; ("f-child" . ?C)
+			    ;; ("f-wife" . ?W)
+			    ("f-mother" . ?M)
+			    ("f-father" . ?F)
 			    (:endgroup)
                             (:newline)
-			    ("#buy" . ?b)
-			    ("#emacs" . ?e)
-			    ("#article" . ?a)
-			    ("#video" . ?v)
+			    ("#think" . ?t) ;; 需要思考的问题
+			    ("#buy" . ?b) ;; 需要买的东西
+			    ("#emacs" . ?e) ;; emacs相关
 			    )))
 
 (setq org-fast-tag-selection-single-key nil)

@@ -1,2 +1,2 @@
-;; org-clock-save.el - Kinneys-MacBook.local at <2020-02-24 Mon 17:38>
-(setq org-clock-stored-history '(("/Users/kinney/iCloud/org/task.org" . 8488) ("/Users/kinney/iCloud/org/project.org" . 4330) ("/Users/kinney/iCloud/org/project.org" . 2804) ("/Users/kinney/iCloud/org/project.org" . 2664) ("/Users/kinney/iCloud/org/project.org" . 68)))
+;; org-clock-save.el - Kinneys-MacBook at <2020-03-06 Fri 22:03>
+(setq org-clock-stored-history '(("/Users/kinney/iCloud/org/project.org" . 4440) ("/Users/kinney/iCloud/org/someday.org" . 2092) ("/Users/kinney/iCloud/org/someday.org" . 616) ("/Users/kinney/iCloud/org/project.org" . 1033) ("/Users/kinney/iCloud/org/task.org" . 4733)))

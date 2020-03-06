@@ -128,8 +128,10 @@
 (use-package avy
   :ensure t
   :defer 5
-  :bind (("M-g c" . avy-goto-char-timer)
-	 ("M-g l" . avy-goto-line)))
+  :bind (("<f3>" . avy-goto-char-timer)
+	 ("<f4>" . avy-goto-line)))
+;; (kmacro-start-macro-or-insert-counter) default <f3>
+;; (kmacro-end-or-call-macro) default <f4>
 
 (use-package link-hint
   :ensure t

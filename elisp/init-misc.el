@@ -1,9 +1,9 @@
-(use-package tree-sitter
-  :ensure t
-  :config
-  (add-hook 'c++-mode-hook #'tree-sitter-mode))
-;; eval once
-;; (tree-sitter-langs-install)
+(require 'sunshine)
+
+(require 'alarm-clock)
+
+(use-package symbol-overlay
+  :ensure t)
 
 (use-package color-rg
   :load-path "~/.emacs.d/site-lisp/color-rg")
@@ -48,6 +48,16 @@
   (setq visual-fill-column-center-text t)
   (add-hook 'nov-mode-hook 'visual-line-mode)
   (add-hook 'nov-mode-hook 'visual-fill-column-mode)
+
+  (with-no-warnings
+    (defun my-nov-content-unique-identifier (content)
+      "Return the the unique identifier for CONTENT."
+      (when-let* ((name (nov-content-unique-identifier-name content))
+                  (selector (format "package>metadata>identifier[id='%s']"
+                                    (regexp-quote name)))
+                  (id (car (esxml-node-children (esxml-query selector content)))))
+        (intern id)))
+    (advice-add #'nov-content-unique-identifier :override #'my-nov-content-unique-identifier))
 
   (use-package justify-kp
     :load-path "~/.emacs.d/site-lisp/justify-kp"
@@ -237,7 +247,7 @@
   (define-key awesome-pair-mode-map (kbd "]") 'awesome-pair-close-bracket)
   (define-key awesome-pair-mode-map (kbd "}") 'awesome-pair-close-curly)
 
-  (define-key awesome-pair-mode-map (kbd "%") 'awesome-pair-match-paren)
+  ;; (define-key awesome-pair-mode-map (kbd "%") 'awesome-pair-match-paren)
   (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
 
   ;;(define-key awesome-pair-mode-map (kbd "M-o") 'awesome-pair-backward-delete)
@@ -250,8 +260,8 @@
   (define-key awesome-pair-mode-map (kbd "M-(") 'awesome-pair-wrap-round)
   (define-key awesome-pair-mode-map (kbd "M-)") 'awesoMe-pair-unwrap)
 
-  (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-right)
-  (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-left)
+  (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-left)
+  (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-right)
   (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
 
 

@@ -3,9 +3,10 @@
   :init
   (setq pdf-view-use-scaling t
 	pdf-view-use-imagemagick nil
-	doc-view-resolution 800)
+	doc-view-resolution 1000)
   :config
   (pdf-tools-install))
+
 
 (defun pdf-view-use-scaling-p ()
   "Return t if scaling should be used."
@@ -16,7 +17,9 @@
 
 (defun pdf-annot-show-annotation (a &optional highlight-p window)
   "Make annotation A visible.
+
 Turn to A's page in WINDOW, and scroll it if necessary.
+
 If HIGHLIGHT-P is non-nil, visually distinguish annotation A from
 other annotations."
 
@@ -93,7 +96,6 @@ frame's PPI is larger than 180. Otherwise, return 1."
     (if (and (eq (framep-on-display) 'ns) (string-equal emacs-version "27.0.50"))
 	2
       1)))
-
 (defun pdf-view-display-region (&optional region rectangle-p)
   ;; TODO: write documentation!
   (unless region

@@ -2,26 +2,36 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("data-structure.org"
+(("find-things-that-you-really-value.org.org"
+ (filename . "~/iCloud/program_org/find-things-that-you-really-value.org.org")
+ (front-context-string . "\n\n看一件事情是否重要不是看它能")
+ (rear-context-string . " 不要被乱七八糟的事物懵逼双眼！")
+ (position . 898))
+("computer-networking-a-topdown-approach.org"
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/program_org/computer-networking-a-topdown-approach.org")
+ (front-context-string)
+ (rear-context-string . "网\n** 什么是英特网\n   \n")
+ (position . 224))
+("data-structure.org"
  (filename . "~/iCloud/考研/data-structure.org")
  (front-context-string . "\n   顺序存储使用数组构建\\\\")
  (rear-context-string . "2\n\n* 线性表\n** 顺序存储")
  (position . 165))
 ("org-capture-last-stored-marker"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO 去除导出html")
- (rear-context-string . "n.html\n   :END:\n")
- (position . 3675))
+ (front-context-string . "** TODO 折腾telega")
+ (rear-context-string . "el\n   :END:\n   \n")
+ (position . 8466))
 ("my-mood-diary-2020.org"
  (filename . "~/iCloud/blog_site/org/my-mood-diary-2020.org")
  (front-context-string)
  (rear-context-string . "思考便可由果溯因。\n-----\n")
  (position . 365))
 ("org-refile-last-stored"
- (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO 去除导出html")
- (rear-context-string . "n.html\n   :END:\n")
- (position . 3675))
+ (filename . "~/iCloud/org/someday.org")
+ (front-context-string . "* DEFFERED 写关键流程")
+ (rear-context-string . ">  1:07\n  :END:\n")
+ (position . 2690))
 ("2020.ledger"
  (filename . "~/iCloud/org/2020.ledger")
  (front-context-string . "    收入:红包:春节\n   ")
@@ -38,7 +48,7 @@
  (rear-context-string . " Window Function")
  (position . 72430))
 ("bookmark.org"
- (filename . "~/iCloud/blog_site/org/bookmark.org")
+ (filename . "~/iCloud/blog_site/page/bookmark.org")
  (front-context-string . "#+TITLE: 链接收藏\n#+")
  (rear-context-string)
  (position . 1))
@@ -58,8 +68,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20200225")
- (front-context-string . "** 22:56 晚间总结\n**")
- (rear-context-string . "5 February 2020\n")
- (position . 29))
+ (filename . "~/iCloud/org/task.org")
+ (front-context-string . "* TODO 安装emacspe")
+ (rear-context-string . " 21:53]\n  :END:\n")
+ (position . 4733))
 )

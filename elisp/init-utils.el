@@ -263,6 +263,12 @@ Return a new buffer or BUF with the code in it."
 (use-package password-generator
   :ensure t)
 
+(defun file-contents (filename)
+  (interactive "fFind file: ")
+  (with-temp-buffer
+    (insert-file-contents filename) ;; 先将文件内容插入临时buffer，再读取内容
+    (buffer-substring-no-properties (point-min) (point-max))))
+
 (defun chunyang-scratch-save ()
   (ignore-errors
     (with-current-buffer "*scratch*"
