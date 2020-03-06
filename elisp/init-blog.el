@@ -113,8 +113,8 @@ sessionStorage.setItem(\"flag\", \"false\");
 </script>")))
 
 (setq my/org-html-postamble-of-post
-      '(("en"
-	 "
+      `(("en"
+	 ,(concat "
 <script src=\"/static/jQuery.min.js\"></script>
 <script src=\"/static/Valine.min.js\"></script>
 
@@ -122,8 +122,8 @@ sessionStorage.setItem(\"flag\", \"false\");
 <script>
 new Valine({
 el: '#vcomments',
-appId: 'jVMbXK6tJDtPCzR3Mp0V5L6V-gzGzoHsz',
-appKey: 'SX4oRFXp8K7KgeGhKTTDy3VI',
+appId: '" (car (my/blog-get-valine-info)) "',
+appKey: '" (cadr (my/blog-get-valine-info)) "',
 visitor: true,
 notify: true,
 verify: false,
@@ -157,8 +157,9 @@ document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
 sessionStorage.setItem(\"theme\",\"dark\");
 sessionStorage.setItem(\"flag\", \"false\");
 }};
-</script>")))
+</script>"))))
 
+;;--------------------------------------------------------------
 (setq org-publish-project-alist
       `(("blog_page"
 	 :base-extension "org"
@@ -193,7 +194,7 @@ sessionStorage.setItem(\"flag\", \"false\");
 	 :components ("blog_page" "blog_org"))
 	))
 
-;;-------------------------------------------------------
+;;--------------------------------------------------
 (defun my/blog-push-to-github (&optional proj)
   (progn
     (shell-command "~/iCloud/blog_site/deploy.sh")
@@ -219,7 +220,7 @@ sessionStorage.setItem(\"flag\", \"false\");
 	(find-file blog-org-file)
 	(insert blog-org-head-template)))))
 
-;;--------------------------------------------------
+;;------------------------------------------------------
 (defun my/insert-html-tag-with-attr (tag &optional attr)
   "insert a html tag and some attributes at cursor point"
   ;; (interactive "sinput tag name: \nsis single tag? [y or n]: ")
@@ -262,15 +263,29 @@ sessionStorage.setItem(\"flag\", \"false\");
       )
     ))
 
-;; (my/org-grid-img "2" "2" "(\"hello\" \"emacs\" \"happy\" \"happy\")")
-		    ;;;==========================================================
+;;;===================================================================================
+;;; auto generate blog's sitemap.xml, post-info, index.org, archive.org, category.org.
 (defvar blog-root-dir "~/iCloud/blog_site/")
 (defvar blog-post-dir "~/iCloud/blog_site/org/")
 (defvar blog-html-dir "~/iCloud/blog_site/post/")
 (defvar blog-page-dir "~/iCloud/blog_site/page/")
 (defvar blog-site-domain "https://blog.geekinney.com/")
 
-;; generate post info
+;; get valine appid and appkey
+(defun my/blog-get-valine-info ()
+  "get appId and appKey list"
+  (let ((valine-file (concat blog-root-dir "valine"))
+	(applist nil))
+    (with-temp-buffer
+      (insert-file-contents valine-file)
+      (goto-char (point-min))
+      (setq appid (substring (thing-at-point 'line) 0 -1))
+      (next-line)
+      (setq appkey (thing-at-point 'line))
+      (setq applist `(,appid ,appkey)))
+    applist))
+
+;; generate article's post-info
 (defun my/blog-get-post-info ()
   (interactive)
   (let ((post buffer-file-name)
@@ -292,8 +307,8 @@ sessionStorage.setItem(\"flag\", \"false\");
       (setq html-str (buffer-substring-no-properties (point-min) (point-max)))
       )
     html-str))
-
-;; generate sitemap.xml
+;;;--------------------------------------------------
+;; generate blog's sitemap.xml file
 (defun my/blog-generate-sitemap-format (posts)
   (let ((xml-str ""))
     (if (stringp posts)
@@ -336,8 +351,9 @@ sessionStorage.setItem(\"flag\", \"false\");
       (write-file sitemap-xml))
     (message "sitemap.xml deployed successfully!")
     ))
-		    ;;;-------------------------------------------------
-;; generate index.org
+
+;;;-------------------------------------------------
+;; get all org posts
 (defun list-car-string-less (list1 list2)
   "compare the car of list1 to list2, which is a string"
   (if (string< (car list1) (car list2))
@@ -366,8 +382,8 @@ sessionStorage.setItem(\"flag\", \"false\");
 	      (setq post-list (cons (cadr e) post-list)))
 	    date-post-list-sorted)
     post-list))
-;; (my/blog-posts-sorted-by-date)
-
+;;;--------------------------------------------------
+;; generate index.org
 (defun my/blog-generate-digest-html (posts)
   "generate blog's digest page html"
   (let ((html-str "")
