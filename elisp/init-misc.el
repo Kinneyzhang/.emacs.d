@@ -506,6 +506,11 @@
   (insert "√"))
 (global-set-key (kbd "C-c s g h") 'print-symbol-√)
 
+(defun print-symbol-❤ ()
+  (interactive)
+  (insert "❤"))
+(global-set-key (kbd "C-c s t m") 'print-symbol-❤)
+
 (use-package furl
   :ensure t
   :defer 5)

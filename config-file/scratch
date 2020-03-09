@@ -493,26 +493,26 @@ email: kinneyzhang666@gmail.com
 ;;     ))u
 ;; 修改，使用插入html tag和字符移动，更简便。
 
-(defun my/insert-html-tag-with-attr (tag single &optional attr)
+(defun my/insert-html-tag-with-attr (tag &optional attr)
   "insert a html tag and some attributes at cursor point"
   ;; (interactive "sinput tag name: \nsis single tag? [y or n]: ")
-  (if (eq nil single)
+  (let ((single-tag-list '("img" "br" "hr" "input" "meta" "link" "param")))
+    (if (member tag single-tag-list)
+	(progn
+	  (insert (concat "<" tag "/>"))
+	  (backward-char 2)
+	  (mapcar (lambda (x) (insert (concat " " (car x) "=" "\"" (cadr x) "\""))) attr)
+	  (forward-char 2)
+	  )
       (progn
 	(insert (concat "<" tag ">" "</" tag ">"))
 	(backward-char (+ 4 (length tag)))
 	(mapcar (lambda (x) (insert (concat " " (car x) "=" "\"" (cadr x) "\""))) attr)
-	(forward-char)
-	single
-	)
-    (progn
-      (insert (concat "<" tag "/>"))
-      (backward-char 2)
-      (mapcar (lambda (x) (insert (concat " " (car x) "=" "\"" (cadr x) "\""))) attr)
-      (forward-char 2)
-      single
-      )))
+	(forward-char 1)
+	))
+    ))
 
-(my/insert-html-tag-with-attr "img" t)
+(my/insert-html-tag-with-attr "img")
 (my/insert-html-tag-with-attr "div" nil)
 (my/org-insert-grid-imag 1 1 '("https"))
 
@@ -608,23 +608,10 @@ document.getElementById(\"pagestyle\").href=\"/static/light.css\";
 ;;   (let ((x (org-heading-components)))
 ;;     (with-output-to-temp-buffer "*xah temp out*"
 ;;       (print x))))
-
-
 (split-string "learn-emacs.org" "\\.")
-;; 解析html思路
-;; 列表第一个元素为tag名称，列表剩余部分解析plist，转换为属性，特别的":inner为标签间的值。剩余的列表递归解析"
-("div" :class "post-div"
- ("h3" ("a" :href "url" "post-title"))
- ("p" :inner "digest")
- ("code" ("a" :href "url" "tag"))
- ("span" "date")
- )
-(html-parse-single-list '("div" :class "post-div"
-			  ("h3" :class "hello" ("a" :href "url" "post-title"))
-			  ("p" "digest")
-			  ("code" ("a" :href "url" "tag"))
-			  ("span" "date")
-			  ))
+
+
+;;; =======================================================
 
 ;; (defun html-parse-get-html-list (plist)
 ;;   "获取新的list"
@@ -642,67 +629,67 @@ document.getElementById(\"pagestyle\").href=\"/static/light.css\";
 ;;     html-list))
 
 
-(defvar html-parse-single-tag-list
-  '("br" "hr" "img" "input" "meta" "link" "param"))
+;; (defvar html-parse-single-tag-list
+;;   '("br" "hr" "img" "input" "meta" "link" "param"))
 
-(defun html-parse-single-list (list)
-  (interactive)
-  (let ((tag (car list))
-	(plist (cdr list))
-	(alist (html-parse-get-alist (cdr list)))
-	)
-    (with-current-buffer (get-buffer-create "*html-parse*")
-      (my/insert-html-tag-with-attr tag alist)
-      (progn
-	(setq inner-text (html-parse-get-inner-text plist))
-	(if (eq nil inner-text)
-	    ()
-	  (insert (html-parse-get-inner-text plist))))
-      (progn
-	(setq html-list (html-parse-get-html-list plist))
-	(if (eq nil html-list)
-	    (forward-char (+ 3 (length tag)))
-	  (html-parse-single-list html-list)))
-      (buffer-substring-no-properties (point-min) (point-max)))
-    ))
+;; (defun html-parse-single-list (list)
+;;   (interactive)
+;;   (let ((tag (car list))
+;; 	(plist (cdr list))
+;; 	(alist (html-parse-get-alist (cdr list)))
+;; 	)
+;;     (with-current-buffer (get-buffer-create "*html-parse*")
+;;       (my/insert-html-tag-with-attr tag alist)
+;;       (progn
+;; 	(setq inner-text (html-parse-get-inner-text plist))
+;; 	(if (eq nil inner-text)
+;; 	    ()
+;; 	  (insert (html-parse-get-inner-text plist))))
+;;       (progn
+;; 	(setq html-list (html-parse-get-html-list plist))
+;; 	(if (eq nil html-list)
+;; 	    (forward-char (+ 3 (length tag)))
+;; 	  (html-parse-single-list html-list)))
+;;       (buffer-substring-no-properties (point-min) (point-max)))
+;;     ))
 
-(defun html-parse-get-alist (plist)
-  "将html标签的属性转化为alist形式"
-  ;; nil也是symbol类型
-  (if (or (null plist) (not (symbolp (car plist)))) 
-      '()
-    (cons
-     (list (substring (symbol-name (car plist)) 1) (cadr plist))
-     (html-parse-get-alist (cddr plist)))))
+;; (defun html-parse-get-alist (plist)
+;;   "将html标签的属性转化为alist形式"
+;;   ;; nil也是symbol类型
+;;   (if (or (null plist) (not (symbolp (car plist)))) 
+;;       '()
+;;     (cons
+;;      (list (substring (symbol-name (car plist)) 1) (cadr plist))
+;;      (html-parse-get-alist (cddr plist)))))
 
-(defun html-parse-get-inner-text (plist)
-  "获取html标签内部的文本"
-  (let ((inner-text nil))
-    (if (and (symbolp (car plist)) (not (null plist)))
-	(setq inner-text (html-parse-get-inner-text (cddr plist)))
-      (progn
-	(if (listp (car plist))
-	    (setq inner-text nil))
-	(if (or (stringp (car plist)) (numberp (car plist)))
-	    (setq inner-text (car plist)))
-	))
-    inner-text))
-;; (html-parse-get-inner-text '(:class "class" "heello" ("tag")))
+;; (defun html-parse-get-inner-text (plist)
+;;   "获取html标签内部的文本"
+;;   (let ((inner-text nil))
+;;     (if (and (symbolp (car plist)) (not (null plist)))
+;; 	(setq inner-text (html-parse-get-inner-text (cddr plist)))
+;;       (progn
+;; 	(if (listp (car plist))
+;; 	    (setq inner-text nil))
+;; 	(if (or (stringp (car plist)) (numberp (car plist)))
+;; 	    (setq inner-text (car plist)))
+;; 	))
+;;     inner-text))
+;; ;; (html-parse-get-inner-text '(:class "class" "heello" ("tag")))
 
-(defun html-parse-get-html-list (plist)
-  "获取新的list"
-  (let ((plist plist))
-    (if (and (symbolp (car plist)) (not (null plist)))
-	(setq plist (html-parse-get-html-list (cddr plist)))
-      (progn
-	(if (or (stringp (car plist)) (numberp (car plist)))
-	    (setq plist (cdr plist)))
-	(if (listp (car plist))
-	    (setq plist (car plist)))
-	(if (null plist)
-	    (setq plist ))
-	))
-    plist))
+;; (defun html-parse-get-html-list (plist)
+;;   "获取新的list"
+;;   (let ((plist plist))
+;;     (if (and (symbolp (car plist)) (not (null plist)))
+;; 	(setq plist (html-parse-get-html-list (cddr plist)))
+;;       (progn
+;; 	(if (or (stringp (car plist)) (numberp (car plist)))
+;; 	    (setq plist (cdr plist)))
+;; 	(if (listp (car plist))
+;; 	    (setq plist (car plist)))
+;; 	(if (null plist)
+;; 	    (setq plist ))
+;; 	))
+;;     plist))
 
 ;; (html-parse-get-html-list '(:key "key" ("tag") ("tag2")))
 ;; (insert (html-parse-get-inner-text '(:key "key")))
@@ -723,13 +710,6 @@ document.getElementById(\"pagestyle\").href=\"/static/light.css\";
 ;; 	  (forward-char (+ (length tag) 4))
 ;; 	  ))
 ;;     ))
-
-(html-parse-single-list '("div" :class "post-div"
-			  ("h3" ("a" :href "url" "post-title"))
-			  ("p" :inner "digest")
-			  ("code" ("a" :href "url" "tag"))
-			  ("span" "date")
-			  ))
 
 
 ;; (defun html-parse-single-list (list)
@@ -773,199 +753,6 @@ document.getElementById(\"pagestyle\").href=\"/static/light.css\";
 
 (setq plist '(:class "hello"))
 (substring (symbol-name (car plist)) 1)
-
-(defun my/blog-generate-org (slug title category)
-  (interactive "sinput slug: \nsinput title: \nsinput category: ")
-  (let* ((blog-org-dir "~/iCloud/blog_site/org/")
-	 (blog-org-file (concat blog-org-dir slug ".org"))
-	 (blog-org-created-date (format-time-string "%Y-%m-%d"))
-	 (blog-org-head-template (concat "#+TITLE: " title "\n#+DATE: " blog-org-created-date "\n#+CATEGORY: " category "\n#+INCLUDE: \"../code/post-info.org\"\n#+STARTUP: content\n#+OPTIONS: toc:nil H:2 num:2\n#+TOC: headlines:2\n")))
-    (if (file-exists-p blog-org-file)
-	(find-file blog-org-file)
-      (progn
-	(find-file blog-org-file)
-	(insert blog-org-head-template)))))
-
-;;------------------------------------------------
-(defun my/video-compress-or-convert (video new)
-  (interactive "fvideo path: \nfnew item path: ")
-  (let ((video-format (cadr (split-string video "\\."))))
-    (if (string= video-format "gif")
-	(progn
-	  (shell-command (concat "ffmpeg -i " video " -r 5 " new))
-	  (message "%s convert to %s successfully!" video new))
-      (progn
-	(shell-command (concat "ffmpeg -i " video " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " new))
-	(message "%s compress or convert to %s successfully!" video new))
-      )
-    ))
-;;-------------------------------------------------
-;; (run-with-idle-timer 5 t 'my/mac-switch-input-source)
-(add-hook 'focus-in-hook 'my/mac-switch-input-source)
-(defun my/mac-switch-input-source ()
-  (interactive)
-  (shell-command
-   "osascript -e 'tell application \"System Events\" to tell process \"SystemUIServer\"
-      set currentLayout to get the value of the first menu bar item of menu bar 1 whose description is \"text input\"
-      if currentLayout is not \"ABC\" then
-        tell (1st menu bar item of menu bar 1 whose description is \"text input\") to {click, click (menu 1'\"'\"'s menu item \"ABC\")}
-      end if
-    end tell' &>/dev/null"))
-;;================================================
-;; macroexpand-1
-
-(defun my/blog-generate-sitemap (posts)
-  (interactive)
-  (let ((xml-str ""))
-    (if (stringp posts)
-	(setq posts (read posts)))
-    (mapcar (lambda (post)
-	      (with-temp-buffer
-		(setq post-url (concat "https://blog.geekinney.com/post/" (car (split-string post "\\.")) ".html"))
-		(insert-file-contents (concat blog-post-dir post))
-		(goto-char (point-min))
-		(re-search-forward "^#\\+DATE")
-		(setq date (plist-get (cadr (org-element-at-point)) :value))
-		(erase-buffer)
-		(my/insert-html-tag-with-attr "url")
-		(my/insert-html-tag-with-attr "loc")
-		(insert post-url)
-		(forward-char 6)
-		(my/insert-html-tag-with-attr "lastmod")
-		(insert date)
-		(forward-char 10)
-		(my/insert-html-tag-with-attr "changefreq")
-		(insert "daily")
-		(forward-char 13)
-		(my/insert-html-tag-with-attr "priority")
-		(insert "0.8")
-		(forward-char 17)
-		(insert "\n")
-		(setq xml-str (concat xml-str (buffer-substring-no-properties (point-min) (point-max))))
-		(erase-buffer)
-		))
-	    posts)
-    (concat "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<urlset>\n" xml-str "</urlset>")))
-
-(my/blog-generate-sitemap '("at-the-end-of-2019.org"
-			    "auto-generate-blog-digest-page.org"))
-;;------------------------------------------
-(defvar blog-root-dir "~/iCloud/blog_site/")
-(defvar blog-post-dir "~/iCloud/blog_site/org/")
-(defvar blog-html-dxir "~/iCloud/blog_site/post/")
-(defvar blog-page-dir "~/iCloud/blog_site/page/")
-
-(defun my/blog-generate-archive (posts)
-  (interactive)
-  )
-
-(defun my/blog-get-posts ()
-  (interactive)
-  (let ()
-    
-    )
-  )
-(defun list-car-string-less (list1 list2)
-  "compare the car of list1 to list2, which is a string"
-  (if (string< (car list1) (car list2))
-      (eq t t)
-    (eq t nil)))
-
-(defun my/blog-posts-sorted-by-date ()
-  "make all posts name a list by date"
-  (interactive)
-  (let ((post-files (cdr (cdr (directory-files blog-post-dir))))
-	(date-post-list '())
-	(post-list '()))
-    (mapcar (lambda (post)
-	      (with-temp-buffer
-		(insert-file-contents (concat blog-post-dir post))
-		(goto-char (point-min))
-		(re-search-forward "^#\\+DATE")
-		(setq date (plist-get (cadr (org-element-at-point)) :value))
-		(setq date-post-pair (list date post))
-		(setq date-post-list (cons date-post-pair date-post-list))
-		(erase-buffer)
-		))
-	    post-files)
-    (setq date-post-list-sorted (sort date-post-list 'list-car-string-less))
-    (mapcar (lambda (e)
-	      (setq post-list (cons (cadr e) post-list)))
-	    date-post-list-sorted)
-    post-list))
-
-(defun my/blog-generate-digest-html (posts)
-  "generate blog digest page html"
-  (let ((html-str "")
-	(category-url (concat blog-root-dir "category.html")))
-    (mapcar (lambda (post)
-	      (with-temp-buffer
-		(setq post-url (concat blog-html-dir (car (split-string post "\\.")) ".html"))
-		(insert-file-contents (concat blog-post-dir post))
-		(setq count (my/word-count))
-		(goto-char (point-min))
-		(re-search-forward "^#\\+TITLE")
-		(setq title (plist-get (cadr (org-element-at-point)) :value))
-		(goto-char (point-min))
-		(re-search-forward "^#\\+DATE")
-		(setq date (plist-get (cadr (org-element-at-point)) :value))
-		(goto-char (point-min))
-		(re-search-forward "^#\\+CATEGORY")
-		(setq category (plist-get (cadr (org-element-at-point)) :value))
-		(setq buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" (buffer-substring-no-properties (point-min) (point-max)))
-		      buffer-string (replace-regexp-in-string "\\[\\[.+\\]\\[" "" buffer-string)
-		      buffer-string (replace-regexp-in-string "\\]\\]" "" buffer-string))
-		(dotimes (i 8) (setq buffer-string (replace-regexp-in-string "^*+" "" buffer-string)))
-		(dotimes (i 8) (setq buffer-string (replace-regexp-in-string "^|.+|" "" buffer-string)))
-		(dotimes (i 8) (setq buffer-string (replace-regexp-in-string "\n+" "" buffer-string)))
-		(setq digest (substring buffer-string 0 170))
-		
-		(erase-buffer)
-
-		;;可封装，elisp解析html
-		(my/insert-html-tag-with-attr "div" '(("class" "post-div")))
-		(my/insert-html-tag-with-attr "h3")
-		(my/insert-html-tag-with-attr "a" `(("href" ,post-url)))
-		(insert title)
-		(forward-char 9)
-		(my/insert-html-tag-with-attr "p")
-		(insert (concat digest " ...... "))
-		(my/insert-html-tag-with-attr "a" `(("href" ,post-url)))
-		(insert "阅读全文")
-		(forward-char 8)
-		(my/insert-html-tag-with-attr "code")
-		(my/insert-html-tag-with-attr "a" `(("href" ,category-url)))
-		(insert category)
-		(forward-char 11)
-		(my/insert-html-tag-with-attr "span")
-		(insert date)
-		(forward-char 13)
-		(insert "\n\n")
-		(setq html-str (concat html-str (buffer-substring-no-properties (point-min) (point-max))))
-		))
-	    posts)
-    html-str))
-
-(defun my/blog-generate-index-org ()
-  "generate blog index.org file"
-  (interactive)
-  (let* ((html-str (my/blog-generate-digest-html (my/blog-posts-sorted-by-date)))
-	 (index-str (concat "#+TITLE: Geekinney Blog\n#+OPTIONS: title:nil\n#+begin_export html\n" html-str "#+end_export")))
-    (with-temp-buffer
-      (insert index-str)
-      (write-file (concat blog-page-dir "index.org")))))
-
-;; (my/blog-generate-digest-html (my/blog-sort-posts-by-date))
-;; (with-current-buffer (get-buffer-create "temp")
-;;   (insert (my/blog-generate-index-org (my/blog-posts-sorted-by-date))))
-
-;; (sort '(3 2 5 1 6) '<)
-;; (sort '(("2019-05-02" "111") ("2019-03-21" "vhueiv") ("2020-02-12" "chv7u23eh") ("2019-12-21" "322ed")) 'list-car-string-lesser)
-;; (cons '(1 2) '())
-;; (cons "emacs" (cons "hello" '()))
-;; (cons (cons '() "hello") "hello")
-;; (my/blog-sort-posts-by-date)
-
 ;;;----------------------------------------
 ;; compress css
 (defun my/compress-css (filename)
@@ -1049,3 +836,93 @@ and 'mpg123' in linux"
   "stop a pomotodo clock"
   (interactive)
   (cancel-timer pomotodo-timer))
+
+(setq list '(("2020") ("2019") ("2018")))
+
+(cons "2019" (cons "2020" nil))
+
+(delete-dups '(1 2 3 2 1 1 4 3 4))
+
+(sort '("阅读" "Emacs" "阅读" "Emacs" "杂思" "记录" "Blog") 'string<)
+
+;; (my/abbrev)
+;; (delete-backward-char 3)
+;; (eq (forward-line) 1)
+;; (assoc 2 '((1 3) (4 5)))
+
+(defun my/abbrev--get-pair ()
+  (interactive)
+  "get the abbrev pair in a file"
+  (let ((abbr-file "~/iCloud/TEMP/abbr.txt")
+	(abbr-list nil))
+    (with-temp-buffer
+      (insert-file-contents abbr-file)
+      (goto-char (point-min))
+
+      (catch 'break
+	(while (eq (forward-line) 0)
+	  (setq w1 (thing-at-point 'word))
+	  (end-of-line)
+	  (setq w2 (thing-at-point 'word))
+	  (if (eq w1 nil)
+	      (progn
+		(goto-char (point-min))
+		(setq w1 (thing-at-point 'word))
+		(end-of-line)
+		(setq w2 (thing-at-point 'word))
+		(setq abbr-list (cons `(,w1 ,w2) abbr-list))
+		(throw 'break abbr-list)
+		)
+	    (setq abbr-list (cons `(,w1 ,w2) abbr-list))))
+	))
+    abbr-list
+    ))
+
+(defun my/abbrev-replace ()
+  (interactive)
+  "replace the abbrev with another"
+  (let* ((word (thing-at-point 'word))
+	 (word-len (length word))
+	 (word-pair (assoc word (my/abbrev--get-pair))))
+    (if word-pair
+	(progn
+	  (delete-backward-char word-len)
+	  (insert (cadr word-pair)))
+      (indent-for-tab-command))
+    ))
+
+(local-set-key (kbd "<tab>") 'my/abbrev-replace)
+
+;; (defun parse-html--process-inner (list)
+;;   "process inner html of a tag"
+;;   (let ((text nil)
+;; 	(inner (parse-html--get-inner list)))
+;;     (dolist (item inner)
+;;       (if (listp item)
+;; 	  (parse-html--parse-list item)
+;; 	))
+;;     ))
+
+;; (defun parse-html--parse-html-tag (list)
+;;   (let ((tag (car list))
+;; 	(left (cadr list))
+;; 	(plist (parse-html--get-plist left)))
+;;     (with-temp-buffer
+;;       (parse-html--insert-html-tag tag plist))
+;;     ))
+
+;; 如果list中没有list则跳出当前标签
+
+(my/insert-html-tag-with-attrs 'img '(:class "div" :id "id"))
+
+;; 将每一步操作单独写成函数，设计一个包的思路，不断封装，使用接口。
+
+(length '(:class "class" :id "id"))
+
+;; append don't alter list, but nconc does!
+;; (setq list '(1 2))
+;; (append list '(3 4))
+;; (nconc list '(3 4))
+;; list
+
+(replace-regexp-in-string "[\n|\s\t]+$" "" (thing-at-point 'line t))

@@ -28,10 +28,10 @@
  (rear-context-string . "思考便可由果溯因。\n-----\n")
  (position . 365))
 ("org-refile-last-stored"
- (filename . "~/iCloud/org/someday.org")
- (front-context-string . "* DEFFERED 写关键流程")
- (rear-context-string . ">  1:07\n  :END:\n")
- (position . 2690))
+ (filename . "~/iCloud/org/project.org")
+ (front-context-string . "** DEFFERED elis")
+ (rear-context-string . "ega.el\n   :END:\n")
+ (position . 7249))
 ("2020.ledger"
  (filename . "~/iCloud/org/2020.ledger")
  (front-context-string . "    收入:红包:春节\n   ")
@@ -69,7 +69,7 @@
  (position . 241))
 ("org-capture-last-stored"
  (filename . "~/iCloud/org/task.org")
- (front-context-string . "* TODO 安装emacspe")
- (rear-context-string . " 21:53]\n  :END:\n")
- (position . 4733))
+ (front-context-string . "* TODO 周总结规划\n  S")
+ (rear-context-string . "3-08 Sun 16:30>\n")
+ (position . 4927))
 )
