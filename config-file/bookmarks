@@ -68,8 +68,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/iCloud/org/task.org")
- (front-context-string . "* TODO 周总结规划\n  S")
- (rear-context-string . "3-08 Sun 16:30>\n")
- (position . 4927))
+ (filename . "~/iCloud/org/inbox.org")
+ (front-context-string . "* TODO 博客的代码块字体和")
+ (rear-context-string . "时的emacs package\n")
+ (position . 1081))
 )

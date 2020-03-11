@@ -1,5 +1,7 @@
 ;;; init-blog
 ;;;===================================================================================
+(require 'print-html)
+
 (defun my/insert-html-tag-with-attr (tag &optional attr)
   "insert a html tag and some attributes at cursor point"
   (let ((single-tag-list '("img" "br" "hr" "input" "meta" "link" "param")))
@@ -55,9 +57,9 @@
       (setq category (plist-get (cadr (org-element-at-point)) :value))
       (setq html-str (concat "「 分类:" category " / 日期:" date " / 字数:" (number-to-string count) " 」"))
       (erase-buffer)
-      (my/insert-html-tag-with-attr "div" '(("class" "post-info")))
-      (my/insert-html-tag-with-attr "p")
-      (insert html-str)
+      (insert
+       (print-html t `(div :class "post-info"
+			   (p ,html-str))))
       (setq html-str (buffer-substring-no-properties (point-min) (point-max)))
       )
     html-str))
@@ -84,20 +86,11 @@
 		(re-search-forward "^#\\+DATE")
 		(setq date (plist-get (cadr (org-element-at-point)) :value))
 		(erase-buffer)
-		(my/insert-html-tag-with-attr "url")
-		(my/insert-html-tag-with-attr "loc")
-		(insert post-url)
-		(forward-char 6)
-		(my/insert-html-tag-with-attr "lastmod")
-		(insert date)
-		(forward-char 10)
-		(my/insert-html-tag-with-attr "changefreq")
-		(insert "daily")
-		(forward-char 13)
-		(my/insert-html-tag-with-attr "priority")
-		(insert "0.8")
-		(forward-char 17)
-		(insert "\n")
+		(insert
+		 (print-html t `(url (loc ,post-url)
+				     (lastmod ,date)
+				     (changefreq "daily")
+				     (priority "0.8"))))
 		(setq xml-str (concat xml-str (buffer-substring-no-properties (point-min) (point-max))))
 		(erase-buffer)
 		))
@@ -170,43 +163,31 @@
 		      buffer-string (replace-regexp-in-string "\\([a-zA-Z0-9]\\)[ ]+\\(\\cc\\)" "" buffer-string)
 		      buffer-string (replace-regexp-in-string "\\[\\[.+\\]\\[" "" buffer-string)
 		      buffer-string (replace-regexp-in-string "\\]\\]" "" buffer-string)
-		      buffer-string (replace-regexp-in-string "\*+" "" buffer-string)
+		      buffer-string (replace-regexp-in-string "\\*+" "" buffer-string)
 		      buffer-string (replace-regexp-in-string "|-*" "" buffer-string)
-		      buffer-string (replace-regexp-in-string "\n+" "" buffer-string))
-		(setq digest (substring buffer-string 0 180))
-		
+		      buffer-string (replace-regexp-in-string "\n+" "" buffer-string)
+		      buffer-string (replace-regexp-in-string " =" "" buffer-string)
+		      buffer-string (replace-regexp-in-string "= " "" buffer-string))
+		(setq digest (substring buffer-string 0 168))
 		(erase-buffer)
-
-		;;可封装，elisp解析html
-		(my/insert-html-tag-with-attr "div" '(("class" "post-div")))
-		(my/insert-html-tag-with-attr "h1")
-		(my/insert-html-tag-with-attr "a" `(("href" ,post-url)))
-		(insert title)
-		(forward-char 9)
-		(my/insert-html-tag-with-attr "p")
-		(insert (concat digest " ...... "))
-		(my/insert-html-tag-with-attr "a" `(("href" ,post-url)))
-		(insert "「阅读全文」")
-		(forward-char 8)
-		(my/insert-html-tag-with-attr "code")
-		(my/insert-html-tag-with-attr "a" `(("href" ,category-url)))
-		(insert category)
-		(forward-char 11)
-		;; (my/insert-html-tag-with-attr "span" `(("id" ,valine-visitor-url) ("class" "leancloud_visitors") ("data-flag-title" ,title)))
-		;; (my/insert-html-tag-with-attr "em" '(("class" "post-meta-item-text")))
-		;; (insert "阅读量 ")
-		;; (forward-char 5)
-		;; (my/insert-html-tag-with-attr "i" '(("class" "leancloud-visitors-count")))
-		;; (insert "0 / ")
-		;; (forward-char 11)
-		(my/insert-html-tag-with-attr "span" '(("class" "post-date")))
-		(insert date)
-		(forward-char 13)
-		(insert "\n\n")
+		(insert
+		 (print-html t `(div :class "post-div"
+				     (h2 (a :href ,post-url ,title))
+				     (p ,digest " ......" (a :href ,post-url "「阅读全文」"))
+				     (code (a :href ,category-url ,category))
+				     (span :class "post-date" ,date))))
 		(setq html-str (concat html-str (buffer-substring-no-properties (point-min) (point-max))))
 		))
 	    posts)
     html-str))
+
+;; (my/insert-html-tag-with-attr "span" `(("id" ,valine-visitor-url) ("class" "leancloud_visitors") ("data-flag-title" ,title)))
+;; (my/insert-html-tag-with-attr "em" '(("class" "post-meta-item-text")))
+;; (insert "阅读量 ")
+;; (forward-char 5)
+;; (my/insert-html-tag-with-attr "i" '(("class" "leancloud-visitors-count")))
+;; (insert "0 / ")
+;; (forward-char 11)
 
 (defun my/blog-generate-index-org (&optional proj)
   "generate blog's index.org file"
@@ -317,16 +298,12 @@
   (interactive "sEnter the project name: ")
   (org-publish proj t nil))
 
-(defun my/org-publish-project (proj)
-  (interactive "sEnter the project name: ")
-  (org-publish proj nil nil))
-
 (defun my/blog-new-post (slug title category)
   (interactive "sinput slug: \nsinput title: \nsinput category: ")
   (let* ((blog-org-dir "~/iCloud/blog_site/org/")
 	 (blog-org-file (concat blog-org-dir slug ".org"))
 	 (blog-org-created-date (format-time-string "%Y-%m-%d"))
-	 (blog-org-head-template (concat "#+TITLE: " title "\n#+DATE: " blog-org-created-date "\n#+CATEGORY: " category "\n#+INCLUDE: \"../code/post-info.org\"\n#+STARTUP: content\n#+OPTIONS: toc:nil H:2 num:2\n#+TOC: headlines:2\n")))
+	 (blog-org-head-template (concat "#+TITLE: " title "\n#+DATE: " blog-org-created-date "\n#+CATEGORY: " category "\n#+INCLUDE: \"../code/post-info.org\"\n#+STARTUP: showall\n#+OPTIONS: toc:nil H:2 num:2\n#+TOC: headlines:2\n")))
     (if (file-exists-p blog-org-file)
 	(find-file blog-org-file)
       (progn
@@ -414,26 +391,26 @@
 <link id=\"pagestyle\" rel=\"stylesheet\" type=\"text/css\" href=\"/static/light.css\"/>
 <!-- Google Analytics -->
 <script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-149578968-1', 'auto');ga('send', 'pageview');
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-149578968-1', 'auto');ga('send', 'pageview');
 </script>
 <!-- End Google Analytics -->
 ")
 
-;; <span onclick=\"switchTheme();\">切换主题</span>
+
 (setq my/html-home/up-format
       "
 <div id=\"org-div-header\">
 <div class=\"toptitle\">
-<a id=\"logo\" href=\"/index.html\">戈楷旎</a>
+<a id=\"logo\" href=\"/\">戈楷旎</a>
 <p class=\"description\">happy hacking emacs!</p>
 </div>
 <div class=\"topnav\">
-<a href=\"/index.html\">首页</a>&nbsp;&nbsp;
+<a href=\"/\">首页</a>&nbsp;&nbsp;
 <a href=\"/archive.html\">归档</a>&nbsp;&nbsp;
 <a href=\"/category.html\">分类</a>&nbsp;&nbsp;
 <a href=\"/about.html\">关于</a>&nbsp;&nbsp;
 <a href=\"/message.html\">留言</a>&nbsp;&nbsp;
+<span id=\"switch-theme\" onclick=\"switchTheme();\">暗色</span>
 </div>
 </div>")
 
@@ -450,8 +427,10 @@ $(document).ready(function(){
 var theme = sessionStorage.getItem(\"theme\");
 if(theme==\"dark\"){
 document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+document.getElementById(\"switch-theme\").innerHTML = \"亮色\";
 }else if(theme==\"light\"){
 document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+document.getElementById(\"switch-theme\").innerHTML = \"暗色\";
 }else{
 sessionStorage.setItem(\"theme\",\"light\");
 }});
@@ -459,10 +438,12 @@ sessionStorage.setItem(\"theme\",\"light\");
 function switchTheme(){
 if(sessionStorage.getItem(\"flag\")==\"false\"){
 document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+document.getElementById(\"switch-theme\").innerHTML = \"暗色\";
 sessionStorage.setItem(\"theme\",\"light\");
 sessionStorage.setItem(\"flag\", \"true\");
 }else{
 document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+document.getElementById(\"switch-theme\").innerHTML = \"亮色\";
 sessionStorage.setItem(\"theme\",\"dark\");
 sessionStorage.setItem(\"flag\", \"false\");
 }};
@@ -497,8 +478,10 @@ $(document).ready(function(){
 var theme = sessionStorage.getItem(\"theme\");
 if(theme==\"dark\"){
 document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+document.getElementById(\"switch-theme\").innerHTML = \"亮色\";
 }else if(theme==\"light\"){
 document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+document.getElementById(\"switch-theme\").innerHTML = \"暗色\";
 }else{
 sessionStorage.setItem(\"theme\",\"light\");
 }});
@@ -506,10 +489,12 @@ sessionStorage.setItem(\"theme\",\"light\");
 function switchTheme(){
 if(sessionStorage.getItem(\"flag\")==\"false\"){
 document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+document.getElementById(\"switch-theme\").innerHTML = \"暗色\";
 sessionStorage.setItem(\"theme\",\"light\");
 sessionStorage.setItem(\"flag\", \"true\");
 }else{
 document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+document.getElementById(\"switch-theme\").innerHTML = \"亮色\";
 sessionStorage.setItem(\"theme\",\"dark\");
 sessionStorage.setItem(\"flag\", \"false\");
 }};

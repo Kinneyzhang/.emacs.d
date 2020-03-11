@@ -75,4 +75,7 @@
   :config
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
+(use-package elscreen
+  :ensure t)
+
 (provide 'init-window)

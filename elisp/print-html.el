@@ -9,10 +9,10 @@
 ;;        (code (a :href "url" "tagname"))
 ;;        (span "date")))
 
-(defvar html-parse--single-tag-list
+(defvar print-html--single-tag-list
   '("img" "br" "hr" "input" "meta" "link" "param"))
 
-(defun parse-html--get-plist (list)
+(defun print-html--get-plist (list)
   "get attributes of a tag"
   (let* ((i 0)
 	 (plist nil))
@@ -23,11 +23,11 @@
       (incf i 2))
     plist))
 
-(defun parse-html--get-inner (list)
+(defun print-html--get-inner (list)
   "get inner html of a tag"
   (let* ((i 0)
 	 (inner nil)
-	 (plist (parse-html--get-plist list)))
+	 (plist (print-html--get-plist list)))
     (if (null plist)
 	(setq inner list)
       (dolist (p plist)
@@ -35,19 +35,19 @@
 	(setq list inner)))
     inner))
 
-(defun parse-html--plist->alist (plist)
+(defun print-html--plist->alist (plist)
   "convert plist to alist"
   (if (null plist)
       '()
     (cons
      (list (car plist) (cadr plist))
-     (parse-html--plist->alist (cddr plist)))))
+     (print-html--plist->alist (cddr plist)))))
 
-(defun parse-html--insert-html-tag (tag &optional attrs)
+(defun print-html--insert-html-tag (tag &optional attrs)
   "insert html tag and attributes"
   (let ((tag (symbol-name tag))
-	(attrs (parse-html--plist->alist attrs)))
-    (if (member tag html-parse--single-tag-list)
+	(attrs (print-html--plist->alist attrs)))
+    (if (member tag print-html--single-tag-list)
 	(progn
 	  (insert (concat "<" tag "/>"))
 	  (backward-char 2)
@@ -62,31 +62,31 @@
 	(forward-char 1)))
     ))
 
-(defun parse-html--jump-outside (tag)
+(defun print-html--jump-outside (tag)
   "jump outside of html tag"
   (let ((tag (symbol-name tag)))
-    (if (member tag html-parse--single-tag-list)
+    (if (member tag print-html--single-tag-list)
 	(forward-char 0)
       (forward-char (+ 3 (length tag))))))
 ;;----------------------------------------
-(defun parse-html--parse-list-unformated (list)
+(defun print-html--parse-list-unformated (list)
   "parse elisp to unformated html"
   (let* ((tag (car list))
 	 (left (cdr list))
-	 (plist (parse-html--get-plist left))
-	 (inner (parse-html--get-inner left))
+	 (plist (print-html--get-plist left))
+	 (inner (print-html--get-inner left))
 	 (html ""))
-    (with-current-buffer (get-buffer-create "*parse html*")
-      (parse-html--insert-html-tag tag plist)
+    (with-current-buffer (get-buffer-create "*print html*")
+      (print-html--insert-html-tag tag plist)
       (dolist (item inner)
 	(if (listp item)
-	    (parse-html--parse-list-unformated item)
+	    (print-html--parse-list-unformated item)
 	  (insert item)))
-      (parse-html--jump-outside tag)
+      (print-html--jump-outside tag)
       (setq html (buffer-substring-no-properties (point-min) (point-max))))
     html))
 ;;----------------------------------------
-(defun parse-html--if-no-child (inner)
+(defun print-html--if-no-child (inner)
   "judge if html tag has child-tag"
   (let ((no-child t))
     (dolist (item inner)
@@ -94,48 +94,48 @@
 	  (setq no-child nil)))
     no-child))
 
-(defun parse-html--format-html (tag inner)
+(defun print-html--format-html (tag inner)
   "format html tag, tag which has no child show in one line, others are well formated by default. change this function to redesign the format rule."
   (let ((tag (symbol-name tag)))
-    (if (member tag html-parse--single-tag-list)
+    (if (member tag print-html--single-tag-list)
 	(insert "")
       (progn
-	(if (not (parse-html--if-no-child inner))
+	(if (not (print-html--if-no-child inner))
 	    (insert "\n"))))))
 
-(defun parse-html--parse-list-formated (list)
+(defun print-html--parse-list-formated (list)
   "parse elisp to formated html"
   (let* ((tag (car list))
 	 (left (cdr list))
-	 (plist (parse-html--get-plist left))
-	 (inner (parse-html--get-inner left))
+	 (plist (print-html--get-plist left))
+	 (inner (print-html--get-inner left))
 	 (html ""))
-    (with-current-buffer (get-buffer-create "*parse html*")
-      (parse-html--insert-html-tag tag plist)
-      (parse-html--format-html tag inner)
+    (with-current-buffer (get-buffer-create "*print html*")
+      (print-html--insert-html-tag tag plist)
+      (print-html--format-html tag inner)
       (dolist (item inner)
 	(if (listp item)
-	    (parse-html--parse-list-formated item)
+	    (print-html--parse-list-formated item)
 	  (progn
 	    (insert item)
-	    (parse-html--format-html tag inner))))
-      (parse-html--jump-outside tag)
+	    (print-html--format-html tag inner))))
+      (print-html--jump-outside tag)
       (insert "\n")
       (setq html (buffer-substring-no-properties (point-min) (point-max))))
     html))
 ;;---------------------------------------
-(defun parse-html-unformated (LIST)
-  (let ((html (parse-html--parse-list-unformated LIST)))
-    (kill-buffer "*parse html*")
+(defun print-html-unformated (LIST)
+  (let ((html (print-html--parse-list-unformated LIST)))
+    (kill-buffer "*print html*")
     html))
 
-(defun parse-html-formated (LIST)
-  (let ((html (parse-html--parse-list-formated LIST)))
-    (kill-buffer "*parse html*")
+(defun print-html-formated (LIST)
+  (let ((html (print-html--parse-list-formated LIST)))
+    (kill-buffer "*print html*")
     html))
 
-(defun parse-html (FORMATED LIST)
-  "parse html with elisp. the first elem of LIST is always a html tag, others could be attributes or text content or child tag. the three mentioned above are all optional. if has, attributes must be in first place, followed by text content and child tag.
+(defun print-html (FORMATED LIST)
+  "print html with elisp. the first elem of LIST is always a html tag, others could be attributes or text content or child tag. the three mentioned above are all optional. if has, attributes must be in first place, followed by text content and child tag.
 
 eg. LIST is:
 
@@ -165,8 +165,8 @@ other, the html will be in one line.
 "
   (let ((html ""))
     (if FORMATED
-	(parse-html-formated LIST)
-	(parse-html-unformated LIST)
+	(print-html-formated LIST)
+	(print-html-unformated LIST)
 	)))
 
-(provide 'parse-html)
+(provide 'print-html)

@@ -35,20 +35,20 @@ alist
 (defvar language-list
   '(
     ("io" . ((:command . "io")
-             (:description . "Run IO Language script")))
+	     (:description . "Run IO Language script")))
     ("lua" . ((:command . "lua")
-              (:description . "Run Lua script")))
+	      (:description . "Run Lua script")))
     ("groovy" . ((:command . "groovy")
-                 (:description . "Run Groovy")))
+		 (:description . "Run Groovy")))
     ("scala" . ((:command . "scala")
-                (:cmdopt . "-Dfile.encoding=UTF-8")
-                (:description . "Run Scala file with scala commmyand")))
+		(:cmdopt . "-Dfile.encoding=UTF-8")
+		(:description . "Run Scala file with scala commmyand")))
 
     ("haml" . ((:command . "haml")
-               (:exec    . "%c %o %s")
-               (:description . "Convert HAML to HTML")))
+	       (:exec    . "%c %o %s")
+	       (:description . "Convert HAML to HTML")))
     ("sass" . ((:command . "sass")
-               (:exec    . "%c %o --no-cac")))
+	       (:exec    . "%c %o --no-cac")))
     ))
 
 (mapcar #'cdr language-list)
@@ -226,23 +226,23 @@ test
 (defun the-fastest-elpa-mirror ()
   (interactive)
   (let* ((urls
-          (mapcar
-           (lambda (part)
-             (concat "http://" part "archive-contents"))
-           '("melpa.org/packages/"
-             "www.mirrorservice.org/sites/melpa.org/packages/"
-             "emacs-china.org/melpa/"
-             "mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"
-             "mirrors.163.com/elpa/melpa/"
-             "mirrors.cloud.tencent.com/elpa/melpa/")))
-         (durations
-          (mapcar
-           (lambda (url)
-             (let ((start (current-time)))
-               (message "Fetching %s" url)
-               (call-process "curl" nil nil nil "--max-time" "10" url)
-               (float-time (time-subtract (current-time) start))))
-           urls)))
+	  (mapcar
+	   (lambda (part)
+	     (concat "http://" part "archive-contents"))
+	   '("melpa.org/packages/"
+	     "www.mirrorservice.org/sites/melpa.org/packages/"
+	     "emacs-china.org/melpa/"
+	     "mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"
+	     "mirrors.163.com/elpa/melpa/"
+	     "mirrors.cloud.tencent.com/elpa/melpa/")))
+	 (durations
+	  (mapcar
+	   (lambda (url)
+	     (let ((start (current-time)))
+	       (message "Fetching %s" url)
+	       (call-process "curl" nil nil nil "--max-time" "10" url)
+	       (float-time (time-subtract (current-time) start))))
+	   urls)))
     (chart-bar-quickie
      'horizontal
      "The fastest elpa mirror"
@@ -582,7 +582,7 @@ document.getElementById(\"pagestyle\").href=\"/static/light.css\";
 
 (defun my/blog-generate-index (posts)
   (interactive)
-  
+
   )
 
 (insert (my/blog-generate-index '("at-the-end-of-2019.org"
@@ -851,30 +851,18 @@ and 'mpg123' in linux"
 ;; (assoc 2 '((1 3) (4 5)))
 
 (defun my/abbrev--get-pair ()
-  (interactive)
   "get the abbrev pair in a file"
-  (let ((abbr-file "~/iCloud/TEMP/abbr.txt")
-	(abbr-list nil))
+  (let ((abbr-list nil)
+	(abbr-file "~/iCloud/TEMP/abbr.txt"))
     (with-temp-buffer
       (insert-file-contents abbr-file)
+      (goto-char (point-max))
+      (setq line-num (1- (line-number-at-pos)))
       (goto-char (point-min))
-
-      (catch 'break
-	(while (eq (forward-line) 0)
-	  (setq w1 (thing-at-point 'word))
-	  (end-of-line)
-	  (setq w2 (thing-at-point 'word))
-	  (if (eq w1 nil)
-	      (progn
-		(goto-char (point-min))
-		(setq w1 (thing-at-point 'word))
-		(end-of-line)
-		(setq w2 (thing-at-point 'word))
-		(setq abbr-list (cons `(,w1 ,w2) abbr-list))
-		(throw 'break abbr-list)
-		)
-	    (setq abbr-list (cons `(,w1 ,w2) abbr-list))))
-	))
+      (dotimes (i line-num)
+	(setq pair (split-string (thing-at-point 'line t)))
+	(setq abbr-list (append abbr-list `(,pair)))
+	(next-line)))
     abbr-list
     ))
 
@@ -893,36 +881,54 @@ and 'mpg123' in linux"
 
 (local-set-key (kbd "<tab>") 'my/abbrev-replace)
 
-;; (defun parse-html--process-inner (list)
-;;   "process inner html of a tag"
-;;   (let ((text nil)
-;; 	(inner (parse-html--get-inner list)))
-;;     (dolist (item inner)
-;;       (if (listp item)
-;; 	  (parse-html--parse-list item)
-;; 	))
-;;     ))
-
-;; (defun parse-html--parse-html-tag (list)
-;;   (let ((tag (car list))
-;; 	(left (cadr list))
-;; 	(plist (parse-html--get-plist left)))
-;;     (with-temp-buffer
-;;       (parse-html--insert-html-tag tag plist))
-;;     ))
-
-;; 如果list中没有list则跳出当前标签
-
-(my/insert-html-tag-with-attrs 'img '(:class "div" :id "id"))
-
-;; 将每一步操作单独写成函数，设计一个包的思路，不断封装，使用接口。
-
-(length '(:class "class" :id "id"))
-
 ;; append don't alter list, but nconc does!
 ;; (setq list '(1 2))
 ;; (append list '(3 4))
 ;; (nconc list '(3 4))
 ;; list
 
+;; 用此方法优化 my/abbrev-replace
 (replace-regexp-in-string "[\n|\s\t]+$" "" (thing-at-point 'line t))
+;;;=====================================================================
+(defvar snails-fame-width-proportion 0.5)
+(defvar snails-fame-height-proportion 0.5)
+
+(defun provoc-create-lang-buffer)
+(defun provoc-create-frame ()
+  (interactive)
+  (let* ((edges (frame-edges))
+         (x (nth 0 edges))
+         (y (nth 1 edges))
+         (width  (- (nth 2 edges) x))
+         (height (nth 3 edges))
+         (frame-width (truncate (* snails-fame-width-proportion width)))
+         (frame-height (truncate (* snails-fame-height-proportion height)))
+         (frame-x (+ x (/ (- width frame-width) 2)))
+         (frame-y (+ y (/ (- height frame-height) 3))))
+    
+    (setq provoc-frame
+	  (make-frame
+	   '((parent-frame . (window-frame))
+	     (skip-taskbar . t)
+	     (minibuffer . nil)
+	     (visibility . nil)
+	     (internal-border-width . 0)
+	     (left-fringe . 0)
+	     (right-fringe . 0)
+	     (vertical-scroll-bars . nil)
+	     (horizontal-scroll-bars . nil)
+	     (undecorated . t)
+	     (unsplittable . t))))
+
+    (with-selected-frame provoc-frame
+      (delete-other-windows)
+      (set-frame-parameter snails-frame 'menu-bar-lines 0)
+      (set-frame-position snails-frame frame-x frame-y)
+      (set-frame-size snails-frame frame-width frame-height t))
+
+    (setq snails-frame-active-p t)
+    (setq snails-frame-active-time (float-time))
+
+    (make-frame-visible snails-frame)
+    (select-frame-set-input-focus snails-frame)
+    ))
