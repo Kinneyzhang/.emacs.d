@@ -17,12 +17,12 @@
   (package-install 'use-package))
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
-(add-to-list 'load-path (concat user-emacs-directory "site-lisp"))
+;; (add-to-list 'load-path (concat user-emacs-directory "site-lisp"))
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 (setq config-dir (expand-file-name (concat user-emacs-directory "config-file/")))
-
+(setq site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
 (let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
       (file-name-handler-alist nil)) ;; 清空避免加载远程文件的时候分析文件。
 
@@ -59,3 +59,4 @@
   (require 'init-test)
   ;;(require 'init-mu4e)
   )
+(put 'list-timers 'disabled nil)

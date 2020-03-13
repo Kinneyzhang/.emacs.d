@@ -49,6 +49,16 @@
    (("h f" describe-function "function")
     ("h v" describe-variable "variable")
     ("h k" describe-key "key"))
+   "Bookmark"
+   (("m t" bm-toggle "toggle")
+    ("m s" bm-show "show")
+    ("m n" bm-next "next")
+    ("m p" bm-previous "previous"))
+   "Pomodoro"
+   (("p s" pomodoro-start "start")
+    ("p d" pomodoro-stop "stop")
+    ("p p" pomodoro-pause "pause")
+    ("p r" pomodoro-resume "resume"))
    "Avy"
    (("g c" avy-goto-char-timer "goto char")
     ("g l" avy-goto-line "goto line"))

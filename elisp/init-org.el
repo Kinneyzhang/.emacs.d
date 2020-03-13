@@ -12,7 +12,6 @@
       (when mod (insert mod) (forward-line))
       (when text (insert text))))
   :bind (("C-c c" . org-capture)
-	 ("<f12>" . org-agenda)
 	 ("C-c a" . org-agenda)
 	 ("C-c o l" . org-store-link)
 	 ("C-c t v" . org-tags-view)
@@ -208,15 +207,19 @@
 	 "* APPT %?")
 	("p" "project" entry (file "~/iCloud/org/project.org")
 	 "* PROJ %? [%]\n** TODO" :clock-resume t)
+	("M" "monthly-goal" entry (file "~/iCloud/org/note.org")
+	 "* NOTE %? :monthly:")
+	("D" "daily-task" entry (file "~/iCloud/org/note.org")
+	 "* NOTE %? :daily:")
 	("h" "habit" entry (file "~/iCloud/org/task.org")
 	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
 	 )
-	("m" "晨间记录" entry (function org-journal-find-location)
-	 "* %(format-time-string org-journal-time-format)晨间记录\n** 天气/温度/地点：\n** 早上好，昨晚睡得怎么样？\n** 当前在培养的习惯是？\n** 我的人生目标是什么？（长期短期，不同方面）\n** 今天打算怎么安排？（上午，下午，晚上）"
-	 )
-	("e" "晚间总结" entry (function org-journal-find-location)
-	 "* %(format-time-string org-journal-time-format)晚间总结\n** 今天做了些什么？\n** 今天有什么值得夸奖自己的地方？（鼓励）\n** 今天有什么待改进的地方？（反思）\n** 还有什么想说的？（感悟）"
-	 )
+	;; ("m" "晨间记录" entry (function org-journal-find-location)
+	;;  "* %(format-time-string org-journal-time-format)晨间记录\n** 天气/温度/地点：\n** 早上好，昨晚睡得怎么样？\n** 当前在培养的习惯是？\n** 我的人生目标是什么？（长期短期，不同方面）\n** 今天打算怎么安排？（上午，下午，晚上）"
+	;;  )
+	;; ("e" "晚间总结" entry (function org-journal-find-location)
+	;;  "* %(format-time-string org-journal-time-format)晚间总结\n** 今天做了些什么？\n** 今天有什么值得夸奖自己的地方？（鼓励）\n** 今天有什么待改进的地方？（反思）\n** 还有什么想说的？（感悟）"
+	;;  )
 	))
 
 ;;; Stage 2: Processing
@@ -227,7 +230,7 @@
 ;; keywords
 
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "APPT(a)" "PROJ(p)" "|" "DONE(d)")
+      '((sequence "TODO(t)" "NEXT(n)" "APPT(a)" ">PROJ(p)" "NOTE(N)" "|" "DONE(d)")
         (sequence "WAITING(w@/!)" "DEFFERED(f@/!)" "|" "CANCELLED(c@/!)")))
 
 (setq org-todo-keyword-faces
@@ -235,7 +238,8 @@
 	      ("NEXT" :foreground "blue" :weight bold)
 	      ("DONE" :foreground "forest green" :weight bold)
 	      ("APPT" :foreground "orange" :weight bold)
-	      ("PROJ" :foreground "grey" :weight bold)
+	      (">PROJ" :foreground "sky blue" :weight bold)
+	      ("NOTE" :foreground "grey" :weight bold)
 	      ("WAITING" :foreground "magenta" :weight bold)
 	      ("CANCELLED" :foreground "forest green" :weight bold)
 	      ("DEFFERED" :foreground "forest green" :weight bold)
@@ -457,13 +461,22 @@
                          (:name "Due Soon"
                                 :deadline future
                                 :order 4)
+			 (:name "Important!"
+				:priority "A"
+				:order 5)
 		      	 (:discard (:anything t))
 		      	 ))
                       ))
-	  (alltodo "" ((org-agenda-overriding-header "................................................................................")
+	  (alltodo "" ((org-agenda-overriding-header "")
 		       (org-super-agenda-groups
-			'((:name "Monthly todo"
-				 :and (:todo ("TODO" "NEXT") :category ("Task") :not (:habit t)))
+			'((:name "Monthly goal"
+				 :and (:todo ("NOTE") :tag "monthly" :category ("Reminder") :not (:habit t)))
+			  (:name "Task Remind"
+				 :and (:todo ("NOTE") :tag "daily" :category ("Reminder") :not (:habit t)))
+			  (:name "Important!"
+				 :priority "A")
+			  (:name "Weekly todo"
+				 :and (:not (:time-grid t) :todo ("TODO" "NEXT") :category ("Task") :not (:habit t)))
 			  (:name "Wait for response"
 				 :and (:todo ("WAITING") :not (:habit t)))
 			  (:discard (:anything t))
@@ -472,12 +485,11 @@
 		       (org-agenda-skip-function 'jethro/org-agenda-skip-all-siblings-but-first)
 		       (org-super-agenda-groups
 			'((:name "Project review"
-				 :and (:category "Project")
-				 )
+				 :and (:category "Project"))
 			  (:discard (:anything t))
 			  ))))
 	  )
-	 ((org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org"))))
+	 ((org-agenda-files '("~/iCloud/org/note.org" "~/iCloud/org/task.org" "~/iCloud/org/project.org"))))
 	
 	("i" "Inbox Agenda"
 	 ((alltodo "" ((org-agenda-overriding-header "Inbox Agenda")

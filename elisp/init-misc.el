@@ -1,3 +1,37 @@
+(use-package pomodoro
+  :load-path "~/.emacs.d/site-lisp/pomodoro"
+  :init
+  (setq pomodoro-work-time 25
+	pomodoro-break-time 5
+	pomodoro-long-break-time 15
+	pomodoro-nth-for-longer-break 4
+	;; pomodoro-desktop-notification nil
+	pomodoro-work-cycle "work "	
+	pomodoro-break-cycle "break "
+	pomodoro-sound-player "mplayer"
+	pomodoro-break-start-sound (expand-file-name (concat config-dir "alarm.mp3"))
+	pomodoro-work-start-sound (expand-file-name (concat config-dir "alarm.mp3"))
+	))
+
+;; (use-package pomidor
+;;   :bind (("<f12>" . pomidor))
+;;   :config
+;;   (setq pomidor-sound-tick nil
+;; 	pomidor-sound-tack nil
+;; 	pomidor-seconds 10;; (* 25 60)
+;; 					; 25 minutes for the work period
+;; 	pomidor-break-seconds 5;; (* 5 60)
+;; 					; 5 minutes break time
+;; 	pomidor-sound-overwork (expand-file-name (concat config-dir "alarm.mp3"))
+;; 	pomidor-sound-break-over (expand-file-name (concat config-dir "alarm.mp3")))
+;;   :hook
+;;   (pomidor-mode . (lambda ()
+;; 		    (display-line-numbers-mode -1) ; Emacs 26.1+
+;; 		    (setq left-fringe-width 0 right-fringe-width 0)
+;; 		    (setq left-margin-width 2 right-margin-width 0)
+;; 		    ;; force fringe update
+;; 		    (set-window-buffer nil (current-buffer)))))
+
 (require 'sunshine)
 
 (require 'alarm-clock)

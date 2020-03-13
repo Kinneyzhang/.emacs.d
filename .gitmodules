@@ -31,3 +31,6 @@
 [submodule "site-lisp/delete-block"]
 	path = site-lisp/delete-block
 	url = https://github.com/manateelazycat/delete-block.git
+[submodule "site-lisp/pomodoro"]
+	path = site-lisp/pomodoro
+	url = https://github.com/Kinneyzhang/pomodoro.el.git

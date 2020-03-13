@@ -90,35 +90,6 @@
 (global-set-key (kbd "C-c m d") 'my/mood-diary-quick-capture)
 
 ;;-------------------------------------------------------------------
-;; thyme clock
-(defun my/thyme-start ()
-  "start thyme clock"
-  (interactive)
-  (do-applescript
-   "tell application \"Thyme\" 
-   start 
-   end tell"))
-
-(defun my/thyme-pause ()
-  "pause thyme clock"
-  (interactive)
-  (do-applescript
-   "tell application \"Thyme\" 
-   pause
-   end tell"))
-
-(defun my/thyme-finish ()
-  "stop thyme clock"
-  (interactive)
-  (do-applescript
-   "tell application \"Thyme\" 
-   stop
-   end tell"))
-
-(defalias 'mts' #'my/thyme-start)
-(defalias 'mtp' #'my/thyme-pause)
-(defalias 'mtf' #'my/thyme-finish)
-
 ;; generate qrcode
 (setq lexical-binding t)
 (defun my/qr-encode (str &optional buf)

@@ -1,6 +1,7 @@
 ;;; init-blog
 ;;;===================================================================================
 (require 'print-html)
+(require 'print-xml)
 
 (defun my/insert-html-tag-with-attr (tag &optional attr)
   "insert a html tag and some attributes at cursor point"
@@ -26,6 +27,13 @@
 (defvar blog-html-dir "~/iCloud/blog_site/post/")
 (defvar blog-page-dir "~/iCloud/blog_site/page/")
 (defvar blog-site-domain "https://blog.geekinney.com/")
+(defvar blog-site-name "戈楷旎")
+(defvar blog-site-description "happy hacking emacs!")
+(defvar blog-author "Kinney Zhang")
+(defvar blog-author-email "kinneyzhang666@gmail.com")
+(defvar blog-language "zh-cn")
+(defvar blog-generator "Emacs OrgMode 9.1.9")
+(defvar blog-icon "https://blog.geekinney.com/static/img/favicon.ico")
 
 ;; get valine appid and appkey
 (defun my/blog-get-valine-info ()
@@ -78,36 +86,98 @@
   (let ((xml-str ""))
     (if (stringp posts)
 	(setq posts (read posts)))
-    (mapcar (lambda (post)
-	      (with-temp-buffer
-		(setq post-url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
-		(insert-file-contents (concat blog-post-dir post))
-		(goto-char (point-min))
-		(re-search-forward "^#\\+DATE")
-		(setq date (plist-get (cadr (org-element-at-point)) :value))
-		(erase-buffer)
-		(insert
-		 (print-html t `(url (loc ,post-url)
-				     (lastmod ,date)
-				     (changefreq "daily")
-				     (priority "0.8"))))
-		(setq xml-str (concat xml-str (buffer-substring-no-properties (point-min) (point-max))))
-		(erase-buffer)
-		))
-	    posts)
+    (dolist (post posts)
+      (with-temp-buffer
+	(setq post-url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
+	(insert-file-contents (concat blog-post-dir post))
+	(goto-char (point-min))
+	(re-search-forward "^#\\+DATE")
+	(setq date (plist-get (cadr (org-element-at-point)) :value))
+	(erase-buffer)
+	(insert
+	 (print-xml
+	  `(url (loc ,post-url)
+		(lastmod ,date)
+		(changefreq "daily")
+		(priority "0.8"))))
+	(setq xml-str (concat xml-str (buffer-substring-no-properties (point-min) (point-max))))
+	(erase-buffer)
+	))
     (concat "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" xml-str "</urlset>")
     ))
 
 (defun my/blog-generate-sitemap-xml (&optional proj)
   (interactive)
-  (let ((index-page (concat blog-page-dir "index.org"))
-	(sitemap-xml (concat blog-root-dir "sitemap.xml")))
+  (let ((sitemap-xml (concat blog-root-dir "sitemap.xml")))
     (with-temp-buffer
       (insert (my/blog-generate-sitemap-format (my/blog-posts-sorted-by-date)))
       (write-file sitemap-xml))
     (message "sitemap.xml deployed successfully!")
     ))
 
+;;;-------------------------------------------------
+;; generate blog's rss file
+(defun my/blog-generate-rss-format (posts)
+  (let ((xml-str ""))
+    (if (stringp posts)
+	(setq posts (read posts)))
+    (dolist (post posts)
+      (with-temp-buffer
+	(setq url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
+	(insert-file-contents (concat blog-post-dir post))
+	(goto-char (point-min))
+	(re-search-forward "^#\\+TITLE")
+	(setq title (plist-get (cadr (org-element-at-point)) :value))
+	(goto-char (point-min))
+	(re-search-forward "^#\\+DATE")
+	(setq date (plist-get (cadr (org-element-at-point)) :value))
+	(setq buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" (buffer-substring-no-properties (point-min) (point-max)))
+	      buffer-string (replace-regexp-in-string "\\([a-zA-Z0-9]\\)[ ]+\\(\\cc\\)" "" buffer-string)
+	      buffer-string (replace-regexp-in-string "\\[\\[.+\\]\\[" "" buffer-string)
+	      buffer-string (replace-regexp-in-string "\\]\\]" "" buffer-string)
+	      buffer-string (replace-regexp-in-string "\\*+" "" buffer-string)
+	      buffer-string (replace-regexp-in-string "|-*" "" buffer-string)
+	      buffer-string (replace-regexp-in-string "\n+" "" buffer-string)
+	      buffer-string (replace-regexp-in-string " =" "" buffer-string)
+	      buffer-string (replace-regexp-in-string "= " "" buffer-string))
+	(setq digest (concat (substring buffer-string 0 100) " ......"))
+	(setq xml-str
+	      (concat xml-str
+		      (print-xml
+		       `(item (title ,title)
+			      (link ,url)
+			      ;; (guid ,url)
+			      (description ,digest)
+			      (author ,blog-author)
+			      (pubDate ,date)))))))
+    (setq xml-str
+	  (concat "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+		  (print-xml
+		   `(rss :version "2.0"
+			 (channel (title ,blog-site-name)
+				  (link ,blog-site-domain)
+				  (description ,blog-site-description)
+				  (Webmaster ,blog-author-email)
+				  (language ,blog-language)
+				  (generator ,blog-generator)
+				  (ttl "5")
+				  (image
+				   (url ,blog-icon)
+				   (title ,blog-site-name)
+				   (link ,blog-site-domain)
+				   (width "32")
+				   (height "32"))
+				  ,xml-str)))))
+    xml-str))
+
+(defun my/blog-generate-rss-feed (&optional proj)
+  (interactive)
+  (let ((rss-xml (concat blog-root-dir "feed.xml")))
+    (with-temp-buffer
+      (insert (my/blog-generate-rss-format (my/blog-posts-sorted-by-date)))
+      (write-file rss-xml))
+    (message "feed.xml deployed successfully!")
+    ))
 ;;;-------------------------------------------------
 ;; get all org posts
 (defun list-car-string-less (list1 list2)

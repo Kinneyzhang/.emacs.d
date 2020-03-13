@@ -19,9 +19,9 @@
  (position . 165))
 ("org-capture-last-stored-marker"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO 折腾telega")
- (rear-context-string . "el\n   :END:\n   \n")
- (position . 8466))
+ (front-context-string . "** TODO [#A] hac")
+ (rear-context-string . "ega.el\n   :END:\n")
+ (position . 7943))
 ("my-mood-diary-2020.org"
  (filename . "~/iCloud/blog_site/org/my-mood-diary-2020.org")
  (front-context-string)
@@ -29,9 +29,9 @@
  (position . 365))
 ("org-refile-last-stored"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** DEFFERED elis")
+ (front-context-string . "** TODO [#A] hac")
  (rear-context-string . "ega.el\n   :END:\n")
- (position . 7249))
+ (position . 7943))
 ("2020.ledger"
  (filename . "~/iCloud/org/2020.ledger")
  (front-context-string . "    收入:红包:春节\n   ")
@@ -68,8 +68,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/iCloud/org/inbox.org")
- (front-context-string . "* TODO 博客的代码块字体和")
- (rear-context-string . "时的emacs package\n")
- (position . 1081))
+ (filename . "~/iCloud/org/task.org")
+ (front-context-string . "* TODO test\n  SC")
+ (rear-context-string . "2020-03-12 Thu>\n")
+ (position . 5663))
 )

@@ -932,3 +932,68 @@ and 'mpg123' in linux"
     (make-frame-visible snails-frame)
     (select-frame-set-input-focus snails-frame)
     ))
+
+;;================================================
+(setq html
+      `(html :lang "en"
+	     (head (:include ,header))
+	     (body (div :id "layout"
+			(:include ,menubar)
+			(div :id "content"
+			     (:include ,article)
+			     (:include ,sidebar))
+			(:include ,postamble)))))
+(setq header
+      `((meta :charset "utf-8")
+	(meta :name "viewport" :content "width=device-width, initial-scale=1")
+	(title ,title)
+	(meta :name "generator" :content ,generator)
+	(meta :name "author" :content ,author)
+	(link :rel "shortcut icon" :href ,favicon-href)
+	(link :rel "bookmark" :href ,favicon-href :type "image/x-icon")
+	(link :rel "stylesheet" :type "text/css" :href ,css-href)
+	(script ,ga-code)))
+
+(setq menubar
+      `((div :id "toptitle"
+	     (a :id "logo" :href "/" ,site-name)
+	     (p :class "description" ,description))
+	(div :id "topnav"
+	     (a :href "/index.html" "首页")
+	     (a :href "/archive.html" "归档")
+	     (a :href "/category.html" "分类")
+	     (a :href "/about.html" "关于"))))
+
+(setq article
+      `((div :id "article-div"
+	     (header (h1 :class "title" ,title))
+	     (div :class "post-meta" (p ,post-meta))
+	     (div :class "post-content" (:include ,post-content)))))
+
+(setq postamble
+      `((:if ,comment)
+	(p )))
+
+;; https://pages.sachachua.com/sharing/#blogging-skills
+
+(run-at-time)
+
+(start-process "my-pomidor-play-sound" nil "mplayer" "~/.emacs.d/config-file/alarm.mp3")
+
+(shell-command "mplayer ~/.emacs.d/config-file/alarm.mp3" nil nil)
+
+(call-process "mplayer" nil 0 nil (expand-file-name "~/.emacs.d/config-file/alarm.mp3"))
+
+(defun pomodoro-add-to-mode-line ()
+  (setq-default header-line-format
+		(cons pomodoro-mode-line-string header-line-format))
+  )
+
+(setq-default header-line-format (propertize "hello" 'face '(:height 1.0)))
+
+(with-current-buffer (get-buffer-create "provoc")
+  (erase-buffer)
+  (newline 8)
+  (insert "               ")
+  (insert (propertize "vocabulary" 'face '(italic :height 8.0)))
+  (read-only-mode))
