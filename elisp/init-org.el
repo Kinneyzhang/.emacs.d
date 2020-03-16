@@ -188,7 +188,7 @@
 
 (require 'find-lisp)
 (setq jethro/org-agenda-directory (expand-file-name "~/iCloud/"))
-(setq org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org" "~/iCloud/org/inbox.org" "~/iCloud/org/someday.org"))
+(setq org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org" "~/iCloud/org/inbox.org" "~/iCloud/org/someday.org" "~/iCloud/org/note.org"))
 
 (setq org-src-fontify-natively t)
 (setq org-agenda-window-setup 'current-window)
@@ -207,20 +207,18 @@
 	 "* APPT %?")
 	("p" "project" entry (file "~/iCloud/org/project.org")
 	 "* PROJ %? [%]\n** TODO" :clock-resume t)
-	("M" "monthly-goal" entry (file "~/iCloud/org/note.org")
+	("M" "monthly-plan" entry (file "~/iCloud/org/note.org")
 	 "* NOTE %? :monthly:")
-	("D" "daily-task" entry (file "~/iCloud/org/note.org")
+	("W" "weekly-plan" entry (file "~/iCloud/org/note.org")
+	 "* NOTE %? :weekly:")
+	("D" "daily-plan" entry (file "~/iCloud/org/note.org")
 	 "* NOTE %? :daily:")
 	("h" "habit" entry (file "~/iCloud/org/task.org")
 	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
 	 )
-	;; ("m" "晨间记录" entry (function org-journal-find-location)
-	;;  "* %(format-time-string org-journal-time-format)晨间记录\n** 天气/温度/地点：\n** 早上好，昨晚睡得怎么样？\n** 当前在培养的习惯是？\n** 我的人生目标是什么？（长期短期，不同方面）\n** 今天打算怎么安排？（上午，下午，晚上）"
-	;;  )
-	;; ("e" "晚间总结" entry (function org-journal-find-location)
-	;;  "* %(format-time-string org-journal-time-format)晚间总结\n** 今天做了些什么？\n** 今天有什么值得夸奖自己的地方？（鼓励）\n** 今天有什么待改进的地方？（反思）\n** 还有什么想说的？（感悟）"
-	;;  )
-	))
+	("m" "晨间记录" entry (function org-journal-find-location)
+	 "* %(format-time-string org-journal-time-format)晨间记录\n  *天气/温度/地点:* \n\n  *昨日总结:*\\\\ \n\n\n  *今日计划:*\\\\\n")
+	 ))
 
 ;;; Stage 2: Processing
 
@@ -469,10 +467,12 @@
                       ))
 	  (alltodo "" ((org-agenda-overriding-header "")
 		       (org-super-agenda-groups
-			'((:name "Monthly goal"
-				 :and (:todo ("NOTE") :tag "monthly" :category ("Reminder") :not (:habit t)))
-			  (:name "Task Remind"
-				 :and (:todo ("NOTE") :tag "daily" :category ("Reminder") :not (:habit t)))
+			'((:name "Monthly plan"
+				 :and (:todo ("NOTE") :tag "monthly" :category ("Plan") :not (:habit t)))
+			  (:name "Weekly plan"
+				 :and (:todo ("NOTE") :tag "weekly" :category ("Plan") :not (:habit t)))
+			  (:name "Daily plan"
+				 :and (:todo ("NOTE") :tag "daily" :category ("Plan") :not (:habit t)))
 			  (:name "Important!"
 				 :priority "A")
 			  (:name "Weekly todo"
@@ -614,48 +614,34 @@
   :bind (("C-c j c" . calendar)
 	 ("C-c j t" . journal-file-today)
 	 ("C-c j y" . journal-file-yesterday))
-  :config
-  (require 'org-journal)
   )
+
+(defun my/daily-plan-from-journal-to-agenda ()
+  (interactive)
+  (let* ((beg 0)
+	 (date (format-time-string "%Y%m%d"))
+	 (journal (concat org-journal-dir date))
+	 (agenda (concat org-directory "note.org")))
+    (with-current-buffer (get-buffer-create "*add dailly task*")
+      (insert-file-contents journal)
+      (goto-char (point-min))
+      (while beg
+	(setq beg (re-search-forward "* \\[ \\] " nil t))
+	(end-of-line)
+	(setq end (point))
+	(kill-ring-save beg end)
+	(save-excursion
+	  (with-temp-buffer
+	    (yank)
+	    (setq task (buffer-substring-no-properties (point-min) (point-max)))
+	    (append-to-file (concat "* NOTE " task " :daily:\n") nil agenda)))
+	))
+    (kill-buffer "*add dailly task*")
+    ))
 
 (defun org-journal-find-location ()
   (org-journal-new-entry t)
   (goto-char (point-min)))
-
-;; https://www.emacswiki.org/emacs/string-utils.el
-(setq org-html-postamble nil)
-(defun string-utils-escape-double-quotes (str-val)
-  "Return STR-VAL with every double-quote escaped with backslash."
-  (save-match-data
-    (replace-regexp-in-string "\"" "\\\\\"" str-val)))
-
-(defun string-utils-escape-backslash (str-val)
-  "Return STR-VAL with every backslash escaped with an additional backslash."
-  (save-match-data
-    (replace-regexp-in-string "\\\\" "\\\\\\\\" str-val)))
-
-(setq as-tmpl "set TITLE to \"%s\"
-set NBODY to \"%s\"
-tell application \"Notes\"
-        tell folder \"Org\"
-                if not (note named TITLE exists) then
-                        make new note with properties {name:TITLE}
-                end if
-                set body of note TITLE to NBODY
-        end tell
-end tell")
-
-(defun my/org-to-apple-note-export ()
-  (interactive)
-  (let ((title (file-name-base (buffer-file-name))))
-    (with-current-buffer (org-export-to-buffer 'html "*orgmode-to-apple-notes*")
-      (let ((body (string-utils-escape-double-quotes
-		   (string-utils-escape-backslash (buffer-string)))))
-	;; install title + body into template above and send to notes
-	(do-applescript (format as-tmpl title body))
-	;; get rid of temp orgmode-to-apple-notes buffer
-	(kill-buffer))
-      )))
 
 (use-package deft
   :ensure t
@@ -664,7 +650,7 @@ end tell")
    ("C-x C-d" . deft))
   :config
   (setq deft-extensions '("txt" "tex" "org" "md"))
-  (setq deft-directory "~/iCloud/blog_site/org/")
+  (setq deft-directory "~/iCloud/program_org/")
   (setq deft-recursive t)
   (setq deft-file-naming-rules '((noslash . "_")))
   (setq deft-text-mode 'org-mode)

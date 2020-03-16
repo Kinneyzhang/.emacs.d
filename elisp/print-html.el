@@ -69,22 +69,23 @@
 	(forward-char 0)
       (forward-char (+ 3 (length tag))))))
 ;;----------------------------------------
-(defun print-html--parse-list-unformated (list)
-  "parse elisp to unformated html"
-  (let* ((tag (car list))
-	 (left (cdr list))
-	 (plist (print-html--get-plist left))
-	 (inner (print-html--get-inner left))
-	 (html ""))
-    (with-current-buffer (get-buffer-create "*print html*")
-      (print-html--insert-html-tag tag plist)
-      (dolist (item inner)
-	(if (listp item)
-	    (print-html--parse-list-unformated item)
-	  (insert item)))
-      (print-html--jump-outside tag)
-      (setq html (buffer-substring-no-properties (point-min) (point-max))))
-    html))
+;; (defun print-html--parse-list-unformated (list)
+;;   "parse elisp to unformated html"
+;;   (let* ((tag (car list))
+;; 	 (left (cdr list))
+;; 	 (plist (print-html--get-plist left))
+;; 	 (inner (print-html--get-inner left))
+;; 	 (html ""))
+;;     (with-current-buffer (get-buffer-create "*print html*")
+;;       (print-html--insert-html-tag tag plist)
+;;       (dolist (item inner)
+;; 	(if (listp item)
+	    
+;; 	    (print-html--parse-list-unformated item)
+;; 	  (insert item)))
+;;       (print-html--jump-outside tag)
+;;       (setq html (buffer-substring-no-properties (point-min) (point-max))))
+;;     html))
 ;;----------------------------------------
 (defun print-html--if-no-child (inner)
   "judge if html tag has child-tag"
@@ -124,49 +125,14 @@
       (setq html (buffer-substring-no-properties (point-min) (point-max))))
     html))
 ;;---------------------------------------
-(defun print-html-unformated (LIST)
-  (let ((html (print-html--parse-list-unformated LIST)))
-    (kill-buffer "*print html*")
-    html))
+;; (defun print-html-unformated (LIST)
+;;   (let ((html (print-html--parse-list-unformated LIST)))
+;;     (kill-buffer "*print html*")
+;;     html))
 
-(defun print-html-formated (LIST)
+(defun print-html (LIST)
   (let ((html (print-html--parse-list-formated LIST)))
     (kill-buffer "*print html*")
     html))
-
-(defun print-html (FORMATED LIST)
-  "print html with elisp. the first elem of LIST is always a html tag, others could be attributes or text content or child tag. the three mentioned above are all optional. if has, attributes must be in first place, followed by text content and child tag.
-
-eg. LIST is:
-
-'(div :class \"post-container\"
-	       (div :class \"post-div\"
-		    (h1 (a :href \"url\" \"text of link\"))
-		    (p \"content of paragraph...\")
-		    (img :src \"src-url\" :alt \"alt-name\")
-		    (code (span :class \"post-date\" \"date\"))))
-
-if FORMATTED is non-nil nil it will be parse into:
-
-<div class=\"post-container\">
-<div class=\"post-div\">
-<h1>
-<a ref=\"url\">text of link</a>
-</h1>
-<p>content of paragraph...</p>
-<img src=\"src-url\" alt=\"alt-name\"/>
-<code>
-<span class=\"post-date\">date</span>
-</code>
-</div>
-</div>
-
-other, the html will be in one line.
-"
-  (let ((html ""))
-    (if FORMATED
-	(print-html-formated LIST)
-	(print-html-unformated LIST)
-	)))
 
 (provide 'print-html)

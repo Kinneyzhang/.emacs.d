@@ -57,8 +57,6 @@
     ;;              (+ chinese-char english-word)))
     (+ chinese-char english-word)))
 
-;;--------------------------------------------------------------
-
 ;;----------------------------------------------------------------------
 (defun my/insert-current-time ()
   "Insert the current time"

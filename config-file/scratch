@@ -934,15 +934,25 @@ and 'mpg123' in linux"
     ))
 
 ;;================================================
+(defun print-html--process-logic (list)
+  (let ((var (cadr list)))
+    (if (eq (car list) :include)
+	(if (eq (cadr var) nil)
+	    
+	    )
+      ))
+  )
+
+
 (setq html
       `(html :lang "en"
-	     (head (:include ,header))
+	     (head (:include header))
 	     (body (div :id "layout"
-			(:include ,menubar)
+			(:include menubar)
 			(div :id "content"
-			     (:include ,article)
-			     (:include ,sidebar))
-			(:include ,postamble)))))
+			     (:include article)
+			     (:include sidebar))
+			(:include postamble)))))
 (setq header
       `((meta :charset "utf-8")
 	(meta :name "viewport" :content "width=device-width, initial-scale=1")
@@ -974,6 +984,8 @@ and 'mpg123' in linux"
       `((:if ,comment)
 	(p )))
 
+
+
 ;; https://pages.sachachua.com/sharing/#blogging-skills
 
 (run-at-time)
@@ -997,3 +1009,325 @@ and 'mpg123' in linux"
   (insert "               ")
   (insert (propertize "vocabulary" 'face '(italic :height 8.0)))
   (read-only-mode))
+
+;;;==================================================================
+;; 重构geekblog
+
+;; helper function
+(require 'print-html)
+
+(defun geekblog--get-post-meta (meta post)
+  "get meta info of a post"
+  (with-temp-buffer
+    (insert-file-contents (concat blog-post-dir post))
+    (re-search-forward (concat "^#\\+" (upcase meta)))
+    (if (string= "count" meta)
+	(setq count (my/word-count))
+      (setq meta (plist-get (cadr (org-element-at-point)) :value)))))
+
+;; -----------------------------------------------------------
+(defun geekblog--post-info-format (url count title date category)
+  "get post info html"
+  (print-html
+   `(div :class "post-info"
+	 (p "「"
+	    (span "分类: " ,category " · ")
+	    (span "字数: " ,(number-to-string count) " · ")
+	    (span :id ,url
+		  :class "leancloud_visitors"
+		  :data-flag-title ,title
+		  (span :class "post-meta-item-text" "阅读 ")
+		  (span :class "leancloud-visitors-count" "...")
+		  " 次")
+	    "」"))))
+
+(defun geekblog/generate-post-info ()
+  "generate post info for each post"
+  (let ((post buffer-file-name)
+	(html-str ""))
+    (progn
+      (setq valine-visitor-url (concat "/" (string-trim blog-html-dir blog-root-dir) (file-name-base post) ".html"))
+      (setq count (geekblog--get-post-meta "count" post))
+      (setq title (geekblog--get-post-meta "title" post))
+      (setq date (geekblog--get-post-meta "date" post))
+      (setq category (geekblog--get-post-meta "category" post))
+      (setq html-str (geekblog--post-info-format valine-visitor-url count title date category)))
+    html-str))
+;;;-------------------------------------------------------------
+(defun geekblog--sitemap-format-part (url date)
+  (print-html
+   `(url (loc ,url)
+	 (lastmod ,date)
+	 (changefreq "daily")
+	 (priority "0.8"))))
+
+(defun geekblog--sitemap-format (posts)
+  "get blog sitemap.xml"
+  (let ((xml-str ""))
+    (if (stringp posts)
+	(setq posts (read posts)))
+    (dolist (post posts)
+      (progn
+	(setq url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
+	(setq date (geekblog/get-post-meta "date" post))
+	(setq xml-str (concat xml-str (geekblog--sitemap-format-part url date)))))
+    (concat "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n" xml-str "</urlset>")))
+
+(defun geekblog/generate-sitemap (&optional proj)
+  (interactive)
+  (let ((xml (concat blog-root-dir "sitemap.xml")))
+    (with-temp-buffer
+      (insert (geekblog--sitemap-format (my/blog-posts-sorted-by-date)))
+      (write-file xml))
+    (message "sitemap.xml deployed successfully!")))
+;;;---------------------------------------------------
+(defun geekblog--rss-format-part (title url digest date)
+  (print-html
+   `(item (title ,title)
+	  (link ,url)
+	  (description ,digest)
+	  (author ,blog-author)
+	  (pubDate ,date))))
+
+(defun geekblog--rss-format-all (xml-str)
+  (setq xml-str
+	(concat "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n"
+		(print-xml
+		 `(rss :version "2.0"
+		       (channel (title ,blog-site-name)
+				(link ,blog-site-domain)
+				(description ,blog-site-description)
+				(Webmaster ,blog-author-email)
+				(language ,blog-language)
+				(generator ,blog-generator)
+				(ttl "5")
+				(image
+				 (url ,blog-icon)
+				 (title ,blog-site-name)
+				 (link ,blog-site-domain)
+				 (width "32")
+				 (height "32"))
+				,xml-str))))))
+
+(defun geekblog--get-post-digest (post pos)
+  ;; (setq buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" (buffer-substring-no-properties (point-min) (point-max)))
+  ;; 	buffer-string (replace-regexp-in-string "\\([a-zA-Z0-9]\\)[ ]+\\(\\cc\\)" "" buffer-string)
+  ;; 	buffer-string (replace-regexp-in-string "\\[\\[.+\\]\\[" "" buffer-string)
+  ;; 	buffer-string (replace-regexp-in-string "\\]\\]" "" buffer-string)
+  ;; 	buffer-string (replace-regexp-in-string "\\*+" "" buffer-string)
+  ;; 	buffer-string (replace-regexp-in-string "|-*" "" buffer-string)
+  ;; 	buffer-string (replace-regexp-in-string "\n+" "" buffer-string)
+  ;; 	buffer-string (replace-regexp-in-string " =" "" buffer-string)
+  ;; 	buffer-string (replace-regexp-in-string "= " "" buffer-string))
+  ;; (setq digest (concat (substring buffer-string 0 100) " ......"))
+  )
+
+(defun geekblog--rss-format (posts)
+  (let ((xml-str ""))
+    (if (stringp posts)
+	(setq posts (read posts)))
+    (dolist (post posts)
+      (with-temp-buffer
+	(setq url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
+	(setq title (geekblog--get-post-meta "title" post))
+	(setq date (geekblog--get-post-meta "date" post))
+	(setq digest (geekblog--get-post-digest post 100))
+	(setq xml-str (concat xml-str (geekblog--rss-format-part title url digest date)))))
+    (geekblog--rss-format-all xml-str)))
+
+(defun geekblog/generate-rss (&optional proj)
+  (interactive)
+  (let ((rss (concat blog-root-dir "feed.xml")))
+    (with-temp-buffer
+      (insert (geekblog--rss-format (geekblog--get-all-posts)))
+      (write-file rss))
+    (message "feed.xml deployed successfully!")
+    ))
+;; -------------------------------------------------------------------
+(defun list-car-string-less (list1 list2)
+  "compare the car of list1 to list2, which is a string"
+  (if (string< (car list1) (car list2))
+      (eq t t)
+    (eq t nil)))
+
+(defun geekblog--get-all-posts ()
+  "make all posts a list by date"
+  (interactive)
+  (let ((posts (cdr (cdr (directory-files blog-post-dir))))
+	(date-post-list)
+	(post-list))
+    (dolist (post posts)
+      (setq date (geekblog--get-post-meta "date" post))
+      (setq date-post-pair `(,date ,post))
+      (setq date-post-list (cons date-post-pair date-post-list)))
+    (setq date-post-list-sorted (sort date-post-list 'list-car-string-less))
+    (dolist (item date-post-list-sorted)
+      (setq post-list (cons (cadr item) post-list)))
+    post-list))
+;;---------------------------------------------------------------------
+(defun geekblog--index-format
+    (post-url title digest category-url category count date)
+  (print-html
+   `(div :id "post-div"
+	 (h2 (a :href ,post-url ,title))
+	 (p ,digest " ......" (a :href ,post-url "「阅读全文」"))
+	 (p (code (a :href ,category-url ,category))
+	    (span :id "post-div-meta"
+		  (span ,(number-to-string count) "字 · ")
+		  (span :class "post-date" ,date))))))
+
+(defun geekblog--index-html (posts)
+  (let ((html-str "")
+	(category-url (concat blog-site-domain "category.html")))
+    (dolist (post posts)
+      (setq post-url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
+      (setq valine-visitor-url (concat "/" (string-trim blog-html-dir blog-root-dir) (file-name-base post) ".html"))
+      (setq count (geekblog--get-post-meta "count" post))
+      (setq title (geekblog--get-post-meta "title" post))
+      (setq date (geekblog--get-post-meta "date" post))
+      (setq category (geekblog--get-post-meta "category" post))
+      (setq digest (geekblog--get-post-digest post 170))
+      (setq html-str (concat html-str (geekblog--index-format post-url title digest category-url category count date))))
+    (concat "#+TITLE: Geekinney Blog\n#+OPTIONS: title:nil\n#+begin_export html\n" html-str "#+end_export")))
+
+(defun geekblog/generate-index-page (&optional proj)
+  (interactive)
+  (let ((index (concat blog-page-dir "index.org")))
+    (with-temp-buffer
+      (insert (geekblog--index-html (geekblog--get-all-posts)))
+      (write-file index))
+    (message "index.org deployed successfully!")))
+;; --------------------------------------------------------
+(defun geekblog--archive-format (posts)
+  (let ((archive-year-str "")
+	(archive-year-str-with-year "")
+	(year-list nil)
+	(year-and-archive-single-str-list nil))
+    (dolist (post posts)
+      (setq url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
+      (setq title (geekblog--get-post-meta "title" post))
+      (setq date (geekblog--get-post-meta "date" post))
+      (setq year (substring date 0 4))
+      (setq month-and-day (concat (substring date 5 7) (substring date 8 10)))
+      (setq archive-single-str (concat " * " month-and-day " [[" url "][" title "]]"))
+      (setq year-and-archive-single-str-list (cons `(,year ,archive-single-str) year-and-archive-single-str-list))
+      ;; (("2020" " * 0222 [[url][title]]") ("2020" " * 0221 [[url][title]]") ... ("2019" " * 1231 [[url][title]]"))
+      (setq year-list (cons year year-list)))
+    (setq year-and-archive-single-str-list (reverse year-and-archive-single-str-list))
+    (setq year-list (reverse year-list))
+    (setq years (delete-dups year-list))
+    (dolist (year years)
+      (dolist (elem year-and-archive-single-str-list)
+	(if (string= year (car elem))
+	    (setq archive-year-str (concat archive-year-str (cadr elem) "\n"))))
+      (setq archive-year-str-with-year (concat archive-year-str-with-year "* " year "\n" archive-year-str))
+      (setq archive-year-str ""))
+    (concat "#+TITLE: 文章归档\n#+STARTUP: showall\n#+OPTIONS: toc:nil H:1 num:0 title:nil\n" archive-year-str-with-year)))
+
+(defun geekblog/generate-archive-page (&optional proj)
+  (interactive)
+  (let ((archive (concat blog-page-dir "archive.org")))
+    (with-temp-buffer
+      (insert (geekblog--archive-format (geekblog--get-all-posts)))
+      (write-file archive))
+    (message "archive.org deployed successfully!")))
+;;---------------------------------------------------------
+(defun geekblog--category-format (posts)
+  "generate blog's category.org string"
+  (interactive)
+  (let ((one-category-str "")
+	(category-str-with-category "")
+	(category-and-category-single-str-list)
+	(category-list))
+    (dolist (post posts)
+      (setq url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
+      (setq title (geekblog--get-post-meta "title" post))
+      (setq category (geekblog--get-post-meta "category" post))
+      (setq category-single-str (concat " * [[" url "][" title "]]"))
+      (setq category-and-category-single-str-list (cons `(,category ,category-single-str) category-and-category-single-str-list))
+      (setq category-list (cons category category-list)))
+    (setq category-list (sort category-list 'string<))
+    (setq categories (delete-dups category-list))
+    (dolist (category categories)
+      (dolist (elem category-and-category-single-str-list)
+	(if (string= category (car elem))
+	    (setq one-category-str (concat one-category-str (cadr elem) "\n"))))
+      (setq category-str-with-category (concat category-str-with-category "* " category "\n" one-category-str))
+      (setq one-category-str ""))
+    (concat "#+TITLE: 标签分类\n#+STARTUP: showall\n#+OPTIONS: toc:nil H:1 num:0 title:nil\n" category-str-with-category)))
+
+(defun geekblog/generate-category-page (&optional proj)
+  (interactive)
+  (let ((category (concat blog-page-dir "category.org")))
+    (with-temp-buffer
+      (insert (geekblog--category-format (geekblog--get-all-posts)))
+      (write-file archive))
+    (message "category.org deployed successfully!")))
+;;------------------------------------------------------------------
+(defun geekinney/push-to-github (&optional proj)
+  (progn
+    (shell-command "~/iCloud/blog_site/deploy.sh")
+    (message "blog deployed successfully!")))
+
+(defun geekinney/publish-project-force (proj)
+  (interactive "sEnter the project name: ")
+  (org-publish proj t nil))
+
+(defun geekinney/new-post (slug title category)
+  (interactive "sinput slug: \nsinput title: \nsinput category: ")
+  (let* ((blog-org-dir "~/iCloud/blog_site/org/")
+	 (blog-org-file (concat blog-org-dir slug ".org"))
+	 (blog-org-created-date (format-time-string "%Y-%m-%d"))
+	 (blog-org-head-template (concat "#+TITLE: " title "\n#+DATE: " blog-org-created-date "\n#+CATEGORY: " category "\n#+INCLUDE: \"../code/post-info.org\"\n#+STARTUP: showall\n#+OPTIONS: toc:nil H:2 num:2\n#+TOC: headlines:2\n")))
+    (if (file-exists-p blog-org-file)
+	(find-file blog-org-file)
+      (progn
+	(find-file blog-org-file)
+	(insert blog-org-head-template)))))
+;;-------------------------------------------------------------
+(setq my/html-head
+      (print-html
+       `(link :rel "shortcut icon" :href "/static/img/favicon.ico")))
+
+(print-html '((link :rel "shortcut icon" :href "/static/img/favicon.ico")
+	      (link :rel "bookmark" :href "/static/img/favicon.ico" :type "image/x-icon")
+	      (link :id "pagestyle" :rel "stylesheet" :type "text/css" :href "/static/light.css")))
+
+(print-html '((div :class div1
+		   ((p "this is paragraph")
+		    (img :src "src" :href "href"))
+		   
+		   )))
+
+;;; 关于mark和region的问题 ！！
+(defun my/daily-plan-from-journal-to-agenda ()
+  (interactive)
+  (let* ((beg 0)
+	 (date (format-time-string "%Y%m%d"))
+	 (journal (concat org-journal-dir date))
+	 (agenda (concat org-directory "note.org")))
+    (with-current-buffer (get-buffer-create "*add dailly task*")
+      (insert-file-contents journal)
+      (goto-char (point-min))
+      (while (beg)
+	(setq beg (re-search-forward "* \\[ \\] " nil t))
+	(end-of-line)
+	(setq end (point))
+	(kill-ring-save beg end)
+	(save-excursion
+	  (with-temp-buffer
+	    (yank)
+	    (setq task (buffer-substring-no-properties (point-min) (point-max)))
+	    (append-to-file (concat "* NOTE " task " :daily:\n") nil agenda)))
+	))
+    (kill-buffer "*add dailly task*")
+    ))
+
+(append-to-file "* 数据结构字符串结束" nil "~/iCloud/org/note.org")
+
+(progn
+  (setq beg (point))
+  (end-of-line)
+  (setq end (point))
+  (kill-ring-save beg end))
+

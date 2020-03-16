@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("find-things-that-you-really-value.org.org"
+(("test.cpp"
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/考研/test.cpp")
+ (front-context-string)
+ (rear-context-string . "rix.print();\n}\n\n")
+ (position . 2999))
+("program_org"
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/program_org/")
+ (front-context-string . "summary-of-2020-")
+ (rear-context-string . " Mar 12 16:30  ")
+ (position . 2731))
+("find-things-that-you-really-value.org.org"
  (filename . "~/iCloud/program_org/find-things-that-you-really-value.org.org")
  (front-context-string . "\n\n看一件事情是否重要不是看它能")
  (rear-context-string . " 不要被乱七八糟的事物懵逼双眼！")
@@ -68,8 +78,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/iCloud/org/task.org")
- (front-context-string . "* TODO test\n  SC")
- (rear-context-string . "2020-03-12 Thu>\n")
- (position . 5663))
+ (filename . "~/iCloud/org/note.org")
+ (front-context-string . "* NOTE 跑步       ")
+ (rear-context-string . "      :monthly:\n")
+ (position . 627))
 )

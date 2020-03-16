@@ -55,19 +55,33 @@
   (let ((post buffer-file-name)
 	(html-str ""))
     (with-temp-buffer
+      (setq valine-visitor-url (concat "/" (string-trim blog-html-dir blog-root-dir) (file-name-base post) ".html"))
       (insert-file-contents post)
+      (goto-char (point-min))
       (setq count (my/word-count))
+      (goto-char (point-min))
+      (re-search-forward "^#\\+TITLE")
+      (setq title (plist-get (cadr (org-element-at-point)) :value))
       (goto-char (point-min))
       (re-search-forward "^#\\+DATE")
       (setq date (plist-get (cadr (org-element-at-point)) :value))
       (goto-char (point-min))
       (re-search-forward "^#\\+CATEGORY")
       (setq category (plist-get (cadr (org-element-at-point)) :value))
-      (setq html-str (concat "「 分类:" category " / 日期:" date " / 字数:" (number-to-string count) " 」"))
+      ;; (setq html-str (concat "「 分类:" category " / 字数:" (number-to-string count) "阅读量:"  " 」"))
       (erase-buffer)
       (insert
-       (print-html t `(div :class "post-info"
-			   (p ,html-str))))
+       (print-html `(div :class "post-info"
+			 (p "「"
+			    (span "分类: " ,category " · ")
+			    (span "字数: " ,(number-to-string count) " · ")
+			    (span :id ,valine-visitor-url
+				  :class "leancloud_visitors"
+				  :data-flag-title ,title
+				  (span :class "post-meta-item-text" "阅读 ")
+				  (span :class "leancloud-visitors-count" "...")
+				  " 次")
+			    "」"))))
       (setq html-str (buffer-substring-no-properties (point-min) (point-max)))
       )
     html-str))
@@ -146,7 +160,6 @@
 		      (print-xml
 		       `(item (title ,title)
 			      (link ,url)
-			      ;; (guid ,url)
 			      (description ,digest)
 			      (author ,blog-author)
 			      (pubDate ,date)))))))
@@ -217,7 +230,7 @@
     (mapcar (lambda (post)
 	      (with-temp-buffer
 		(setq post-url (concat blog-site-domain (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
-		(setq valine-visitor-url (concat (string-trim blog-html-dir blog-root-dir) (car (split-string post "\\.")) ".html"))
+		(setq valine-visitor-url (concat "/" (string-trim blog-html-dir blog-root-dir) (file-name-base post) ".html"))
 		(insert-file-contents (concat blog-post-dir post))
 		(setq count (my/word-count))
 		(goto-char (point-min))
@@ -241,23 +254,25 @@
 		(setq digest (substring buffer-string 0 168))
 		(erase-buffer)
 		(insert
-		 (print-html t `(div :class "post-div"
-				     (h2 (a :href ,post-url ,title))
-				     (p ,digest " ......" (a :href ,post-url "「阅读全文」"))
-				     (code (a :href ,category-url ,category))
-				     (span :class "post-date" ,date))))
+		 (print-html `(div :id "post-div"
+				   (h2 (a :href ,post-url ,title))
+				   (p ,digest " ......" (a :href ,post-url "「阅读全文」"))
+				   (p (code (a :href ,category-url ,category))
+				      (span :id "post-div-meta"
+					    (span ,(number-to-string count) "字 · ")
+					    (span :class "post-date" ,date)
+					    )))))
 		(setq html-str (concat html-str (buffer-substring-no-properties (point-min) (point-max))))
 		))
 	    posts)
     html-str))
 
-;; (my/insert-html-tag-with-attr "span" `(("id" ,valine-visitor-url) ("class" "leancloud_visitors") ("data-flag-title" ,title)))
-;; (my/insert-html-tag-with-attr "em" '(("class" "post-meta-item-text")))
-;; (insert "阅读量 ")
-;; (forward-char 5)
-;; (my/insert-html-tag-with-attr "i" '(("class" "leancloud-visitors-count")))
-;; (insert "0 / ")
-;; (forward-char 11)
+;; (span :id ,valine-visitor-url
+;;       :class "leancloud_visitors"
+;;       :data-flag-title ,title
+;;       (span :class "post-meta-item-text" "阅读 ")
+;;       (span :class "leancloud-visitors-count" "..")
+;;       " 次 · ")
 
 (defun my/blog-generate-index-org (&optional proj)
   "generate blog's index.org file"
@@ -289,7 +304,6 @@
 	(setq month-and-day (concat (substring date 5 7) (substring date 8 10)))
 	(setq archive-single-str (concat " * " month-and-day " [[" url "][" title "]]"))
 	(setq year-and-archive-single-str-list (cons `(,year ,archive-single-str) year-and-archive-single-str-list)) ;; (("2020" " * 0222 [[url][title]]") ("2020" " * 0221 [[url][title]]") ... ("2019" " * 1231 [[url][title]]"))
-	
 	(setq year-list (cons year year-list))
 	(erase-buffer)
 	))
@@ -404,6 +418,9 @@
       )
     ))
 
+;; '(div :class "img-container"
+;;       (:loop ))
+
 ;;;==============================================================
 ;; https://gongzhitaao.org/orgcss/org.css
 ;; org html export
@@ -466,7 +483,6 @@
 <!-- End Google Analytics -->
 ")
 
-
 (setq my/html-home/up-format
       "
 <div id=\"org-div-header\">
@@ -488,9 +504,9 @@
       '(("en"
 	 "
 <script src=\"/static/jQuery.min.js\"></script>
-<p>Licensed under <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"知识共享许可协议\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png\"/></a></p>
-<p class=\"author\">Author: %a (%e)</p>
-<p class=\"creator\">%c</p>
+
+<p><span class=\"dim\">©2020</span> 戈楷旎 <span class=\"dim\">| Licensed under </span><a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"知识共享许可协议\" style=\"border-width:0\" src=\"/static/img/license.png\"/></a></p>
+<p class=\"creator\"><span class=\"dim\">Generated by</span> %c</p>\n
 
 <script>
 $(document).ready(function(){
@@ -522,6 +538,8 @@ sessionStorage.setItem(\"flag\", \"false\");
 (setq my/org-html-postamble-of-post
       `(( "en"
 	  ,(concat "
+<p class=\"date\"><i>Posted on %d</i></p><br>
+
 <script src=\"/static/jQuery.min.js\"></script>
 <script src=\"/static/Valine.min.js\"></script>
 
@@ -539,9 +557,8 @@ placeholder: '留下你的评论吧～'
 })
 </script>
 
-<p>Licensed under <a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"知识共享许可协议\" style=\"border-width:0\" src=\"https://i.creativecommons.org/l/by-nc-sa/4.0/80x15.png\"/></a></p>
-<p class=\"author\">Author: %a (%e)</p>
-<p class=\"creator\">%c</p>\n
+<p><span class=\"dim\">©2020</span> 戈楷旎 <span class=\"dim\">| Licensed under </span><a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"知识共享许可协议\" style=\"border-width:0\" src=\"/static/img/license.png\"/></a></p>
+<p class=\"creator\"><span class=\"dim\">Generated by</span> %c</p>\n
 
 <script>
 $(document).ready(function(){
