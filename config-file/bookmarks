@@ -78,8 +78,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/iCloud/org/note.org")
- (front-context-string . "* NOTE 跑步       ")
- (rear-context-string . "      :monthly:\n")
- (position . 627))
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20200317")
+ (front-context-string . "** 10:56 晨间记录\n  ")
+ (rear-context-string . ", 17 March 2020\n")
+ (position . 26))
 )

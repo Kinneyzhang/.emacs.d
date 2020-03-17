@@ -60,29 +60,70 @@
       (forward-char (+ 3 (length tag))))))
 ;;----------------------------------------
 ;;; hacking logic tag!
+(defun print-html--process-logic-include (left)
+  (dolist (item (car left))
+    (print-html-unformated item)))
+
+(defun print-html--process-logic-if (left)
+  (if (car left)
+      (print-html-unformated (cadr left))
+    (print-html-unformated (cadr (cdr left)))))
+
+(defun print-html--process-logic-each (left)
+  (dolist (item (car left))
+    (setq each-list
+	  (read
+	   (replace-regexp-in-string
+	    "item" (concat "\"" item "\"") (prin1-to-string (cadr left)))))
+    (print-html-unformated each-list)))
+
+(defun print-html--process-logic-block (left)
+  (print-html-unformated (cadr left)))
+
+(defun print-html--process-logic-extend (left)
+  (let ((base-str (prin1-to-string (car left)))
+	(entend-str
+	 (with-temp-buffer
+	   (insert base-str)
+	   (setq point (goto-char (point-min)))
+	   (while point
+	     (dolist (item (cdr left))
+	       (setq name (symbol-name (cadr item)))
+	       (setq block (prin1-to-string (cadr (cdr item))))
+	       (setq point (re-search-forward ":block" nil t))
+	       (skip-chars-forward "[\" \"\n\t\r]")
+	       (if (string= name (thing-at-point 'word))
+		   (progn
+		     (skip-chars-forward "[a-zA-Z]")
+		     (skip-chars-forward "[\" \"\n\t\r]")
+		     (setq sexp-beg (point))
+		     (ignore-errors (forward-sexp))
+		     (setq sexp-end (point))
+		     (kill-region sexp-beg sexp-end)
+		     (insert block)))))
+	   (buffer-substring-no-properties (point-min) (point-max)))))
+    (print-html-unformated (read entend-str))))
+
 (defun print-html--process-logic (list)
   "process template logic"
   (let ((logic (car list))
 	(left (cdr list)))
-    (cond ((eq logic :include)
-	   (dolist (item (car left))
-	     (print-html-unformated item)))
-	  ((eq logic :if)
-	   (if (car left)
-	       (print-html-unformated (cadr left))
-	     (print-html-unformated (cadr (cdr left)))))
-	  ((eq logic :each)
-	   (dolist (item (car left))
-	     (setq each-list
-		   (read
-		    (replace-regexp-in-string
-		     "item" (concat "\"" item "\"") (prin1-to-string (cadr left)))))
-	     (print-html-unformated each-list))
-	   )
-	  )
+    (cond
+     ((eq logic :include)
+      (print-html--process-logic-include left))
+     ((eq logic :if)
+      (print-html--process-logic-if left))
+     ((eq logic :each)
+      (print-html--process-logic-each left))
+     ((eq logic :block)
+      (print-html--process-logic-block left))
+     ((eq logic :extend)
+      (print-html--process-logic-extend left)))
     ))
 
+;;---------------------------------------------------------------------
 (defun print-html--process-tag (list)
+  
   "process html tag"
   (let ((tag (car list))
 	(plist (print-html--get-plist (cdr list)))
@@ -133,6 +174,12 @@
 	   (:each
 	    ("apple" "peach" "orange" "grape")
 	    (li :class "fruit" item)))
+	  ;; (ul
+	  ;;  (:each ((:id "1" :name "first")
+	  ;; 	   (:id "2" :name "second")
+	  ;; 	   (:id "3" :name "third"))
+	  ;; 	  (li :id item.id item.name)
+	  ;;   ))
 	  (span "分类")
 	  (span "字数")
 	  (span :id "id"
@@ -147,13 +194,21 @@
 	(h1 :id "logo" "戈楷旎")
 	(p :id "description" "happy hacking emacs")
 	(div :id "content"
-	     (:block main (p "this is the default main content")))
+	     (:block main))
+	(div :id "postamble"
+	     (:block post))
 	))
+
 
 (setq extend-html
       `(:extend ,base-html
-		(:block main (p "this is the extented main content"))
+		(:block main (p "this is the extend main content"))
+		(:block post (p "this is the extend postamble content"))
 		))
+
+(print-html-unformated extend-html)
+
+(forward-sexp)
 ;;----------------------------------------------------------------------
 ;;; test var!
 (setq comment nil)

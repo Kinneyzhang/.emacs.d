@@ -59,4 +59,3 @@
   (require 'init-test)
   ;;(require 'init-mu4e)
   )
-(put 'list-timers 'disabled nil)

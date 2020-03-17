@@ -146,7 +146,8 @@
 	(re-search-forward "^#\\+DATE")
 	(setq date (plist-get (cadr (org-element-at-point)) :value))
 	(setq buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" (buffer-substring-no-properties (point-min) (point-max)))
-	      buffer-string (replace-regexp-in-string "\\([a-zA-Z0-9]\\)[ ]+\\(\\cc\\)" "" buffer-string)
+	      buffer-string (replace-regexp-in-string "^本文转载.+\n" "" buffer-string)
+	      buffer-string (replace-regexp-in-string "^http.+\n" "" buffer-string)
 	      buffer-string (replace-regexp-in-string "\\[\\[.+\\]\\[" "" buffer-string)
 	      buffer-string (replace-regexp-in-string "\\]\\]" "" buffer-string)
 	      buffer-string (replace-regexp-in-string "\\*+" "" buffer-string)
@@ -154,7 +155,7 @@
 	      buffer-string (replace-regexp-in-string "\n+" "" buffer-string)
 	      buffer-string (replace-regexp-in-string " =" "" buffer-string)
 	      buffer-string (replace-regexp-in-string "= " "" buffer-string))
-	(setq digest (concat (substring buffer-string 0 100) " ......"))
+	(setq digest (concat (substring buffer-string 0 100) " ....."))
 	(setq xml-str
 	      (concat xml-str
 		      (print-xml
@@ -243,7 +244,9 @@
 		(re-search-forward "^#\\+CATEGORY")
 		(setq category (plist-get (cadr (org-element-at-point)) :value))
 		(setq buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" (buffer-substring-no-properties (point-min) (point-max)))
-		      buffer-string (replace-regexp-in-string "\\([a-zA-Z0-9]\\)[ ]+\\(\\cc\\)" "" buffer-string)
+		      buffer-string (replace-regexp-in-string "^本文转载.+\n" "" buffer-string)
+		      buffer-string (replace-regexp-in-string "^http.+\n" "" buffer-string)
+		      ;; buffer-string (replace-regexp-in-string "\\([a-zA-Z0-9]\\)[ ]+\\(\\cc\\)" "" buffer-string)
 		      buffer-string (replace-regexp-in-string "\\[\\[.+\\]\\[" "" buffer-string)
 		      buffer-string (replace-regexp-in-string "\\]\\]" "" buffer-string)
 		      buffer-string (replace-regexp-in-string "\\*+" "" buffer-string)
@@ -609,7 +612,7 @@ sessionStorage.setItem(\"flag\", \"false\");
 	 :base-directory "~/iCloud/blog_site/org/"
 	 :publishing-directory "~/iCloud/blog_site/post/"
 	 :publishing-function org-html-publish-to-html
-	 :preparation-function (my/blog-generate-sitemap-xml my/blog-generate-index-org my/blog-generate-archive-org my/blog-generate-category-org)
+	 :preparation-function (my/blog-generate-rss-feed my/blog-generate-sitemap-xml my/blog-generate-index-org my/blog-generate-archive-org my/blog-generate-category-org)
 	 :completion-function my/blog-push-to-github
 	 :html-link-home "/"
 	 :html-link-up "/"

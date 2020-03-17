@@ -622,7 +622,7 @@
 	 (date (format-time-string "%Y%m%d"))
 	 (journal (concat org-journal-dir date))
 	 (agenda (concat org-directory "note.org")))
-    (with-current-buffer (get-buffer-create "*add dailly task*")
+    (with-current-buffer (get-buffer-create "*add daily task*")
       (insert-file-contents journal)
       (goto-char (point-min))
       (while beg
@@ -634,9 +634,8 @@
 	  (with-temp-buffer
 	    (yank)
 	    (setq task (buffer-substring-no-properties (point-min) (point-max)))
-	    (append-to-file (concat "* NOTE " task " :daily:\n") nil agenda)))
-	))
-    (kill-buffer "*add dailly task*")
+	    (append-to-file (concat "* NOTE " task " :daily:\n") nil agenda)))))
+    (kill-buffer "*add daily task*")
     ))
 
 (defun org-journal-find-location ()
