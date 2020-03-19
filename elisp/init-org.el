@@ -108,18 +108,18 @@
 ;; org-bable
 (org-babel-do-load-languages
  'org-babel-load-languages
- '( (scheme . t)
-    (latex . t)
-    (css . t)
-    (ruby . t)
-    (shell . t)
-    (python . t)
-    (emacs-lisp . t)
-    (matlab . t)
-    (C . t)
-    (ledger . t)
-    (org . t)
-    ))
+ '((scheme . t)
+   (latex . t)
+   (css . t)
+   (ruby . t)
+   (shell . t)
+   (python . t)
+   (emacs-lisp . t)
+   (matlab . t)
+   (C . t)
+   (ledger . t)
+   (org . t)
+   ))
 
 (setq org-confirm-babel-evaluate nil)
 
@@ -218,7 +218,7 @@
 	 )
 	("m" "晨间记录" entry (function org-journal-find-location)
 	 "* %(format-time-string org-journal-time-format)晨间记录\n  *天气/温度/地点:* \n\n  *昨日总结:*\\\\ \n\n\n  *今日计划:*\\\\\n")
-	 ))
+	))
 
 ;;; Stage 2: Processing
 

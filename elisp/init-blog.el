@@ -1,6 +1,6 @@
 ;;; init-blog
 ;;;===================================================================================
-(require 'print-html)
+(require 'pp-html)
 (require 'print-xml)
 
 (defun my/insert-html-tag-with-attr (tag &optional attr)
@@ -71,17 +71,17 @@
       ;; (setq html-str (concat "「 分类:" category " / 字数:" (number-to-string count) "阅读量:"  " 」"))
       (erase-buffer)
       (insert
-       (print-html `(div :class "post-info"
-			 (p "「"
-			    (span "分类: " ,category " · ")
-			    (span "字数: " ,(number-to-string count) " · ")
-			    (span :id ,valine-visitor-url
-				  :class "leancloud_visitors"
-				  :data-flag-title ,title
-				  (span :class "post-meta-item-text" "阅读 ")
-				  (span :class "leancloud-visitors-count" "...")
-				  " 次")
-			    "」"))))
+       (pp-html `(div :class "post-info"
+		      (p "「"
+			 (span "分类: " ,category " · ")
+			 (span "字数: " ,(number-to-string count) " · ")
+			 (span :id ,valine-visitor-url
+			       :class "leancloud_visitors"
+			       :data-flag-title ,title
+			       (span :class "post-meta-item-text" "阅读 ")
+			       (span :class "leancloud-visitors-count" "...")
+			       " 次")
+			 "」"))))
       (setq html-str (buffer-substring-no-properties (point-min) (point-max)))
       )
     html-str))
@@ -257,14 +257,15 @@
 		(setq digest (substring buffer-string 0 168))
 		(erase-buffer)
 		(insert
-		 (print-html `(div :id "post-div"
-				   (h2 (a :href ,post-url ,title))
-				   (p ,digest " ......" (a :href ,post-url "「阅读全文」"))
-				   (p (code (a :href ,category-url ,category))
-				      (span :id "post-div-meta"
-					    (span ,(number-to-string count) "字 · ")
-					    (span :class "post-date" ,date)
-					    )))))
+		 (pp-html
+		  `(div :id "post-div"
+			(h2 (a :href ,post-url ,title))
+			(p ,digest " ......" (a :href ,post-url "「阅读全文」"))
+			(p (code (a :href ,category-url ,category))
+			   (span :id "post-div-meta"
+				 (span ,(number-to-string count) "字 · ")
+				 (span :class "post-date" ,date)
+				 )))))
 		(setq html-str (concat html-str (buffer-substring-no-properties (point-min) (point-max))))
 		))
 	    posts)

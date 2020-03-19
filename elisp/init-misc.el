@@ -1,3 +1,6 @@
+(use-package pp-html
+  :load-path "~/.emacs.d/site-lisp/pp-html")
+
 (use-package pomodoro
   :load-path "~/.emacs.d/site-lisp/pomodoro"
   :init
