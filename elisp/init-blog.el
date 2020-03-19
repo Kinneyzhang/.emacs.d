@@ -499,7 +499,6 @@
 <a href=\"/category.html\">分类</a>&nbsp;&nbsp;
 <a href=\"/about.html\">关于</a>&nbsp;&nbsp;
 <a href=\"/message.html\">留言</a>&nbsp;&nbsp;
-<span id=\"switch-theme\" onclick=\"switchTheme();\">暗色</span>
 </div>
 </div>")
 
@@ -516,26 +515,11 @@ $(document).ready(function(){
 var theme = sessionStorage.getItem(\"theme\");
 if(theme==\"dark\"){
 document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
-document.getElementById(\"switch-theme\").innerHTML = \"亮色\";
 }else if(theme==\"light\"){
 document.getElementById(\"pagestyle\").href=\"/static/light.css\";
-document.getElementById(\"switch-theme\").innerHTML = \"暗色\";
 }else{
 sessionStorage.setItem(\"theme\",\"light\");
 }});
-
-function switchTheme(){
-if(sessionStorage.getItem(\"flag\")==\"false\"){
-document.getElementById(\"pagestyle\").href=\"/static/light.css\";
-document.getElementById(\"switch-theme\").innerHTML = \"暗色\";
-sessionStorage.setItem(\"theme\",\"light\");
-sessionStorage.setItem(\"flag\", \"true\");
-}else{
-document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
-document.getElementById(\"switch-theme\").innerHTML = \"亮色\";
-sessionStorage.setItem(\"theme\",\"dark\");
-sessionStorage.setItem(\"flag\", \"false\");
-}};
 </script>")))
 
 (setq my/org-html-postamble-of-post
@@ -568,26 +552,11 @@ $(document).ready(function(){
 var theme = sessionStorage.getItem(\"theme\");
 if(theme==\"dark\"){
 document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
-document.getElementById(\"switch-theme\").innerHTML = \"亮色\";
 }else if(theme==\"light\"){
 document.getElementById(\"pagestyle\").href=\"/static/light.css\";
-document.getElementById(\"switch-theme\").innerHTML = \"暗色\";
 }else{
 sessionStorage.setItem(\"theme\",\"light\");
 }});
-
-function switchTheme(){
-if(sessionStorage.getItem(\"flag\")==\"false\"){
-document.getElementById(\"pagestyle\").href=\"/static/light.css\";
-document.getElementById(\"switch-theme\").innerHTML = \"暗色\";
-sessionStorage.setItem(\"theme\",\"light\");
-sessionStorage.setItem(\"flag\", \"true\");
-}else{
-document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
-document.getElementById(\"switch-theme\").innerHTML = \"亮色\";
-sessionStorage.setItem(\"theme\",\"dark\");
-sessionStorage.setItem(\"flag\", \"false\");
-}};
 </script>"))))
 
 ;;--------------------------------------------------------------
@@ -612,7 +581,7 @@ sessionStorage.setItem(\"flag\", \"false\");
 	 :base-directory "~/iCloud/blog_site/org/"
 	 :publishing-directory "~/iCloud/blog_site/post/"
 	 :publishing-function org-html-publish-to-html
-	 :preparation-function (my/blog-generate-rss-feed my/blog-generate-sitemap-xml my/blog-generate-index-org my/blog-generate-archive-org my/blog-generate-category-org)
+	 ;; :preparation-function (my/blog-generate-rss-feed my/blog-generate-sitemap-xml my/blog-generate-index-org my/blog-generate-archive-org my/blog-generate-category-org)
 	 :completion-function my/blog-push-to-github
 	 :html-link-home "/"
 	 :html-link-up "/"

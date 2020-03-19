@@ -617,7 +617,6 @@
   )
 
 (defun my/daily-plan-from-journal-to-agenda ()
-  (interactive)
   (let* ((beg 0)
 	 (date (format-time-string "%Y%m%d"))
 	 (journal (concat org-journal-dir date))
@@ -634,9 +633,13 @@
 	  (with-temp-buffer
 	    (yank)
 	    (setq task (buffer-substring-no-properties (point-min) (point-max)))
-	    (append-to-file (concat "* NOTE " task " :daily:\n") nil agenda)))))
-    (kill-buffer "*add daily task*")
+	    (append-to-file (concat "* NOTE " task " :daily:\n") nil agenda))))
+      (erase-buffer))
     ))
+
+(defun my/journal-to-agenda ()
+  (interactive)
+  (my/daily-plan-from-journal-to-agenda))
 
 (defun org-journal-find-location ()
   (org-journal-new-entry t)

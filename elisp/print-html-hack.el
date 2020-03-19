@@ -123,7 +123,7 @@
 
 ;;---------------------------------------------------------------------
 (defun print-html--process-tag (list)
-  
+
   "process html tag"
   (let ((tag (car list))
 	(plist (print-html--get-plist (cdr list)))
@@ -147,22 +147,71 @@
 	(print-html--process-logic list)
       (print-html--process-tag list))
     ))
+;;----------------------------------------
+(defun print-html--has-child-p ()
+  "judge if a tag has child element"
+  (let ((open-tag-pos (save-excursion
+			(web-mode-element-beginning)
+			(point)))
+	(close-tag-pos (save-excursion
+			 (web-mode-tag-match)
+			 (point))))
+    (save-excursion
+      (goto-char close-tag-pos)
+      (or (search-backward-regexp "</.+>" open-tag-pos t)
+	  (search-backward-regexp "/>" open-tag-pos t)))
+    ))
+
+(defun print-html--has-context-p ()
+  "judge if a tag has inner context"
+  (save-excursion
+    (not (eq (skip-chars-forward "^<") 0))))
+
+(defun print-html--has-context-newline ()
+  "make a newline at the end context"
+  (if (print-html--has-context-p)
+      (progn
+	(skip-chars-forward "^<")
+	(newline))))
+
+(defun print-html-format-html ()
+  "well format html string"
+  (let ((pos (goto-char (point-min))))
+    (with-current-buffer "*print html*"
+      (web-mode)
+      (while (< pos (point-max))
+	(if (print-html--has-child-p)
+	    (progn
+	      (skip-chars-forward "^>")
+	      (forward-char)
+	      (newline)
+	      (setq pos (point))
+	      (print-html--has-context-newline)
+	      (setq pos (point)))
+	  (progn
+	    (sgml-skip-tag-forward 1)
+	    (newline)
+	    (setq pos (point))
+	    (print-html--has-context-newline)
+	    (setq pos (point))))))))
+;;----------------------------------------
+(defun print-html-test (LIST)
+  (with-current-buffer (get-buffer-create "*print-html-test*")
+    (web-mode)
+    (insert (print-html LIST))
+    (indent-region-or-buffer))
+  (view-buffer "*print-html-test*"))
 
 (defun print-html (LIST)
   (let ((html (print-html-unformated LIST)))
+    (with-current-buffer "*print html*"
+      (print-html-format-html)
+      (setq html (buffer-substring-no-properties (point-min) (point-max))))
     (kill-buffer "*print html*")
     html))
 ;;----------------------------------------
-;;; temp to format html!
-(with-current-buffer "*print html*"
-  (setq point (goto-char (point-min)))
-  (while point
-    (progn
-      (setq point (re-search-forward ">" nil t))
-      (newline))))
-;;----------------------------------------
 ;;; example!
-(print-html-unformated
+(print-html-test
  `(div :class "post-info"
        (p "「"
 	  (:include ,test)
@@ -174,19 +223,34 @@
 	   (:each
 	    ("apple" "peach" "orange" "grape")
 	    (li :class "fruit" item)))
-	  ;; (ul
-	  ;;  (:each ((:id "1" :name "first")
-	  ;; 	   (:id "2" :name "second")
-	  ;; 	   (:id "3" :name "third"))
-	  ;; 	  (li :id item.id item.name)
-	  ;;   ))
 	  (span "分类")
 	  (span "字数")
 	  (span :id "id"
 		(span :class "post-meta-item-text" "阅读 ")
 		(span :class "leancloud-visitors-count" "...")
 		" 次")
-	  "」")))
+	  "」")))<div class="post-info">
+<p>
+「
+  <span class="test">test-content</span>
+  <a>hide comment</a>
+  <ul>
+  <li class="fruit">apple</li>
+  <li class="fruit">peach</li>
+  <li class="fruit">orange</li>
+  <li class="fruit">grape</li>
+  </ul>
+  <span>分类</span>
+  <span>字数</span>
+  <span id="id">
+  <span class="post-meta-item-text">阅读 </span>
+  <span class="leancloud-visitors-count">...</span>
+  次
+  </span>
+  」
+</p>
+</div>
+
 ;;----------------------------------------------------------------
 ;;; extend 和 include的区别和联系??
 (setq base-html
@@ -206,9 +270,7 @@
 		(:block post (p "this is the extend postamble content"))
 		))
 
-(print-html-unformated extend-html)
-
-(forward-sexp)
+(print-html extend-html)
 ;;----------------------------------------------------------------------
 ;;; test var!
 (setq comment nil)
@@ -216,64 +278,3 @@
 (setq comment-div2 '((a :class "else-test" "else-test-content")))
 (setq list '((span :class "span" item)))
 (setq test `((span :class "test" "test-content")))
-
-;;;========================================================================
-;; (defun print-html--if-no-child (inner)
-;;   "judge if html tag has child-tag"
-;;   (let ((no-child t))
-;;     (dolist (item inner)
-;;       (if (listp item)
-;; 	  (setq no-child nil)))
-;;     no-child))
-
-;; (defun print-html--format-html (tag inner)
-;;   "format html tag, tag which has no child show in one line, others are well formated by default. change this function to redesign the format rule."
-;;   (let ((tag (symbol-name tag)))
-;;     (if (member tag print-html--single-tag-list)
-;; 	(insert "")
-;;       (progn
-;; 	(if (not (print-html--if-no-child inner))
-;; 	    (insert "\n"))))))
-;;--------------------------------------------------
-;;;;;;;; ! new function
-;; (defun print-html--parse-list-formated (list)
-;;   (let* ((car (car list))
-;; 	 (car-str (symbol-name car))
-;; 	 (left (cdr list))
-;; 	 (left-car (cadr list))
-;; 	 (plist (print-html--get-plist left))
-;; 	 (inner (print-html--get-inner left))
-;; 	 (html ""))
-;;     (if (string= (substring car-str 0 1) ":")
-;; 	(progn
-;; 	  (setq logic (substring car-str 1))
-;; 	  (cond ((string= logic "include") (dolist (item left-car)
-;; 					     (print-html--parse-list-formated item)))
-;; 		;; ((string= logic "if") (...))
-;; 		))
-;;       (with-current-buffer (get-buffer-create "*print html*")
-;; 	(setq tag car)
-;; 	(print-html--insert-html-tag tag plist)
-;; 	(print-html--format-html tag inner)
-;; 	(dolist (item inner)
-;; 	  (if (listp item)
-;; 	      (print-html--parse-list-formated item)
-;; 	    (progn
-;; 	      (insert item)
-;; 	      (print-html--format-html tag inner))))
-;; 	(print-html--jump-outside tag)
-;; 	(insert "\n")
-;; 	(setq html (buffer-substring-no-properties (point-min) (point-max))))
-;;       )
-;;     ))
-;;;==================================================
-
-;; (print-html--parse-list `(:include ,var))
-;; (setq var '((link :rel "shortcut icon" :href "/static/img/favicon.ico")
-;; 	    (link :rel "bookmark" :href "/static/img/favicon.ico" :type "image/x-icon")
-;; 	    (link :id "pagestyle" :rel "stylesheet" :type "text/css" :href "/static/light.css"))
-;;       )
-
-;;===========================================================
-
-(provide 'print-html)
