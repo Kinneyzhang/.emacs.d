@@ -1,5 +1,4 @@
 ;; happy hacking emacs.
-
 (op/do-publication t nil nil t)
 
 
@@ -182,7 +181,7 @@ test
       finally (return (values odds evens)))
 
 (mapcar 'capitalize '("emacs" "is" "very" "cool"))
-
+g
 (setq anno (lambda (x) (* x x)))
 (mapcar anno '(1 2 3 4))
 
@@ -944,15 +943,22 @@ and 'mpg123' in linux"
   )
 
 
-(setq html
+(setq base-html
       `(html :lang "en"
-	     (head (:include header))
-	     (body (div :id "layout"
-			(:include menubar)
-			(div :id "content"
-			     (:include article)
-			     (:include sidebar))
-			(:include postamble)))))
+	     (head (:include ,header))
+	     (body
+	      (div :id "layout"
+		   (div :id "org-div-header"
+			(:include ,menubar))
+		   (div :id "content"
+			(div :id "main"
+			     (:block main
+				     (:include ,article)
+				     (:if ,comment ,comment-div)))
+			(div :id "side"
+			     (:include ,side)))
+		   (div :id "postamble"
+			(:include ,postamble))))))
 (setq header
       `((meta :charset "utf-8")
 	(meta :name "viewport" :content "width=device-width, initial-scale=1")
@@ -962,6 +968,7 @@ and 'mpg123' in linux"
 	(link :rel "shortcut icon" :href ,favicon-href)
 	(link :rel "bookmark" :href ,favicon-href :type "image/x-icon")
 	(link :rel "stylesheet" :type "text/css" :href ,css-href)
+	(script ,ad-code)
 	(script ,ga-code)))
 
 (setq menubar
@@ -972,7 +979,8 @@ and 'mpg123' in linux"
 	     (a :href "/index.html" "首页")
 	     (a :href "/archive.html" "归档")
 	     (a :href "/category.html" "分类")
-	     (a :href "/about.html" "关于"))))
+	     (a :href "/about.html" "关于")
+	     (a :href "/message.html" "留言"))))
 
 (setq article
       `((div :id "article-div"
@@ -1037,17 +1045,6 @@ and 'mpg123' in linux"
 
 https://hiwannz.com/wp-content/uploads/2020/03/at-a-loss-2773594_640.jpg
 
-(with-current-buffer (get-buffer-create "test digest")
-  (insert-file-contents "~/iCloud/program_org/anxiety-of-product-manager.org")
-  (setq buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" (buffer-substring-no-properties (point-min) (point-max)))
-	buffer-string (replace-regexp-in-string "^本文转载.+\n" "" buffer-string)
-	buffer-string (replace-regexp-in-string "^http.+\n" "" buffer-string)
-	buffer-string (replace-regexp-in-string "\n+" "" buffer-string))
-  
-  (erase-buffer)
-  (insert buffer-string)
-  )
-
 
 (pp-html-test
  '(div :class "content"
@@ -1055,4 +1052,148 @@ https://hiwannz.com/wp-content/uploads/2020/03/at-a-loss-2773594_640.jpg
        (a :href "url" (img :src "src" "hello img"))
        (p :class "paragraph" "paragraph1" (span :class "span" "hello") "paragraph2" (a (b "bc") "url" (b :class "b" "bb") "url2") "paragraph3")))
 
+;;; 解析elisp为html
 
+;;; example!
+;; test var!
+(setq comment nil)
+(setq comment-div1 '((a :class "if-test" "if-test-content")))
+(setq comment-div2 '((a :class "else-test" "else-test-content")))
+(setq front `((span :class "test" "test-content")))
+;;----------------------------------------------------------------
+(setq base-html
+      '(body
+	(h1 :id "logo" "戈楷旎")
+	(p :id "description" "happy hacking emacs")
+	(div :id "content"
+	     (:block main (p "this is :block default content")))
+	(div :id "postamble"
+	     (:block post (p)))
+	))
+
+(setq extend-html
+      `(:extend ,base-html
+		;; (:block main (p "this is the extend main content"))
+		(:block post (p "this is the extend postamble content"))
+		))
+
+(pp-html-test extend-html)
+
+(pp-html-test
+ `(div :class "post-info"
+       (p "「"
+	  (:include ,front)
+	  (:if ,comment
+	       (:include ,comment-div1)
+	       (:include ,comment-div2))
+	  (ul
+	   (:each
+	    ("apple" "peach" "orange" "grape")
+	    (li :class "fruit" item)))
+	  (span "分类")
+	  (span "字数")
+	  (span :id "id" :class "class"
+		(span :class "post-meta-item-text" "阅读 ")
+		(span :class "leancloud-visitors-count" "...")
+		" 次")
+	  "」")))
+
+(symbol-overlay-regexp "^\".+\"")
+
+(defun my/highlight-all-string ()
+  (interactive)
+  (with-current-buffer (buffer-name)
+    (goto-char (point-min))
+    (setq pos (re-search-forward "\"[^\"]+\"" pos t))
+    (while pos
+      (setq pos (re-search-forward "\"[^\"]+\"" pos t))
+      (symbol-overlay-put))
+    ))
+
+(with-current-buffer (get-buffer-create "test-replce-regexp")
+  (erase-buffer)
+  (insert-file-contents "~/.emacs.d/elisp/test.org")
+  (setq buffer-string (replace-regexp-in-string "^.+BEGIN_SRC.+\n\\(.*\n\\)*?.+END_SRC$" "" (buffer-substring-no-properties (point-min) (point-max)))
+	buffer-string (replace-regexp-in-string "^#\\+.+$" "" buffer-string)
+	buffer-string (replace-regexp-in-string "\\(^=\\|=$\\| =\\|= \\|^/\\|/$\\| /\\|/ \\|^*\\|*$\\| \\*\\|\\* \\|^+\\|+$\\| \\+\\|\\+ \\|^~\\|~$\\| ~\\|~ \\|^_\\|_$\\| _\\|_ \\)" "" buffer-string)
+	buffer-string (replace-regexp-in-string "\\(\\[\\[\\|http.+\\]\\[\\|\\]\\]\\)" "" buffer-string)
+	buffer-string (replace-regexp-in-string "^本文转载.+\n" "" buffer-string)
+	buffer-string (replace-regexp-in-string "^http.+\n" "" buffer-string)
+	buffer-string (replace-regexp-in-string "\n+" "" buffer-string))
+  (erase-buffer)
+  (insert buffer-string))
+
+(with-current-buffer (get-buffer-create "test digest")
+  (insert-file-contents "~/iCloud/program_org/anxiety-of-product-manager.org")
+  (setq buffer-string 
+
+	
+	buffer-string (replace-regexp-in-string "\n+" "" buffer-string))
+  
+  (erase-buffer)
+  (insert buffer-string)
+  )
+
+buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" buffer-string)
+
+(eq 1.2 1.2)
+(eql 'test 'test)
+(equal 'test 'test)
+(eql "hello" "hello")
+
+(mapcar (lambda (item) `(li :class "fruit" ,item))
+	'("apple" "peach" "orange" "grape"))
+
+(setq tlist '(1 2 (6 7 8) 4 (10 11 12)))
+(( (0) 1 )
+ ( (1) 2 )
+ ( (2 0) 6 )
+ ( (2 1) 7 )
+ ( (2 2) 8 )
+ ( (3) 4 )
+ ( (4 0) 10 )
+ ....
+ )
+
+(setcar (nthcdr 1 testp) 8)
+testp
+(nthcdr 3 testp)
+
+(defun my/parse-list (tlist)
+  (let ((alist)
+	(sequ))
+    (dotimes (i (length tlist))
+      (if (atom (nth i tlist))
+	  (progn
+	    (setq sequ (append sequ `(,i)))
+	    (setq elem (nth i tlist))
+	    (setq pair `(,sequ ,elem))
+	    (setq alist (append alist `(,pair))))
+	(my/parse-list (nth i tlist))
+	))
+    alist))
+
+(my/parse-list tlist)
+
+(defun my/alter-list (list sequ val)
+  ())
+
+
+(defun my/list-replace-all (old new list &optional fn-equal)
+  "Replace all occurences of OLD by NEW in LIST.
+Return number of elements replaced.
+FN-EQUAL takes two arguments and return t if they are considered equals.
+FN-EQUAL defaults to `equal'.
+Destructive."
+  (let ((fn-equal (or fn-equal #'equal)))
+    (while list
+      (when (listp (car list))
+	(my/list-replace-all old new (car list)))
+      (when (funcall fn-equal old (car list))
+        (setcar list new))
+      (setq list (cdr list))
+      )))
+
+(setq tlist '(1 2 (6 1 8) 1 (1 11 12)))
+(my/list-replace-all 1 "hello" tlist)
+tlist

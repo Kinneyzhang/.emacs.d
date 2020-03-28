@@ -68,6 +68,7 @@
   (:color amaranth :exit t)
   ("Goto website"
    (("x e" (browse-url "http://ergoemacs.org/emacs/emacs.html") "XahEmacs")
+    ("b l" (browse-url "https://www.bilibili.com") "Bilibili")
     ("d b" (browse-url "https://www.douban.com") "Douban")
     ("e c" (browse-url "https://www.emacs-china.org") "EmacsChina")
     ("e w" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
