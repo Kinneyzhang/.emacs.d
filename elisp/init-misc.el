@@ -1,20 +1,20 @@
-(use-package pp-html
-  :load-path "~/.emacs.d/site-lisp/pp-html")
+;; (use-package pp-html
+;;   :load-path "~/.emacs.d/site-lisp/pp-html")
 
-(use-package pomodoro
-  :load-path "~/.emacs.d/site-lisp/pomodoro"
-  :init
-  (setq pomodoro-work-time 25
-	pomodoro-break-time 5
-	pomodoro-long-break-time 15
-	pomodoro-nth-for-longer-break 4
-	;; pomodoro-desktop-notification nil
-	pomodoro-work-cycle "work "	
-	pomodoro-break-cycle "break "
-	pomodoro-sound-player "mplayer"
-	pomodoro-break-start-sound (expand-file-name (concat config-dir "alarm.mp3"))
-	pomodoro-work-start-sound (expand-file-name (concat config-dir "alarm.mp3"))
-	))
+;; (use-package pomodoro
+;;   :load-path "~/.emacs.d/site-lisp/pomodoro"
+;;   :init
+;;   (setq pomodoro-work-time 25
+;; 	pomodoro-break-time 5
+;; 	pomodoro-long-break-time 15
+;; 	pomodoro-nth-for-longer-break 4
+;; 	;; pomodoro-desktop-notification nil
+;; 	pomodoro-work-cycle "work "	
+;; 	pomodoro-break-cycle "break "
+;; 	pomodoro-sound-player "mplayer"
+;; 	pomodoro-break-start-sound (expand-file-name (concat config-dir "alarm.mp3"))
+;; 	pomodoro-work-start-sound (expand-file-name (concat config-dir "alarm.mp3"))
+;; 	))
 
 ;; (use-package pomidor
 ;;   :bind (("<f12>" . pomidor))

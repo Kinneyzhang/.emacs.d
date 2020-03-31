@@ -6,10 +6,6 @@
 
 (defvar blog-language "zh-cn")
 (defvar blog-generator "Emacs OrgMode 9.1.9")
-(defvar blog-abs-url-prefix
-  (concat blog-domain (string-trim blog-publish-dir blog-root-dir)))
-(defvar blog-rel-url-prefix
-  (concat "/" (string-trim blog-publish-dir blog-root-dir)))
 
 (defvar blog-name "戈楷旎")
 (defvar blog-description "happy hacking emacs!")
@@ -21,13 +17,32 @@
 (defvar blog-base-dir "~/iCloud/blog_site/org/")
 (defvar blog-publish-dir "~/iCloud/blog_site/post/")
 
+(defvar blog-abs-url-prefix
+  (concat blog-domain (string-trim blog-publish-dir blog-root-dir)))
+(defvar blog-rel-url-prefix
+  (concat "/" (string-trim blog-publish-dir blog-root-dir)))
 (defvar blog-icon "/static/img/favicon.ico")
 (defvar blog-css "/static/light.css")
 
 (defvar ga-script "(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-149578968-1', 'auto');ga('send', 'pageview');")
 
+;; get valine appid and appkey
+(defun geekblog--get-valine-info ()
+  "get appId and appKey list"
+  (let ((valine-file (concat blog-root-dir "valine"))
+	(applist nil))
+    (with-temp-buffer
+      (insert-file-contents valine-file)
+      (goto-char (point-min))
+      (setq appid (substring (thing-at-point 'line) 0 -1))
+      (next-line)
+      (setq appkey (thing-at-point 'line))
+      (setq applist `(,appid ,appkey)))
+    applist))
+
 (defvar valine-script
-  "new Valine({
+  (concat
+   "new Valine({
 el: '#vcomments',
 appId: '" (car (geekblog--get-valine-info)) "',
 appKey: '" (cadr (geekblog--get-valine-info)) "',
@@ -36,7 +51,7 @@ notify: true,
 verify: false,
 avatar: 'identicon',
 placeholder: '留下你的评论吧～'
-})")
+})"))
 
 (defvar other-script
   '((script :src "/static/jQuery.min.js")
@@ -50,14 +65,15 @@ document.getElementById(\"pagestyle\").href=\"/static/light.css\";
 sessionStorage.setItem(\"theme\",\"light\");
 }});")))
 
-(defun geekblog/publish-file (post) ;; if something changed, generate page(?)
-  
-  )
+;; (defun geekblog/publish-file (post) ;; if something changed, generate page(?)
+
+;;   )
 
 (defvar base-head
   `((meta :charset "utf-8")
     (meta :name "viewport" :content "width=device-width, initial-scale=1")
-    (title ,title)
+    ;; (title ,title)
+    (title "title")
     (meta :name "generator" :content ,blog-generator)
     (meta :name "author" :content ,blog-author)
     (link :rel "shortcut icon" :href ,blog-icon)
@@ -76,6 +92,12 @@ sessionStorage.setItem(\"theme\",\"light\");
 	 (a :href "/category.html" "分类")
 	 (a :href "/about.html" "关于")
 	 (a :href "/message.html" "留言"))))
+
+(defvar main-post
+  '((p "main-post")))
+
+(defvar sidebar
+  '((div "sidebar")))
 
 (defvar base-comment
   `((div :id "comment-div"
@@ -104,46 +126,30 @@ sessionStorage.setItem(\"theme\",\"light\");
 		    (:include ,base-menu))
 	       (div :id "content"
 		    (div :id "main"
-			 (:block main))
+			 (:block main
+				 (:include ,main-post)
+				 (:include ,base-comment)))
 		    (div :id "side"
 			 (:include ,sidebar)))
 	       (div :id "postamble"
 		    (:include ,postamble))))))
 
-(defvar index-page
-  `(:extend main
-	    (:include ,digest-format)))
+;; (pp-html-test base-html)
 
-(defvar archive-page
-  `(:extend main
-	    (:include ,archive-format)))
+;; (defvar archive-page
+;;   `(:extend main
+;; 	    (:include ,archive-format)))
 
-(defvar category-page
-  `(:extend main
-	    (:include ,category-format)))
+;; (defvar category-page
+;;   `(:extend main
+;; 	    (:include ,category-format)))
 
-(defvar post-page
-  `(:extend main
-	    (:include ,post-format)))
+;; (defvar post-page
+;;   `(:extend main
+;; 	    (:include ,post-format)))
 
-(defun geekblog/wrap-extra-html ()
-  (let ()))
 
 ;;;==================================================
-;; get valine appid and appkey
-(defun geekblog--get-valine-info ()
-  "get appId and appKey list"
-  (let ((valine-file (concat blog-root-dir "valine"))
-	(applist nil))
-    (with-temp-buffer
-      (insert-file-contents valine-file)
-      (goto-char (point-min))
-      (setq appid (substring (thing-at-point 'line) 0 -1))
-      (next-line)
-      (setq appkey (thing-at-point 'line))
-      (setq applist `(,appid ,appkey)))
-    applist))
-
 (defun geekblog--get-post-meta (meta-list post)
   "get meta info of a post"
   (let ((meta-res))
@@ -308,17 +314,21 @@ sessionStorage.setItem(\"theme\",\"light\");
       (setq post-list (append post-list (cdr item))))
     post-list))
 ;;;--------------------------------------------------
-(defvar digest-format
-  `((:for post ,(geekblog--get-all-posts)
-	  (div :class "post-div"
-	       (h2 (a :href ,(geekblog--get-post-meta "rel-url" post)
-		      ,(geekblog--get-post-meta "title" post)))
-	       (p ,(geekblog--get-post-digest post 170)
-		  (a :href ,(geekblog--get-post-meta "rel-url" post) "「阅读全文」"))
-	       (p (code (a :href "/category.html" ,(geekblog--get-post-meta "category" post)))
-		  (span :class "post-div-meta"
-			(span ,(number-to-string (geekblog--get-post-meta "count" post)) "字 · ")
-			(span :class "post-date" ,(geekblog--get-post-meta "date" post))))))))
+;; (defvar digest-format ;; :for has problem, cannot find valiable post.
+;;   `((:for post ,(geekblog--get-all-posts)
+;; 	  (div :class "post-div"
+;; 	       (h2 (a :href ,(geekblog--get-post-meta "rel-url" post)
+;; 		      ,(geekblog--get-post-meta "title" post)))
+;; 	       (p ,(geekblog--get-post-digest post 170)
+;; 		  (a :href ,(geekblog--get-post-meta "rel-url" post) "「阅读全文」"))
+;; 	       (p (code (a :href "/category.html" ,(geekblog--get-post-meta "category" post)))
+;; 		  (span :class "post-div-meta"
+;; 			(span ,(number-to-string (geekblog--get-post-meta "count" post)) "字 · ")
+;; 			(span :class "post-date" ,(geekblog--get-post-meta "date" post))))))))
+
+;; (defvar index-page
+;;   `(:extend main
+;; 	    (:include ,digest-format)))
 
 (defun geekblog/generate-index-page ()
   (interactive)
@@ -328,15 +338,15 @@ sessionStorage.setItem(\"theme\",\"light\");
       (write-file index-file))
     (message "index.html generated successfully!")))
 ;;;--------------------------------------------------------
-(defvar archive-format
-  `((:for year ,(geekblog--get-year-list (geekblog--get-all-posts))
-	  (div :class "archive-year"
-	       (h2 year
-		   (ul
-		    (:for 
-		     (li ,post-date " "
-			 (a :href ,post-url ,post-title)))))
-	       ))))
+;; (defvar archive-format
+;;   `((:for year ,(geekblog--get-year-list (geekblog--get-all-posts))
+;; 	  (div :class "archive-year"
+;; 	       (h2 year
+;; 		   (ul
+;; 		    (:for 
+;; 		     (li ,post-date " "
+;; 			 (a :href ,post-url ,post-title)))))
+;; 	       ))))
 
 (defun geekblog--get-year-list (posts)
   (let ((year-list))
@@ -346,9 +356,9 @@ sessionStorage.setItem(\"theme\",\"light\");
       (setq year-list (append year-list (list year))))
     year-list))
 
-(defun geekblog--get-year-post-list (posts)
-  (let ((year-post-list))
-    ()))
+;; (defun geekblog--get-year-post-list (posts)
+;;   (let ((year-post-list))
+;;     ()))
 
 (defun geekblog--archive-format (posts)
   (let ((archive-year-str "")
@@ -486,114 +496,114 @@ sessionStorage.setItem(\"theme\",\"light\");
 ;; (setq org-html-creator-string
 ;;       "<a href=\"https://www.gnu.org/software/emacs/\">Emacs</a> 26.3 (<a href=\"https://orgmode.org\">Org</a> mode 9.1.9)")
 
-(setq my/html-head
-      "
-<link rel=\"shortcut icon\" href=\"/static/img/favicon.ico\"/>
-<link rel=\"bookmark\" href=\"/static/img/favicon.ico\" type=\"image/x-icon\"/>
-<link id=\"pagestyle\" rel=\"stylesheet\" type=\"text/css\" href=\"/static/light.css\"/>
-<!-- Google Adsense -->
-<script data-ad-client=\"ca-pub-3231589012114037\" async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>
-<!-- End Google Adsense -->
-")
+;; (setq my/html-head
+;;       "
+;; <link rel=\"shortcut icon\" href=\"/static/img/favicon.ico\"/>
+;; <link rel=\"bookmark\" href=\"/static/img/favicon.ico\" type=\"image/x-icon\"/>
+;; <link id=\"pagestyle\" rel=\"stylesheet\" type=\"text/css\" href=\"/static/light.css\"/>
+;; <!-- Google Adsense -->
+;; <script data-ad-client=\"ca-pub-3231589012114037\" async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>
+;; <!-- End Google Adsense -->
+;; ")
 
-(setq my/html-home/up-format
-      "
-<div id=\"org-div-header\">
-<div class=\"toptitle\">
-<a id=\"logo\" href=\"/\">戈楷旎</a>
-<p class=\"description\">happy hacking emacs!</p>
-</div>
-<div class=\"topnav\">
-<a href=\"/\">首页</a>&nbsp;&nbsp;
-<a href=\"/archive.html\">归档</a>&nbsp;&nbsp;
-<a href=\"/category.html\">分类</a>&nbsp;&nbsp;
-<a href=\"/about.html\">关于</a>&nbsp;&nbsp;
-<a href=\"/message.html\">留言</a>&nbsp;&nbsp;
-</div>
-</div>")
+;; (setq my/html-home/up-format
+;;       "
+;; <div id=\"org-div-header\">
+;; <div class=\"toptitle\">
+;; <a id=\"logo\" href=\"/\">戈楷旎</a>
+;; <p class=\"description\">happy hacking emacs!</p>
+;; </div>
+;; <div class=\"topnav\">
+;; <a href=\"/\">首页</a>&nbsp;&nbsp;
+;; <a href=\"/archive.html\">归档</a>&nbsp;&nbsp;
+;; <a href=\"/category.html\">分类</a>&nbsp;&nbsp;
+;; <a href=\"/about.html\">关于</a>&nbsp;&nbsp;
+;; <a href=\"/message.html\">留言</a>&nbsp;&nbsp;
+;; </div>
+;; </div>")
 
-(setq my/org-html-postamble-of-page
-      '(("en"
-	 "
-<script src=\"/static/jQuery.min.js\"></script>
+;; (setq my/org-html-postamble-of-page
+;;       '(("en"
+;; 	 "
+;; <script src=\"/static/jQuery.min.js\"></script>
 
-<p><span class=\"dim\">©2020</span> 戈楷旎 <span class=\"dim\">| Licensed under </span><a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"知识共享许可协议\" style=\"border-width:0\" src=\"/static/img/license.png\"/></a></p>
-<p class=\"creator\"><span class=\"dim\">Generated by</span> %c</p>\n
+;; <p><span class=\"dim\">©2020</span> 戈楷旎 <span class=\"dim\">| Licensed under </span><a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"知识共享许可协议\" style=\"border-width:0\" src=\"/static/img/license.png\"/></a></p>
+;; <p class=\"creator\"><span class=\"dim\">Generated by</span> %c</p>\n
 
-<!-- Google Analytics -->
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-149578968-1', 'auto');ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
+;; <!-- Google Analytics -->
+;; <script>
+;; (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-149578968-1', 'auto');ga('send', 'pageview');
+;; </script>
+;; <!-- End Google Analytics -->
 
-<script>
-$(document).ready(function(){
-var theme = sessionStorage.getItem(\"theme\");
-if(theme==\"dark\"){
-document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
-}else if(theme==\"light\"){
-document.getElementById(\"pagestyle\").href=\"/static/light.css\";
-}else{
-sessionStorage.setItem(\"theme\",\"light\");
-}});
-</script>")))
+;; <script>
+;; $(document).ready(function(){
+;; var theme = sessionStorage.getItem(\"theme\");
+;; if(theme==\"dark\"){
+;; document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+;; }else if(theme==\"light\"){
+;; document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+;; }else{
+;; sessionStorage.setItem(\"theme\",\"light\");
+;; }});
+;; </script>")))
 
-(setq my/org-html-postamble-of-post
-      `(( "en"
-	  ,(concat "
-<p class=\"date\"><i>Posted on %d</i></p><br>
+;; (setq my/org-html-postamble-of-post
+;;       `(( "en"
+;; 	  ,(concat "
+;; <p class=\"date\"><i>Posted on %d</i></p><br>
 
-<script src=\"/static/jQuery.min.js\"></script>
-<script src=\"/static/Valine.min.js\"></script>
+;; <script src=\"/static/jQuery.min.js\"></script>
+;; <script src=\"/static/Valine.min.js\"></script>
 
-<div id=\"vcomments\"></div>
-<script>
-new Valine({
-el: '#vcomments',
-appId: '" (car (geekblog--get-valine-info)) "',
-appKey: '" (cadr (geekblog--get-valine-info)) "',
-visitor: true,
-notify: true,
-verify: false,
-avatar: 'identicon',
-placeholder: '留下你的评论吧～'
-})
-</script>
+;; <div id=\"vcomments\"></div>
+;; <script>
+;; new Valine({
+;; el: '#vcomments',
+;; appId: '" (car (geekblog--get-valine-info)) "',
+;; appKey: '" (cadr (geekblog--get-valine-info)) "',
+;; visitor: true,
+;; notify: true,
+;; verify: false,
+;; avatar: 'identicon',
+;; placeholder: '留下你的评论吧～'
+;; })
+;; </script>
 
-<p><span class=\"dim\">©2020</span> 戈楷旎 <span class=\"dim\">| Licensed under </span><a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"知识共享许可协议\" style=\"border-width:0\" src=\"/static/img/license.png\"/></a></p>
-<p class=\"creator\"><span class=\"dim\">Generated by</span> %c</p>\n
+;; <p><span class=\"dim\">©2020</span> 戈楷旎 <span class=\"dim\">| Licensed under </span><a rel=\"license\" href=\"http://creativecommons.org/licenses/by-nc-sa/4.0/\"><img alt=\"知识共享许可协议\" style=\"border-width:0\" src=\"/static/img/license.png\"/></a></p>
+;; <p class=\"creator\"><span class=\"dim\">Generated by</span> %c</p>\n
 
-<!-- Google Analytics -->
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-149578968-1', 'auto');ga('send', 'pageview');
-</script>
-<!-- End Google Analytics -->
+;; <!-- Google Analytics -->
+;; <script>
+;; (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create', 'UA-149578968-1', 'auto');ga('send', 'pageview');
+;; </script>
+;; <!-- End Google Analytics -->
 
-<script>
-$(document).ready(function(){
-var theme = sessionStorage.getItem(\"theme\");
-if(theme==\"dark\"){
-document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
-}else if(theme==\"light\"){
-document.getElementById(\"pagestyle\").href=\"/static/light.css\";
-}else{
-sessionStorage.setItem(\"theme\",\"light\");
-}});
-</script>"))))
+;; <script>
+;; $(document).ready(function(){
+;; var theme = sessionStorage.getItem(\"theme\");
+;; if(theme==\"dark\"){
+;; document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
+;; }else if(theme==\"light\"){
+;; document.getElementById(\"pagestyle\").href=\"/static/light.css\";
+;; }else{
+;; sessionStorage.setItem(\"theme\",\"light\");
+;; }});
+;; </script>"))))
 
 ;;--------------------------------------------------------------
-(setq org-publish-project-alist
-      `(("geekblog"
-	 :base-extension "org"
-	 :recursive nil
-	 :base-directory ,blog-base-dir
-	 :publishing-directory ,blog-publish-dir
-	 :publishing-function org-html-publish-to-html
-	 :preparation-function
-	 (geekblog/generate-sitemap geekblog/generate-rss geekblog/generate-index-page geekblog/generate-archive-page geekblog/generate-category-page)
-	 :completion-function (geekblog/wrap-extra-html geekblog/push-to-github)
-	 :body-only t
-	 )))
+;; (setq org-publish-project-alist
+;;       `(("geekblog"
+;; 	 :base-extension "org"
+;; 	 :recursive nil
+;; 	 :base-directory ,blog-base-dir
+;; 	 :publishing-directory ,blog-publish-dir
+;; 	 :publishing-function org-html-publish-to-html
+;; 	 :preparation-function
+;; 	 (geekblog/generate-sitemap geekblog/generate-rss geekblog/generate-index-page geekblog/generate-archive-page geekblog/generate-category-page)
+;; 	 :completion-function geekblog/push-to-github
+;; 	 :body-only t
+;; 	 )))
 
 (use-package simple-httpd
   :ensure t

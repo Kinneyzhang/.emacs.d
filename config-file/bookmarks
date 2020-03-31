@@ -78,8 +78,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/journal/20200328")
- (front-context-string . "** 10:28 晨间记录\n  ")
- (rear-context-string . ", 28 March 2020\n")
- (position . 27))
+ (filename . "~/iCloud/org/task.org")
+ (front-context-string . "* TODO 公众号注销沟通\n ")
+ (rear-context-string . "		      :@hack:\n")
+ (position . 4646))
 )

@@ -1,8 +1,4 @@
 ;; happy hacking emacs.
-(op/do-publication t nil nil t)
-
-
-;;;
 
 (buffer-name (current-buffer))
 
@@ -1159,24 +1155,7 @@ buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" buffer-string)
 testp
 (nthcdr 3 testp)
 
-(defun my/parse-list (tlist)
-  (let ((alist)
-	(sequ))
-    (dotimes (i (length tlist))
-      (if (atom (nth i tlist))
-	  (progn
-	    (setq sequ (append sequ `(,i)))
-	    (setq elem (nth i tlist))
-	    (setq pair `(,sequ ,elem))
-	    (setq alist (append alist `(,pair))))
-	(my/parse-list (nth i tlist))
-	))
-    alist))
-
 (my/parse-list tlist)
-
-(defun my/alter-list (list sequ val)
-  ())
 
 
 (defun my/list-replace-all (old new list &optional fn-equal)
@@ -1197,3 +1176,21 @@ Destructive."
 (setq tlist '(1 2 (6 1 8) 1 (1 11 12)))
 (my/list-replace-all 1 "hello" tlist)
 tlist
+
+;;;=========================================================================
+
+(eval (car '(geekblog-base-header)))
+
+(load-file "~/iCloud/hack/geekblog/geekblog-vars.el")
+(require 'geekblog-vars)
+(pp-html-test geekblog-base-html)
+
+;; 处理 include 的值为 nil的情形
+
+(load-file "~/iCloud/hack/pp-html/pp-html.el")
+(require 'pp-html)
+(pp-html '(div :class "div" (p :class "p" "content" (div "div-content" (span)))))
+
+(pp-html '(div :class "div" :async nil :id "id" "content"))
+
+(pp-html-test '(button :class "btn" :disable nil))

@@ -188,7 +188,7 @@
 
 (require 'find-lisp)
 (setq jethro/org-agenda-directory (expand-file-name "~/iCloud/"))
-(setq org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org" "~/iCloud/org/inbox.org" "~/iCloud/org/someday.org" "~/iCloud/org/note.org"))
+(setq org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org" "~/iCloud/org/inbox.org" "~/iCloud/org/someday.org" "~/iCloud/org/review.org"))
 
 (setq org-src-fontify-natively t)
 (setq org-agenda-window-setup 'current-window)
@@ -207,12 +207,10 @@
 	 "* APPT %?")
 	("p" "project" entry (file "~/iCloud/org/project.org")
 	 "* PROJ %? [%]\n** TODO" :clock-resume t)
-	("M" "monthly-plan" entry (file "~/iCloud/org/note.org")
-	 "* NOTE %? :monthly:")
-	("W" "weekly-plan" entry (file "~/iCloud/org/note.org")
-	 "* NOTE %? :weekly:")
-	("D" "daily-plan" entry (file "~/iCloud/org/note.org")
-	 "* NOTE %? :daily:")
+	("M" "monthly-plan" entry (file "~/iCloud/org/review.org")
+	 "* TODO %? :monthly:")
+	("W" "weekly-plan" entry (file "~/iCloud/org/review.org")
+	 "* TODO %? :weekly:")
 	("h" "habit" entry (file "~/iCloud/org/task.org")
 	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
 	 )
@@ -228,7 +226,7 @@
 ;; keywords
 
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "NEXT(n)" "APPT(a)" ">PROJ(p)" "NOTE(N)" "|" "DONE(d)")
+      '((sequence "TODO(t)" "NEXT(n)" "APPT(a)" "PROJ(p)" "NOTE(N)" "|" "DONE(d)")
         (sequence "WAITING(w@/!)" "DEFFERED(f@/!)" "|" "CANCELLED(c@/!)")))
 
 (setq org-todo-keyword-faces
@@ -236,7 +234,7 @@
 	      ("NEXT" :foreground "blue" :weight bold)
 	      ("DONE" :foreground "forest green" :weight bold)
 	      ("APPT" :foreground "orange" :weight bold)
-	      (">PROJ" :foreground "sky blue" :weight bold)
+	      ("PROJ" :foreground "sky blue" :weight bold)
 	      ("NOTE" :foreground "grey" :weight bold)
 	      ("WAITING" :foreground "magenta" :weight bold)
 	      ("CANCELLED" :foreground "forest green" :weight bold)
@@ -272,20 +270,18 @@
 ;; 标签设置的细不一定好，关键要对自己有意义。
 (setq org-tag-alist (quote ((:startgroup)
 			    ("@study" . ?s)
+			    ("@hack" . ?h)
 			    ("@free" . ?f)
 			    ("@work" . ?w)
 			    (:endgroup)
 			    (:newline)
 			    (:startgroup)
-			    ;; ("f-child" . ?C)
-			    ;; ("f-wife" . ?W)
-			    ("f-mother" . ?M)
-			    ("f-father" . ?F)
+			    ("monthly" . ?M)
+			    ("weekly" . ?W)
 			    (:endgroup)
                             (:newline)
 			    ("#think" . ?t) ;; 需要思考的问题
 			    ("#buy" . ?b) ;; 需要买的东西
-			    ("#emacs" . ?e) ;; emacs相关
 			    )))
 
 (setq org-fast-tag-selection-single-key nil)
@@ -467,16 +463,10 @@
                       ))
 	  (alltodo "" ((org-agenda-overriding-header "")
 		       (org-super-agenda-groups
-			'((:name "Monthly plan"
-				 :and (:todo ("NOTE") :tag "monthly" :category ("Plan") :not (:habit t)))
-			  (:name "Weekly plan"
-				 :and (:todo ("NOTE") :tag "weekly" :category ("Plan") :not (:habit t)))
-			  (:name "Daily plan"
-				 :and (:todo ("NOTE") :tag "daily" :category ("Plan") :not (:habit t)))
-			  (:name "Important!"
+			'((:name "Important!"
 				 :priority "A")
-			  (:name "Weekly todo"
-				 :and (:not (:time-grid t) :todo ("TODO" "NEXT") :category ("Task") :not (:habit t)))
+			  (:name "handly todo"
+				 :and (:not (:time-grid t) :category "Task" :not (:habit t)))
 			  (:name "Wait for response"
 				 :and (:todo ("WAITING") :not (:habit t)))
 			  (:discard (:anything t))
@@ -489,7 +479,23 @@
 			  (:discard (:anything t))
 			  ))))
 	  )
-	 ((org-agenda-files '("~/iCloud/org/note.org" "~/iCloud/org/task.org" "~/iCloud/org/project.org"))))
+	 ((org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org"))))
+
+	("r" "Review Agenda"
+	 ((agenda "" ((org-agenad-span 7)
+		      (org-super-agenda-groups
+                       '((:name ""
+                                :time-grid t)
+		      	 ))))
+	  (alltodo "" ((org-agenda-overriding-header "")
+		       (org-super-agenda-groups
+			'((:name "Monthly plan"
+				 :and (:tag "monthly" :category ("Plan")))
+			  (:name "Weekly plan"
+				 :and (:tag "weekly" :category ("Plan")))
+			  (:discard (:anything t))
+			  )))))
+	 ((org-agenda-files '("~/iCloud/org/review.org" "~/iCloud/org/project.org" "~/iCloud/org/task.org"))))
 	
 	("i" "Inbox Agenda"
 	 ((alltodo "" ((org-agenda-overriding-header "Inbox Agenda")
