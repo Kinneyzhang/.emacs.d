@@ -155,10 +155,10 @@
 (use-package org-pomodoro
   :ensure t
   :init
-  (setq org-pomodoro-length 40
+  (setq org-pomodoro-length 25
 	org-pomodoro-short-break-length 5
 	org-pomodoro-long-break-length 15
-	org-pomodoro-long-break-frequency 3
+	org-pomodoro-long-break-frequency 4
 	org-pomodoro-ask-upon-killing t)
   (define-key org-agenda-mode-map "P" 'org-pomodoro)
   (add-hook 'org-pomodoro-finished-hook
@@ -216,6 +216,8 @@
 	 )
 	("m" "晨间记录" entry (function org-journal-find-location)
 	 "* %(format-time-string org-journal-time-format)晨间记录\n  *天气/温度/地点:* \n\n  *昨日总结:*\\\\ \n\n\n  *今日计划:*\\\\\n")
+	("e" "晚间记录" entry (function org-journal-find-location)
+	 "* %(format-time-string org-journal-time-format)晚间记录\n * 今天抓住事情的核心了吗？\n * 今天破罐子破摔了吗？\n * 有什么要提醒明天的自己？\n")
 	))
 
 ;;; Stage 2: Processing
@@ -302,14 +304,14 @@
 			   ("project.org" :level . 1)
 			   ))
 
-;; my org-agenda process function
-(defun my/org-task-someday-todo ()
-  (interactive)
-  (org-refile )
-  )
+;; ;; my org-agenda process function
+;; (defun my/org-task-someday-todo ()
+;;   (interactive)
+;;   (org-refile )
+;;   )
 
-(defun my/org-task-monthly-todo ()
-  )
+;; (defun my/org-task-monthly-todo ()
+;;   )
 
 (defvar jethro/org-agenda-bulk-process-key ?f
   "Default key for bulk processing inbox items.")
@@ -466,9 +468,7 @@
 			'((:name "Important!"
 				 :priority "A")
 			  (:name "handly todo"
-				 :and (:not (:time-grid t) :category "Task" :not (:habit t)))
-			  (:name "Wait for response"
-				 :and (:todo ("WAITING") :not (:habit t)))
+				 :and (:category ("Task") :date nil :not (:habit t)))
 			  (:discard (:anything t))
 			  ))))
 	  (alltodo "" ((org-agenda-overriding-header "")
@@ -566,6 +566,13 @@
 
 ;;; =========================================================================
 ;; other package and config
+
+;; org html export
+(setq org-html-head-include-scripts nil)
+(setq org-html-head-include-default-style nil)
+(setq org-html-htmlize-output-type nil) ;; 导出时不加行间样式！
+(setq org-html-doctype "html5")
+(setq org-html-html5-fancy t)
 
 (use-package org-bullets
   :ensure t

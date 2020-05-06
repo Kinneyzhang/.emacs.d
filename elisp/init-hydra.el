@@ -33,12 +33,12 @@
 (pretty-hydra-define emacs-hydra
   (:color amaranth :exit t)
   ("Basic"
-   (("f" find-file "find file")
+   (("a" org-agenda "org agenda")
     ("b" ivy-switch-buffer "switch buffer")
-    ("s" swiper "swiper search")
     ("c" org-capture "org capture")
-    ("a" org-agenda "org agenda")
-    )
+    ("e" eval-expression "eval expression")
+    ("f" find-file "find file")
+    ("s" swiper "swiper search"))
    "Open Browser"
    (("w w" search-web "with engine")
     ("w u" browse-url "with url")
@@ -62,6 +62,9 @@
    "Avy"
    (("g c" avy-goto-char-timer "goto char")
     ("g l" avy-goto-line "goto line"))
+   "Deft"
+   (("d d" deft "deft")
+    ("d f" deft-find-file "find file"))
    ))
 
 (pretty-hydra-define hydra-launch

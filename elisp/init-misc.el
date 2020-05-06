@@ -1,5 +1,51 @@
-;; (use-package pp-html
-;;   :load-path "~/.emacs.d/site-lisp/pp-html")
+(use-package pp-html
+  :load-path "~/iCloud/hack/pp-html")
+
+(use-package geekblog
+  :load-path "~/iCloud/hack/geekblog"
+  :init (setq geekblog-root-dir "~/iCloud/blog_site/")
+  :config (geekblog-load-config))
+
+(use-package shrface
+  :load-path "~/.emacs.d/site-lisp/shrface")
+
+(use-package telega
+  :load-path  "~/.emacs.d/site-lisp/telega"
+  :commands (telega)
+  :defer t
+  :init
+  (setq telega-proxies
+	(list
+	 '(:server "127.0.0.1" :port 1086 :enable t
+		   :type (:@type "proxyTypeSocks5"
+				 ;; :username "rkn" :password "jopa"
+				 ))))
+  :config
+  (telega-notifications-mode 1)
+  (add-hook 'telega-chat-pre-message-hook 'telega-msg-ignore-blocked-sender)
+  (add-hook 'telega-chat-mode-hook
+	    (lambda ()
+	      (set (make-local-variable 'company-backends)
+		   (append '(telega-company-emoji
+			     telega-company-username
+			     telega-company-hashtag)
+			   (when (telega-chat-bot-p telega-chatbuf--chat)
+			     '(telega-company-botcmd))))
+	      (company-mode 1)))
+  
+  (setq telega-symbol-unread "🄌")
+  (defun my-telega-load ()
+    ;; 🄌 occupies two full chars, but (string-width "🄌") returns 1
+    ;; so we install custom widths to `char-width-table'
+    (telega-symbol-set-width telega-symbol-unread 2)
+    )
+
+  (add-hook 'telega-load-hook 'my-telega-load)
+  (use-package visual-fill-column :ensure t)
+  (use-package webpaste :ensure t))
+
+(use-package pp-html
+  :load-path "~/.emacs.d/site-lisp/pp-html")
 
 ;; (use-package pomodoro
 ;;   :load-path "~/.emacs.d/site-lisp/pomodoro"
@@ -34,6 +80,29 @@
 ;; 		    (setq left-margin-width 2 right-margin-width 0)
 ;; 		    ;; force fringe update
 ;; 		    (set-window-buffer nil (current-buffer)))))
+
+(use-package nox
+  :load-path "~/.emacs.d/site-lisp/nox"
+  :config
+  (dolist (hook (list
+		 'js-mode-hook
+		 'rust-mode-hook
+		 'python-mode-hook
+		 'ruby-mode-hook
+		 'java-mode-hook
+		 'sh-mode-hook
+		 'php-mode-hook
+		 'c-mode-common-hook
+		 'c-mode-hook
+		 'c++-mode-hook
+		 'haskell-mode-hook
+		 ))
+    (add-hook hook '(lambda () (nox-ensure))))
+  (add-to-list 'nox-server-programs '(python-mode . ("python-language-server" "--args"))))
+
+(require 'separedit)
+(define-key prog-mode-map (kbd "C-c '") #'separedit)
+(setq separedit-default-mode 'org-mode) ;; or org-mode-hook
 
 (require 'sunshine)
 

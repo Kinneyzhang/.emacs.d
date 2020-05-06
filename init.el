@@ -17,7 +17,6 @@
   (package-install 'use-package))
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
-;; (add-to-list 'load-path (concat user-emacs-directory "site-lisp"))
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
@@ -52,9 +51,9 @@
   (require 'lang-php)
   (require 'lang-elisp)
   ;;(require 'init-org-jekyll)
-  (require 'init-org)
+  ;; (require 'init-org)
   (require 'init-pdf)
-  ;;(require 'init-blog-hack)
+  ;; (require 'init-blog-hack)
   (require 'init-test)
   ;;(require 'init-mu4e)
   )

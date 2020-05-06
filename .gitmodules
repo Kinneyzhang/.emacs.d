@@ -34,3 +34,12 @@
 [submodule "site-lisp/pp-html"]
 	path = site-lisp/pp-html
 	url = https://github.com/Kinneyzhang/pp-html.git
+[submodule "site-lisp/nox"]
+	path = site-lisp/nox
+	url = https://github.com/manateelazycat/nox.git
+[submodule "site-lisp/telega"]
+	path = site-lisp/telega
+	url = https://github.com/zevlg/telega.el.git
+[submodule "site-lisp/shrface"]
+	path = site-lisp/shrface
+	url = https://github.com/chenyanming/shrface.git

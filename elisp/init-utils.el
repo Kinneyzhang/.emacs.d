@@ -71,21 +71,25 @@
 (global-set-key (kbd "C-c t t") 'my/insert-current-time)
 (global-set-key (kbd "C-c t d") 'my/insert-current-date)
 ;;--------------------------------------------------------------------
+(setq my-mood-diary-file "~/iCloud/program_org/my-mood-diary-2020.org")
 (defun my/mood-diary-quick-capture ()
   (interactive)
-  (let ((mood-diary-file "~/iCloud/blog_site/org/my-mood-diary-2020.org"))
-    (find-file mood-diary-file)
-    (with-current-buffer "my-mood-diary-2020.org"
-      (goto-char (point-min))
-      (re-search-forward "-----")
-      (previous-line)
-      (insert "\n-----\n**")
-      (backward-char)
-      (my/insert-current-time)
-      (forward-char)
-      (insert "\n\n"))
-    ))
+  (find-file my-mood-diary-file)
+  (with-current-buffer (buffer-name)
+    (goto-char (point-min))
+    (re-search-forward "-----")
+    (previous-line)
+    (end-of-line)
+    (insert "\n-----\n**")
+    (backward-char)
+    (my/insert-current-time)
+    (forward-char)
+    (insert "\n\n")))
+(defun my/habit-recording ()
+  (interactive)
+  (find-file "~/iCloud/program_org/habit-recording-2020.org"))
 (global-set-key (kbd "C-c m d") 'my/mood-diary-quick-capture)
+(global-set-key (kbd "C-c m h") 'my/habit-recording)
 
 ;;-------------------------------------------------------------------
 ;; generate qrcode
@@ -216,13 +220,13 @@ Return a new buffer or BUF with the code in it."
   :ensure t
   :bind ("C-c w g" . browse-at-remote))
 
-(use-package proxy-mode
-  :ensure t
-  :defer 5
-  :init
-  (setq proxy-mode-socks-proxy '("geekinney.com" "124.156.188.197" 10808 5))
-  (setq url-gateway-local-host-regexp
-	(concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
+;; (use-package proxy-mode
+;;   :ensure t
+;;   :defer 5
+;;   :init
+;;   (setq proxy-mode-socks-proxy '("socks5" "127.0.0.1" 1086 5))
+;;   (setq url-gateway-local-host-regexp
+;; 	(concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
 
 (use-package darkroom
   :ensure t
@@ -297,6 +301,51 @@ Return a new buffer or BUF with the code in it."
       end if
     end tell' &>/dev/null")
   (message "Input source has changed to ABC!"))
+
+;;-----------
+;; (defun pp-html--nth-helper (lst acc)
+;;   "Helper function of pp-html-nth."
+;;   (if lst
+;;       (pp-html--nth-helper (cdr lst)
+;; 			   (list `(nth ,(car lst) ,@acc)))
+;;     acc))
+
+;; (defmacro pp-html-nth (ns sexp)
+;;   "Get the specific elem in list"
+;;   (car (pp-html--nth-helper ns `(,sexp))))
+;;-------------------
+
+(defun my/personal-summary (x)
+  (interactive "swhich type of summary (w->week | m->month | y->year): ")
+  (let* ((year (format-time-string "%Y"))
+	 (month (format-time-string "%m"))
+	 (week (format-time-string "%W"))
+	 (week-file (concat "~/iCloud/program_org/" year "-week-summary-" week ".org"))
+	 (month-file (concat "~/iCloud/program_org/" year "-month-summary-" month ".org"))
+	 (year-file (concat "~/iCloud/program_org/" year "-year-summary.org"))
+	 (org-head
+	  (concat "#+DATE: " (format-time-string "%F") "\n"
+		  "#+CATEGORY: 总结
+#+STARTUP: showall
+#+OPTIONS: toc:nil H:2 num:0
+#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"https://geekinney.com/assets/css/light.css\"/>\n
+")))
+    (with-temp-buffer
+      (cond ((string= x "w")
+	     (insert (concat "#+TITLE: " year "年" week "周总结\n"))
+	     (insert org-head)
+	     (insert "* 本周总结\n* 下周规划")
+	     (write-file week-file))
+	    ((string= x "m")
+	     (insert (concat "#+TITLE: " year "年" month "月总结\n"))
+	     (insert org-head)
+	     (insert "* 本月总结\n* 下月规划")
+	     (write-file month-file))
+	    ((string= x "y")
+	     (insert (concat "#+TITLE: " year "年度总结\n"))
+	     (insert org-head)
+	     (insert "* 年度总结\n* 明年规划")
+	     (write-file year-file))))))
 
 (provide 'init-utils)
 

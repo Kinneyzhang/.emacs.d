@@ -142,3 +142,10 @@
 (global-set-key (kbd "C-x 6") 'my/split-six-windows)
 
 (provide 'init-better)
+
+(defun split-three-windows ()
+  (interactive)
+  (delete-other-windows)
+  (split-window-below)
+  (split-window-right)
+  (balance-windows))

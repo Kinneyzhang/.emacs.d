@@ -1,1196 +1,544 @@
-;; happy hacking emacs.
-
-(buffer-name (current-buffer))
-
-(apply)
-
-(car (last '(1 2 3 4 5)))
-
-(remove-if-not (lambda (x) (> x 5)) '(1 2 3 4 5 6 7 8 9 10))
-
-(cdr '(1 2 3 4 5))
-
-(nthcdr 2 '(1 2 3 4 5))
-
-(delq 6 '(1 6 3 4))
-
-(delete '(5) '(1 2 (5) 3 4))
-
-(coerce '(1 2 "hello" "emacs") 'vector)
-
-(coerce [1 2 "hello" "emacs"] 'list)
-
-(number-sequence 2 11 3)
-
-(setq alist '(a b c d e))
-alist
-(push 'f alist)
-(pop alist)
-
-(defvar language-list
-  '(
-    ("io" . ((:command . "io")
-	     (:description . "Run IO Language script")))
-    ("lua" . ((:command . "lua")
-	      (:description . "Run Lua script")))
-    ("groovy" . ((:command . "groovy")
-		 (:description . "Run Groovy")))
-    ("scala" . ((:command . "scala")
-		(:cmdopt . "-Dfile.encoding=UTF-8")
-		(:description . "Run Scala file with scala commmyand")))
-
-    ("haml" . ((:command . "haml")
-	       (:exec    . "%c %o %s")
-	       (:description . "Convert HAML to HTML")))
-    ("sass" . ((:command . "sass")
-	       (:exec    . "%c %o --no-cac")))
-    ))
-
-(mapcar #'cdr language-list)
-
-(defvar plst (list :buffer (current-buffer) :line 10 :pos 2000))
-(plist-get plst :line)
-(plist-member plst :line)
-plst
-(plist-put plst :winconf (current-window-configuration))
-
-(defun plist-alist (plist)
-  (if (null plist)
-      '()
-    (cons
-     (list (car plist) (cadr plist))
-     (plist->alist (cddr plist)))))
-
-(plist-alist (list :x 10 :y 20 :name "point"))
-
-(defun alist-plist (assocl)
-  (if (null assocl)
-      '()
-    (let
-	((hd (car assocl))
-	 (tl (cdr assocl)))
-      (cons (car hd)
-	    (cons (cadr hd)
-		  (alist->plist tl))))))
-
-(alist-plist (plist->alist (list :x 10 :y 20 :name "point"))) 
-
-(defun plist-clist (plist)
-  (if (null plist)
-      '()
-    (cons
-     (cons (car plist) (cadr plist))
-     (plist-clist (cddr plist)))))
-
-(plist-clist (list :x 10 :y 20 :name "point"))
-
-(split-string "emacs is cool")
-(split-string "emacs is cool " "m" t)
-
-(format-time-string "%Y-%m-%d")
-
-(string-match "emacs" "happy hacking emacs")
-
-(make-string 100 ??)
-
-(symbol-name 'emacs)
-(intern "emacs")
-
-(read-from-string "(hello hello)")
-
-;; symbol
-(setq test '(1 2 3 4 5))
-test
-(symbolp 'test)
-(symbolp test)
-(boundp 'test)
-(symbol-value 'test)
-
-(defun funct ()
-  (message "hello"))
-(funct)
-(fboundp 'funct)
-(symbolp 'funct)
-(symbol-function 'funct)
-(symbol-function #'funct)
-
-(subrp (symbol-function 'goto-char))
-
-(mapcar #'eval '((+ 1 1) (* 2 3) (/ 4 2)))
-
-(setq x 10)
-
-(if (> x 5)
-    ;; Then Statement
-    (progn
-      (message "Positive Number")
-      (print "Greater than five")
-      (split-window-vertically)
-      78 ;;  Return Value
-      )
-  ;; Else Statement
-  (progn
-    (print "Less than five")
-    (split-window-horizontally)
-    12 ;;  Return Value
-    ))
-
-(setq a 7)
-
-(cond
- ((evenp a) a)       ;; if   (a % 2 == 0)    ==> a
- ((> a 7) (/ a 2))   ;; elif (a > 7)         ==> a/2
- ((< a 5) (- a 1))   ;; elif (a < 5)         ==> a-1
- (t 7)               ;; else                 ==> 7
- )
-
-(defun test-cl-case (operation x y)
-  (cl-case operation
-    (:mul (* x y))
-    (:add (+ x y))
-    (:sub (- x y))
-    (:div (/ x y))
-    (otherwise nil)))
-
-((test-cl-case :mul 2 10))
-
-(loop for i from 2 to 4 collecting (* i 2))
-(loop for i from 2 to 4 summing (* i 2))
-(loop for i in '(2 3 4)
-      do (print (+ 1 i)))
-(loop for i below 5 collecting i)
-
-(loop
- for x in '(a b c)
- for y in '(1 2 3 4)
- collect (list x y))
-
-(loop
- for (a b) in '((x 1) (y 2) (z 3))
- collect (list b a))
-
-(loop for i upto 20
-      if (oddp i)
-      collect i into odds
-      else
-      collect i into evens
-      finally (return (values odds evens)))
-
-(mapcar 'capitalize '("emacs" "is" "very" "cool"))
-g
-(setq anno (lambda (x) (* x x)))
-(mapcar anno '(1 2 3 4))
-
-(remove-if 'null '(2 nil 5 nil "hello" 6 7))
-
-(defun range (step start stop)
-  (if (> start stop)
-      nil
-    (cons start
-	  (range step (+ step start) stop))))
-
-(range 2 4 10)
-
-(remove-if-not (lambda (x) (= (% x 2) 0))
-	       (range 1 0 10))
-
-(setq my/list '((1 2 3) (a b c) (q w "hello")))
-(add-to-list 'my/list '(5 6 "ss"))
-
-
-(defun my/countdown (interval)
-  (interactive "set the interval: "))
-
-(defun my/terminal-notifier (title subtitle message)
-  (shell-command
-   (concat "terminal-notifier -title " title " -subtitle " subtitle " -message " message)))
-
-(run-with-timer "10 sec" nil #'my/terminal-notifier '("hello test" "this is subtitle" "this is msg"))
-
-;; (defun my/terminal-notifier (title msg)
-;;   (call-process "terminal-notifier" nil 0 nil "-group" "Emacs"  "-title" title "-activate" "org.gnu.Emacs" "-message" msg))
-
-(run-at-time "13:24" nil '(my/terminal-notifier "hello test" "this is subtitle" "this is msg"))
-
-(call-process)
-
-;; ------------------------------------------------------------------
-
-(require 'chart)
-
-(defun the-fastest-elpa-mirror ()
-  (interactive)
-  (let* ((urls
-	  (mapcar
-	   (lambda (part)
-	     (concat "http://" part "archive-contents"))
-	   '("melpa.org/packages/"
-	     "www.mirrorservice.org/sites/melpa.org/packages/"
-	     "emacs-china.org/melpa/"
-	     "mirrors.tuna.tsinghua.edu.cn/elpa/melpa/"
-	     "mirrors.163.com/elpa/melpa/"
-	     "mirrors.cloud.tencent.com/elpa/melpa/")))
-	 (durations
-	  (mapcar
-	   (lambda (url)
-	     (let ((start (current-time)))
-	       (message "Fetching %s" url)
-	       (call-process "curl" nil nil nil "--max-time" "10" url)
-	       (float-time (time-subtract (current-time) start))))
-	   urls)))
-    (chart-bar-quickie
-     'horizontal
-     "The fastest elpa mirror"
-     (mapcar (lambda (url) (url-host (url-generic-parse-url url))) urls) "Elpa"
-     (mapcar (lambda (d) (* 1e3 d)) durations) "ms")
-    (message "%s" durations)))
-
-;;-----------------------------------------------
-
-(defun my/quick-search-and-open (choice)
-  "Choices for directories and files."
-  (interactive "c[a]pp | [b]ookmark | [w]eb |")
-  (cond
-   ((eq choice ?a)
-    (counsel-osx-app))
-   ((eq choice ?b)
-    (counsel-bookmark))
-   ((eq choice ?w)
-    (search-web))
-   (t (message "Quit"))))
-
-(defstruct account id name gender)
-
-(setq user1 (make-account :id 19150133 :name "kinney" :gender "man"))
-
-(account-id user1)
-user1
-(account-name user1)
-
-`(hello emacs emacs is very cool ,(* 3 5))
-
-(defmacro λ (args body)
-  `(lambda ,args ,body))
-
-(λ (x) (+ x 3))
-
-(get-buffer-create "foobar")
-(switch-to-buffer-other-window "foobar")
-
-(defun within-buffer (name func)
-  (let (currbuff (current-buffer))
-    (switch-to-buffer name)
-    (funcall func)
-    (switch-to-buffer currbuff)))
-
-(within-buffer "foobar" (lambda () (insert "happy hacking emacs!")))
-
-(with-current-buffer (get-buffer-create "foobar")
-  (insert "hello emacs"))
-
-(defun buffer-mode (buffer-or-string)
-  "Returns the major mode associated with a buffer."
-  (with-current-buffer buffer-or-string
-    major-mode))
-
-(mapcar (lambda (b)(let((name (buffer-name b))
-			(type (buffer-mode (buffer-name b))))
-		     (list name type)))
-	(buffer-list))
-
-major-mode
-
-;; -----------------------------------------------------------------------------------
-
-(defun workflow/learn-emacs-lisp ()
-  (interactive)
-  (bookmark-jump "emacs-lisp-learning-note.org")
-  (switch-to-buffer-other-window "*scratch*")
-  (browse-url "http://caiorss.github.io/Emacs-Elisp-Programming/Elisp_Programming.html"))
-
-(defun workflow/write-morning-journal ()
-  (interactive)
-  (delete-other-windows)
-  (org-capture nil "j")
-  (ace-window)
-  (dired-jump)
-  (dired-previous-line))
-
-(require 'hydra)
-(defhydra hydra-workflow (global-map "C-c w f")
-  ("e" workflow/learn-emacs-lisp "learn elisp")
-  ("j" workflow/write-morning-journal "write journal"))
-
-;; ------------------------------------------------------
-
-(defun buffer-content (name)
-  (with-current-buffer name
-    (buffer-substring-no-properties (point-min) (point-max))))
-
-(buffer-content "*Help*")
-
-(defun get-selection ()
-  (interactive)
-  (buffer-substring-no-properties (region-beginning) (region-end)))
-
-(defun get-current-line ()
-  (interactive)
-  "Get current line, where the cursor lies in the current buffer"
-  (replace-regexp-in-string "[\n|\s\t]+$" "" (thing-at-point 'line t))
-  )
-(get-current-line)
-
-;;; setcdr
-;; (setcdr CELL NEWCDR)
-;; Set the cdr of CELL to be NEWCDR.  Returns NEWCDR.
-
-(setq my-list '(1 2 3 4 5))
-(cdr my-list)
-(setcdr (cdr my-list) '(a b c))
-(setcdr (cdr my-list) nil)
-my-list
-
-email: kinneyzhang666@gmail.com
-(thing-at-point 'email)
-
-(message "Hello world")
-(message-box "happy hacking emacs!")
-
-(directory-files "~/iCloud/blog_site")
-
-(defun file-content (filename)
-  (interactive "fFind file: ")
-  (with-temp-buffer
-    (insert-file-contents filename)
-    (buffer-substring-no-properties (point-min) (point-max))))
-
-(file-content "~/iCloud/TEMP/test.cpp")
-
-(find-file "~/iCloud/TEMP/test.cpp")
-
-(insert-file-contents "~/iCloud/TEMP/test.cpp")
-
-;;; ------------------------------------------------
-
-(defun file-contents (filename)
-  (interactive "fFind file: ")
-  (with-temp-buffer
-    (insert-file-contents filename) ;; 先将文件内容插入临时buffer，再读取内容
-    (buffer-substring-no-properties (point-min) (point-max))))
-
-(defun my/org-journal-combination ()
-  (interactive)
-  (let ((journal-files (cdr (cdr (directory-files "~/iCloud/journal/")))))
-    (dolist (file journal-files)
-      (append-to-file (file-contents (concat "~/iCloud/journal/" file)) nil "~/iCloud/org-journal.org"))))
-
-
-(defun my/mood-diary-quick-capture ()
-  (interactive)
-  (let ((mood-diary-file "~/iCloud/blog_site/org/my-mood-diary-2020.org")
-	(mood-diary-template
-	 (concat (with-temp-buffer
-		   (insert "**")
-		   (backward-char)
-		   (my/insert-current-time)
-		   (buffer-substring-no-properties (point-min) (point-max)))
-		 "\n\n\n-----\n")))
-    (find-file mood-diary-file)
-    (append-to-file mood-diary-template nil mood-diary-file))
-  )
-
-;;;------------------------------------------------------
-
-(info "(emacs) Regexps")
-
-;; ivy-views
-
-;; (ivy-push-view)
-
-;; (setq ivy-views '(("test" (horz (buffer "*scratch*" 369) (buffer "*Org Agenda*" 1)))))
-
-;; (ivy-switch-view)
-
-;; (defun my/window-layout-save ()
-;;   "save window layout"
-;;   (interactive)
-;;   (let ((layout-file "~/.emacs.d/config-file/window-layout"))
-;;     (ivy-push-view)
-;;     (append-to-file (prin1-to-string ivy-views) nil layout-file)
-;;     ))
-
-;; (defun my/window-layout-delete ()
-;;   "delete window layout"
-;;   (interactive)
-;;   (let ((layout-file "~/.emacs.d/config-file/window-layout"))
-;;     (ivy-pop-view)
-;;     (if (eq ivy-views nil)
-;; 	(append-to-file "" "" layout-file)
-;;       (append-to-file (prin1-to-string ivy-views) "" layout-file))))
-
-;; (defun my/window-layout-load ()
-;;   "load window layout"
-;;   (interactive)
-;;   (let* ((layout-file "~/.emacs.d/config-file/window-layout")
-;; 	 (ivy-views-string (with-temp-buffer
-;; 			     (insert-file-contents layout-file)
-;; 			     (buffer-substring-no-properties (point-min) (point-max)))))
-;;     (if (string= ivy-views-string "")
-;; 	(message "no window layout has been saved.")
-;;       (progn
-;; 	(setq ivy-views (read ivy-views-string))
-;; 	(ivy-switch-view)))
-;;     ))
-
-;; (setq ivy-views '())
-
-;; ivy-views
-
-(with-temp-buffer
-  (insert-file-contents "~/.emacs.d/config-file/window-layout")
-  (buffer-substring-no-properties (point-min) (point-max)))
-
-;; -------------------------------------------------------------
-
-(defun my/print-upper-region ()
-  (interactive)
-  (when (region-active-p)
-    (message "%S" (let ((string (buffer-substring (region-beginning)
-						  (region-end))))
-		    (with-temp-buffer
-		      (insert string)
-		      (upcase-region (point-min)
-				     (point-max))
-		      (buffer-substring-no-properties (point-min)
-						      (point-max)))))))
-
-
-119.28.186.136
-
-(buffer-live-p (get-buffer "*scratch"))
-
-;; (defun my/org-insert-grid-imag (row col)
-;;   "insert imag in mood diary, use it as a macro"
-;;   (interactive)
-;;   (let* ((img-row1 "<div class=\"img-row\">\n")
-;; 	 (img-row2 "</div>\n")
-;; 	 (img-col "<a href=\"\"><img src=\"\"></a>\n")
-;; 	 (img-col-string (apply #'concat (make-list col img-col)))
-;; 	 (img-entire-row-string (concat img-row1 img-col-string img-row2))
-;; 	 (img-entire-string (apply #'concat (make-list row img-entire-row-string))))
-;;     (insert
-;;      (concat
-;;       "#+begin_export html\n<div class=\"img-container\">\n"
-;;       img-entire-string
-;;       "</div>\n#+end_export\n"
-;;       ))
-;;     (point)
-;;     ))u
-;; 修改，使用插入html tag和字符移动，更简便。
-
-(defun my/insert-html-tag-with-attr (tag &optional attr)
-  "insert a html tag and some attributes at cursor point"
-  ;; (interactive "sinput tag name: \nsis single tag? [y or n]: ")
-  (let ((single-tag-list '("img" "br" "hr" "input" "meta" "link" "param")))
-    (if (member tag single-tag-list)
-	(progn
-	  (insert (concat "<" tag "/>"))
-	  (backward-char 2)
-	  (mapcar (lambda (x) (insert (concat " " (car x) "=" "\"" (cadr x) "\""))) attr)
-	  (forward-char 2)
-	  )
-      (progn
-	(insert (concat "<" tag ">" "</" tag ">"))
-	(backward-char (+ 4 (length tag)))
-	(mapcar (lambda (x) (insert (concat " " (car x) "=" "\"" (cadr x) "\""))) attr)
-	(forward-char 1)
-	))
-    ))
-
-(my/insert-html-tag-with-attr "img")
-(my/insert-html-tag-with-attr "div" nil)
-(my/org-insert-grid-imag 1 1 '("https"))
-
-;;===================================================================
-
-;; example 参考interactive
-(defun org-table-create (&optional size)
-  "Query for a size and insert a table skeleton.
-SIZE is a string Columns x Rows like for example \"3x2\"."
-  (interactive "P")
-  (unless size
-    (setq size (read-string
-		(concat "Table size Columns x Rows [e.g. "
-			org-table-default-size "]: ")
-		"" nil org-table-default-size)))
-
-  (let* ((pos (point))
-	 (indent (make-string (current-column) ?\ ))
-	 (split (org-split-string size " *x *"))
-	 (rows (string-to-number (nth 1 split)))
-	 (columns (string-to-number (car split)))
-	 (line (concat (apply 'concat indent "|" (make-list columns "  |"))
-		       "\n")))
-    (if (string-match "^[ \t]*$" (buffer-substring-no-properties
-				  (point-at-bol) (point)))
-	(beginning-of-line 1)
-      (newline))
-    ;; (mapcar (lambda (x) (insert line)) (make-list rows t))
-    (dotimes (_ rows) (insert line))
-    (goto-char pos)
-    (when (> rows 1)
-      ;; Insert a hline after the first row.
-      (end-of-line 1)
-      (insert "\n|-")
-      (goto-char pos))
-    (org-table-align)))
-;;;--------------------------------------------------
-#+begin_export html
-<div class="img-container">
-<div class="img-row">
-<a href="https://geekinney-1258820352.cos.ap-hongkong.myqcloud.com/geekblog/img/cook-20200212.png">
-<img src="https://geekinney-1258820352.cos.ap-hongkong.myqcloud.com/geekblog/img/cook-20200212.png">
-</a>
-</div>
-</div>
-#+end_export
-
-(progn
-  (insert "#+begin_export html\n \n#+end_export\n")
-  (backward-char 14)
-  )
-
-var theme_css = document.getElementById(\"pagestyle\").getAttribute(\"href\");
-var theme = theme_css.split(\"/\")[2].split(\".\")[0];
-
-document.getElementById(\"pagestyle\").href=\"/static/dark.css\";
-document.getElementById(\"pagestyle\").href=\"/static/light.css\";
-
-<link id=\"pagestyle\" rel=\"stylesheet\" type=\"text/css\" href=\"/static/light.css\"/>
-
-新的index摘要页面设计：定义宏，参数为链接，设计宏（标题，摘要，字数，日期，标签）
-
-
-(my/blog-generate-index '("at-the-end-of-2019.org" "experience-of-setting-up-my-own-blog-site.org"))
-
-(insert (my/blog-generate-index '("at-the-end-of-2019.org" "experience-of-setting-up-my-own-blog-site.org")))
-
-(defun my/blog-generate-index (posts)
-  (interactive)
-
-  )
-
-(insert (my/blog-generate-index '("at-the-end-of-2019.org"
-				  "emacs-lisp-guide-learning-note.org"
-				  "experience-of-setting-up-my-own-blog-site.org"
-				  "emacs-lisp-learning-note.org"
-				  "using-org-to-blog-with-jekyll.org"
-				  "listen-music-in-emacs.org"
-				  "reading-notes-of-how-to-read-a-book-efficiently.org"
-				  "get-started-with-emacs.org"
-				  "thinking-about-cs-teaching-in-college.org"
-				  "thinking-about-journaling.org"
-				  "pick-up-reading-after-read-the-moon-and-sixpence.org"
-				  "reading-notes-of-bullet-journal.org"
-				  "emacs-learning-note.org"
-				  )))
-
-
-
-;; (defun tt-get-heading-info ()
-;;   "show org-heading-components result"
-;;   (interactive)
-;;   (let ((x (org-heading-components)))
-;;     (with-output-to-temp-buffer "*xah temp out*"
-;;       (print x))))
-(split-string "learn-emacs.org" "\\.")
-
-
-;;; =======================================================
-
-;; (defun html-parse-get-html-list (plist)
-;;   "获取新的list"
-;;   (let ((html-list plist))
-;;     (if (and (symbolp (car html-string)) (not (null html-string)))
-;; 	(setq html-list (html-parse-get-html-list (cddr html-string)))
-;;       (progn
-;; 	(if (or (stringp (car html-string)) (numberp (car html-string)))
-;; 	    (setq html-list (cdr html-string)))
-;; 	(if (listp (car html-string))
-;; 	    (setq html-list (html-parse-get-html-list (car html-string))))
-;; 	;; (if (null plist)
-;; 	;;     )
-;; 	))
-;;     html-list))
-
-
-;; (defvar html-parse-single-tag-list
-;;   '("br" "hr" "img" "input" "meta" "link" "param"))
-
-;; (defun html-parse-single-list (list)
-;;   (interactive)
-;;   (let ((tag (car list))
-;; 	(plist (cdr list))
-;; 	(alist (html-parse-get-alist (cdr list)))
-;; 	)
-;;     (with-current-buffer (get-buffer-create "*html-parse*")
-;;       (my/insert-html-tag-with-attr tag alist)
-;;       (progn
-;; 	(setq inner-text (html-parse-get-inner-text plist))
-;; 	(if (eq nil inner-text)
-;; 	    ()
-;; 	  (insert (html-parse-get-inner-text plist))))
-;;       (progn
-;; 	(setq html-list (html-parse-get-html-list plist))
-;; 	(if (eq nil html-list)
-;; 	    (forward-char (+ 3 (length tag)))
-;; 	  (html-parse-single-list html-list)))
-;;       (buffer-substring-no-properties (point-min) (point-max)))
-;;     ))
-
-;; (defun html-parse-get-alist (plist)
-;;   "将html标签的属性转化为alist形式"
-;;   ;; nil也是symbol类型
-;;   (if (or (null plist) (not (symbolp (car plist)))) 
-;;       '()
-;;     (cons
-;;      (list (substring (symbol-name (car plist)) 1) (cadr plist))
-;;      (html-parse-get-alist (cddr plist)))))
-
-;; (defun html-parse-get-inner-text (plist)
-;;   "获取html标签内部的文本"
-;;   (let ((inner-text nil))
-;;     (if (and (symbolp (car plist)) (not (null plist)))
-;; 	(setq inner-text (html-parse-get-inner-text (cddr plist)))
-;;       (progn
-;; 	(if (listp (car plist))
-;; 	    (setq inner-text nil))
-;; 	(if (or (stringp (car plist)) (numberp (car plist)))
-;; 	    (setq inner-text (car plist)))
-;; 	))
-;;     inner-text))
-;; ;; (html-parse-get-inner-text '(:class "class" "heello" ("tag")))
-
-;; (defun html-parse-get-html-list (plist)
-;;   "获取新的list"
-;;   (let ((plist plist))
-;;     (if (and (symbolp (car plist)) (not (null plist)))
-;; 	(setq plist (html-parse-get-html-list (cddr plist)))
-;;       (progn
-;; 	(if (or (stringp (car plist)) (numberp (car plist)))
-;; 	    (setq plist (cdr plist)))
-;; 	(if (listp (car plist))
-;; 	    (setq plist (car plist)))
-;; 	(if (null plist)
-;; 	    (setq plist ))
-;; 	))
-;;     plist))
-
-;; (html-parse-get-html-list '(:key "key" ("tag") ("tag2")))
-;; (insert (html-parse-get-inner-text '(:key "key")))
-
-;; (defun html-parse-cursor-process (plist)
-;;   "如果(car plist)为nil则跳出一级标签，如果为string则跳过两个元素，如果为list则进入标签处理"
-;;   (let ((el (car plist)))
-;;     (if (listp el)
-;; 	(progn
-;; 	  (forward-char 1)
-;; 	  (html-parse-single-list (car plist))
-;; 	  ))
-;;     (if (symbolp el)
-;; 	(html-parse-cursor-process (cddr plist)))
-;;     (if (eq nil el)
-;; 	(if (eq t has-inner)
-;; 	    (forward-char (+ (length tag) 4 inner-len))
-;; 	  (forward-char (+ (length tag) 4))
-;; 	  ))
-;;     ))
-
-
-;; (defun html-parse-single-list (list)
-;;   (interactive)
-;;   (let ((tag (car list))
-;; 	(plist (cdr list))
-;; 	(alist (html-parse-plist-alist (cdr list)))
-;; 	(has-inner nil)
-;; 	(inner-len 0)
-;; 	(html-string "")
-;; 	)
-;;     (if (eq nil plist)
-;; 	(print "end!")
-;;       (with-temp-buffer
-;; 	(if (not (memq tag html-parse-single-tag-list))
-;; 	    (progn
-;; 	      (insert (concat "<" tag ">" "</" tag ">"))
-;; 	      (backward-char (+ 4 (length tag)))
-;; 	      (mapcar (lambda (prop)
-;; 			(if (eq (car prop) :inner)
-;; 			    (progn
-;; 			      (setq has-inner t)
-;; 			      (setq inner-len (length (plist-get prop :inner)))
-;; 			      (forward-char 1)
-;; 			      (insert (cadr prop))
-;; 			      (backward-char (+ 1 inner-len)))
-;; 			  (progn
-;; 			    (insert (concat " " (substring (symbol-name (car prop)) 1) "=\"" (cadr prop) "\""))))
-;; 			) alist)
-;; 	      (html-parse-cursor-process plist)
-;; 	      (setq html-string (buffer-substring-no-properties (point-min) (point-max))))
-;; 	  (progn
-;; 	    (insert (concat "<" tag "/>"))
-;; 	    (mapcar (lambda (prop)
-;; 		      (backward-char 2)
-;; 		      (insert " " (car prop) "=\"" (cadr prop) "\"")) alist)
-;; 	    (forward-char 2)
-;; 	    (html-parse-single-list))
-;; 	  )))
-;;     html-string))
-
-(setq plist '(:class "hello"))
-(substring (symbol-name (car plist)) 1)
-;;;----------------------------------------
-;; compress css
-(defun my/compress-css (filename)
-  (interactive "fchoose css file: ")
-  (with-temp-buffer
-    (insert-file-contents filename)
-    (replace-regexp-in-string "\n+" "" (buffer-substring-no-properties (point-min) (point-max)))
-    (write-file filename))
-  )
-
-(my/compress-css "~/iCloud/blog_site/static/dark.css")
-;;;====================================================
-;; (defalias 'rmrp 'list-remove-repeated-elem)
-;; (defun list-remove-repeated-elem (list)
-;;   "remove the repeated item in list"
-;;   (interactive)
-;;   (let* ((elem (car list))
-;; 	 (new-list (list elem)))
-;;     (mapcar (lambda (x)
-;; 	      (if (string= elem x)
-;; 		  ()
-;; 		(progn
-;; 		  (setq elem x)
-;; 		  (setq new-list (append new-list `(,elem))))))
-;; 	    list)))
-
-;;;=====================================================
-(defun file-contents (filename)
-  (interactive "fFind file: ")
-  (with-temp-buffer
-    (insert-file-contents filename) ;; 先将文件内容插入临时buffer，再读取内容
-    (buffer-substring-no-properties (point-min) (point-max))))
-
-(defun my/org-journal-combination ()
-  (interactive)
-  (let ((journal-files (cdr (cdr (directory-files "~/iCloud/journal/")))))
-    (dolist (file journal-files)
-      (if (string= "202002" (substring file 0 6))
-	  (append-to-file (file-contents (concat "~/iCloud/journal/" file)) nil "~/iCloud/org-journal.org")
-	))))
-
-(defun mark-jump ()
-  (interactive)
-  (call-interactively #'set-mark-command)
-  (call-interactively #'avy-goto-char-timer)
-  )
-
-(string-trim "helloemacs")
-;;==============================================
-;; (defcustom alarm-clock-sound-file
-;;   (f-join (f-dirname (f-this-file)) "alarm.mp3"))
-(defvar pomotodo-sound-file "~/Desktop/batteryclock.mp3")
-(defvar pomotodo-timer nil)
-(defun pomotodo--play-sound ()
-  "Play sound.
-In osx operating system, 'afplay' will be used to play sound,
-and 'mpg123' in linux"
-  (let ((title "pomotodo")
-	(program (cond ((eq system-type 'darwin) "afplay")
-		       ((eq system-type 'gnu/linux) "mpg123")
-		       (t "")))
-	(sound (expand-file-name pomotodo-sound-file)))
-    (when (and (executable-find program)
-	       (file-exists-p sound))
-      (start-process title nil program sound))))
-
-(defun pomotodo--play-sound-repeated ()
-  "play sound continuously"
-  (interactive)
-  (run-at-time 0 10 #'pomotodo--play-sound))
-
-(defun pomotodo-start ()
-  "start a pomotodo clock"
-  (interactive)
-  (when pomotodo-timer
-    (cancel-timer pomotodo-timer))
-  (setq pomotodo-timer (run-at-time 0.6 10.6 #'pomotodo--play-sound))
-  )
-
-(defun pomotodo-stop ()
-  "stop a pomotodo clock"
-  (interactive)
-  (cancel-timer pomotodo-timer))
-
-(setq list '(("2020") ("2019") ("2018")))
-
-(cons "2019" (cons "2020" nil))
-
-(delete-dups '(1 2 3 2 1 1 4 3 4))
-
-(sort '("阅读" "Emacs" "阅读" "Emacs" "杂思" "记录" "Blog") 'string<)
-
-;; (my/abbrev)
-;; (delete-backward-char 3)
-;; (eq (forward-line) 1)
-;; (assoc 2 '((1 3) (4 5)))
-
-(defun my/abbrev--get-pair ()
-  "get the abbrev pair in a file"
-  (let ((abbr-list nil)
-	(abbr-file "~/iCloud/TEMP/abbr.txt"))
-    (with-temp-buffer
-      (insert-file-contents abbr-file)
-      (goto-char (point-max))
-      (setq line-num (1- (line-number-at-pos)))
-      (goto-char (point-min))
-      (dotimes (i line-num)
-	(setq pair (split-string (thing-at-point 'line t)))
-	(setq abbr-list (append abbr-list `(,pair)))
-	(next-line)))
-    abbr-list
-    ))
-
-(defun my/abbrev-replace ()
-  (interactive)
-  "replace the abbrev with another"
-  (let* ((word (thing-at-point 'word))
-	 (word-len (length word))
-	 (word-pair (assoc word (my/abbrev--get-pair))))
-    (if word-pair
-	(progn
-	  (delete-backward-char word-len)
-	  (insert (cadr word-pair)))
-      (indent-for-tab-command))
-    ))
-
-(local-set-key (kbd "<tab>") 'my/abbrev-replace)
-
-;; append don't alter list, but nconc does!
-;; (setq list '(1 2))
-;; (append list '(3 4))
-;; (nconc list '(3 4))
-;; list
-
-;; 用此方法优化 my/abbrev-replace
-(replace-regexp-in-string "[\n|\s\t]+$" "" (thing-at-point 'line t))
-;;;=====================================================================
-(defvar snails-fame-width-proportion 0.5)
-(defvar snails-fame-height-proportion 0.5)
-
-(defun provoc-create-lang-buffer)
-(defun provoc-create-frame ()
-  (interactive)
-  (let* ((edges (frame-edges))
-         (x (nth 0 edges))
-         (y (nth 1 edges))
-         (width  (- (nth 2 edges) x))
-         (height (nth 3 edges))
-         (frame-width (truncate (* snails-fame-width-proportion width)))
-         (frame-height (truncate (* snails-fame-height-proportion height)))
-         (frame-x (+ x (/ (- width frame-width) 2)))
-         (frame-y (+ y (/ (- height frame-height) 3))))
-    
-    (setq provoc-frame
-	  (make-frame
-	   '((parent-frame . (window-frame))
-	     (skip-taskbar . t)
-	     (minibuffer . nil)
-	     (visibility . nil)
-	     (internal-border-width . 0)
-	     (left-fringe . 0)
-	     (right-fringe . 0)
-	     (vertical-scroll-bars . nil)
-	     (horizontal-scroll-bars . nil)
-	     (undecorated . t)
-	     (unsplittable . t))))
-
-    (with-selected-frame provoc-frame
-      (delete-other-windows)
-      (set-frame-parameter snails-frame 'menu-bar-lines 0)
-      (set-frame-position snails-frame frame-x frame-y)
-      (set-frame-size snails-frame frame-width frame-height t))
-
-    (setq snails-frame-active-p t)
-    (setq snails-frame-active-time (float-time))
-
-    (make-frame-visible snails-frame)
-    (select-frame-set-input-focus snails-frame)
-    ))
-
-;;================================================
-(defun print-html--process-logic (list)
-  (let ((var (cadr list)))
-    (if (eq (car list) :include)
-	(if (eq (cadr var) nil)
-	    
-	    )
-      ))
-  )
-
-
-(setq base-html
-      `(html :lang "en"
-	     (head (:include ,header))
-	     (body
-	      (div :id "layout"
-		   (div :id "org-div-header"
-			(:include ,menubar))
-		   (div :id "content"
-			(div :id "main"
-			     (:block main
-				     (:include ,article)
-				     (:if ,comment ,comment-div)))
-			(div :id "side"
-			     (:include ,side)))
-		   (div :id "postamble"
-			(:include ,postamble))))))
-(setq header
-      `((meta :charset "utf-8")
-	(meta :name "viewport" :content "width=device-width, initial-scale=1")
-	(title ,title)
-	(meta :name "generator" :content ,generator)
-	(meta :name "author" :content ,author)
-	(link :rel "shortcut icon" :href ,favicon-href)
-	(link :rel "bookmark" :href ,favicon-href :type "image/x-icon")
-	(link :rel "stylesheet" :type "text/css" :href ,css-href)
-	(script ,ad-code)
-	(script ,ga-code)))
-
-(setq menubar
-      `((div :id "toptitle"
-	     (a :id "logo" :href "/" ,site-name)
-	     (p :class "description" ,description))
-	(div :id "topnav"
-	     (a :href "/index.html" "首页")
-	     (a :href "/archive.html" "归档")
-	     (a :href "/category.html" "分类")
-	     (a :href "/about.html" "关于")
-	     (a :href "/message.html" "留言"))))
-
-(setq article
-      `((div :id "article-div"
-	     (header (h1 :class "title" ,title))
-	     (div :class "post-meta" (p ,post-meta))
-	     (div :class "post-content" (:include ,post-content)))))
-
-(setq postamble
-      `((:if ,comment)
-	(p )))
-
-
-
-;; https://pages.sachachua.com/sharing/#blogging-skills
-
-(run-at-time)
-
-(start-process "my-pomidor-play-sound" nil "mplayer" "~/.emacs.d/config-file/alarm.mp3")
-
-(shell-command "mplayer ~/.emacs.d/config-file/alarm.mp3" nil nil)
-
-(call-process "mplayer" nil 0 nil (expand-file-name "~/.emacs.d/config-file/alarm.mp3"))
-
-(defun pomodoro-add-to-mode-line ()
-  (setq-default header-line-format
-		(cons pomodoro-mode-line-string header-line-format))
-  )
-
-(setq-default header-line-format (propertize "hello" 'face '(:height 1.0)))
-
-(with-current-buffer (get-buffer-create "provoc")
-  (erase-buffer)
-  (newline 8)
-  (insert "               ")
-  (insert (propertize "vocabulary" 'face '(italic :height 8.0)))
-  (read-only-mode))
-
-;;;==================================================================
-(setq my/html-head
-      (print-html
-       `(link :rel "shortcut icon" :href "/static/img/favicon.ico")))
-
-(print-html '((link :rel "shortcut icon" :href "/static/img/favicon.ico")
-	      (link :rel "bookmark" :href "/static/img/favicon.ico" :type "image/x-icon")
-	      (link :id "pagestyle" :rel "stylesheet" :type "text/css" :href "/static/light.css")))
-
-(print-html '((div :class div1
-		   ((p "this is paragraph")
-		    (img :src "src" :href "href"))
-		   
-		   )))
-
-(progn
-  (setq beg (point))
-  (end-of-line)
-  (setq end (point))
-  (kill-ring-save beg end))
-
-(setq list '( 1 2 3))
-
-(add-to-list list m)
-
-https://hiwannz.com/wp-content/uploads/2020/03/at-a-loss-2773594_640.jpg
-
-
-(pp-html-test
- '(div :class "content"
-       (h1 "title" (a "url") "title-left")
-       (a :href "url" (img :src "src" "hello img"))
-       (p :class "paragraph" "paragraph1" (span :class "span" "hello") "paragraph2" (a (b "bc") "url" (b :class "b" "bb") "url2") "paragraph3")))
-
-;;; 解析elisp为html
-
-;;; example!
-;; test var!
-(setq comment nil)
-(setq comment-div1 '((a :class "if-test" "if-test-content")))
-(setq comment-div2 '((a :class "else-test" "else-test-content")))
-(setq front `((span :class "test" "test-content")))
-;;----------------------------------------------------------------
-(setq base-html
-      '(body
-	(h1 :id "logo" "戈楷旎")
-	(p :id "description" "happy hacking emacs")
-	(div :id "content"
-	     (:block main (p "this is :block default content")))
-	(div :id "postamble"
-	     (:block post (p)))
-	))
-
-(setq extend-html
-      `(:extend ,base-html
-		;; (:block main (p "this is the extend main content"))
-		(:block post (p "this is the extend postamble content"))
-		))
-
-(pp-html-test extend-html)
-
-(pp-html-test
- `(div :class "post-info"
-       (p "「"
-	  (:include ,front)
-	  (:if ,comment
-	       (:include ,comment-div1)
-	       (:include ,comment-div2))
-	  (ul
-	   (:each
-	    ("apple" "peach" "orange" "grape")
-	    (li :class "fruit" item)))
-	  (span "分类")
-	  (span "字数")
-	  (span :id "id" :class "class"
-		(span :class "post-meta-item-text" "阅读 ")
-		(span :class "leancloud-visitors-count" "...")
-		" 次")
-	  "」")))
-
-(symbol-overlay-regexp "^\".+\"")
-
-(defun my/highlight-all-string ()
-  (interactive)
-  (with-current-buffer (buffer-name)
-    (goto-char (point-min))
-    (setq pos (re-search-forward "\"[^\"]+\"" pos t))
-    (while pos
-      (setq pos (re-search-forward "\"[^\"]+\"" pos t))
-      (symbol-overlay-put))
-    ))
-
-(with-current-buffer (get-buffer-create "test-replce-regexp")
-  (erase-buffer)
-  (insert-file-contents "~/.emacs.d/elisp/test.org")
-  (setq buffer-string (replace-regexp-in-string "^.+BEGIN_SRC.+\n\\(.*\n\\)*?.+END_SRC$" "" (buffer-substring-no-properties (point-min) (point-max)))
-	buffer-string (replace-regexp-in-string "^#\\+.+$" "" buffer-string)
-	buffer-string (replace-regexp-in-string "\\(^=\\|=$\\| =\\|= \\|^/\\|/$\\| /\\|/ \\|^*\\|*$\\| \\*\\|\\* \\|^+\\|+$\\| \\+\\|\\+ \\|^~\\|~$\\| ~\\|~ \\|^_\\|_$\\| _\\|_ \\)" "" buffer-string)
-	buffer-string (replace-regexp-in-string "\\(\\[\\[\\|http.+\\]\\[\\|\\]\\]\\)" "" buffer-string)
-	buffer-string (replace-regexp-in-string "^本文转载.+\n" "" buffer-string)
-	buffer-string (replace-regexp-in-string "^http.+\n" "" buffer-string)
-	buffer-string (replace-regexp-in-string "\n+" "" buffer-string))
-  (erase-buffer)
-  (insert buffer-string))
-
-(with-current-buffer (get-buffer-create "test digest")
-  (insert-file-contents "~/iCloud/program_org/anxiety-of-product-manager.org")
-  (setq buffer-string 
-
-	
-	buffer-string (replace-regexp-in-string "\n+" "" buffer-string))
-  
-  (erase-buffer)
-  (insert buffer-string)
-  )
-
-buffer-string (replace-regexp-in-string "^#\\+.+\n+" "" buffer-string)
-
-(eq 1.2 1.2)
-(eql 'test 'test)
-(equal 'test 'test)
-(eql "hello" "hello")
-
-(mapcar (lambda (item) `(li :class "fruit" ,item))
-	'("apple" "peach" "orange" "grape"))
-
-(setq tlist '(1 2 (6 7 8) 4 (10 11 12)))
-(( (0) 1 )
- ( (1) 2 )
- ( (2 0) 6 )
- ( (2 1) 7 )
- ( (2 2) 8 )
- ( (3) 4 )
- ( (4 0) 10 )
- ....
- )
-
-(setcar (nthcdr 1 testp) 8)
-testp
-(nthcdr 3 testp)
-
-(my/parse-list tlist)
-
-
-(defun my/list-replace-all (old new list &optional fn-equal)
-  "Replace all occurences of OLD by NEW in LIST.
-Return number of elements replaced.
-FN-EQUAL takes two arguments and return t if they are considered equals.
-FN-EQUAL defaults to `equal'.
-Destructive."
-  (let ((fn-equal (or fn-equal #'equal)))
-    (while list
-      (when (listp (car list))
-	(my/list-replace-all old new (car list)))
-      (when (funcall fn-equal old (car list))
-        (setcar list new))
-      (setq list (cdr list))
-      )))
-
-(setq tlist '(1 2 (6 1 8) 1 (1 11 12)))
-(my/list-replace-all 1 "hello" tlist)
-tlist
-
-;;;=========================================================================
-
-(eval (car '(geekblog-base-header)))
+;; This buffer is for text that is not saved, and for Lisp evaluation.
+;; To create a file, visit it with <open> and enter text in its buffer.
 
 (load-file "~/iCloud/hack/geekblog/geekblog-vars.el")
-(require 'geekblog-vars)
+(load-file "~/iCloud/hack/geekblog/geekblog-utils.el")
+(load-file "~/iCloud/hack/geekblog/geekblog.el")
+(require 'geekblog)
 (pp-html-test geekblog-base-html)
+(pp-html-test geekblog-index-html)
 
-;; 处理 include 的值为 nil的情形
 
+;; 关于geekblog各种文件夹的创建！！！在部分代码中需要操作文件。
+
+(load-file "~/iCloud/hack/pp-html/pp-html-filter.el")
 (load-file "~/iCloud/hack/pp-html/pp-html.el")
-(require 'pp-html)
-(pp-html '(div :class "div" (p :class "p" "content" (div "div-content" (span)))))
 
-(pp-html '(div :class "div" :async nil :id "id" "content"))
+(require 'pp-html)
+
+(eq 'eee 'eee)
+(pp-html-test '(div :class "div" "content"
+		    (link :async nil)
+		    (p :class "p" "content"
+		       (img :href "2" "img content")
+		       (div "div-content"
+			    (span))))
+	      t)
+
+(pp-html '(divv))
+(pp-html '(nil))
+
+(pp-html '())
+
+(pp-html '(:for h ("1" "2")
+		(div :class h)))
+
+(pp-html--eval 'h)
+
+(let ((test "emaxcs"))
+  (insert ))
+
+(pp-html-test
+ '(urlset :xmlns "http://www.sitemaps.org/schemas/sitemap/0.9"
+	  (:for post ($ geekblog-all-posts)
+		(url (loc ($ geekblog-post-meta :abs-url post))
+		     (lastmod ($ geekblog-post-meta :date post))
+		     (changefreq "daily")
+		     (priority "0.8"))))
+ t)
+
+(pp-html '(div :class "div" :async :id "id" "content"))
 
 (pp-html-test '(button :class "btn" :disable nil))
+
+(pp-html-test '(div (:include ((div .hello)
+			       (div .hello)
+			       (div .hello)))))
+
+(pp-html-test '(html
+		(head
+		 (title "title"))
+		(body
+		 (header)
+		 (nav)
+		 (div .container
+		      (div .row
+			   (div .col-8
+				(div "main"))
+			   (div .col-4
+				(div "side")))
+		      (div .row @id
+			   (div .col-8
+				(div "main"))
+			   (div .col-4
+				(div "side"))))
+		 )))
+
+
+pp-html now supports css framework layout. If you have assigned css framework by using :css-frame in tag 'html',
+
+(pp-html '(div  .row .col-md-5  :color "red"))
+
+;;============================================================================
+
+(setq language-list
+      '(
+	("io" . ((:command . "io")
+		 (:description . "Run IO Language script")))
+	("lua" . ((:command . "lua")
+		  (:description . "Run Lua script")))
+	("groovy" . ((:command . "groovy")
+		     (:description . "Run Groovy")))
+	("scala" . ((:command . "scala")
+		    (:cmdopt . "-Dfile.encoding=UTF-8")
+		    (:description . "Run Scala file with scala command")))
+
+	("haml" . ((:command . "haml")
+		   (:exec    . "%c %o %s")
+		   (:description . "Convert HAML to HTML")))
+	("sass" . ((:command . "sass")
+		   (:exec    . "%c %o --no-cac")))
+	))
+
+(cdr (assoc :command (assoc  "scala"  language-list )))
+
+(setq alist '(
+	      ("at-the" ((:title . "title")
+			 (:date . "date")
+			 (:category . "category")))
+	      ("auto" . ((:title . "title")
+			 (:date . "date")
+			 (:category . "category")))))
+
+
+(setq alist (geekblog-generate-alist '("at-the-end-of-2019.org" "emacs-learning-note.org")))
+
+(geekblog-get-meta alist "emacs-learning-note.org" :category)
+
+
+
+;;====================================================================================
+我写了一个查找sexp指定位置值的函数，现在想修改该位置的值，现在使用setf修改值时报错，请大家帮忙解决一下。
+
+函数：
+
+(defun my/get-sexp-value (location sexp)
+  "Location is a list which sign the specific location in sexp."
+  (let ((depth (length location))
+	(value sexp))
+    (dolist (num location)
+      (setq value (nth num value)))
+    value))
+
+
+(defmacro sval (location sexp)
+  (let ((value sexp))
+    (dolist (num location)
+      `(nth num value)
+      (setq value))
+    value))
+
+(sval '(4 1 1) test)
+
+(setf (sval '(4 1 1) test) 10)
+test
+
+例子：
+
+(setq test '(1 2 (3 4) 5 (6 (7 8) 9)))
+(my/get-sexp-value '(2 0) test) ==> 3
+(my/get-sexp-value '(4 1 1) test) ==> 8
+
+现在我想修改获取的指定位置的值，使用setf：
+(setf (my/get-sexp-value '(4 1 1) test) 10)
+按理应该修改8的值为10，但是报错。
+
+(setf (nth 0 test) 10)
+
+(setf (nth 1 (nth 1 (nth 4 test))) 10)
+
+(defun my/get-sexp-value (location sexp)
+  "Location is a list which sign the specific location in sexp."
+  (let ((value sexp))
+    (dolist (num location)
+      (setq value (nth num value)))
+    value))
+
+(defun pp-html--nth-helper (lst acc)
+  (if lst
+      (pp-html--nth-helper (cdr lst)
+			   (list `(nth ,(car lst) ,@acc)))
+    acc))
+
+(defmacro pp-html-nth (ns list)
+  (car (pp-html--nth-helper ns `(,list))))
+
+(let ((test '(1 2 (3 4) 5 (6 (7 8) 9))))
+  (setf (pp-html-nth (4) test) '(:t :tt)))
+
+(setf (pp-html-nth (4) test) '((:t :tt) . ((:q :qq))))
+test
+(setq test '(1 2 (3 4) 5 (6 (7 8) 9)))
+
+(+ 0.1 0.2)
+
+(display-buffer "*scratch*" '(display-buffer-at-bottom
+			      (window-height . 20)))
+
+(setq lst '(1 2 3 4))
+(setcar lst "hello")
+lst
+(pp-html-sexp-replace 2 "hello" lst)
+
+(let* ((test "emacs")
+       (flst '(format "%s" (concat "hello" test)))
+       (func `(funcall ',(car flst) ,@(cdr flst)))
+       (val (eval func)))
+  val)
+
+(setq test-var "test-variable")
+(setq class-test '@post)
+$class-test
+(pp-html--symbol-initial (pp-html--eval '$class))
+(pp-html
+ '(div .test-var .post-div @id :color "red" "div content"))
+
+(pp-html--get-css-selector '(.test-var .post-div @id :color "red" "div content"))
+
+(setq ptest1 "hello")
+(setq ptest2 "emacs")
+(setq ptest3 "vim")
+
+(pp-html
+ '(div :class ($ format "%s" (concat (upcase $ptest3) " " $ptest1 " " $ptest2)) $ptest1 (a :href $ptest2 "hello")))
+
+(let* ((i 0))
+  (while (< i 4)
+    (let ((test (nth i '(1 2 3 4))))
+      (message "%s" test)
+      (incf i))))
+
+(mapcar (lambda (e) (pp-html--eval e)) (cddr '($ upcase $ptest1 post $ptest2)))
+
+(setq editor '("emacs" "vim" "vscode"))
+(setq me "you")
+(pp-html
+ '(:for post $editor
+	(div :class $me ($ concat $me " love " (upcase post)))))
+
+(setq base-header
+      '((div .class
+	     (p "content"))
+	(a @id)
+	(img :href "url")))
+
+(pp-html
+ '(head .class @id (:include $base-header)))
+
+(pp-html--get-css-selector '(.class @id))
+
+'("hello" :upcase)
+(stringp)
+(setq ttest "hello")
+(pp-html--filter-p '(.ttest))
+(setq hello "hello")
+(pp-html '(div @id $hello $hello))
+(pp-html--get-child-sexp '(@id :class $hello $hello))
+(load-file "~/iCloud/hack/pp-html/pp-html-filter.el")
+(load-file "~/iCloud/hack/pp-html/pp-html.el")
+(pp-html '(a $ttest))
+
+(2 :add 3 :test :minus 4)
+
+(pp-html--plist->alist '(:class "class" :id "id "))
+
+(let ((alist (pp-html--filter-alist '(:add "class" :capfirst :addslashes "id"))))
+  (insert (format "%S" alist)))
+
+((:add "class") (:capfirst) (:addslashes "id"))
+
+(pp-html-filter-add nil 6)
+
+(setq ttest 5)
+
+(pp-html--filter-p '(/ $hello :add "12" ))
+
+(pp-html--eval '(5 |add 7))
+
+(pp-html '(div :class (/ 5 :add 7) (/ 5 :add 7)))
+
+(pp-html--eval '(/ 5 :add 7))
+
+(prin1-to-string 8)
+
+(insert '21)
+
+(pp-html '(div :class "hello"))
+(symbolp nil)
+
+(pp-html--eval nil)
+
+(length '($val |add 5 |length))
+
+(setq test
+      '(ul .org-ul
+	   (:for post ($ geekblog-year-archive "2019")
+		 (li ($ substring (geekblog-post-meta :date post) 5 10) " "
+		     (a :href ($ geekblog-post-meta :rel-url post) ($ geekblog-post-meta :title post))))))
+
+(pp-html-test test)
+
+(define-key lisp-interaction-mode-map
+  (kbd "M-RET") 'my-keybinding-test)
+
+(defun func-test ()
+  (interactive)
+  (message "keybinding ook!"))
+
+(use-package org
+  :ensure nil
+  :bind (:map org-mode-map
+	      ("<M-return>" . func-test)))
+
+(define-key org-mode-map (kbd "M-RET") 'nil)
+
+(unbind-key "<M-return>" org-mode-map)
+
+(pp-html-test geekblog-post-html)
+
+(buffer-modified-p (get-buffer "geekblog.el"))
+
+(setq post-var '((div $post)))
+(setq posts '(div (:include $post-var)))
+
+(let ((post "hello"))
+  (dolist (post '("hello" "emacs"))
+    (pp-html posts )))
+
+(let ((post "hello"))
+  (with-temp-buffer
+    (insert (pp-html posts))
+    (buffer-string)))
+
+;; 在生成html前解析所有逻辑标签，生成完成的S表达式
+
+(setq pp-include '((p @id "content")
+		   (a :href "url")))
+
+(setq pp-test '(div .class (:include $pp-include)))
+
+(setq test nil)
+(setq pp-if '(div
+	      (:if $test (p "if ok.") (p "else ok."))))
+
+(pp-html-test pp-test)
+
+(pp-html-test (pp-html--process-include pp-test))
+
+(pp-html--process-if pp-if)
+
+;; (defun pp-html--process-logic-include (sexp)
+;;   "Process :include logic."
+;;   (--tree-map-nodes
+;;    (eq (car-safe it) :include)
+;;    (-setq it (pp-html--eval (cadr it)))
+;;    sexp))
+;;=========================================
+(setq test-base
+      '(div .class
+	    (:block test-block1 (p "block1" (img)))
+	    (:block test-block2 (p "block2"
+				   (div @div
+					(:for post in ("vim" "emacs" "vscode")
+					      (a :href post post))
+					(div (:if $test (p "if ok") (p "else ok")))
+					(div (:unless $test (p "unless ok") (p "not unless ok"))))))))
+
+(let ((test t))
+  (pp-html-test test-extend))
+
+(setq test-extend
+      '(:extend $test-base
+		(:block test-block1
+			(p "ex-block1"))
+		(:block test-block2)
+		))
+
+(--tree-reduce
+ (if (member (car-safe it) pp-html-logic-element-list)
+     (pp-html--process-logic test-extend))
+ test-extend)
+
+(--tree-reduce (cond ((stringp it) (concat it " " acc)) (t (let ((sn (symbol-name it))) (concat "<" sn ">" acc "</" sn ">")))) '(body (p "some words") (div "more" (b "bold") "words"))) ;; => "<body><p>some words</p> <div>more <b>bold</b> words</div></body>"
+
+(with-current-buffer (get-buffer-create "*pp-test*")
+  (erase-buffer)
+  (insert (format "%S" (pp-html-parse test-base)))
+  )
+
+(pp-html--process-logic-for '(:for post in ("hello" "emacs" "vim")
+				   (div :class post post)))
+
+(pp-html-parse '(1 nil (2 nil nil) nil))
+
+(--tree-map-nodes
+ (member nil it)
+ (-remove-item nil it)
+ '(1 nil (2 nil nil) nil))
+
+(--tree-map-nodes
+ (and (listp it) (member nil it))
+ ( it)
+ '(1 nil (2 nil nil) nil))
+
+(member nil '(1 2))
+
+(format "%s"  '(1 nil (2 nil nil) nil))
+
+
+(pp-html-parse '(div))
+(pp-html--process-elem '(div))
+
+(with-current-buffer "*pp-html-temp*"
+  (erase-buffer)
+  (pp-html-process-sexp
+   '(div \.class (p "block1" (img)) (p "block2" (div @div ((a :href "vim" "vim") (a :href "emacs" "emacs") (a :href "vscode" "vscode")) (div (p "if ok")) (div (p "not unless ok")))))))
+
+(pp-html-test
+ '(div \.class (p "block1" (img)) (p "block2" (div @div ((a :href "vim" "vim") (a :href "emacs" "emacs") (a :href "vscode" "vscode")) (div (p "if ok")) (div (p "not unless ok"))))))
+
+(with-temp-buffer
+  (insert "hello emacs happy")
+  (write-file "~/test.org"))
+
+;; -----------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>视频压缩及格式(gif)转换</title>
+<meta name="generator" content="GeekBlog 1.0.0"/>
+<meta name="author" content="Your Nickname"/>
+<meta name="description" content="Your Blog Description"/>
+<link rel="shortcut icon" href="/assets/image/favicon.ico"/>
+<link rel="bookmark" href="/assets/image/favicon.ico" type="image/x-icon"/>
+</head>
+<body>
+<div class="container">
+<div class="row">
+<div class="col-12">
+<header class="tophead">
+<a id="logo" href="/">Your Blog Name</a>
+<p class="description">Your Blog Description</p>
+</header>
+<nav class="topnav">
+<a href="/index.html">主页</a>
+<a href="/archive.html">归档</a>
+<a href="/category.html">分类</a>
+<a href="/about.html">关于</a>
+<a href="/message.html">留言</a>
+</nav>
+</div>
+</div>
+</div>
+<section class="container">
+<div class="row">
+<div class="col-xl-8 col-md-8 col-lg-8 col-12">
+<article class="post-content mb-4">
+<header>
+<h1 class="title">视频压缩及格式(gif)转换</h1>
+</header>
+<div id="post-info">
+<p>
+「
+<span>分类: Emacs · </span>
+<span>字数: 363 · </span>
+<span class="leancloud_visitors" id="/post/elisp-hack-compress-and-convert-video.html" data-flag-title="视频压缩及格式(gif)转换">
+<span class="post-meta-item-text">阅读 </span>
+<span class="leancloud-visitors-count">...</span>
+ 次
+</span>
+」
+</p>
+</div>
+
+<p>
+MacOS系统使用mov作为默认视频格式，mov格式的缺点是文件体积大，不便传输与使用。大多数时候我需要将视频压缩为mp4格式。同时，写文档时经常需要使用gif图片展示hack效果，所以将视频转为gif也成了硬需求之一。关于视频的压缩与格式转换，有很多在线工具以及app可以实现，但我更钟爱命令行工具。因为命令行比封装好的ui使用方便，可选参数多。最重要的是，可以和emacs结合。
+</p>
+
+<p>
+<a href="https://www.ffmpeg.org/ffmpeg.html">ffmpeg</a> 是一个非常优秀的视频处理命令，MacOS下可使用homebrew安装。做了下小hack，以后就可以在emacs中处理视频文件，生成gif啦。
+</p>
+
+<div class="col-auto">
+<pre><code class="emacs-lisp">(defun my/video-compress-and-convert (video new)
+  (interactive "fvideo path: \nfnew item name (eg. exam.mp4, exam.gif) : ")
+  (let ((extension (cadr (split-string (file-name-nondirectory new) "\\."))))
+    (if (string= extension "gif")
+	(progn
+	  (shell-command
+	   (concat "ffmpeg -i " video " -r 5 " new))
+	  (message "%s convert to %s successfully!" video new))
+      (progn
+	(shell-command
+	 (concat "ffmpeg -i " video " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " new))
+	(message "%s compress and convert to %s successfully!" video new))
+      )
+    ))
+</code></pre>
+</div>
+
+<p>
+除此之外， <code>ffmpeg</code> 的功能远不止这些，还支持视频的录制、剪辑合并、加滤镜和音频处理等，读者可以访问 <a href="https://www.ffmpeg.org">ffmpeg官网</a> 探索。
+</p>
+
+</article>
+<div id="comment-block" class="mt-4"></div>
+<footer class="mt-4">
+<small>
+©2019-2020 Your Blog Name | Licensed under 
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+<img alt="知识共享许可协议" style="border-width:0" src="/assets/image/license.png"/>
+</a>
+</small>
+<small>
+ | Powered by 
+<a href="https://github.com/Kinneyzhang/geekblog">GeekBlog</a>
+</small>
+</footer>
+</div>
+<aside class="col-xl-4 col-md-4 col-lg-4 d-none d-sm-block">
+<div id="sidebar"></div>
+</aside>
+</div>
+</section>
+</body>
+</html>
+
+(defvar geek-test "hello")
+geek-test
+(setq geek-test2 (concat geek-test " emacs"))
+geek-test2
+
+(setq geek-test "hello2")
+
+(defun geekblog-update-vars ()
+  "Update geekblog variables after updating config."
+  (interactive)
+  
+  )
+
+;; base里没有默认值，extend也没有新值的情形。
+
+(setq test1 '(html (:block b1 (p "b1"))
+		   (:block b11 (p "b11-qq"))))
+(setq test2 '(:extend $test1
+		      (:block b1
+			      (:block b2 (p @b2 "b2222")))
+		      (:block b11
+			      (div))))
+(setq test3 '(:extend $test2
+		      (:block b2 (p "newnew"))))
+
+(pp-html test3)

@@ -42,16 +42,16 @@
 (use-package posframe
   :ensure t)
 
-(use-package ivy-posframe
-  :ensure t
-  :init
-  (progn
-    (setq ivy-posframe-parameters '((left-fringe . 6) (right-fringe . 6)))
-    (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
-    (setq ivy-posframe-height nil)
-    (setq ivy-posframe-width 120))
-  :config
-  (ivy-posframe-mode))
+;; (use-package ivy-posframe
+;;   :ensure t
+;;   :init
+;;   (progn
+;;     (setq ivy-posframe-parameters '((left-fringe . 6) (right-fringe . 6)))
+;;     (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-top-center)))
+;;     (setq ivy-posframe-height nil)
+;;     (setq ivy-posframe-width 120))
+;;   :config
+;;   (ivy-posframe-mode))
 
 (defun ivy-posframe-display-at-frame-top-center (str)
   (ivy-posframe--display str #'posframe-poshandler-frame-top-center))

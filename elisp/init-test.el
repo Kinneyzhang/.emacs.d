@@ -1,10 +1,9 @@
 ;; (use-package org-panes
 ;;   :load-path "~/.emacs.d/site-lisp/org-panes.el")
 
-;; 体验要比multi-term好很多
+;;体验要比multi-term好很多
 (use-package vterm
-  :ensure t
-  )
+  :ensure t)
 
 (use-package vterm-toggle
   :ensure t
@@ -22,8 +21,7 @@
 		 (side . bottom)
 		 ;;(dedicated . t) ;dedicated is supported in emacs27
 		 (reusable-frames . visible)
-		 (window-height . 0.3)))
-  )
+		 (window-height . 0.3))))
 
 (defun my-dnd-func (event)
   (interactive "e")

@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("test.cpp"
+(("blog_site"
+ (filename . "~/iCloud/TEMP/blog_site/")
+ (front-context-string . "archive.html\n  d")
+ (rear-context-string . " Apr 18 23:43  ")
+ (position . 259))
+("geekblog.el"
+ (filename . "~/iCloud/hack/geekblog/geekblog.el")
+ (front-context-string . ";;; geekblog.el ")
+ (rear-context-string)
+ (position . 1))
+("test.cpp"
  (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/考研/test.cpp")
  (front-context-string)
  (rear-context-string . "rix.print();\n}\n\n")
@@ -29,19 +39,19 @@
  (position . 165))
 ("org-capture-last-stored-marker"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO [#A] hac")
- (rear-context-string . "ega.el\n   :END:\n")
- (position . 7943))
+ (front-context-string . "** TODO pp-html中")
+ (rear-context-string . "TODO pp-html过滤器\n")
+ (position . 9255))
 ("my-mood-diary-2020.org"
  (filename . "~/iCloud/blog_site/org/my-mood-diary-2020.org")
  (front-context-string)
  (rear-context-string . "思考便可由果溯因。\n-----\n")
  (position . 365))
 ("org-refile-last-stored"
- (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO [#A] hac")
- (rear-context-string . "ega.el\n   :END:\n")
- (position . 7943))
+ (filename . "~/iCloud/org/task.org")
+ (front-context-string . "* TODO 开发 emacs-")
+ (rear-context-string . "恢复旧的geekblog工作流\n")
+ (position . 7179))
 ("2020.ledger"
  (filename . "~/iCloud/org/2020.ledger")
  (front-context-string . "    收入:红包:春节\n   ")
@@ -63,7 +73,7 @@
  (rear-context-string)
  (position . 1))
 ("habit-recording.org"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/habit-recording-2020.org")
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/program_org/habit-recording-2020.org")
  (front-context-string . "\n#+begin_center\n")
  (rear-context-string . "以恒。\n#+end_quote\n")
  (position . 156))
@@ -78,8 +88,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/iCloud/org/task.org")
- (front-context-string . "* TODO 公众号注销沟通\n ")
- (rear-context-string . "		      :@hack:\n")
- (position . 4646))
+ (filename . "~/iCloud/org/inbox.org")
+ (front-context-string . "* TODO 开发 emacs-")
+ (rear-context-string . "_is_CSS\n  :END:\n")
+ (position . 1943))
 )
