@@ -4,7 +4,6 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 (package-initialize)
-(windmove-default-keybindings)
 (require 'package)
 (setq package-enable-at-startup nil)
 (setq package-archives '(("gnu"   . "http://mirrors.cloud.tencent.com/elpa/gnu/")

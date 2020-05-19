@@ -1,9 +1,30 @@
+;; (use-package quelpa
+;;   :ensure nil
+;;   :config
+;;   (use-package quelpa-use-package :ensure nil)
+;;   (setq quelpa-self-upgrade-p nil)
+;;   (setq quelpa-upgrade-interval 7))
+
+;; (use-package calibredb
+;;   :quelpa
+;;   (calibredb :repo "chenyanming/calibredb.el" :fetcher github))
+
+(use-package toc-org
+  :ensure t
+  :config
+  (if (require 'toc-org nil t)
+      (progn
+	(add-hook 'org-mode-hook 'toc-org-mode)
+	;; enable in markdown, too
+	(add-hook 'markdown-mode-hook 'toc-org-mode))
+    (warn "toc-org not found")))
+
 (use-package pp-html
   :load-path "~/iCloud/hack/pp-html")
 
 (use-package geekblog
   :load-path "~/iCloud/hack/geekblog"
-  :init (setq geekblog-root-dir "~/iCloud/blog_site/")
+  :init (setq gk-root-dir "~/iCloud/blog_site/")
   :config (geekblog-load-config))
 
 (use-package shrface
@@ -273,9 +294,6 @@
   ;; Make sure bookmarks is saved before check-in (and revert-buffer)
   (add-hook 'vc-before-checkin-hook #'bm-buffer-save)
   )
-
-(use-package quelpa-use-package
-  :ensure t)
 
 (use-package org-ql
   :ensure t)

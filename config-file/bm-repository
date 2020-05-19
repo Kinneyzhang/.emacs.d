@@ -3,8 +3,4 @@
   \"")) ((position . 10626) (time . 1587021262.098238) (temporary-bookmark) (annotation) (before-context-string . "n pp-html--proce") (after-context-string . "ss-elem (sexp)
  ")))) ("/Users/kinney/Library/Mobile Documents/com~apple~CloudDocs/hack/geekblog/geekblog.el" (version . 2) (size . 21372) (timestamp 24217 26392 425157 0) (bookmarks ((position . 9342) (time . 1587107264.204915) (temporary-bookmark) (annotation) (before-context-string . "---------------
 ") (after-context-string . ";; 获取post meta信息")) ((position . 12530) (time . 1587108655.753702) (temporary-bookmark) (annotation) (before-context-string . " generated!\")))
-") (after-context-string . ";; 生成page的函数可以进一")))) ("/Users/kinney/iCloud/hack/geekblog/geekblog.el" (version . 2) (size . 20900) (timestamp 24237 33351 221520 0) (bookmarks ((position . 7814) (time . 1588224147.350007) (temporary-bookmark) (annotation) (before-context-string . "--
-;; about page") (after-context-string . " !! about page h")) ((position . 6341) (time . 1588224147.350033) (temporary-bookmark) (annotation) (before-context-string . "---
-;; 获取post me") (after-context-string . "ta信息可以定义为pp-html")))) ("/Users/kinney/Library/Mobile Documents/com~apple~CloudDocs/hack/pp-html/pp-html.el" (version . 2) (size . 15637) (timestamp 24237 33351 222343 0) (bookmarks ((position . 6332) (time . 1588327128.402143) (temporary-bookmark) (annotation) (before-context-string . "unction.
-(defun ") (after-context-string . "pp-html--insert-")) ((position . 4901) (time . 1588327128.402124) (temporary-bookmark) (annotation) (before-context-string . "ttr-plist (sexp)") (after-context-string . "
-  \"Combine all ")))))
+") (after-context-string . ";; 生成page的函数可以进一")))))

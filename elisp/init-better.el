@@ -20,13 +20,11 @@
 (setq bookmark-save-flag 1)
 (setq org-image-actual-width nil)
 (setq show-trailing-whitespace t)
-;; (set-frame-font "monaco 12")
 
 (prefer-coding-system 'utf-8)
 
 (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines 1)))
 (add-hook 'org-agenda-mode-hook (lambda () (toggle-truncate-lines 1)))
-(add-hook 'journal-mode-hook (lambda () (toggle-truncate-lines 1)))
 
 (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认
 (setq org-confirm-babel-evaluate nil);设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
@@ -34,6 +32,9 @@
 (setq exec-path-from-shell-check-startup-files nil)
 (setq epg-gpg-program "gpg2")
 (setq x-select-enable-primary nil) ;t:选中区域自动复制
+
+(setq confirm-kill-emacs
+      (lambda (prompt) (y-or-n-p-with-timeout "Whether quit Emacs:" 10 "y")))
 
 ;; 默认分割成左右两个窗口
 ;; (setq split-height-threshold nil)

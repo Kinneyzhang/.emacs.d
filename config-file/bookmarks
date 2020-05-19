@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("blog_site"
+(("journal.org"
+ (filename . "~/iCloud/blog_site/org/draft/journal.org")
+ (front-context-string . "#+TITLE: Journal")
+ (rear-context-string)
+ (position . 1))
+("gek"
+ (filename . "~/iCloud/hack/geekblog/geekblog-utils.el")
+ (front-context-string . "ir `(,date ,post")
+ (rear-context-string . "etq date-post-pa")
+ (position . 4085))
+("blog_site"
  (filename . "~/iCloud/TEMP/blog_site/")
  (front-context-string . "archive.html\n  d")
  (rear-context-string . " Apr 18 23:43  ")
@@ -28,7 +38,7 @@
  (rear-context-string . " 不要被乱七八糟的事物懵逼双眼！")
  (position . 898))
 ("computer-networking-a-topdown-approach.org"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/program_org/computer-networking-a-topdown-approach.org")
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/post/computer-networking-a-topdown-approach.org")
  (front-context-string)
  (rear-context-string . "网\n** 什么是英特网\n   \n")
  (position . 224))
@@ -39,29 +49,19 @@
  (position . 165))
 ("org-capture-last-stored-marker"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO pp-html中")
- (rear-context-string . "TODO pp-html过滤器\n")
- (position . 9255))
-("my-mood-diary-2020.org"
- (filename . "~/iCloud/blog_site/org/my-mood-diary-2020.org")
- (front-context-string)
- (rear-context-string . "思考便可由果溯因。\n-----\n")
- (position . 365))
+ (front-context-string . "** TODO Emacs Wo")
+ (rear-context-string . "		      :@free:\n")
+ (position . 9811))
 ("org-refile-last-stored"
- (filename . "~/iCloud/org/task.org")
- (front-context-string . "* TODO 开发 emacs-")
- (rear-context-string . "恢复旧的geekblog工作流\n")
- (position . 7179))
+ (filename . "~/iCloud/org/project.org")
+ (front-context-string . "** TODO 打造一个用于测试")
+ (rear-context-string . "ournal workflow\n")
+ (position . 8164))
 ("2020.ledger"
  (filename . "~/iCloud/org/2020.ledger")
  (front-context-string . "    收入:红包:春节\n   ")
  (rear-context-string . "20/01/25 * 新年红包\n")
  (position . 2824))
-("my-journal-2020.org"
- (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/my-journal-2020.org")
- (front-context-string . "\n*** 几句话总结一下今天？\n")
- (rear-context-string . "》\n\n** 21:31 晚间总结")
- (position . 567))
 ("emacs-lisp-learning-note.org"
  (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/blog_site/org/emacs-lisp-learning-note.org")
  (front-context-string . "s\n学习到 [[http://c")
@@ -88,8 +88,8 @@
  (rear-context-string . " Nov  2 23:23  ")
  (position . 241))
 ("org-capture-last-stored"
- (filename . "~/iCloud/org/inbox.org")
- (front-context-string . "* TODO 开发 emacs-")
- (rear-context-string . "_is_CSS\n  :END:\n")
- (position . 1943))
+ (filename . "~/iCloud/blog_site/org/draft/journal.org")
+ (front-context-string . "**** 晨间记录\n   Ent")
+ (rear-context-string . "0-05-19 Tuesday\n")
+ (position . 2928))
 )

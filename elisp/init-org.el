@@ -16,6 +16,7 @@
 	 ("C-c o l" . org-store-link)
 	 ("C-c t v" . org-tags-view)
 	 )
+  :hook ((org-mode . org-indent-mode))
   :config
   (progn
     ;; when opening a org file, don't collapse headings
@@ -159,35 +160,22 @@
 	org-pomodoro-short-break-length 5
 	org-pomodoro-long-break-length 15
 	org-pomodoro-long-break-frequency 4
-	org-pomodoro-ask-upon-killing t)
-  (define-key org-agenda-mode-map "P" 'org-pomodoro)
-  (add-hook 'org-pomodoro-finished-hook
-	    (lambda ()
-	      (notify-osx "Pomodoro completed!" "Time for a break.")))
-  (add-hook 'org-pomodoro-break-finished-hook
-	    (lambda ()
-	      (notify-osx "Pomodoro Short Break Finished" "Ready for Another?")))
-  (add-hook 'org-pomodoro-long-break-finished-hook
-	    (lambda ()
-	      (notify-osx "Pomodoro Long Break Finished" "Ready for Another?")))
-  (add-hook 'org-pomodoro-killed-hook    
-	    (lambda ()
-	      (notify-osx "Pomodoro Killed" "One does not simply kill a pomodoro!")))
-  :config
-  (defun notify-osx (title message)   
-    (call-process "terminal-notifier"		 
-		  nil 0 nil		 
-		  "-group" "Emacs"		 
-		  "-title" title		 
-		  "-sender" "org.gnu.Emacs"		 
-		  "-message" message		 
-		  "-activate" "oeg.gnu.Emacs")))
+	org-pomodoro-ask-upon-killing t
+	org-pomodoro-ticking-sound-p nil
+	org-pomodoro-ticking-sound (concat user-emacs-directory "config-file/pomodoro/rain_with_thunder.mp3")
+	org-pomodoro-finished-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
+	org-pomodoro-short-break-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
+	org-pomodoro-long-break-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
+	org-pomodoro-start-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
+	)
+  (define-key org-agenda-mode-map "P" 'org-pomodoro))
 
 ;;; ==========================================================================
 ;;; Org Mode for GTD
 
 (require 'find-lisp)
 (setq jethro/org-agenda-directory (expand-file-name "~/iCloud/"))
+
 (setq org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org" "~/iCloud/org/inbox.org" "~/iCloud/org/someday.org" "~/iCloud/org/review.org"))
 
 (setq org-src-fontify-natively t)
@@ -214,10 +202,12 @@
 	("h" "habit" entry (file "~/iCloud/org/task.org")
 	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
 	 )
-	("m" "晨间记录" entry (function org-journal-find-location)
-	 "* %(format-time-string org-journal-time-format)晨间记录\n  *天气/温度/地点:* \n\n  *昨日总结:*\\\\ \n\n\n  *今日计划:*\\\\\n")
-	("e" "晚间记录" entry (function org-journal-find-location)
-	 "* %(format-time-string org-journal-time-format)晚间记录\n * 今天抓住事情的核心了吗？\n * 今天破罐子破摔了吗？\n * 有什么要提醒明天的自己？\n")
+	("j" "Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
+         "* %?\nEntered on %U\n\n")	
+	("m" "Morning Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
+         "* 晨间记录\nEntered on %U\n\n天气:%? / 温度: / 地点:\n\n")
+	("e" "Evening Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
+	 "* 晚间总结\nEntered on %U\n\n%?")
 	))
 
 ;;; Stage 2: Processing
@@ -573,6 +563,13 @@
 (setq org-html-htmlize-output-type nil) ;; 导出时不加行间样式！
 (setq org-html-doctype "html5")
 (setq org-html-html5-fancy t)
+(setq user-full-name "Kinney Zhang")
+(setq user-mail-address "kinneyzhang666@gmail.com")
+(setq org-export-with-author nil)
+(setq org-export-with-email nil)
+(setq org-export-with-date nil)
+(setq org-export-with-creator nil)
+(setq org-html-validation-link nil)
 
 (use-package org-bullets
   :ensure t
