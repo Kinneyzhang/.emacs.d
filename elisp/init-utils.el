@@ -203,18 +203,19 @@ Return a new buffer or BUF with the code in it."
 	  ("Wiki-zh" "https://zh.wikipedia.org/wiki/%s" nil)
 	  ("Wiki-en" "https://en.wikipedia.org/wiki/%s" nil)
 	  ))
-  :bind (("C-C w u" . browse-url)
+  :bind (("C-c w u" . browse-url)
 	 ("C-c w w" . search-web)
 	 ("C-c w p" . search-web-at-point)
 	 ("C-c w r" . search-web-region)))
 
 ;; use xwidget-webkit
-;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
-;; (defun browse-url-default-browser (url &rest args)
-;;   "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
-;;   (xwidget-webkit-browse-url url args))
-;; (local-set-key (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
-;; (local-set-key (kbd "C-c w k") 'xwidget-webkit-current-url-message-kill)
+(setq browse-url-browser-function 'xwidget-webkit-browse-url)
+(defun browse-url-default-browser (url &rest args)
+  "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
+  (xwidget-webkit-browse-url url args))
+;;(define-key xwidget-webkit-mode-map (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
+;;(define-key xwidget-webkit-mode-map (kbd "C-c w k") 'xwidget-webkit-current-url-message-kill)
+
 
 (use-package browse-at-remote
   :ensure t

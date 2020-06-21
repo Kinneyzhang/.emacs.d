@@ -9,6 +9,21 @@
 ;;   :quelpa
 ;;   (calibredb :repo "chenyanming/calibredb.el" :fetcher github))
 
+;; (use-package lispy
+;;   :ensure t
+;;   :config
+;;   (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
+;;   (add-hook 'lisp-interaction-mode-hook (lambda () (lispy-mode 1))))
+
+;; (add-hook 'org-mode-hook 'flywrap-mode)
+
+(use-package db
+  :ensure t)
+
+(use-package valign
+  :load-path "~/.emacs.d/site-lisp/valign"
+  :config (valign-mode))
+
 (use-package toc-org
   :ensure t
   :config
@@ -737,12 +752,6 @@ specified.  Select the current line if the LINES prefix is zero."
   (setq company-minimum-prefix-length 3)
   (global-company-mode t))
 
-(use-package company-box
-  :defer 5
-  :ensure t
-  :init (setq company-box-icons-alist 'company-box-icons-all-the-icons)
-  :hook (company-mode . company-box-mode))
-
 (use-package yasnippet
   :ensure t
   :defer t
@@ -752,7 +761,6 @@ specified.  Select the current line if the LINES prefix is zero."
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode)
   (add-hook 'org-mode-hook #'yas-minor-mode))
-
 
 (use-package smartparens
   :ensure t

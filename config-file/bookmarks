@@ -1,8 +1,23 @@
-;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8 -*- 
+;;;; Emacs Bookmark Format Version 1 ;;;; -*- coding: utf-8 -*-
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("journal.org"
+(("advanced-mathematics.org"
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/考研/advanced-mathematics.org")
+ (front-context-string . "\n    * 一般性质\n    ")
+ (rear-context-string . "都存在且相等\n\n*** 极限性质")
+ (position . 475))
+("考研"
+ (filename . "~/Library/Mobile Documents/com~apple~CloudDocs/考研/")
+ (front-context-string . "advanced-mathema")
+ (rear-context-string . " May 20 16:23  ")
+ (position . 613))
+("高等数学.org"
+ (filename . "~/iCloud/考研/高等数学.org")
+ (front-context-string . "\n* 极限与连续\n** 极限\n*")
+ (rear-context-string . "/style2.css\"/>\n\n")
+ (position . 324))
+("journal.org"
  (filename . "~/iCloud/blog_site/org/draft/journal.org")
  (front-context-string . "#+TITLE: Journal")
  (rear-context-string)
@@ -49,14 +64,14 @@
  (position . 165))
 ("org-capture-last-stored-marker"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO Emacs Wo")
- (rear-context-string . "		      :@free:\n")
- (position . 9811))
+ (front-context-string . "** TODO Emacs Ha")
+ (rear-context-string . "Workflow - 文件管理\n")
+ (position . 12784))
 ("org-refile-last-stored"
  (filename . "~/iCloud/org/project.org")
- (front-context-string . "** TODO 打造一个用于测试")
- (rear-context-string . "ournal workflow\n")
- (position . 8164))
+ (front-context-string . "** TODO pp-html提")
+ (rear-context-string . "  0:28\n   :END:\n")
+ (position . 11674))
 ("2020.ledger"
  (filename . "~/iCloud/org/2020.ledger")
  (front-context-string . "    收入:红包:春节\n   ")
@@ -90,6 +105,6 @@
 ("org-capture-last-stored"
  (filename . "~/iCloud/blog_site/org/draft/journal.org")
  (front-context-string . "**** 晨间记录\n   Ent")
- (rear-context-string . "0-05-19 Tuesday\n")
- (position . 2928))
+ (rear-context-string . "20-06-21 Sunday\n")
+ (position . 19126))
 )

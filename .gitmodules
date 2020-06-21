@@ -43,3 +43,9 @@
 [submodule "site-lisp/shrface"]
 	path = site-lisp/shrface
 	url = https://github.com/chenyanming/shrface.git
+[submodule "site-lisp/valign"]
+	path = site-lisp/valign
+	url = https://github.com/casouri/valign.git
+[submodule "site-lisp/rainbow-fart"]
+	path = site-lisp/rainbow-fart
+	url = https://github.com/stardiviner/emacs-rainbow-fart.git

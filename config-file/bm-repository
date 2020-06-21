@@ -3,4 +3,14 @@
   \"")) ((position . 10626) (time . 1587021262.098238) (temporary-bookmark) (annotation) (before-context-string . "n pp-html--proce") (after-context-string . "ss-elem (sexp)
  ")))) ("/Users/kinney/Library/Mobile Documents/com~apple~CloudDocs/hack/geekblog/geekblog.el" (version . 2) (size . 21372) (timestamp 24217 26392 425157 0) (bookmarks ((position . 9342) (time . 1587107264.204915) (temporary-bookmark) (annotation) (before-context-string . "---------------
 ") (after-context-string . ";; 获取post meta信息")) ((position . 12530) (time . 1587108655.753702) (temporary-bookmark) (annotation) (before-context-string . " generated!\")))
-") (after-context-string . ";; 生成page的函数可以进一")))))
+") (after-context-string . ";; 生成page的函数可以进一")))) ("/Users/kinney/iCloud/hack/geekblog/geekblog.el" (version . 2) (size . 8403) (timestamp 24297 64106 446210 0) (bookmarks ((position . 5586) (time . 1592381510.506691) (temporary-bookmark) (annotation) (before-context-string . "gen-all-pages ()") (after-context-string . "
+  \"Generate all")))) ("/Users/kinney/Library/Mobile Documents/com~apple~CloudDocs/hack/pp-html/pp-html.el" (version . 2) (size . 33263) (timestamp 24298 13085 23810 0) (bookmarks ((position . 22267) (time . 1592404757.18586) (temporary-bookmark) (annotation) (before-context-string . "'in in)
+	(if seq") (after-context-string . "
+	    (progn
+	  ")) ((position . 12097) (time . 1592404757.185711) (temporary-bookmark) (annotation) (before-context-string . "r-lstrip (value)") (after-context-string . "
+  \"Removes all ")) ((position . 10535) (time . 1592404757.185742) (temporary-bookmark) (annotation) (before-context-string . "\" time format.
+\"") (after-context-string . " ;; 获取时间的通用格式
+  ")) ((position . 8208) (time . 1592404757.185771) (temporary-bookmark) (annotation) (before-context-string . "pend (value arg)") (after-context-string . "
+  \"Append a lis")) ((position . 7172) (time . 1592404757.185802) (temporary-bookmark) (annotation) (before-context-string . " pp-html--filter") (after-context-string . "-eval (sexp)
+  \"")) ((position . 6638) (time . 1592404757.185835) (temporary-bookmark) (annotation) (before-context-string . "l--filter-p (el)") (after-context-string . "
+  \"Judge if a e")))))

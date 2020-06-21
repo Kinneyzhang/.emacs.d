@@ -24,11 +24,11 @@
 (let ((gc-cons-threshold most-positive-fixnum) ;; 加载的时候临时增大`gc-cons-threshold'以加速启动速度。
       (file-name-handler-alist nil)) ;; 清空避免加载远程文件的时候分析文件。
 
-(use-package benchmark-init
-  :ensure t
-  :config
-  ;; To disable collection of benchmark data after init is done.
-  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+  (use-package benchmark-init
+    :ensure t
+    :config
+    ;; To disable collection of benchmark data after init is done.
+    (add-hook 'after-init-hook 'benchmark-init/deactivate))
   
   (load (concat user-emacs-directory "elisp/custom.el"))
 
@@ -42,6 +42,7 @@
   (require 'init-org)
   (require 'init-music)
   (require 'init-elfeed)
+  ;; (require 'init-flywrap)
   (require 'lang-python)
   (require 'lang-ruby)
   (require 'lang-javascript)

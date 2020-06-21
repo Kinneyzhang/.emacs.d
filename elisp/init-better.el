@@ -7,8 +7,10 @@
 (setq make-backup-files nil);;不允许备份
 (setq auto-save-default t);;不允许自动保存
 (recentf-mode 1)
+(delete-selection-mode 1)
 (ido-mode 1)
 (setq recentf-max-menu-items 10)
+(global-hl-line-mode 1)
 ;;(add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
 (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
 (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)

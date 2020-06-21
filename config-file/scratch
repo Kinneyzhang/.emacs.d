@@ -1,5 +1,323 @@
 ;; This buffer is for text that is not saved, and for Lisp evaluation.
 ;; To create a file, visit it with <open> and enter text in its buffer.
 
+(load-file "~/iCloud/hack/pp-html/pp-html.el")
+(require 'pp-html)
 
+(defvar lst '(1 2 3 4))
+(setq lst  '(1 2 3 4))
+lst
+(pp-html-eval (nth 3 '(:for test in $lst
+			    (li $test))))
+
+(pp-html
+ '((:assign lst (1 2 3 4))
+   (:for test in $lst
+	 (li $test))))
+
+
+(pp-html-test
+ '((:assign collection (:products ;; ? problem
+			((:title "happy" :id "hacking" :subtitle "emacs")
+			 (:title "happy1" :id "hacking" :subtitle "emacs")
+			 (:title "happy2" :id "hacking" :subtitle "emacs")))
+   	    end 4
+   	    beg -4
+   	    array (3 4 5 7 8))
+   (ul .org-ul
+       (:for colle in $collection.products
+   	     (li :class $colle.title $colle.title)
+   	     (:else (p "The collection is empty!"))))
+   (ul .org-ul
+       (:for numm in ($beg..$end) :limit 5
+   	     (li :class $numm $numm)
+	     (:else p "The collection is empty!")))
+   ))
+
+
+(pp-html-eval ')
+(pp-html-test
+ '(:for tt in (2 3 4 5) :limit 2 :reversed
+	(p $tt)))
+
+(pp-html-test
+ '((:assign test "happy")
+   (:case $test
+	  (:when "hello" (p "hello"))
+	  (:when "happy" (p "happy"))
+	  (:when "emacs" (p "emacs")))))
+
+(pp-html--plist->alist (-drop-last 1 (-drop 4  '(:for tt in (2 3 4 5) :reversed
+						      (p $tt)))))
+
+(pp-html--plist->alist '(:test 1 :test2 :test3 4))
+(-drop-last 2
+	    (-drop 4 '(:for num in $collection.null :reversed :limit 3 :offset 2
+			    (li :class $num.title $num.title)
+			    (:else (p "The collection is empty!")))))
+
+(last '(2 3 4 6 8) 2)
+
+(or (= 3 (length '(3..6))) (= 1 (length '(3..6))))
+
+(format "%s" (car '(2..4)))
+(substring "2..4" -1)
+
+(substring "2..5" 1 -1)
+
+(split-string "12..59" "\\.\\.")
+
+(split-string "2344" "\\.\\.")
+
+(string-to-number nil)
+(string-trim "23..55" "[0-9]+" "[0-9]+")
+(string-join)
+
+(string-match)
+
+(pp-html--array-eval '(2..5 2))
+(number-sequence 3 6 -2)
+
+(pp-html--array-p '(2..7 2))
+
+(pp-html-parse
+ '(:ifequal
+   4 4
+   "equal"
+   "not equal"))
+
+(pp-html
+ '(:ifnotequal
+   6 4
+   (p "not equal")
+   (p "equal")))
+
+(pp-html-eval '$)
+
+(sequencep '(1 2 3 "hell"))
+
+(number-sequence -3 5)
+
+(pp-html-eval '(40..-4))
+
+(string-trim "..45" "[0-9]+" "[0-9]+")
+(split-string "..88" "\\.\\.")
+
+(numberp (read ""))
+
+(numberp (read "-6"))
+
+(string-trim "-2..-8" "[0-9]+" "[0-9\\-]+")
+
+(- '(1 2 3 4) '(3 4))
+
+
+(pp-html-test
+ '(:for iii in (2..8 by 2)
+	(:ifequal $iii 4
+		  (p "break")
+		  (p $iii))
+	(:else (p "default"))
+	))
+
+(pp-html-test
+ '(:for testt in (2..6)
+	(:ifequal $testt 4
+		  (:break)
+		  (p $testt))
+	(:else (p "default"))
+	))
+
+(dolist (it '(2 3 4 5))
+  (pp-html-parse
+   (pp-html-sexp-replace 'ii it '(:ifequal $ii 4
+					   (p "break")
+					   (p $ii)))))
+
+(pp-html-parse
+ '(:ifequal $ii 4
+	    (:break)
+	    (p $ii)))
+
+(pp-html-parse '(div "hell"))
+
+(setq target '(:break))
+
+(ceiling "3.9")
+
+(/ 20 7.0)
+
+[$val.attr]
+[$f concat "hello" $val]
+
+(type-of [1 2 "hell"])
+
+
+https://longlycode.github.io/post/emacs完全补完计划-一-1/
+[[http://steve-yegge.blogspot.com/2008/01/emergency-elisp.html?m=1][Emergency Elisp | Stevey's Blog Rants]]
+
+
+(setq plist-test
+      '((:title "title1" :category "category1" :date "date1" :description "decription1")
+	(:title "title2" :category "category2" :date "date2" :description "decription2")
+	(:title "title3" :category "category3" :date "date3" :description "decription3")
+	(:title "title4" :category "category4" :date "date4" :description "decription4")))
+
+(plist-get (car plist-test) :title)
+
+(pp-html '((:assign plst (\ $plist-test :map "category"))
+	   (:for item in $plst
+		 (p $item))))
+
+(replace-string "hello emacs ")
+
+(insert "hello\nemacs")
+
+(load-file "~/.emacs.d/site-lisp/valign/valign.el")
+
+(pp-html-eval '(/ "Ground control to Major Tom." :truncatewords 3 "...."))
+
+(with-current-buffer (get-buffer-create "*test*")
+  (erase-buffer)
+  (insert "happy-hacking emacs!")
+  (goto-char (point-min))
+  (subword-kill 2)
+  (erase-buffer)
+  (yank)
+  (buffer-string))
+
+(pp-html-eval '(/ "ants, bugs, bees, bugs, ants" :split ", " :uniq))
+
+(decode- "%27Stop%21%27+said+Fred")
+
+(url-encode-url "john@liquid.com")
+
+(let ((lst5 (list "hello"))
+      (lst2 (list "emacs")))
+  (pp-html-eval '(/ $lst5 :append ("emacs"))))
+
+(append '("hello") '("emacs"))
+
+(let ((lst1 '(1 2))
+      (lst2 '(3 4))
+      (lst3 '(5 6)))
+  (nconc lst1 lst2 lst3)
+  (message "%S - %S - %S" lst1 lst2 lst3))
+
+lst1
+lst2
+lst3
+
+(cl-mapcan)
+
+(nnrss-find-el 'channel (nnrss-fetch "http://www.ximalaya.com/album/5574153.xml"))
+(nnrss-find-el 'itunes:new-feed-url (nnrss-fetch "http://www.ximalaya.com/album/5574153.xml"))
+
+(defun my-defer-org-task ()
+  (interactive)
+  )
+
+(org-entry-get (point) "SCHEDULED")
+
+(podcaster--collect-program "日谈公园")
+
+(with-current-buffer (get-buffer-create "*test*")
+  (erase-buffer)
+  (insert "日坛公园 - vol. 23 这是节目的标题")
+  (goto-char (point-min))
+  (while (re-search-forward "vol.[ ]*[0-9]+" nil t)
+    (setq res (match-string 0)))
+  res)
+
+(podcaster--get-feeds "日谈公园")
+
+(cdr (assoc "日谈公园" podcaster-feeds-urls))
+
+(podcaster--get-feeds-from-url "http://www.ximalaya.com/album/5574153.xml")
+
+(pp-html-eval '(/ (1 2 3) :append (4 5 6)))
+
+(pp-html--plist-to-alist '(:append 3))
+
+(let ((list1 '(1 2 3)))
+  (append list1 '(4 5 6)))
+
+(dolist (filt alist)
+  (if (null (cadr filt))
+      (progn
+	(setq value
+	      (funcall (cadr (assoc (car filt) pp-html-filter-list)) value)))
+    (setq value
+	  (eval `(funcall (cadr (assoc (car filt) pp-html-filter-list)) value ,@(cdr filt))))))
+
+(let ((alist '((:key1 "happy") (:key2 "hacking") (:key3 "emacs")))
+      (funcs '((:key1 )))
+      (pair )
+      (res nil))
+  (dolist (item lst)
+    (setq res (append res (list (funcall #'upcase item)))))
+  res)
+
+(load-file "~/iCloud/hack/podcaster/podcaster.el")
+
+(podcaster--extract-tag-value 'title channel)
+
+(assoc-default 'title (nnrss-find-el 'channel (nnrss-fetch "http://www.ximalaya.com/album/5574153.xml")))
+
+(nnrss-fetch "http://www.ximalaya.com/album/5574153.xml")
+
+(car (cddr ))
+
+(assoc 'title
+       (car (nnrss-find-el 'channel (nnrss-fetch "http://www.ximalaya.com/album/5574153.xml"))))
+
+(setq ivy-use-virtual-buffers t)
+
+(defun counsel-describe-function ()
+  "Forward to `describe-function'."
+  (interactive)
+  (ivy-read "Describe function: "
+            (let (cands)
+              (mapatoms
+               (lambda (x)
+                 (when (fboundp x)
+                   (push (symbol-name x) cands))))
+              cands)
+            :keymap counsel-describe-map
+            :preselect (ivy-thing-at-point)
+            :history 'counsel-describe-symbol-historyww
+            :require-match t
+            :action (lambda (x)
+                      (describe-function
+                       (intern x)))
+            :caller 'counsel-describe-function))
+
+
+(setq db-test (db-make
+	       `(db-hash 
+		 :filename "~/test.db")))
+
+(db-put "001" '(:title "title" :des "des") db-test)
+
+(db-get "001" db-test)
+
+
+(load-file "~/iCloud/hack/pp-html/pp-html.el")
+
+(pp-html-eval '(/ 6 :abs))
+
+(dolist (item alist)
+  (if (null (cadr item))
+      (progn
+	(setq value
+	      (funcall (cadr (assoc (car item) pp-html-filter-list)) value)))
+    (setq value
+	  (eval `(funcall (cadr (assoc (car item) pp-html-filter-list)) value ,@(cdr item))))))
+
+(use-package rainbow-fart
+  :load-path "~/.emacs.d/site-lisp/rainbow-fart"
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-fart-mode))
+
+;; pomotodo
 

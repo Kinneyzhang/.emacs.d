@@ -3,7 +3,9 @@
   :ensure t
   :diminish (ivy-mode . "")
   :bind (("C-x b" . ivy-switch-buffer)
-	 ("C-x C-f" . counsel-find-file))
+	 ("C-x C-f" . counsel-find-file)
+	 ("C-c v" . ivy-push-view)
+	 ("C-c V" . ivy-pop-view))
   :config
   (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
@@ -21,10 +23,7 @@
 
 (use-package swiper
   :ensure t
-  :bind (("C-s" . swiper))
-  :init (setq ivy-use-virtual-buffers t)
-  :config
-  (ivy-mode 1))
+  :bind (("C-s" . swiper)))
 
 (use-package counsel
   :defer 5

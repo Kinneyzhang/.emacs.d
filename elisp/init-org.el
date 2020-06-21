@@ -16,7 +16,6 @@
 	 ("C-c o l" . org-store-link)
 	 ("C-c t v" . org-tags-view)
 	 )
-  :hook ((org-mode . org-indent-mode))
   :config
   (progn
     ;; when opening a org file, don't collapse headings
@@ -609,7 +608,7 @@
 (use-package idle-org-agenda
   :after org-agenda
   :ensure t
-  :init (setq idle-org-agenda-interval 600
+  :init (setq idle-org-agenda-interval 6000
 	      idle-org-agenda-key "o")
   :config (idle-org-agenda-mode))
 
@@ -626,30 +625,30 @@
 	 ("C-c j y" . journal-file-yesterday))
   )
 
-(defun my/daily-plan-from-journal-to-agenda ()
-  (let* ((beg 0)
-	 (date (format-time-string "%Y%m%d"))
-	 (journal (concat org-journal-dir date))
-	 (agenda (concat org-directory "note.org")))
-    (with-current-buffer (get-buffer-create "*add daily task*")
-      (insert-file-contents journal)
-      (goto-char (point-min))
-      (while beg
-	(setq beg (re-search-forward "* \\[ \\] " nil t))
-	(end-of-line)
-	(setq end (point))
-	(kill-ring-save beg end)
-	(save-excursion
-	  (with-temp-buffer
-	    (yank)
-	    (setq task (buffer-substring-no-properties (point-min) (point-max)))
-	    (append-to-file (concat "* NOTE " task " :daily:\n") nil agenda))))
-      (erase-buffer))
-    ))
+;; (defun my/daily-plan-from-journal-to-agenda ()
+;;   (let* ((beg 0)
+;; 	 (date (format-time-string "%Y%m%d"))
+;; 	 (journal (concat org-journal-dir date))
+;; 	 (agenda (concat org-directory "note.org")))
+;;     (with-current-buffer (get-buffer-create "*add daily task*")
+;;       (insert-file-contents journal)
+;;       (goto-char (point-min))
+;;       (while beg
+;; 	(setq beg (re-search-forward "* \\[ \\] " nil t))
+;; 	(end-of-line)
+;; 	(setq end (point))
+;; 	(kill-ring-save beg end)
+;; 	(save-excursion
+;; 	  (with-temp-buffer
+;; 	    (yank)
+;; 	    (setq task (buffer-substring-no-properties (point-min) (point-max)))
+;; 	    (append-to-file (concat "* NOTE " task " :daily:\n") nil agenda))))
+;;       (erase-buffer))
+;;     ))
 
-(defun my/journal-to-agenda ()
-  (interactive)
-  (my/daily-plan-from-journal-to-agenda))
+;; (defun my/journal-to-agenda ()
+;;   (interactive)
+;;   (my/daily-plan-from-journal-to-agenda))
 
 (defun org-journal-find-location ()
   (org-journal-new-entry t)
@@ -676,45 +675,42 @@
 		"\\|^#\\+[[:alnum:]_]+:.*$" ;; org-mode metadata
 		"\\)")))
 
-(use-package org-wiki
-  :ensure t
-  :init
-  (setq org-wiki-location "~/iCloud/wiki")
-  (setq org-wiki-default-read-only nil)
-  (setq org-wiki-server-port "8000")
-  (setq org-wiki-server-host "127.0.0.1")
-  (setq org-wiki-template
-	(string-trim
-	 "
-#+TITLE: %n
-#+DATE: %d
-#+STARTUP: showall
-#+OPTIONS: toc:nil H:2 num:0
+(use-package org-roam
+      :ensure t
+      :hook
+      (after-init . org-roam-mode)
+      :custom
+      (org-roam-directory "~/iCloud/roam/")
+      :bind (:map org-roam-mode-map
+              (("C-c m l" . org-roam)
+               ("C-c m f" . org-roam-find-file)
+               ("C-c m g" . org-roam-show-graph))
+              :map org-mode-map
+              (("C-c m i" . org-roam-insert))
+              (("C-c m I" . org-roam-insert-immediate))))
 
-#+BEGIN_CENTER
-[[wiki:index][Home Page]] / Parent 
-#+END_CENTER
-
-"))
-  :config
-  (defalias 'w-h #'org-wiki-helm)
-  (defalias 'w-s #'org-wiki-switch)
-  (defalias 'w-hf  #'org-wiki-helm-frame)
-  (defalias 'w-hr #'org-wiki-helm-read-only)
-  (defalias 'w-i #'org-wiki-index)
-  (defalias 'w-n #'org-wiki-new)
-  (defalias 'w-in #'org-wiki-insert-new)
-  (defalias 'w-il #'org-wiki-insert-link)
-  (defalias 'w-ad #'org-wiki-asset-dired)
-  (defalias 'og2h #'org-html-export-to-html)
-  (defalias 'w-close #'org-wiki-close)
-  ;; (let ((url "https://raw.githubusercontent.com/caiorss/org-wiki/master/org-wiki.el"))     
-  ;;   (with-current-buffer (url-retrieve-synchronously url)
-  ;;     (goto-char (point-min))
-  ;;     (re-search-forward "^$")
-  ;;     (delete-region (point) (point-min))
-  ;;     (kill-whole-line)
-  ;;     (package-install-from-buffer)))
-  )
+(defun org-display-subtree-inline-images ()
+  "Toggle the display of inline images.
+INCLUDE-LINKED is passed to `org-display-inline-images'."
+  (interactive)
+  (save-excursion
+    (save-restriction
+      (org-narrow-to-subtree)
+      (let* ((beg (point-min))
+             (end (point-max))
+             (image-overlays (cl-intersection
+                              org-inline-image-overlays
+                              (overlays-in beg end))))
+        (if image-overlays
+            (progn
+              (org-remove-inline-images)
+              (message "Inline image display turned off"))
+          (org-display-inline-images t t beg end)
+          (setq image-overlays (cl-intersection
+                                org-inline-image-overlays
+                                (overlays-in beg end)))
+          (if (and (org-called-interactively-p) image-overlays)
+              (message "%d images displayed inline"
+                       (length image-overlays))))))))
 
 (provide 'init-org)
