@@ -246,10 +246,10 @@ Return a new buffer or BUF with the code in it."
 (defun chunyang-scratch-save ()
   (ignore-errors
     (with-current-buffer "*scratch*"
-      (write-region nil nil (concat config-dir "scratch")))))
+      (write-region nil nil (concat user-emacs-directory "scratch")))))
 
 (defun chunyang-scratch-restore ()
-  (let ((f (concat config-dir "scratch")))
+  (let ((f (concat user-emacs-directory "scratch")))
     (when (file-exists-p f)
       (with-current-buffer "*scratch*"
 	(erase-buffer)

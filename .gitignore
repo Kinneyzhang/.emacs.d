@@ -1,4 +1,4 @@
-.DS_Store
+*.DS_Store
 auto-save-list
 recentf
 elpa
@@ -8,7 +8,6 @@ abbrev_defs
 .python-environments
 myconfig.el
 eshell
-.org-id-locations
 irony
 diary
 .caches
@@ -40,3 +39,5 @@ tutorial
 nox
 geekblog
 emms
+thumbs
+config-file

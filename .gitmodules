@@ -46,6 +46,3 @@
 [submodule "site-lisp/valign"]
 	path = site-lisp/valign
 	url = https://github.com/casouri/valign.git
-[submodule "site-lisp/rainbow-fart"]
-	path = site-lisp/rainbow-fart
-	url = https://github.com/stardiviner/emacs-rainbow-fart.git
