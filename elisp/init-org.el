@@ -130,7 +130,6 @@
 (setq org-clock-out-when-done t)
 ;; Save the running clock and all clock history when exiting Emacs, load it on startup
 (setq org-clock-persist t)
-(setq org-clock-persist-file (concat config-dir "org-clock-save.el"))
 ;; Do not prompt to resume an active clock
 (setq org-clock-persist-query-resume nil)
 ;; Enable auto clock resolution for finding open clocks
@@ -161,11 +160,11 @@
 	org-pomodoro-long-break-frequency 4
 	org-pomodoro-ask-upon-killing t
 	org-pomodoro-ticking-sound-p nil
-	org-pomodoro-ticking-sound (concat user-emacs-directory "config-file/pomodoro/rain_with_thunder.mp3")
-	org-pomodoro-finished-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
-	org-pomodoro-short-break-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
-	org-pomodoro-long-break-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
-	org-pomodoro-start-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
+	;; org-pomodoro-ticking-sound (concat user-emacs-directory "config-file/pomodoro/rain_with_thunder.mp3")
+	;; org-pomodoro-finished-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
+	;; org-pomodoro-short-break-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
+	;; org-pomodoro-long-break-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
+	;; org-pomodoro-start-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
 	)
   (define-key org-agenda-mode-map "P" 'org-pomodoro))
 

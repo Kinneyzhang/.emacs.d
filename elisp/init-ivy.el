@@ -28,7 +28,6 @@
 (use-package counsel
   :defer 5
   :ensure nil
-  :init (setq bookmark-default-file (concat config-dir "bookmarks"))
   :bind (("M-x" . counsel-M-x)
 	 ("C-c e" . counsel-git)
 	 ("C-c t l" . counsel-load-theme)
@@ -57,9 +56,7 @@
 
 ;; projectile
 (use-package projectile
-  :ensure t
-  :init
-  (setq projectile-known-projects-file (concat config-dir "projectile-bookmarks.eld")))
+  :ensure t)
 
 (use-package counsel-projectile
   :ensure t

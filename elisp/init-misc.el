@@ -280,7 +280,6 @@
   ;; Allow cross-buffer 'next'
   (setq bm-cycle-all-buffers t)
   ;; where to store persistant files
-  (setq bm-repository-file (concat config-dir "bm-repository"))
   ;; save bookmarks
   (setq-default bm-buffer-persistence t)
   ;; Loading the repository from file when on start up.
@@ -316,7 +315,6 @@
 
 (use-package prescient
   :ensure t
-  :init (setq prescient-save-file (concat config-dir "prescient-save.el"))
   :config (prescient-persist-mode))
 (use-package ivy-prescient :ensure t :config (ivy-prescient-mode))
 (use-package company-prescient :ensure t :config (company-prescient-mode))

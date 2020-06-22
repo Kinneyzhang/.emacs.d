@@ -62,8 +62,7 @@
          ("o" . ace-link)
          ("q" . delete-window))
   :config
-  (setq elfeed-db-directory (concat config-dir "elfeed/")
-        elfeed-show-entry-switch #'pop-to-buffer
+  (setq elfeed-show-entry-switch #'pop-to-buffer
         elfeed-show-entry-delete #'delete-window
         elfeed-feeds '("https://blog.geekinney.com/feed.xml"
 		       )))
