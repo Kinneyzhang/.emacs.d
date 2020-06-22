@@ -9,13 +9,14 @@
 ;;   :quelpa
 ;;   (calibredb :repo "chenyanming/calibredb.el" :fetcher github))
 
-;; (use-package lispy
-;;   :ensure t
+;; (use-package eaf
+;;   :load-path "~/.emacs.d/site-lisp/emacs-application-framework" ; Set to "/usr/share/emacs/site-lisp/eaf" if installed from AUR
+;;   :custom
+;;   (eaf-find-alternate-file-in-dired t)
 ;;   :config
-;;   (add-hook 'emacs-lisp-mode-hook (lambda () (lispy-mode 1)))
-;;   (add-hook 'lisp-interaction-mode-hook (lambda () (lispy-mode 1))))
-
-;; (add-hook 'org-mode-hook 'flywrap-mode)
+;;   (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+;;   (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+;;   (eaf-bind-key take_photo "p" eaf-camera-keybinding))
 
 (use-package db
   :ensure t)
