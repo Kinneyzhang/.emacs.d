@@ -627,13 +627,17 @@ prefix argument (`C-u C-u C-u C-c C-w')."
 			   (save-excursion
 			     (unless (and arg (listp arg))
 			       (org-back-to-heading t)
+			       (setq heading-text-origin
+				     (replace-regexp-in-string
+				      org-link-bracket-re
+				      "\\2"
+				      (or (nth 4 (org-heading-components))
+					  "")))
 			       (setq heading-text
-				     (concat (substring (replace-regexp-in-string
-							 org-link-bracket-re
-							 "\\2"
-							 (or (nth 4 (org-heading-components))
-							     ""))
-							0 20) "....")))
+				     (if (> (length heading-text-origin) 20)
+					 (concat (substring heading-text-origin
+							    0 20) "....")
+				       heading-text-origin)))
 			     (org-refile-get-location
 			      (cond ((and arg (listp arg)) "Goto")
 				    (regionp (concat actionmsg " region to"))
