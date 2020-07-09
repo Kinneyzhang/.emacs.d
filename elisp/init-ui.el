@@ -108,6 +108,7 @@
 
 (use-package centaur-tabs
   :ensure t
+  :hook (after-init . centaur-tabs-mode)
   :config
   (setq centaur-tabs-style "box"
 	centaur-tabs-height 22
@@ -126,7 +127,6 @@
   ;; (setq centaur-tabs-gray-out-icons 'buffer)
   ;; (centaur-tabs-enable-buffer-reordering)
   ;; (setq centaur-tabs-adjust-buffer-order t)
-  (centaur-tabs-mode t)
   (setq uniquify-separator "/")
   (setq uniquify-buffer-name-style 'forward)
   (defun centaur-tabs-buffer-groups ()

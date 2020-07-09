@@ -20,7 +20,7 @@ lst
  '((:assign collection (:products ;; ? problem
 			((:title "happy" :id "hacking" :subtitle "emacs")
 			 (:title "happy1" :id "hacking" :subtitle "emacs")
-			 (:title "happy2" :id "hacking" :subtitle "emacs")))
+			 (:title "happy2" :id "hacking" :subtitle "emacs")))
    	    end 4
    	    beg -4
    	    array (3 4 5 7 8))
@@ -320,4 +320,205 @@ lst3
   (add-hook 'prog-mode-hook #'rainbow-fart-mode))
 
 ;; pomotodo
+
+
+(defun my-add-org-meta-info (dir)
+  (interactive "fchoose a directory: ")
+  (let (real-files)
+    (dolist (file (directory-files dir))
+      (when (not (or (string= "." (substring file 0 1))
+		     (string= "#" (substring file 0 1))
+		     (string= "~" (substring file 0 1))))
+	(push file real-files)))
+    (dolist (filename real-files)
+      (let* ((title (file-name-base filename))
+	     (author "author name")
+	     (date (format-time-string "%F %T" (current-time)))
+	     (meta-info (format "#+TITLE: %s\n#+AUTHOR: %s\n#+DATE: %s\n" title author date))
+	     (file (concat dir filename)))
+	(with-temp-buffer
+	  (insert-file-contents file)
+	  (goto-char (point-min))
+	  (insert meta-info)
+	  (write-file file))))))
+
+(defun hello2 (name)
+  (insert (format "Hello %s!\n" name)))
+
+(hello2 "you")
+
+優しい忘却
+
+(with-eval-after-load 'markdown-mode
+  )
+
+(unbind-key markdown-mode-map (kbd "RET") '(lambda () (when (thing-at-point 'url)
+							(browse-url (thing-at-point 'url)))))
+
+(defun open-url-on-point()
+  "open url on point use default browser"
+  (interactive)
+  ;;(message "%s" (browse-url-url-at-point))
+  (let ((url (browse-url-url-at-point)))
+    (if url
+        (browse-url url)
+      (error "No URL found")))
+  )
+
+(with-eval-after-load 'markdown-mode ;;试了markdown 没有效
+  (define-key markdown-mode-map (kbd "RET") 'open-url-on-point)
+  )
+
+(defclass person () ; No superclasses
+  ((name :initarg :name
+         :initform ""
+         :type string
+         :custom string
+         :documentation "The name of a person.")
+   (birthday :initarg :birthday
+             :initform "Jan 1, 1970"
+             :custom string
+             :type string
+             :documentation "The person's birthday.")
+   (phone :initarg :phone
+          :initform ""
+          :documentation "Phone number."))
+  "A class for tracking people I know.")
+
+(person :name "geekinney" :birthday "Feb 13, 1996" :phone 15651802531)
+(make-instance 'person :name "geekinney" :birthday "Feb 13, 1996" :phone 15651802531)
+;;-----------------------------------
+
+(defun my-split-yaml-file (file)
+  (interactive "fchoose a file: ")
+  (let ((filedir "~/test-dir/")
+	filename beg end content)
+    (with-current-buffer (get-buffer-create "*split-yaml*")
+      (insert-file-contents file)
+      (goto-char (point-min))
+      (while (< (point) (point-max))
+	(if (search-forward "#" (line-end-position) t)
+	    (progn
+	      (when filename
+		(setq content
+		      (string-join
+		       (split-string (buffer-substring-no-properties beg end)
+				     "[\n]+" t "[ \f\t\n\r\v]+")
+		       "\n"))
+		(with-temp-file (concat filedir filename ".org")
+		  (insert content)))
+	      (setq filename (current-word))
+	      (next-line)
+	      (beginning-of-line)
+	      (setq beg (point)))
+	  (save-excursion
+	    (next-line)
+	    (beginning-of-line)
+	    (when (or (search-forward "#" (line-end-position) t)
+		      (= (point) (point-max)))
+	      (previous-line)
+	      (end-of-line)
+	      (setq end (point))))
+	  (next-line)
+	  (beginning-of-line))))))
+
+(defun my-move-matched-text-line (file)
+  "move string match line to the second line."
+  (interactive "fchoose a file: ")
+  (let ((line 2)
+	(str "某汉字"))
+    (with-temp-file file
+      (insert-file-contents file)
+      (goto-char (point-min))
+      (search-forward str nil t)
+      (kill-whole-line)
+      (goto-line line)
+      (yank))))
+
+(defun my-get-real-files-in-dir (dir)
+  (let ((real-files)
+	(files (directory-files dir)))
+    (dolist (file files)
+      (when (not (or (string= "." (substring file 0 1))
+		     (string= "#" (substring file 0 1))
+		     (string= "~" (substring file -1))))
+	(push file real-files)))
+    real-files))
+
+(defun my-move-matched-text-line-in-dir (dir)
+  "move string match line to the second line."
+  (interactive "fchoose a directory: ")
+  (let ((line 2)
+	(str "某汉字")
+	(files (my-get-real-files-in-dir dir))
+	(line-str ""))
+    (dolist (filename files)
+      (setq file (concat dir filename))
+      (with-temp-buffer
+	(insert-file-contents file)
+	(goto-char (point-min))
+	(search-forward str nil t)
+	(setq line-str (buffer-substring (line-beginning-position) (line-end-position)))
+	(kill-whole-line)
+	(goto-line line)
+	(insert (concat line-str "\n"))
+	(write-region (point-min) (point-max) file)))))
+
+;;======================================
+(require 'counsel)
+
+;; Function to be called by counsel-spotlight
+;; The onlyin option limits results to my home directory
+;; and directories below that
+;; mdfind is the command-line interface to spotlight
+(defun counsel-mdfind-function (string &rest _unused)
+  "Issue mdfind for STRING."
+  (counsel--async-command
+   (format "mdfind -onlyin ~/ '%s'" string)))
+
+;; Main function
+(defun counsel-spotlight (&optional initial-input)
+  "Search for a string in the mdfind database.
+You'll be given a list of files that match.
+Selecting a file will launch `swiper' for that file.
+INITIAL-INPUT can be given as the initial minibuffer input."
+  (interactive)
+  (ivy-read "spotlight: " 'counsel-mdfind-function
+            :initial-input initial-input
+            :dynamic-collection t
+            :sort t
+            :action (lambda (x)
+                      (when (string-match "\\(\/.*\\)\\'" x)
+                        (let ((file-name (match-string 1 x)))
+                          (find-file file-name)
+                          (unless (string-match "pdf$" x)
+                            (swiper ivy-text)))))))
+
+;; Define my sort function
+(defun bjm-counsel-mdfind-sort-function (x y)
+  "Compare two files X and Y. Prioritise org then tex."
+  (if (string-match "org$" x)
+      t
+    (if (string-match "tex$" x)
+        (if (string-match "org$" y)
+            nil
+          t)
+      nil)))
+
+;; Add to list of ivy sorting functions
+(add-to-list 'ivy-sort-functions-alist
+             '(counsel-mdfind-function . bjm-counsel-mdfind-sort-function))
+
+(require 'chart)
+
+(chart-bar-quickie
+ 'vertical "Favorite Type of Movie"                        ;; Type & Title
+ '("Comedy" "Action" "Romance" "Drama" "Sci-Fi") "Genre"   ;; Keys & Label
+ '(4 5 6 1 4) "People"                                     ;; Values &  Label
+ )
+
+(with-current-buffer (get-buffer-create "test-buffer")
+  (erase-buffer)
+  (insert "happy hacking emacs!")
+  (goto-char 5))
 

@@ -26,15 +26,15 @@
   :bind (("C-s" . swiper)))
 
 (use-package counsel
-  :defer 5
-  :ensure nil
+  :ensure t
   :bind (("M-x" . counsel-M-x)
-	 ("C-c e" . counsel-git)
-	 ("C-c t l" . counsel-load-theme)
 	 ("C-x C-f" . counsel-find-file)
-	 ("C-x r b" . counsel-bookmark)
-	 ("C-x r D" . bookmark-delete)
-	 ))
+	 ("C-c c c" . counsel-org-capture)
+	 ("C-c c t" . counsel-load-theme)
+	 ("C-c c b" . counsel-bookmark)
+	 ("C-c c r" . counsel-rg)
+	 ("C-c c f" . counsel-fzf)
+	 ("C-c c g" . counsel-git)))
 
 ;; posframe
 (use-package posframe

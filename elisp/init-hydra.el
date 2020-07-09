@@ -86,6 +86,7 @@
     ("g b" (browse-url "https://blog.geekinney.com") "Geekblog")
     ("r d" (browse-url "https://www.reddit.com") "Reddit")
     ("o m" (browse-url "https://orgmode.org/org.html") "OrgMode Manual")
+    ("z h" (browse-url "https://www.zhihu.com" "Zhihu"))
     ("v t" vterm "vterm")
     ))
   )

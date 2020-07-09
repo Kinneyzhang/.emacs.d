@@ -18,6 +18,17 @@
 ;;   (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
 ;;   (eaf-bind-key take_photo "p" eaf-camera-keybinding))
 
+(use-package one
+  :load-path "~/.emacs.d/site-lisp/one")
+
+(use-package super-save
+  :ensure t
+  :init
+  (setq super-save-auto-save-when-idle t
+	super-save-idle-duration 1)
+  :config
+  (super-save-mode +1))
+
 (use-package db
   :ensure t)
 
@@ -674,8 +685,6 @@
 (global-set-key (kbd "<f5>") 'revert-buffer)
 
 ;; ================================================
-(global-set-key (kbd "C-x <f10>") 'eval-last-sexp)
-
 (global-set-key (kbd "C-c y s c") 'aya-create)
 (global-set-key (kbd "C-c y s p") 'aya-persist-snippet)
 (global-set-key (kbd "C-c y s e") 'aya-expand)
@@ -701,6 +710,7 @@
 
 (use-package expand-region
   :ensure t
+  :bind (("C-=" . ha/expand-region))
   :config
   (defun ha/expand-region (lines)
     "Prefix-oriented wrapper around Magnar's `er/expand-region'.
@@ -724,9 +734,7 @@ specified.  Select the current line if the LINES prefix is zero."
   (defun ha/expand-previous-line-as-region (lines)
     (end-of-line)
     (set-mark (point))
-    (beginning-of-line (1+ lines)))
-
-  :bind ("C-=" . ha/expand-region))
+    (beginning-of-line (1+ lines))))
 
 (defun open-my-init-file()
   (interactive)

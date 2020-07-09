@@ -11,8 +11,7 @@
       (org-try-structure-completion)
       (when mod (insert mod) (forward-line))
       (when text (insert text))))
-  :bind (("C-c c" . org-capture)
-	 ("C-c a" . org-agenda)
+  :bind (("C-c a" . org-agenda)
 	 ("C-c o l" . org-store-link)
 	 ("C-c t v" . org-tags-view)
 	 )
@@ -29,7 +28,6 @@
     ;; how the source code edit buffer is displayed
     (setq org-src-window-setup "current-window")
     ))
-
 
 (use-package org-src
   :hook ((org-mode . (lambda ()
@@ -193,10 +191,6 @@
 	 "* APPT %?")
 	("p" "project" entry (file "~/iCloud/org/project.org")
 	 "* PROJ %? [%]\n** TODO" :clock-resume t)
-	("M" "monthly-plan" entry (file "~/iCloud/org/review.org")
-	 "* TODO %? :monthly:")
-	("W" "weekly-plan" entry (file "~/iCloud/org/review.org")
-	 "* TODO %? :weekly:")
 	("h" "habit" entry (file "~/iCloud/org/task.org")
 	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
 	 )
@@ -205,7 +199,7 @@
 	("m" "Morning Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
          "* 晨间记录\nEntered on %U\n\n天气:%? / 温度: / 地点:\n\n")
 	("e" "Evening Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
-	 "* 晚间总结\nEntered on %U\n\n%?")
+	 "* 晚间总结\nEntered on %U\n\n*1.最影响情绪的事是什么?*\n\n/正面:/%?\n\n/负面:/\n\n*2.今天做了什么?*\n\n/日常行为:/\n\n/突发行为:/\n\n*3.今天思考了什么?*\n")
 	))
 
 ;;; Stage 2: Processing
@@ -548,6 +542,199 @@
 
 (setq org-columns-default-format "%40ITEM(Task) %Effort(EE){:} %CLOCKSUM(Time Spent) %SCHEDULED(Scheduled) %DEADLINE(Deadline)")
 
+;; ----------------------------------------------------------------
+;; org-refile2 advise
+
+(advice-add 'org-refile :override #'org-refile2)
+(defun org-refile2 (&optional arg default-buffer rfloc msg)
+  "Move the entry or entries at point to another heading.
+
+The list of target headings is compiled using the information in
+`org-refile-targets', which see.
+
+At the target location, the entry is filed as a subitem of the
+target heading.  Depending on `org-reverse-note-order', the new
+subitem will either be the first or the last subitem.
+
+If there is an active region, all entries in that region will be
+refiled.  However, the region must fulfill the requirement that
+the first heading sets the top-level of the moved text.
+
+With a `\\[universal-argument]' ARG, the command will only visit the target \
+location
+and not actually move anything.
+
+With a prefix `\\[universal-argument] \\[universal-argument]', go to the \
+location where the last
+refiling operation has put the subtree.
+
+With a numeric prefix argument of `2', refile to the running clock.
+
+With a numeric prefix argument of `3', emulate `org-refile-keep'
+being set to t and copy to the target location, don't move it.
+Beware that keeping refiled entries may result in duplicated ID
+properties.
+
+RFLOC can be a refile location obtained in a different way.
+
+MSG is a string to replace \"Refile\" in the default prompt with
+another verb.  E.g. `org-copy' sets this parameter to \"Copy\".
+
+See also `org-refile-use-outline-path'.
+
+If you are using target caching (see `org-refile-use-cache'), you
+have to clear the target cache in order to find new targets.
+This can be done with a `0' prefix (`C-0 C-c C-w') or a triple
+prefix argument (`C-u C-u C-u C-c C-w')."
+  (interactive "P")
+  (if (member arg '(0 (64)))
+      (org-refile-cache-clear)
+    (let* ((actionmsg (cond (msg msg)
+			    ((equal arg 3) "Refile (and keep)")
+			    (t "Refile")))
+	   (regionp (org-region-active-p))
+	   (region-start (and regionp (region-beginning)))
+	   (region-end (and regionp (region-end)))
+	   (org-refile-keep (if (equal arg 3) t org-refile-keep))
+	   pos it nbuf file level reversed)
+      (setq last-command nil)
+      (when regionp
+	(goto-char region-start)
+	(beginning-of-line)
+	(setq region-start (point))
+	(unless (or (org-kill-is-subtree-p
+		     (buffer-substring region-start region-end))
+		    (prog1 org-refile-active-region-within-subtree
+		      (let ((s (point-at-eol)))
+			(org-toggle-heading)
+			(setq region-end (+ (- (point-at-eol) s) region-end)))))
+	  (user-error "The region is not a (sequence of) subtree(s)")))
+      (if (equal arg '(16))
+	  (org-refile-goto-last-stored)
+	(when (or
+	       (and (equal arg 2)
+		    org-clock-hd-marker (marker-buffer org-clock-hd-marker)
+		    (prog1
+			(setq it (list (or org-clock-heading "running clock")
+				       (buffer-file-name
+					(marker-buffer org-clock-hd-marker))
+				       ""
+				       (marker-position org-clock-hd-marker)))
+		      (setq arg nil)))
+	       (setq it
+		     (or rfloc
+			 (let (heading-text)
+			   (save-excursion
+			     (unless (and arg (listp arg))
+			       (org-back-to-heading t)
+			       (setq heading-text
+				     (concat (substring (replace-regexp-in-string
+							 org-link-bracket-re
+							 "\\2"
+							 (or (nth 4 (org-heading-components))
+							     ""))
+							0 20) "....")))
+			     (org-refile-get-location
+			      (cond ((and arg (listp arg)) "Goto")
+				    (regionp (concat actionmsg " region to"))
+				    (t (concat actionmsg " subtree \""
+					       heading-text "\" to")))
+			      default-buffer
+			      (and (not (equal '(4) arg))
+				   org-refile-allow-creating-parent-nodes)))))))
+	  (setq file (nth 1 it)
+		pos (nth 3 it))
+	  (when (and (not arg)
+		     pos
+		     (equal (buffer-file-name) file)
+		     (if regionp
+			 (and (>= pos region-start)
+			      (<= pos region-end))
+		       (and (>= pos (point))
+			    (< pos (save-excursion
+				     (org-end-of-subtree t t))))))
+	    (error "Cannot refile to position inside the tree or region"))
+	  (setq nbuf (or (find-buffer-visiting file)
+			 (find-file-noselect file)))
+	  (if (and arg (not (equal arg 3)))
+	      (progn
+		(pop-to-buffer-same-window nbuf)
+		(goto-char (cond (pos)
+				 ((org-notes-order-reversed-p) (point-min))
+				 (t (point-max))))
+		(org-show-context 'org-goto))
+	    (if regionp
+		(progn
+		  (org-kill-new (buffer-substring region-start region-end))
+		  (org-save-markers-in-region region-start region-end))
+	      (org-copy-subtree 1 nil t))
+	    (with-current-buffer (setq nbuf (or (find-buffer-visiting file)
+						(find-file-noselect file)))
+	      (setq reversed (org-notes-order-reversed-p))
+	      (org-with-wide-buffer
+	       (if pos
+		   (progn
+		     (goto-char pos)
+		     (setq level (org-get-valid-level (funcall outline-level) 1))
+		     (goto-char
+		      (if reversed
+			  (or (outline-next-heading) (point-max))
+			(or (save-excursion (org-get-next-sibling))
+			    (org-end-of-subtree t t)
+			    (point-max)))))
+		 (setq level 1)
+		 (if (not reversed)
+		     (goto-char (point-max))
+		   (goto-char (point-min))
+		   (or (outline-next-heading) (goto-char (point-max)))))
+	       (unless (bolp) (newline))
+	       (org-paste-subtree level nil nil t)
+	       ;; Record information, according to `org-log-refile'.
+	       ;; Do not prompt for a note when refiling multiple
+	       ;; headlines, however.  Simply add a time stamp.
+	       (cond
+		((not org-log-refile))
+		(regionp
+		 (org-map-region
+		  (lambda () (org-add-log-setup 'refile nil nil 'time))
+		  (point)
+		  (+ (point) (- region-end region-start))))
+		(t
+		 (org-add-log-setup 'refile nil nil org-log-refile)))
+	       (and org-auto-align-tags
+		    (let ((org-loop-over-headlines-in-active-region nil))
+		      (org-align-tags)))
+	       (let ((bookmark-name (plist-get org-bookmark-names-plist
+					       :last-refile)))
+		 (when bookmark-name
+		   (with-demoted-errors
+		       (bookmark-set bookmark-name))))
+	       ;; If we are refiling for capture, make sure that the
+	       ;; last-capture pointers point here
+	       (when (bound-and-true-p org-capture-is-refiling)
+		 (let ((bookmark-name (plist-get org-bookmark-names-plist
+						 :last-capture-marker)))
+		   (when bookmark-name
+		     (with-demoted-errors
+			 (bookmark-set bookmark-name))))
+		 (move-marker org-capture-last-stored-marker (point)))
+	       (when (fboundp 'deactivate-mark) (deactivate-mark))
+	       (run-hooks 'org-after-refile-insert-hook)))
+	    (unless org-refile-keep
+	      (if regionp
+		  (delete-region (point) (+ (point) (- region-end region-start)))
+		(org-preserve-local-variables
+		 (delete-region
+		  (and (org-back-to-heading t) (point))
+		  (min (1+ (buffer-size)) (org-end-of-subtree t t) (point))))))
+	    (when (featurep 'org-inlinetask)
+	      (org-inlinetask-remove-END-maybe))
+	    (setq org-markers-to-move nil)
+	    (message "%s to \"%s\" in file %s: done" actionmsg
+		     (car it) file)))))))
+
+;; ----------------------------------------------------------------
+
 ;;; Stage 4: Doing
 
 ;; Org-pomodoro
@@ -568,6 +755,7 @@
 (setq org-export-with-date nil)
 (setq org-export-with-creator nil)
 (setq org-html-validation-link nil)
+(setq org-export-backends '(ascii html icalendar latex md))
 
 (use-package org-bullets
   :ensure t
@@ -621,72 +809,11 @@
   (setq org-journal-enable-agenda-integration nil)
   :bind (("C-c j c" . calendar)
 	 ("C-c j t" . journal-file-today)
-	 ("C-c j y" . journal-file-yesterday))
-  )
-
-;; (defun my/daily-plan-from-journal-to-agenda ()
-;;   (let* ((beg 0)
-;; 	 (date (format-time-string "%Y%m%d"))
-;; 	 (journal (concat org-journal-dir date))
-;; 	 (agenda (concat org-directory "note.org")))
-;;     (with-current-buffer (get-buffer-create "*add daily task*")
-;;       (insert-file-contents journal)
-;;       (goto-char (point-min))
-;;       (while beg
-;; 	(setq beg (re-search-forward "* \\[ \\] " nil t))
-;; 	(end-of-line)
-;; 	(setq end (point))
-;; 	(kill-ring-save beg end)
-;; 	(save-excursion
-;; 	  (with-temp-buffer
-;; 	    (yank)
-;; 	    (setq task (buffer-substring-no-properties (point-min) (point-max)))
-;; 	    (append-to-file (concat "* NOTE " task " :daily:\n") nil agenda))))
-;;       (erase-buffer))
-;;     ))
-
-;; (defun my/journal-to-agenda ()
-;;   (interactive)
-;;   (my/daily-plan-from-journal-to-agenda))
+	 ("C-c j y" . journal-file-yesterday)))
 
 (defun org-journal-find-location ()
   (org-journal-new-entry t)
   (goto-char (point-min)))
-
-(use-package deft
-  :ensure t
-  :bind
-  (("C-x d" . deft-find-file)
-   ("C-x C-d" . deft))
-  :config
-  (setq deft-extensions '("txt" "tex" "org" "md"))
-  (setq deft-directory "~/iCloud/program_org/")
-  (setq deft-recursive t)
-  (setq deft-file-naming-rules '((noslash . "_")))
-  (setq deft-text-mode 'org-mode)
-  (setq deft-use-filter-string-for-filename t)
-  (setq deft-org-mode-title-prefix t)
-  (setq deft-use-filename-as-title nil)
-  (setq deft-strip-summary-regexp
-	(concat "\\("
-		"[\n\t]" ;; blank
-		"\\|^#\\+[[:upper:]_]+:.*$" ;; org-mode metadata
-		"\\|^#\\+[[:alnum:]_]+:.*$" ;; org-mode metadata
-		"\\)")))
-
-(use-package org-roam
-      :ensure t
-      :hook
-      (after-init . org-roam-mode)
-      :custom
-      (org-roam-directory "~/iCloud/roam/")
-      :bind (:map org-roam-mode-map
-              (("C-c m l" . org-roam)
-               ("C-c m f" . org-roam-find-file)
-               ("C-c m g" . org-roam-show-graph))
-              :map org-mode-map
-              (("C-c m i" . org-roam-insert))
-              (("C-c m I" . org-roam-insert-immediate))))
 
 (defun org-display-subtree-inline-images ()
   "Toggle the display of inline images.
@@ -711,5 +838,19 @@ INCLUDE-LINKED is passed to `org-display-inline-images'."
           (if (and (org-called-interactively-p) image-overlays)
               (message "%d images displayed inline"
                        (length image-overlays))))))))
+
+(use-package org-roam
+  :ensure t
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory "~/iCloud/roam/")
+  :bind (:map org-roam-mode-map
+              (("C-c m l" . org-roam)
+               ("C-c m f" . org-roam-find-file)
+               ("C-c m g" . org-roam-show-graph))
+              :map org-mode-map
+              (("C-c m i" . org-roam-insert))
+              (("C-c m I" . org-roam-insert-immediate))))
 
 (provide 'init-org)

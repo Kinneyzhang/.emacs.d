@@ -1,11 +1,11 @@
 ;;; some better defaults
 (global-set-key (kbd "<s-backspace>") 'universal-argument)
-(setq inhibit-startup-message t)
-(setq inhibit-startup-screen t)
+(setq inhibit-startup-message nil)
 (setq ring-bell-function 'ignore);;消除滑动到底部或顶部时的声音
-(global-auto-revert-mode t);;自动加载更新内容
+(global-auto-revert-mode 1);;自动加载更新内容
 (setq make-backup-files nil);;不允许备份
-(setq auto-save-default t);;不允许自动保存
+(setq auto-save-default nil);;不允许自动保存
+(setq auto-save-silent t)
 (recentf-mode 1)
 (delete-selection-mode 1)
 (ido-mode 1)
@@ -25,7 +25,9 @@
 
 (prefer-coding-system 'utf-8)
 
-(add-hook 'org-mode-hook (lambda () (toggle-truncate-lines 1)))
+(eval-after-load 'org-mode
+  (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines 1))))
+
 (add-hook 'org-agenda-mode-hook (lambda () (toggle-truncate-lines 1)))
 
 (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认
@@ -144,11 +146,11 @@
 (global-set-key (kbd "C-x 5") 'my/split-five-windows)
 (global-set-key (kbd "C-x 6") 'my/split-six-windows)
 
-(provide 'init-better)
-
 (defun split-three-windows ()
   (interactive)
   (delete-other-windows)
   (split-window-below)
   (split-window-right)
   (balance-windows))
+
+(provide 'init-better)
