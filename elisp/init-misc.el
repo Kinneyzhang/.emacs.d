@@ -18,6 +18,16 @@
 ;;   (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
 ;;   (eaf-bind-key take_photo "p" eaf-camera-keybinding))
 
+(use-package gnuplot
+  :ensure t
+  :config
+  (use-package gnuplot-mode
+    :ensure t))
+
+(use-package ox-hugo
+  :ensure t            ;Auto-install the package from Melpa (optional)
+  :after ox)
+
 (use-package one
   :load-path "~/.emacs.d/site-lisp/one")
 
@@ -738,7 +748,9 @@ specified.  Select the current line if the LINES prefix is zero."
 
 (defun open-my-init-file()
   (interactive)
-  (find-file "~/.emacs.d/init.el"))
+  (find-file "~/.emacs.d/init.el")
+  (with-current-buffer "init.el"
+    (read-only-mode)))
 
 (defun open-my-misc-file()
   (interactive)

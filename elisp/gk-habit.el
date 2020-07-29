@@ -1,6 +1,3 @@
-;; This buffer is for text that is not saved, and for Lisp evaluation.
-;; To create a file, visit it with <open> and enter text in its buffer.
-
 (setq gk-habit-file "~/habit.org")
 
 (setq gk-habits '("跑步" "早起" "早睡"))
@@ -41,5 +38,3 @@
 	  (insert (nth i `(,date ,habit ,status ,comment)))
 	  (org-table-next-field)))
       (write-region (point-min) (point-max) gk-habit-file))))
-
-
