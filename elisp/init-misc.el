@@ -18,6 +18,9 @@
 ;;   (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
 ;;   (eaf-bind-key take_photo "p" eaf-camera-keybinding))
 
+(use-package emacsql-sqlite
+  :ensure t)
+
 (use-package gnuplot
   :ensure t
   :config

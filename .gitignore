@@ -48,3 +48,4 @@ launch_emacs.sh
 org-clock-save.el
 projectile-bookmarks.eld
 var
+gk-habit
