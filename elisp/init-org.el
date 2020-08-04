@@ -634,9 +634,9 @@ prefix argument (`C-u C-u C-u C-c C-w')."
 				      (or (nth 4 (org-heading-components))
 					  "")))
 			       (setq heading-text
-				     (if (> (length heading-text-origin) 20)
+				     (if (> (length heading-text-origin) 10)
 					 (concat (substring heading-text-origin
-							    0 20) "....")
+							    0 10) "....")
 				       heading-text-origin)))
 			     (org-refile-get-location
 			      (cond ((and arg (listp arg)) "Goto")

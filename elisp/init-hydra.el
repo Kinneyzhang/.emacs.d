@@ -49,6 +49,10 @@
    (("h f" describe-function "function")
     ("h v" describe-variable "variable")
     ("h k" describe-key "key"))
+   "Habit"
+   (("h n" gkh-new "new habit")
+    ("h r" gkh-record "record habit")
+    ("h d" gkh-org-table-display "display org table"))
    "Bookmark"
    (("m t" bm-toggle "toggle")
     ("m s" bm-show "show")

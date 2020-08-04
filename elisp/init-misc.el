@@ -1,9 +1,9 @@
-;; (use-package quelpa
-;;   :ensure nil
-;;   :config
-;;   (use-package quelpa-use-package :ensure nil)
-;;   (setq quelpa-self-upgrade-p nil)
-;;   (setq quelpa-upgrade-interval 7))
+(use-package quelpa
+  :ensure nil
+  :config
+  (use-package quelpa-use-package :ensure nil)
+  (setq quelpa-self-upgrade-p nil)
+  (setq quelpa-upgrade-interval 7))
 
 ;; (use-package calibredb
 ;;   :quelpa
@@ -18,6 +18,12 @@
 ;;   (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
 ;;   (eaf-bind-key take_photo "p" eaf-camera-keybinding))
 
+(use-package epdh
+  :quelpa (epdh :fetcher github :repo "alphapapa/emacs-package-dev-handbook"))
+
+(use-package tui
+  :load-path "~/.emacs.d/site-lisp/tui/")
+
 (use-package emacsql-sqlite
   :ensure t)
 
@@ -30,9 +36,6 @@
 (use-package ox-hugo
   :ensure t            ;Auto-install the package from Melpa (optional)
   :after ox)
-
-(use-package one
-  :load-path "~/.emacs.d/site-lisp/one")
 
 (use-package super-save
   :ensure t
@@ -998,3 +1001,4 @@ specified.  Select the current line if the LINES prefix is zero."
 
 
 (provide 'init-misc)
+[]

@@ -56,5 +56,6 @@
   (require 'init-pdf)
   ;; (require 'init-blog-hack)
   (require 'init-test)
+  (require 'gk-habit)
   ;;(require 'init-mu4e)
   )

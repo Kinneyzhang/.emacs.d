@@ -96,11 +96,6 @@
   :defer 5
   :bind (("C-x C-c" . restart-emacs)))
 
-(use-package beacon
-  :ensure t
-  :defer 5
-  :config (beacon-mode 1))
-
 (use-package disable-mouse
   :defer t
   :ensure nil
