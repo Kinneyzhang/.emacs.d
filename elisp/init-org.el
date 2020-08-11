@@ -447,6 +447,12 @@
                       ))
 	  (alltodo "" ((org-agenda-overriding-header "")
 		       (org-super-agenda-groups
+			'((:name "Weekly rewards"
+				 :tag "#reward")
+			  (:discard (:anything t))
+			  ))))
+	  (alltodo "" ((org-agenda-overriding-header "")
+		       (org-super-agenda-groups
 			'((:name "Important!"
 				 :priority "A")
 			  (:name "handly todo"
@@ -804,20 +810,20 @@ prefix argument (`C-u C-u C-u C-c C-w')."
   :config (idle-org-agenda-mode))
 
 ;; org journal
-(use-package org-journal
-  :ensure t
-  :custom
-  (org-journal-dir "~/iCloud/journal/")
-  (org-journal-date-format "%A, %d %B %Y")
-  :init
-  (setq org-journal-enable-agenda-integration nil)
-  :bind (("C-c j c" . calendar)
-	 ("C-c j t" . journal-file-today)
-	 ("C-c j y" . journal-file-yesterday)))
+;; (use-package org-journal
+;;   :ensure t
+;;   :custom
+;;   (org-journal-dir "~/iCloud/journal/")
+;;   (org-journal-date-format "%A, %d %B %Y")
+;;   :init
+;;   (setq org-journal-enable-agenda-integration nil)
+;;   :bind (("C-c j c" . calendar)
+;; 	 ("C-c j t" . journal-file-today)
+;; 	 ("C-c j y" . journal-file-yesterday)))
 
-(defun org-journal-find-location ()
-  (org-journal-new-entry t)
-  (goto-char (point-min)))
+;; (defun org-journal-find-location ()
+;;   (org-journal-new-entry t)
+;;   (goto-char (point-min)))
 
 (defun org-display-subtree-inline-images ()
   "Toggle the display of inline images.

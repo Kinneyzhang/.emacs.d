@@ -3,7 +3,7 @@
   :config
   (use-package quelpa-use-package :ensure nil)
   (setq quelpa-self-upgrade-p nil)
-  (setq quelpa-upgrade-interval 7))
+  (setq quelpa-upgrade-interval 30))
 
 ;; (use-package calibredb
 ;;   :quelpa
@@ -18,14 +18,21 @@
 ;;   (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
 ;;   (eaf-bind-key take_photo "p" eaf-camera-keybinding))
 
+
+(use-package gk-habit
+  :load-path "~/iCloud/hack/gk-habit/")
+
+(use-package sqlite3
+  :ensure t)
+
+(use-package esqlite
+  :ensure t)
+
 (use-package epdh
   :quelpa (epdh :fetcher github :repo "alphapapa/emacs-package-dev-handbook"))
 
 (use-package tui
   :load-path "~/.emacs.d/site-lisp/tui/")
-
-(use-package emacsql-sqlite
-  :ensure t)
 
 (use-package gnuplot
   :ensure t
