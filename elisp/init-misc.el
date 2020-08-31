@@ -2,6 +2,7 @@
   :ensure nil
   :config
   (use-package quelpa-use-package :ensure nil)
+  (setq quelpa-update-melpa-p nil)
   (setq quelpa-self-upgrade-p nil)
   (setq quelpa-upgrade-interval 30))
 
@@ -18,6 +19,14 @@
 ;;   (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
 ;;   (eaf-bind-key take_photo "p" eaf-camera-keybinding))
 
+(use-package netease-cloud-music
+  :load-path "~/.emacs.d/site-lisp/netease-cloud-music")
+
+(use-package valign
+  :load-path "~/.emacs.d/site-lisp/valign"
+  :init (setq valign-fancy-bar t)
+  :config
+  (add-hook 'org-mode-hook #'valign-mode))
 
 (use-package gk-habit
   :load-path "~/iCloud/hack/gk-habit/")
@@ -28,9 +37,6 @@
 (use-package esqlite
   :ensure t)
 
-(use-package epdh
-  :quelpa (epdh :fetcher github :repo "alphapapa/emacs-package-dev-handbook"))
-
 (use-package tui
   :load-path "~/.emacs.d/site-lisp/tui/")
 
@@ -40,10 +46,6 @@
   (use-package gnuplot-mode
     :ensure t))
 
-(use-package ox-hugo
-  :ensure t            ;Auto-install the package from Melpa (optional)
-  :after ox)
-
 (use-package super-save
   :ensure t
   :init
@@ -51,13 +53,6 @@
 	super-save-idle-duration 1)
   :config
   (super-save-mode +1))
-
-(use-package db
-  :ensure t)
-
-(use-package valign
-  :load-path "~/.emacs.d/site-lisp/valign"
-  :config (valign-mode))
 
 (use-package toc-org
   :ensure t
@@ -234,36 +229,7 @@
                                     (regexp-quote name)))
                   (id (car (esxml-node-children (esxml-query selector content)))))
         (intern id)))
-    (advice-add #'nov-content-unique-identifier :override #'my-nov-content-unique-identifier))
-
-  (use-package justify-kp
-    :load-path "~/.emacs.d/site-lisp/justify-kp"
-    :config
-    (defun my-nov-window-configuration-change-hook ()
-      (my-nov-post-html-render-hook)
-      (remove-hook 'window-configuration-change-hook
-  		   'my-nov-window-configuration-change-hook
-  		   t))
-    
-    (defun my-nov-post-html-render-hook ()
-      (if (get-buffer-window)
-  	  (let ((max-width (pj-line-width))
-		buffer-read-only)
-            (save-excursion
-              (goto-char (point-min))
-              (while (not (eobp))
-		(when (not (looking-at "^[[:space:]]*$"))
-  		  (goto-char (line-end-position))
-  		  (when (> (shr-pixel-column) max-width)
-                    (goto-char (line-beginning-position))
-                    (pj-justify)))
-		(forward-line 1))))
-	(add-hook 'window-configuration-change-hook
-  		  'my-nov-window-configuration-change-hook
-  		  nil t)))
-
-    (add-hook 'nov-post-html-render-hook 'my-nov-post-html-render-hook)
-    ))
+    (advice-add #'nov-content-unique-identifier :override #'my-nov-content-unique-identifier)))
 
 (use-package hide-mode-line
   :ensure t
@@ -764,12 +730,11 @@ specified.  Select the current line if the LINES prefix is zero."
   (find-file "~/.emacs.d/init.el")
   (with-current-buffer "init.el"
     (read-only-mode)))
+(global-set-key (kbd "<f1>") 'open-my-init-file)
 
 (defun open-my-misc-file()
   (interactive)
   (find-file "~/.emacs.d/elisp/init-misc.el"))
-
-(global-set-key (kbd "<f1>") 'open-my-init-file)
 
 (use-package magit
   :defer t

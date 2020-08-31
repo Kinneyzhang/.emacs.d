@@ -3,10 +3,14 @@
   :defer 5
   :ensure t
   :init
+  ;; (setq podcaster-feeds-urls
+  ;; 	'(("日谈公园" . "http://www.ximalaya.com/album/5574153.xml")
+  ;; 	  ("大内密谈" . "http://www.ximalaya.com/album/8583636.xml")
+  ;; 	  ("黑水公园" . "http://www.ximalaya.com/album/3558668.xml")))
   (setq podcaster-feeds-urls
-    '(("日谈公园" . "http://www.ximalaya.com/album/5574153.xml")
-      ("大内密谈" . "http://www.ximalaya.com/album/8583636.xml")
-      ("黑水公园" . "http://www.ximalaya.com/album/3558668.xml")))
+	'("http://www.ximalaya.com/album/5574153.xml"
+	  "http://www.ximalaya.com/album/8583636.xml"
+	  "http://www.ximalaya.com/album/3558668.xml"))
   (setq podcaster-mp3-player "ffplay"))
 
 (use-package emms

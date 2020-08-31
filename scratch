@@ -1,3 +1,124 @@
 ;; This buffer is for text that is not saved, and for Lisp evaluation.
 ;; To create a file, visit it with <open> and enter text in its buffer.
 
+(defun gkh-weekly-report-pp (gkh-first-day)
+  "Habit weekly report in org table"
+  ;; (gkh-org-table-draw)
+  (let* ((first-of-week-date (format-time-string "%Y-%m-%d" gkh-first-day))
+	 (last-of-week-date (format-time-string "%Y-%m-%d" (+ gkh-first-day (* 6 86400))))
+	 (all-habits (mapcar 'car (emacsql gkh-db `[:select name :from habit
+							    :where (= status "Active")])))
+	 (habits (gkh--get-habits-in-range all-habits (concat last-of-week-date " 00:00:00"))))
+    (insert (concat "* " first-of-week-date " ~ " last-of-week-date "\n\n "))
+    (setq pos (point))
+    (org-table-create (concat "10x" (number-to-string (1+ (length habits)))))
+    (goto-char pos)
+    ;; (skip-chars-forward "^|")
+    (when (org-at-table-p)
+      (org-table-next-field)
+      (insert "Habit\\Week")
+      (org-table-next-field)
+      (insert "Frequency")
+      (dotimes (i 7)
+	(org-table-next-field)
+	(insert (nth i gkh-weekdays)))
+      (org-table-next-field)
+      (insert "Achieved")
+      (dotimes (i (length habits))
+	(let* ((habit-first-record-date (caar (emacsql gkh-db `[:select create-time :from record
+									:where (= habit ,(nth i habits))
+									:order-by (asc create-time)])))
+	       (habit-create-date (caar (emacsql gkh-db `[:select create-time :from habit
+								  :where (= name ,(nth i habits))])))
+	       (habit-first-record-date (if (null habit-first-record-date)
+					    habit-create-date
+					  habit-first-record-date))
+	       (freq-type (caar (emacsql gkh-db `[:select frequency-type :from habit
+							  :where (= name ,(nth i habits))])))
+	       (freq-param (caar (emacsql gkh-db `[:select frequency-param :from habit
+							   :where (= name ,(nth i habits))])))
+	       (first-record-date-num (date-to-day habit-first-record-date))
+	       current-date-num)
+	  (org-table-next-field)
+	  (insert (nth i habits))
+	  (org-table-next-field)
+	  (insert (gkh--format-frequency (nth i habits)))
+	  (dotimes (j 7)
+	    (let* ((nth-of-week-date (format-time-string "%Y-%m-%d" (+ (* j 86400) gkh-first-day)))
+		   (status (caar (emacsql gkh-db
+					  `[:select status :from record
+						    :where (and (= habit ,(nth i habits))
+								(like create-time
+								      ,(concat nth-of-week-date "%")))]))))
+	      (setq current-date-num (date-to-day (concat nth-of-week-date " 00:00:00")))
+	      (org-table-next-field)
+	      (if (>= current-date-num first-record-date-num)
+		  (cond
+		   ((string= status "DONE")
+		    (insert "✔"))
+		   ((string= status "MISS")
+		    (insert "✘"))
+		   ((string= "everyday" freq-type)
+		    (insert "○"))
+		   ((string= "repeat" freq-type)
+		    (when (member (1+ j) (mapcar 'string-to-number (split-string freq-param "" t "^ +")))
+		      (insert "○"))))
+		(insert "--"))))
+	  (org-table-next-field)
+	  (let ((last-of-week-day-num (date-to-day (concat last-of-week-date " 00:00:00"))))
+	    (when (>= last-of-week-day-num first-record-date-num)
+	      (insert (gkh--get-achieved-rate (nth i habits) first-of-week-date last-of-week-date))))))))
+  (org-table-align)
+  (forward-line))
+
+(format "%S" (org-timestamp-from-string "<2020-08-29 Sat +1d 17:00>"))
+(org-timestamp-translate (org-timestamp-from-string "<2020-08-29 Sat +1d 17:00>"))
+
+(org-timestamp-format (org-timestamp-from-string "<2020-08-29 Sat +1d 17:00>") "%Y-%m-%d" t)
+
+(org-timestamp-to-time (org-timestamp-from-string "<2020-08-29 Sat +1d 17:00>"))
+
+(defun last-week-range ()
+  "Return timestamps (BEG . END) spanning the previous calendar week."
+  (let* (;; Bind `now' to the current timestamp to ensure all calculations
+         ;; begin from the same timestamp.  (In the unlikely event that
+         ;; the execution of this code spanned from one day into the next,
+         ;; that would cause a wrong result.)
+         (now (ts-now))
+         ;; We start by calculating the offsets for the beginning and
+         ;; ending timestamps using the current day of the week.  Note
+         ;; that the `ts-dow' slot uses the "%w" format specifier, which
+         ;; counts from Sunday to Saturday as a number from 0 to 6.
+         (adjust-beg-day (- (+ 7 (ts-dow now))))
+         (adjust-end-day (- (- 7 (- 6 (ts-dow now)))))
+         ;; Make beginning/end timestamps based on `now', with adjusted
+         ;; day and hour/minute/second values.  These functions return
+         ;; new timestamps, so `now' is unchanged.
+         (beg (thread-last now
+                ;; `ts-adjust' makes relative adjustments to timestamps.
+                (ts-adjust 'day adjust-beg-day)
+                ;; `ts-apply' applies absolute values to timestamps.
+                (ts-apply :hour 0 :minute 0 :second 0)))
+         (end (thread-last now
+                (ts-adjust 'day adjust-end-day)
+                (ts-apply :hour 23 :minute 59 :second 59))))
+    (cons beg end)))
+
+test.mkv test.mp4
+
+test.vob test.ts
+
+(defun my-on-action-function (id key)
+  (message "Message %d, key \"%s\" pressed" id key))
+
+(defun my-on-close-function (id reason)
+  (message "Message %d, closed due to \"%s\"" id reason))
+
+(notifications-notify
+ :title "Title"
+ :body "This is <b>important</b>."
+ :actions '("Confirm" "I agree" "Refuse" "I disagree")
+ :on-action 'my-on-action-function
+ :on-close 'my-on-close-function)
+
+

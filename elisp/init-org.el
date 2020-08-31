@@ -20,7 +20,7 @@
     ;; when opening a org file, don't collapse headings
     (setq org-startup-folded nil)
     ;; wrap long lines. don't let it disappear to the right
-    (setq org-startup-truncated nil)
+    (setq org-startup-truncated t)
     ;; when in a url link, enter key should open it
     (setq org-return-follows-link t)
     ;; make org-mode” syntax color embedded source code
@@ -152,17 +152,17 @@
 (use-package org-pomodoro
   :ensure t
   :init
-  (setq org-pomodoro-length 25
+  (setq org-pomodoro-length 50
 	org-pomodoro-short-break-length 5
 	org-pomodoro-long-break-length 15
 	org-pomodoro-long-break-frequency 4
 	org-pomodoro-ask-upon-killing t
-	org-pomodoro-ticking-sound-p nil
-	;; org-pomodoro-ticking-sound (concat user-emacs-directory "config-file/pomodoro/rain_with_thunder.mp3")
-	;; org-pomodoro-finished-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
-	;; org-pomodoro-short-break-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
-	;; org-pomodoro-long-break-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
-	;; org-pomodoro-start-sound (concat user-emacs-directory "config-file/pomodoro/alarm.mp3")
+	org-pomodoro-ticking-sound-p t
+	org-pomodoro-ticking-sound (concat user-emacs-directory "/pomodoro/ticking.m4a")
+	org-pomodoro-finished-sound (concat user-emacs-directory "/pomodoro/alarm.m4a")
+	org-pomodoro-short-break-sound (concat user-emacs-directory "/pomodoro/alarm.m4a")
+	org-pomodoro-long-break-sound (concat user-emacs-directory "/pomodoro/alarm.m4a")
+	;; org-pomodoro-start-sound (concat user-emacs-directory "/pomodoro/alarm.m4a")
 	)
   (define-key org-agenda-mode-map "P" 'org-pomodoro))
 
@@ -849,33 +849,5 @@ INCLUDE-LINKED is passed to `org-display-inline-images'."
               (message "%d images displayed inline"
                        (length image-overlays))))))))
 
-(use-package org-roam
-  :ensure t
-  :hook
-  (after-init . org-roam-mode)
-  :custom
-  (org-roam-directory "~/org-roam/")
-  :bind (:map org-roam-mode-map
-              (("C-c m l" . org-roam)
-	       ("C-c m m" . org-roam-jump-to-index)
-               ("C-c m f" . org-roam-find-file)
-               ("C-c m g" . org-roam-show-graph))
-              :map org-mode-map
-              (("C-c m i" . org-roam-insert))
-              (("C-c m I" . org-roam-insert-immediate))))
-
-(use-package org-roam-server
-  :ensure t
-  :config
-  (require 'org-roam-protocol)
-  (setq org-roam-server-host "127.0.0.1"
-        org-roam-server-port 8080
-        org-roam-server-export-inline-images t
-        org-roam-server-authenticate nil
-        org-roam-server-network-poll t
-        org-roam-server-network-arrows nil
-        org-roam-server-network-label-truncate t
-        org-roam-server-network-label-truncate-length 60
-        org-roam-server-network-label-wrap-length 20))
-
 (provide 'init-org)
+

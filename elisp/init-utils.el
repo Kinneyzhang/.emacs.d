@@ -144,10 +144,8 @@ Return a new buffer or BUF with the code in it."
 
 (use-package which-key
   :ensure t
-  :init
-  (setq which-key-idle-delay 0.5)
-  :config
-  (which-key-mode))
+  :hook (after-init . which-key-mode)
+  :init (setq which-key-idle-delay 0.5))
 
 (use-package all-the-icons
   :load-path "~/.emacs.d/site-lisp/all-the-icons")
@@ -211,10 +209,10 @@ Return a new buffer or BUF with the code in it."
 	 ("C-c w r" . search-web-region)))
 
 ;; use xwidget-webkit
-(setq browse-url-browser-function 'xwidget-webkit-browse-url)
-(defun browse-url-default-browser (url &rest args)
-  "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
-  (xwidget-webkit-browse-url url args))
+;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
+;; (defun browse-url-default-browser (url &rest args)
+;;   "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
+;;   (xwidget-webkit-browse-url url args))
 ;;(define-key xwidget-webkit-mode-map (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
 ;;(define-key xwidget-webkit-mode-map (kbd "C-c w k") 'xwidget-webkit-current-url-message-kill)
 
