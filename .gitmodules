@@ -46,3 +46,6 @@
 [submodule "site-lisp/tui"]
 	path = site-lisp/tui
 	url = https://github.com/ebpa/tui.el.git
+[submodule "site-lisp/netease-cloud-music"]
+	path = site-lisp/netease-cloud-music
+	url = https://github.com/SpringHan/netease-cloud-music.el.git

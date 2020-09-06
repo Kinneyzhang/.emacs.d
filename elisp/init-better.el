@@ -25,8 +25,8 @@
 
 (prefer-coding-system 'utf-8)
 
-;; (eval-after-load 'org-mode
-;;   (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1))))
+(eval-after-load 'org-mode
+  (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1))))
 ;; (add-hook 'org-agenda-mode-hook (lambda () (toggle-truncate-lines 1)))
 
 (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认

@@ -1,5 +1,3 @@
-;;; hydra
-
 (use-package hydra
   :ensure t
   :defer 5
@@ -28,8 +26,6 @@
               " "))))
        (propertize title 'face face)))))
 
-
-;; Global toggles
 (pretty-hydra-define emacs-hydra
   (:color amaranth :exit t)
   ("Basic"
@@ -38,17 +34,14 @@
     ("c" org-capture "org capture")
     ("e" eval-expression "eval expression")
     ("f" find-file "find file")
-    ("s" swiper "swiper search"))
+    ("s" swiper "swiper search")
+    ("<f2>" eval-buffer "eval buffer"))
    "Open Browser"
    (("w w" search-web "with engine")
     ("w u" browse-url "with url")
     ("w p" search-web-at-point "point")
     ("w r" search-web-region "region")
     ("w g" browse-at-remote "remote"))
-   "Describe"
-   (("h f" describe-function "function")
-    ("h v" describe-variable "variable")
-    ("h k" describe-key "key"))
    "Habit"
    (("h n" gkh-new "new habit")
     ("h r" gkh-record "record habit")
@@ -66,9 +59,6 @@
    "Avy"
    (("g c" avy-goto-char-timer "goto char")
     ("g l" avy-goto-line "goto line"))
-   "Deft"
-   (("d d" deft "deft")
-    ("d f" deft-find-file "find file"))
    ))
 
 (pretty-hydra-define hydra-launch
@@ -92,8 +82,7 @@
     ("o m" (browse-url "https://orgmode.org/org.html") "OrgMode Manual")
     ("z h" (browse-url "https://www.zhihu.com" "Zhihu"))
     ("v t" vterm "vterm")
-    ))
-  )
+    )))
 
 (provide 'init-hydra)
 

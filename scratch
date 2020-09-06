@@ -121,4 +121,89 @@ test.vob test.ts
  :on-action 'my-on-action-function
  :on-close 'my-on-close-function)
 
+(file-name-sans-extension "post/hello.org")
+
+(pp-html-test gk-rss-xml t)
+
+(pp-html-test '(rss
+		:version "2.0"
+		:xmlns:content "http://purl.org/rss/1.0/modules/content/"
+		:xmlns:wfw "http://wellformedweb.org/CommentAPI/"
+		:xmlns:dc "http://purl.org/dc/elements/1.1/"
+		:xmlns:atom "http://www.w3.org/2005/Atom"
+		:xmlns:sy "http://purl.org/rss/1.0/modules/syndication/"
+		:xmlns:slash "http://purl.org/rss/1.0/modules/slash/"
+		:xmlns:georss "http://www.georss.org/georss"
+		:xmlns:geo "http://www.w3.org/2003/01/geo/wgs84_pos#"
+		:xmlns:media "http://search.yahoo.com/mrss/"
+		(channel
+		 (title $gk-name)
+		 (atom:link :href (/ $gk-domain :concat "feed.xml"))
+		 (link $gk-domain)
+		 ;; (description $gk-description)
+		 (language $gk-language)
+		 ;; (pubDate ($ format-time-string "%a, %d %b %Y %H:%M:%S %z"))
+		 ;; (lastBuildDate ($ format-time-string "%a, %d %b %Y %H:%M:%S %z"))
+		 ;; (generator $gk-generator)
+		 ;; (Webmaster $gk-author-email)
+		 ;; (ttl "5")
+		 ))
+	      t)
+
+(pp-html-test gk-archive-html)
+
+'(:extend $gk-layout-page
+	  (:block gk-menu-title
+		  (title "Archive Page"))
+	  (:block gk-page-block
+		  (:for gk-year in ($ geekblog-all-years)
+			(div .archive-div .mt-2
+			     (h2 :id ($ concat "archive-" $gk-year) $gk-year)
+			     (ul .org-ul
+				 (:for gk-post in ($ geekblog-archive-posts $gk-year)
+				       (li ($ substring (geekblog-post-meta :date $gk-post) 5 10) " "
+					   (a :href ($ geekblog-post-meta :rel-url $gk-post)
+					      ($ geekblog-post-meta :title $gk-post)))
+				       ))))))
+
+(pp-html-test
+ '(:for gk-year in ($ geekblog-all-years)
+	(div .archive-div .mt-2
+	     (h2 :id ($ concat "archive-" $gk-year) $gk-year)
+	     (ul .org-ul
+		 (:for gk-post in ($ geekblog-archive-posts $gk-year)
+		       (li ($ substring (geekblog-post-meta :date $gk-post) 5 10) " "
+			   (a :href ($ geekblog-post-meta :rel-url $gk-post)
+			      ($ geekblog-post-meta :title $gk-post)))
+		       )))))
+
+(pp-html-test
+ '(:for test in (1 2 3 4)
+	(div .test
+	     (h2 :class $test)
+	     (:for test2 in (5 6 7 8)
+		   (li ($ concat (number-to-string $test) (number-to-string $test2)))))))
+
+(setq editor nil)
+(pp-html
+ '((:assign editors ("vim" "emacs" "vscode" "atom" "sublime text"))
+   (ul
+    (:for editor in $editors
+	  (:ifequal $editor "atom"
+		    (:continue)
+		    (li :id $editor $editor))
+	  (:else (li "no editor"))))))
+
+
+/*2 Linked Reference:*/
+
+-[[file:20200903182618-test1.org::*headline][test/headline]]\\
+this is a sentence that has a link to [[file:20200903100349-时间管理.org][时间管理]]。
+
+-[[file:20200903184034-test2.org::*headline 2][test2/headline 2]]\\
+this is another sentence that has a link to [[file:20200903100349-时间管理.org][时间管理]]。
+
+(mapcar #'file-name-nondirectory (remove "" '("")))
+
+(length nil)
 

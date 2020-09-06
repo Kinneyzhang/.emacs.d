@@ -35,17 +35,17 @@
 ;; (advice-add 'org-html-src-block :override 'org-html-src-block2)
 ;;-------------------------------------------------------------
 ;;--------------------------------------------------------------
-;; (setq org-publish-project-alist
-;;       `(("geekblog"
-;; 	 :base-extension "org"
-;; 	 :recursive nil
-;; 	 :base-directory ,blog-base-dir
-;; 	 :publishing-directory ,blog-publish-dir
-;; 	 :publishing-function org-html-publish-to-html
-;; 	 :preparation-function
-;; 	 (geekblog/generate-sitemap geekblog/generate-rss geekblog/generate-index-page geekblog/generate-archive-page geekblog/generate-category-page)
-;; 	 :completion-function geekblog/push-to-github
-;; 	 :body-only t
-;; 	 )))
+(setq org-publish-project-alist
+      `(("geekblog"
+	 :base-extension "org"
+	 :recursive nil
+	 :base-directory ,blog-base-dir
+	 :publishing-directory ,blog-publish-dir
+	 :publishing-function org-html-publish-to-html
+	 :preparation-function
+	 (geekblog/generate-sitemap geekblog/generate-rss geekblog/generate-index-page geekblog/generate-archive-page geekblog/generate-category-page)
+	 :completion-function geekblog/push-to-github
+	 :body-only t
+	 )))
 
 (provide 'init-blog-hack)

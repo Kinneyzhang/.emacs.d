@@ -1,10 +1,11 @@
 # -*- mode: snippet -*-
-# name: blog
-# key: blog
+# name: gknows
+# key: gknows
 # --
 #+TITLE: $1
 #+DATE: $2
 #+CATEGORY: $3
 #+STARTUP: showall
 #+OPTIONS: toc:nil H:2 num:2
+[[../gknows/][ /Geekonws/ ]]
 #+TOC: headlines 2

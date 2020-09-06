@@ -1,23 +1,25 @@
-(use-package quelpa
-  :ensure nil
+(use-package gk-roam
+  :load-path "~/iCloud/hack/gk-roam/"
+  :init (setq gk-roam-root-dir "~/gk-roam/org/"
+	      gk-roam-pub-dir "~/gk-roam/site/"
+	      gk-roam-pub-css "<link rel=\"stylesheet\" href=\"https://gongzhitaao.org/orgcss/org.css\">")
   :config
-  (use-package quelpa-use-package :ensure nil)
-  (setq quelpa-update-melpa-p nil)
-  (setq quelpa-self-upgrade-p nil)
-  (setq quelpa-upgrade-interval 30))
+  (global-set-key (kbd "C-c r") 'gk-roam-hydra/body)
+  (pretty-hydra-define gk-roam-hydra
+  (:color amaranth :exit t)
+  ("Gk Roam"
+   (("f" gk-roam-find "find file")
+    ("n" gk-roam-smart-new "smartly new")
+    ("i" gk-roam-insert "insert link")
+    ("I" gk-roam-index "show index")
+    ("g" gk-roam-update "update reference")
+    ("G" gk-roam-update-all "update all")
+    ("v" gk-roam-preview-current "preview current file")
+    ("p" gk-roam-preview "preview site")))))
 
-;; (use-package calibredb
-;;   :quelpa
-;;   (calibredb :repo "chenyanming/calibredb.el" :fetcher github))
-
-;; (use-package eaf
-;;   :load-path "~/.emacs.d/site-lisp/emacs-application-framework" ; Set to "/usr/share/emacs/site-lisp/eaf" if installed from AUR
-;;   :custom
-;;   (eaf-find-alternate-file-in-dired t)
-;;   :config
-;;   (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
-;;   (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
-;;   (eaf-bind-key take_photo "p" eaf-camera-keybinding))
+(use-package elisp-demos
+  :ensure t
+  :config (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1))
 
 (use-package netease-cloud-music
   :load-path "~/.emacs.d/site-lisp/netease-cloud-music")
@@ -940,7 +942,9 @@ specified.  Select the current line if the LINES prefix is zero."
 ;;              "xdg-open" (file))))))
 ;;   (openwith-mode +1))
 
-
+;; (use-package calibredb
+;;   :quelpa
+;;   (calibredb :repo "chenyanming/calibredb.el" :fetcher github))
 
 (use-package cal-china-x
   :ensure t

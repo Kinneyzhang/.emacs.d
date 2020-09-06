@@ -1,5 +1,13 @@
 ;;; init-utils
 
+(use-package quelpa
+  :ensure nil
+  :config
+  (use-package quelpa-use-package :ensure nil)
+  (setq quelpa-update-melpa-p nil)
+  (setq quelpa-self-upgrade-p nil)
+  (setq quelpa-upgrade-interval 30))
+
 ;; count words
 (defvar wc-regexp-chinese-char-and-punc
   (rx (category chinese)))
