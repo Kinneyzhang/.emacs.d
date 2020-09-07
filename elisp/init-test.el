@@ -29,7 +29,7 @@
     (if (string= video-format "gif")
 	(progn
 	  (shell-command
-	   (concat "ffmpeg -i " video " -r 6 " new))
+	   (concat "ffmpeg -i " video " -r 10 " new))
 	  (message "%s convert to %s successfully!" video new))
       (progn
 	(shell-command

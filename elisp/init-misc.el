@@ -2,7 +2,7 @@
   :load-path "~/iCloud/hack/gk-roam/"
   :init (setq gk-roam-root-dir "~/gk-roam/org/"
 	      gk-roam-pub-dir "~/gk-roam/site/"
-	      gk-roam-pub-css "<link rel=\"stylesheet\" href=\"https://gongzhitaao.org/orgcss/org.css\">")
+	      gk-roam-pub-css "<link rel=\"stylesheet\" href=\"http://gongzhitaao.org/orgcss/org.css\">")
   :config
   (global-set-key (kbd "C-c r") 'gk-roam-hydra/body)
   (pretty-hydra-define gk-roam-hydra
@@ -15,7 +15,8 @@
     ("g" gk-roam-update "update reference")
     ("G" gk-roam-update-all "update all")
     ("v" gk-roam-preview-current "preview current file")
-    ("p" gk-roam-preview "preview site")))))
+    ("p" gk-roam-preview "preview site")
+    ("q" nil "cancel")))))
 
 (use-package elisp-demos
   :ensure t

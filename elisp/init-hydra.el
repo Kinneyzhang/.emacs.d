@@ -59,6 +59,15 @@
    "Avy"
    (("g c" avy-goto-char-timer "goto char")
     ("g l" avy-goto-line "goto line"))
+   "Gk Roam"
+   (("r f" gk-roam-find "find file")
+    ("r n" gk-roam-smart-new "smartly new")
+    ("r i" gk-roam-insert "insert link")
+    ("r I" gk-roam-index "show index")
+    ("r g" gk-roam-update "update reference")
+    ("r G" gk-roam-update-all "update all")
+    ("r v" gk-roam-preview-current "preview current file")
+    ("r p" gk-roam-preview "preview site"))
    ))
 
 (pretty-hydra-define hydra-launch
