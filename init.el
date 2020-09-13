@@ -52,5 +52,4 @@
 (require 'init-pdf)
 ;; (require 'init-blog-hack)
 (require 'init-test)
-(require 'bklink)
 ;;(require 'init-mu4e)

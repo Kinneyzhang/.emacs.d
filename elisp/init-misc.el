@@ -1,22 +1,10 @@
 (use-package gk-roam
   :load-path "~/iCloud/hack/gk-roam/"
-  :init (setq gk-roam-root-dir "~/gk-roam/org/"
-	      gk-roam-pub-dir "~/gk-roam/site/"
-	      gk-roam-pub-css "<link rel=\"stylesheet\" href=\"http://gongzhitaao.org/orgcss/org.css\">")
-  :config
-  (global-set-key (kbd "C-c r") 'gk-roam-hydra/body)
-  (pretty-hydra-define gk-roam-hydra
-  (:color amaranth :exit t)
-  ("Gk Roam"
-   (("f" gk-roam-find "find file")
-    ("n" gk-roam-smart-new "smartly new")
-    ("i" gk-roam-insert "insert link")
-    ("I" gk-roam-index "show index")
-    ("g" gk-roam-update "update reference")
-    ("G" gk-roam-update-all "update all")
-    ("v" gk-roam-preview-current "preview current file")
-    ("p" gk-roam-preview "preview site")
-    ("q" nil "cancel")))))
+  :init (setq ;; gk-roam-root-dir "~/gk-roam/org/"
+	 gk-roam-root-dir "~/iCloud/blog_site/org/gknows/"
+	 ;; gk-roam-pub-dir "~/gk-roam/site/"
+	 gk-roam-pub-dir "~/iCloud/blog_site/gknows/"
+	 gk-roam-pub-css "<link rel=\"stylesheet\" href=\"https://gongzhitaao.org/orgcss/org.css\">"))
 
 (use-package elisp-demos
   :ensure t
@@ -749,8 +737,13 @@ specified.  Select the current line if the LINES prefix is zero."
   :defer 5
   :config
   (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 3)
-  (global-company-mode t))
+  (setq company-minimum-prefix-length 2)
+  (global-company-mode t)
+  (with-eval-after-load 'company
+    (define-key company-active-map (kbd "\C-n") #'company-select-next)
+    (define-key company-active-map (kbd "\C-p") #'company-select-previous)
+    (define-key company-active-map (kbd "M-n") nil)
+    (define-key company-active-map (kbd "M-p") nil)))
 
 (use-package yasnippet
   :ensure t

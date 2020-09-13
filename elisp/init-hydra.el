@@ -61,6 +61,8 @@
     ("g l" avy-goto-line "goto line"))
    "Gk Roam"
    (("r f" gk-roam-find "find file")
+    ("r d" gk-roam-daily "daily notes")
+    ("r t" gk-roam-toggle-brackets "toggle brackets")
     ("r n" gk-roam-smart-new "smartly new")
     ("r i" gk-roam-insert "insert link")
     ("r I" gk-roam-index "show index")

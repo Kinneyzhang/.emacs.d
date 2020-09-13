@@ -159,25 +159,10 @@ Return a new buffer or BUF with the code in it."
   :load-path "~/.emacs.d/site-lisp/all-the-icons")
 
 ;;google translate
-(use-package google-translate
-  :ensure t
-  :init
-  (setq google-translate-base-url
-	"http://translate.google.cn/translate_a/single")
-  (setq google-translate-listen-url
-	"http://translate.google.cn/translate_tts")
-  (setq google-translate-backend-method 'curl)
-  (setq google-translate-default-source-language "en")
-  (setq google-translate-default-target-language "zh-CN")  
-  :config
-  (when (and (string-match "0.11.18"
-			   (google-translate-version))
-             (>= (time-to-seconds)
-		 (time-to-seconds
-                  (encode-time 0 0 0 23 9 2018))))
-    (defun google-translate--get-b-d1 ()
-      ;; TKK='427110.1469889687'
-      (list 427110 1469889687))))
+;; (use-package go-translate
+;;   :ensure t
+;;   :init (setq go-translate-base-url "https://translate.google.cn"
+;; 	      go-translate-local-language "zh-CN"))
 
 (use-package youdao-dictionary
   :ensure t
@@ -393,6 +378,25 @@ Version 2019-11-04"
 
 (require 'dired)
 (define-key dired-mode-map (kbd "<C-return>") 'xah-open-in-external-app)
+
+(define-minor-mode org-starless-mode
+  "Starless org-mode"
+  nil nil nil
+  :require 'org
+  (let* ((keyword
+          `(("^\\(\\*+ \\)\\s-*\\S-" ; Do not hide empty headings!
+             (1 (put-text-property (match-beginning 1) (match-end 1) 'invisible t)
+                nil)))))
+    (if org-starless-mode
+        (progn
+          (font-lock-add-keywords nil keyword)
+          (font-lock-ensure)
+          (font-lock-flush))
+      (save-excursion
+        (goto-char (point-min))
+        (font-lock-remove-keywords nil keyword)
+        (font-lock-ensure)
+        (font-lock-flush)))))
 
 (provide 'init-utils)
 

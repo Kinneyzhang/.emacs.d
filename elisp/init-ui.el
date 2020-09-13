@@ -24,12 +24,12 @@
 (set-frame-font "Source Code Variable" 12 t)
 ;;==================================================
 
-(use-package spaceline
-  :ensure t
-  :config (spaceline-emacs-theme))
+;; (use-package spaceline
+;;   :ensure t
+;;   :config (spaceline-emacs-theme))
 
-(use-package spaceline-all-the-icons
-  :ensure t)
+;; (use-package spaceline-all-the-icons
+;;   :ensure t)
 
 (use-package all-the-icons-dired
   :ensure t
