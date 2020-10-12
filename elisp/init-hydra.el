@@ -10,7 +10,7 @@
 (use-package pretty-hydra
   :ensure t
   :bind (("<f2>" . emacs-hydra/body)
-	 ("C-c r" . hydra-launch/body))
+	 ("C-c o" . hydra-launch/body))
   :init
   (cl-defun pretty-hydra-title (title &optional icon-type icon-name &key face height v-adjust)
     "Add an icon in the hydra title."
@@ -35,6 +35,7 @@
     ("e" eval-expression "eval expression")
     ("f" find-file "find file")
     ("s" swiper "swiper search")
+    ("t" toggle-truncate-lines "toggle truncate")
     ("<f2>" eval-buffer "eval buffer"))
    "Open Browser"
    (("w w" search-web "with engine")
@@ -59,17 +60,6 @@
    "Avy"
    (("g c" avy-goto-char-timer "goto char")
     ("g l" avy-goto-line "goto line"))
-   "Gk Roam"
-   (("r f" gk-roam-find "find file")
-    ("r d" gk-roam-daily "daily notes")
-    ("r t" gk-roam-toggle-brackets "toggle brackets")
-    ("r n" gk-roam-smart-new "smartly new")
-    ("r i" gk-roam-insert "insert link")
-    ("r I" gk-roam-index "show index")
-    ("r g" gk-roam-update "update reference")
-    ("r G" gk-roam-update-all "update all")
-    ("r v" gk-roam-preview-current "preview current file")
-    ("r p" gk-roam-preview "preview site"))
    ))
 
 (pretty-hydra-define hydra-launch

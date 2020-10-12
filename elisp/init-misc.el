@@ -1,10 +1,88 @@
-(use-package gk-roam
-  :load-path "~/iCloud/hack/gk-roam/"
-  :init (setq ;; gk-roam-root-dir "~/gk-roam/org/"
-	 gk-roam-root-dir "~/iCloud/blog_site/org/gknows/"
-	 ;; gk-roam-pub-dir "~/gk-roam/site/"
-	 gk-roam-pub-dir "~/iCloud/blog_site/gknows/"
-	 gk-roam-pub-css "<link rel=\"stylesheet\" href=\"https://gongzhitaao.org/orgcss/org.css\">"))
+(use-package gkroam
+  :ensure nil
+  :load-path "~/iCloud/hack/gkroam/"
+  :init
+  (setq gkroam-root-dir "~/gknows/")
+  (setq gkroam-window-margin 4)
+  (setq gkroam-use-default-filename t)
+  :bind
+  (("C-c r G" . gkroam-update-all)
+   ("C-c r g" . gkroam-update)
+   ("C-c r d" . gkroam-daily)
+   ("C-c r f" . gkroam-find)
+   ("C-c r c" . gkroam-capture)
+   ("C-c r e" . gkroam-link-edit)
+   ("C-c r n" . gkroam-smart-new)
+   ("C-c r i" . gkroam-insert)
+   ("C-c r I" . gkroam-index)
+   ("C-c r t" . gkroam-toggle-brackets)
+   ("C-c r p" . gkroam-toggle-prettify)
+   ("C-c r D" . gkroam-toggle-dynamic))
+  :config
+  (setq org-startup-folded nil)
+  (defvar gkroam-develop-p t)
+  (defun gkroam-switch-env ()
+    "Switch dir between develop env and product env."
+    (interactive)
+    (if gkroam-develop-p
+	(progn
+	  (setq gkroam-develop-p nil)
+	  (setq gkroam-root-dir "~/gknows/")
+          (setq gkroam-db
+                (db-make
+                 `(db-hash
+                   :filename ,(concat gkroam-cache-dir "gknows-db"))))
+	  (message "have switched to product enviroment"))
+      (setq gkroam-develop-p t)
+      (setq gkroam-root-dir "~/gkroam-test/org/")
+      (setq gkroam-db
+            (db-make
+             `(db-hash
+               :filename ,(concat gkroam-cache-dir "gkroam-db"))))
+      (message "have switched to develop enviroment")))
+  (global-set-key (kbd "C-c r s") 'gkroam-switch-env))
+
+(use-package eradio
+  :ensure t
+  :init
+  (setq eradio-channels
+        '(("def con - soma fm" . "https://somafm.com/defcon256.pls")
+          ("metal - soma fm"   . "https://somafm.com/metal130.pls")
+          ("cyberia - lainon"  . "https://lainon.life/radio/cyberia.ogg.m3u")
+          ("cafe - lainon"     . "https://lainon.life/radio/cafe.ogg.m3u"))))
+
+;; (use-package org-clones
+;;   :load-path "~/.emacs.d/site-lisp/org-clones/"
+;;   :hook
+;;   ;; Note: `org-clones-mode' will only activate
+;;   ;; `cursor-sensor-mode' if there are cursor-sensor-properties
+;;   ;; in the buffer.  Therefore, you can safely add `org-clones-mode'
+;;   ;; to `orgmode-hook' even if you don't plan to use it in every file. 
+;;   (orgmode . org-clones-mode)
+;;   :custom
+;;   (org-clones-commit-edit-shortcut "C-c C-c")
+;;   (org-clones-abort-edit-shortcut  "C-c C-k")
+;;   (org-clones-start-edit-shortcut  "C-c C-c")
+;;   (org-clones-jump-to-next-clone-shortcut "n")
+;;   (org-clones-clone-prefix-icon "◈ ")
+;;   (org-clones-empty-body-string "[empty clone body]")
+;;   (org-clones-empty-headling-string "[empty clone headline]")
+;;   (org-clones-prompt-before-syncing nil)
+;;   (org-clones-use-popup-prompt nil)
+;;   :custom-face
+;;   (org-clones-current-clone ((t (:background "orchid" :foreground "black"))))
+;;   (org-clones-clone ((t (:background "black"))))
+;;   :bind
+;;   (("C-; C-c C-m" . org-clones-store-marker)
+;;    ("C-; C-c C-c" . org-clones-create-clone-dwim)
+;;    ("C-; C-c C-d" . org-clones-delete-this-clone)
+;;    ("C-; C-c C-j" . org-clones-jump-to-clones)
+;;    ("C-; C-c C-u" . org-clones-unclone-this-clone)))
+
+;; (use-package rg
+;;   :ensure t
+;;   :config
+;;   (rg-enable-default-bindings))
 
 (use-package elisp-demos
   :ensure t
@@ -13,14 +91,14 @@
 (use-package netease-cloud-music
   :load-path "~/.emacs.d/site-lisp/netease-cloud-music")
 
-(use-package valign
-  :load-path "~/.emacs.d/site-lisp/valign"
-  :init (setq valign-fancy-bar t)
-  :config
-  (add-hook 'org-mode-hook #'valign-mode))
+;; (use-package valign
+;;   :load-path "~/.emacs.d/site-lisp/valign"
+;;   :init (setq valign-fancy-bar t)
+;;   :config
+;;   (remove-hook 'org-mode-hook #'valign-mode))
 
-(use-package gk-habit
-  :load-path "~/iCloud/hack/gk-habit/")
+;;(use-package gk-habit
+;;  :load-path "~/iCloud/hack/gk-habit/")
 
 (use-package sqlite3
   :ensure t)
@@ -37,13 +115,11 @@
   (use-package gnuplot-mode
     :ensure t))
 
-(use-package super-save
-  :ensure t
-  :init
-  (setq super-save-auto-save-when-idle t
-	super-save-idle-duration 1)
-  :config
-  (super-save-mode +1))
+;; (use-package super-save
+;;   :ensure t
+;;   :init (setq super-save-auto-save-when-idle t)
+;;   :config
+;;   (super-save-mode -1))
 
 (use-package toc-org
   :ensure t
@@ -730,13 +806,14 @@ specified.  Select the current line if the LINES prefix is zero."
 (use-package magit
   :defer t
   :ensure t
-  :bind (("C-x g" . magit-status)))
+  :bind ("C-x g" . magit-status))
 
 (use-package company
   :ensure t
   :defer 5
   :config
-  (setq company-idle-delay 0)
+  (setq company-idle-delay 0.5)
+  (setq company-candidates-length 5)
   (setq company-minimum-prefix-length 2)
   (global-company-mode t)
   (with-eval-after-load 'company
@@ -817,6 +894,7 @@ specified.  Select the current line if the LINES prefix is zero."
   (add-hook 'java-mode-hook 'flycheck-mode)
   (add-hook 'web-mode-hook 'flycheck-mode)
   (add-hook 'ledger-mode-hook 'flycheck-mode)
+  ;; (add-hook 'emacs-lisp-mode-hook 'flycheck-mode)
   )
 
 ;; (use-package lsp-python-ms
@@ -971,4 +1049,3 @@ specified.  Select the current line if the LINES prefix is zero."
 
 
 (provide 'init-misc)
-[]

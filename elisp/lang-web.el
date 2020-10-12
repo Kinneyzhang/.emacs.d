@@ -2,8 +2,7 @@
   :defer t
   :ensure t
   :bind (("C-c ]" . emmet-next-edit-point)
-         ("C-c [" . emmet-prev-edit-point)
-         ("C-c o b" . browse-url-of-file))
+         ("C-c [" . emmet-prev-edit-point))
   :mode
   (("\\.js\\'" . web-mode)
    ("\\.html?\\'" . web-mode)

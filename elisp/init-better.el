@@ -1,5 +1,4 @@
 ;;; some better defaults
-(global-set-key (kbd "<s-backspace>") 'universal-argument)
 (setq inhibit-startup-message nil)
 (setq ring-bell-function 'ignore);;消除滑动到底部或顶部时的声音
 (global-auto-revert-mode 1);;自动加载更新内容
@@ -10,7 +9,7 @@
 (delete-selection-mode 1)
 (ido-mode 1)
 (setq recentf-max-menu-items 10)
-(global-hl-line-mode 1)
+(global-hl-line-mode -1)
 ;;(add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
 (add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
 (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
@@ -25,8 +24,9 @@
 
 (prefer-coding-system 'utf-8)
 
-(eval-after-load 'org-mode
-  (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1))))
+;; (eval-after-load 'org-mode
+;;   (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1))))
+
 ;; (add-hook 'org-agenda-mode-hook (lambda () (toggle-truncate-lines 1)))
 
 (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认
@@ -62,7 +62,9 @@
 	     (ignore-errors (backward-up-list))
 	     (funcall fn)))))
 
-;;indent buffer
+;; indent buffer
+(setq-default indent-tabs-mode nil)
+
 (defun indent-buffer()
   (interactive)
   (indent-region (point-min) (point-max)))

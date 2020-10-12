@@ -3,17 +3,18 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ;; ("melpa" . "https://mirrors.cloud.tencent.com/elpa/melpa/")
+                         ))
 (package-initialize)
-(setq package-archives '(("gnu"   . "http://mirrors.cloud.tencent.com/elpa/gnu/")
-                         ("melpa" . "http://mirrors.cloud.tencent.com/elpa/melpa/")
-			 ("ublt" . "https://elpa.ubolonton.org/packages/")))
 
 ;; Bootstrap `use-package'
 (require 'package)
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-(require 'use-package)
+(package-refresh-contents)
 
 (setq package-enable-at-startup nil
       file-name-handler-alist nil
@@ -47,9 +48,10 @@
 (require 'lang-c)
 (require 'lang-php)
 (require 'lang-elisp)
+(require 'lang-rust)
 ;;(require 'init-org-jekyll)
 ;; (require 'init-org)
 (require 'init-pdf)
 ;; (require 'init-blog-hack)
-(require 'init-test)
+;; (require 'init-test)
 ;;(require 'init-mu4e)

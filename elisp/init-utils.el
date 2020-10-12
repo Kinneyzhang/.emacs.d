@@ -1,4 +1,48 @@
 ;;; init-utils
+(use-package winner-mode
+  :ensure nil
+  :hook (after-init . winner-mode))
+
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
+
+(use-package package-lint
+  :ensure t)
+
+(use-package vterm
+  :ensure t)
+
+(use-package vterm-toggle
+  :ensure t
+  :bind
+  (("M-<f1>" . vterm-toggle)
+   ("M-<f2>" . vterm-toggle-cd))
+  :config
+  (define-key vterm-mode-map (kbd "s-n") 'vterm-toggle-forward)
+  (define-key vterm-mode-map (kbd "s-p") 'vterm-toggle-backward)
+  (setq vterm-toggle-fullscreen-p nil)
+  (add-to-list 'display-buffer-alist
+	       '("^v?term.*"
+		 (display-buffer-reuse-window display-buffer-in-side-window)
+		 (side . bottom)
+		 ;;(dedicated . t) ;dedicated is supported in emacs27
+		 (reusable-frames . visible)
+		 (window-height . 0.3))))
+;;-----------------------------------------------
+(defun my/video-compress-and-convert (video new)
+  (interactive "fvideo path: \nfnew item name (eg. exam.mp4, exam.gif) : ")
+  (let ((video-format (cadr (split-string (file-name-nondirectory new) "\\."))))
+    (if (string= video-format "gif")
+	(progn
+	  (shell-command
+	   (concat "ffmpeg -i " video " -r 5 " new))
+	  (message "%s convert to %s successfully!" video new))
+      (progn
+	(shell-command
+	 (concat "ffmpeg -i " video " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " new))
+	(message "%s compress and convert to %s successfully!" video new)))))
 
 (use-package quelpa
   :ensure nil
@@ -154,9 +198,6 @@ Return a new buffer or BUF with the code in it."
   :ensure t
   :hook (after-init . which-key-mode)
   :init (setq which-key-idle-delay 0.5))
-
-(use-package all-the-icons
-  :load-path "~/.emacs.d/site-lisp/all-the-icons")
 
 ;;google translate
 ;; (use-package go-translate

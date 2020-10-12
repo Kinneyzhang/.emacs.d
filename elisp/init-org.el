@@ -11,22 +11,23 @@
       (org-try-structure-completion)
       (when mod (insert mod) (forward-line))
       (when text (insert text))))
-  :bind (("C-c a" . org-agenda)
-	 ("C-c o l" . org-store-link)
-	 ("C-c t v" . org-tags-view)
-	 )
+  :bind (("C-c a" . org-agenda))
   :config
   (progn
     ;; when opening a org file, don't collapse headings
     (setq org-startup-folded nil)
     ;; wrap long lines. don't let it disappear to the right
-    (setq org-startup-truncated t)
+    ;; (setq org-startup-truncated t)
     ;; when in a url link, enter key should open it
     (setq org-return-follows-link t)
     ;; make org-mode” syntax color embedded source code
     (setq org-src-fontify-natively t)
     ;; how the source code edit buffer is displayed
-    (setq org-src-window-setup "current-window")
+    (setq org-src-window-setup 'current-window)
+    (setq org-directory "~/iCloud/org/")
+    (setq org-agenda-files '("~/iCloud/org/"))
+    (setq org-src-fontify-natively t)
+    (setq org-agenda-window-setup 'current-window)
     ))
 
 (use-package org-src
@@ -53,7 +54,7 @@
     "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
     (interactive
      (let ((src-code-types
-	    '("emacs-lisp" "python" "C" "shell" "java" "js" "clojure" "C++" "css"
+	    '("emacs-lisp" "rust" "python" "C" "shell" "java" "js" "clojure" "C++" "css"
 	      "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
 	      "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
 	      "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
@@ -169,15 +170,6 @@
 ;;; ==========================================================================
 ;;; Org Mode for GTD
 
-(require 'find-lisp)
-(setq jethro/org-agenda-directory (expand-file-name "~/iCloud/"))
-
-(setq org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org" "~/iCloud/org/inbox.org" "~/iCloud/org/someday.org" "~/iCloud/org/review.org"))
-
-(setq org-src-fontify-natively t)
-(setq org-agenda-window-setup 'current-window)
-(setq org-directory "~/iCloud/org/")
-
 ;;; Stage 1: Collecting
 
 (setq org-capture-templates
@@ -274,137 +266,11 @@
 
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
-;; (setq org-refile-allow-creating-parent-nodes 'confirm)
 (setq org-refile-allow-creating-parent-nodes nil)
-;; (setq org-refile-targets '(
-;; 			   ("gtd.org" :maxlevel . 1)
-;; 			   ("someday.org" :level . 1)
-;; 			   ("bookmark.org" :maxlevel . 2)))
-
 (setq org-refile-targets '(("task.org" :level . 0)
 			   ("someday.org" :level . 0)
 			   ("project.org" :level . 1)
 			   ))
-
-;; ;; my org-agenda process function
-;; (defun my/org-task-someday-todo ()
-;;   (interactive)
-;;   (org-refile )
-;;   )
-
-;; (defun my/org-task-monthly-todo ()
-;;   )
-
-(defvar jethro/org-agenda-bulk-process-key ?f
-  "Default key for bulk processing inbox items.")
-
-;; (defun jethro/org-process-inbox ()
-;;   "Called in org-agenda-mode, processes all inbox items."
-;;   (interactive)
-;;   (org-agenda-bulk-mark-regexp "inbox:")
-;;   (jethro/bulk-process-entries))
-
-(defun jethro/org-process-inbox ()
-  "Called in org-agenda-mode, processes all inbox items."
-  (interactive)
-  (org-agenda-set-tags)
-  (org-agenda-set-effort)
-  (org-agenda-refile)
-  )
-
-(defvar jethro/org-current-effort "1:00" "Current effort for agenda items.")
-
-(defun jethro/my-org-agenda-set-effort (effort)
-  "Set the effort property for the current headline."
-  (interactive
-   (list (read-string (format "Effort [%s]: " jethro/org-current-effort) nil nil jethro/org-current-effort)))
-  (setq jethro/org-current-effort effort)
-  (org-agenda-check-no-diary)
-  (let* ((hdmarker (or (org-get-at-bol 'org-hd-marker)
-                       (org-agenda-error)))
-         (buffer (marker-buffer hdmarker))
-         (pos (marker-position hdmarker))
-         (inhibit-read-only t)
-         newhead)
-    (org-with-remote-undo buffer
-      (with-current-buffer buffer
-        (widen)
-        (goto-char pos)
-        (org-show-context 'agenda)
-        (funcall-interactively 'org-set-effort nil jethro/org-current-effort)
-        (end-of-line 1)
-        (setq newhead (org-get-heading)))
-      (org-agenda-change-all-lines newhead hdmarker))))
-
-(defun jethro/org-agenda-process-inbox-item ()
-  "Process a single item in the org-agenda."
-  (org-with-wide-buffer
-   (org-agenda-set-tags)
-   (org-agenda-priority)
-   (call-interactively 'jethro/my-org-agenda-set-effort)
-   (org-agenda-refile nil nil t)))
-
-(defun jethro/bulk-process-entries ()
-  (if (not (null org-agenda-bulk-marked-entries))
-      (let ((entries (reverse org-agenda-bulk-marked-entries))
-            (processed 0)
-            (skipped 0))
-        (dolist (e entries)
-          (let ((pos (text-property-any (point-min) (point-max) 'org-hd-marker e)))
-            (if (not pos)
-                (progn (message "Skipping removed entry at %s" e)
-                       (cl-incf skipped))
-              (goto-char pos)
-              (let (org-loop-over-headlines-in-active-region) (funcall 'jethro/org-agenda-process-inbox-item))
-              ;; `post-command-hook' is not run yet.  We make sure any
-              ;; pending log note is processed.
-              (when (or (memq 'org-add-log-note (default-value 'post-command-hook))
-                        (memq 'org-add-log-note post-command-hook))
-                (org-add-log-note))
-              (cl-incf processed))))
-        (org-agenda-redo)
-        (unless org-agenda-persistent-marks (org-agenda-bulk-unmark-all))
-        (message "Acted on %d entries%s%s"
-                 processed
-                 (if (= skipped 0)
-                     ""
-                   (format ", skipped %d (disappeared before their turn)"
-                           skipped))
-                 (if (not org-agenda-persistent-marks) "" " (kept marked)")))
-    ))
-
-(defun jethro/org-inbox-capture ()
-  (interactive)
-  "Capture a task in agenda mode."
-  (org-capture nil "i"))
-
-(setq org-agenda-bulk-custom-functions `((,jethro/org-agenda-bulk-process-key jethro/org-agenda-process-inbox-item)))
-
-(defun my/make-someday-task-active ()
-  "make someday project active"
-  (interactive)
-  (org-agenda-set-tags "SOMEDAY")
-  (org-agenda-todo "NEXT"))
-
-(defun my/make-someday-task-inactive ()
-  "make someday project active"
-  (interactive)
-  (org-agenda-set-tags "SOMEDAY")
-  (org-agenda-todo "TODO"))
-
-(define-key org-agenda-mode-map "r" 'jethro/org-process-inbox)
-;; (define-key org-agenda-mode-map "R" 'org-agenda-refile)
-(define-key org-agenda-mode-map "c" 'jethro/org-inbox-capture)
-(define-key org-agenda-mode-map "+" 'my/make-someday-task-active)
-(define-key org-agenda-mode-map "-" 'my/make-someday-task-inactive)
-
-;; Clocking in
-
-(defun jethro/set-todo-state-next ()
-  "Visit each parent task and change NEXT states to TODO"
-  (org-todo "NEXT"))
-
-(add-hook 'org-clock-in-hook 'jethro/set-todo-state-next 'append)
 
 ;;; Stage 3: Reviewing
 
@@ -536,13 +402,6 @@
 
 (defun org-current-is-todo ()
   (string= "TODO" (org-get-todo-state)))
-
-(defun jethro/switch-to-agenda ()
-  (interactive)
-  (org-agenda nil " ")
-  (delete-other-windows))
-
-;; (bind-key "<f1>" 'jethro/switch-to-agenda)
 
 ;; Column View
 
@@ -769,13 +628,8 @@ prefix argument (`C-u C-u C-u C-c C-w')."
 
 (use-package org-bullets
   :ensure t
-  :init (setq org-bullets-bullet-list '("◉" "○"	"✸" "✿"))
-  :config
-  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-(use-package org-agenda-property
-  :ensure t
-  :bind (("C-c o p" . org-property-action)))
+  :hook (org-mode . org-bullets-mode)
+  :init (setq org-bullets-bullet-list '("◉" "○" "✸" "✿")))
 
 (use-package calfw-org
   :ensure t
