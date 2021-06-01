@@ -1,4 +1,7 @@
 ;;; init-utils
+(use-package command-log-mode
+  :ensure t)
+
 (use-package winner-mode
   :ensure nil
   :hook (after-init . winner-mode))
@@ -11,25 +14,25 @@
 (use-package package-lint
   :ensure t)
 
-(use-package vterm
-  :ensure t)
+;; (use-package vterm
+;;   :ensure t)
 
-(use-package vterm-toggle
-  :ensure t
-  :bind
-  (("M-<f1>" . vterm-toggle)
-   ("M-<f2>" . vterm-toggle-cd))
-  :config
-  (define-key vterm-mode-map (kbd "s-n") 'vterm-toggle-forward)
-  (define-key vterm-mode-map (kbd "s-p") 'vterm-toggle-backward)
-  (setq vterm-toggle-fullscreen-p nil)
-  (add-to-list 'display-buffer-alist
-	       '("^v?term.*"
-		 (display-buffer-reuse-window display-buffer-in-side-window)
-		 (side . bottom)
-		 ;;(dedicated . t) ;dedicated is supported in emacs27
-		 (reusable-frames . visible)
-		 (window-height . 0.3))))
+;; (use-package vterm-toggle
+;;   :ensure t
+;;   :bind
+;;   (("M-<f1>" . vterm-toggle)
+;;    ("M-<f2>" . vterm-toggle-cd))
+;;   :config
+;;   (define-key vterm-mode-map (kbd "s-n") 'vterm-toggle-forward)
+;;   (define-key vterm-mode-map (kbd "s-p") 'vterm-toggle-backward)
+;;   (setq vterm-toggle-fullscreen-p nil)
+;;   (add-to-list 'display-buffer-alist
+;; 	       '("^v?term.*"
+;; 		 (display-buffer-reuse-window display-buffer-in-side-window)
+;; 		 (side . bottom)
+;; 		 ;;(dedicated . t) ;dedicated is supported in emacs27
+;; 		 (reusable-frames . visible)
+;; 		 (window-height . 0.3))))
 ;;-----------------------------------------------
 (defun my/video-compress-and-convert (video new)
   (interactive "fvideo path: \nfnew item name (eg. exam.mp4, exam.gif) : ")
@@ -123,7 +126,7 @@
 (global-set-key (kbd "C-c t t") 'my/insert-current-time)
 (global-set-key (kbd "C-c t d") 'my/insert-current-date)
 ;;--------------------------------------------------------------------
-(setq my-mood-diary-file "~/iCloud/program_org/my-mood-diary-2020.org")
+(defvar my-mood-diary-file "~/iCloud/blog_site/org/include/diary.org")
 (defun my/mood-diary-quick-capture ()
   (interactive)
   (find-file my-mood-diary-file)
@@ -181,13 +184,17 @@ Return a new buffer or BUF with the code in it."
 (use-package general
   :ensure t)
 
-;; (use-package auto-save
-;;   :load-path "~/.emacs.d/site-lisp/auto-save"
-;;   :config
-;;   (auto-save-enable)  ;; 开启自动保存功能。
-;;   (setq auto-save-slient t) ;; 自动保存的时候静悄悄的， 不要打扰我
-;;   (setq auto-save-delete-trailing-whitespace nil))
-
+(use-package auto-save
+  :load-path "~/.emacs.d/site-lisp/auto-save"
+  :config
+  (auto-save-enable)  ;; 开启自动保存功能。
+  (setq auto-save-slient nil) ;; 自动保存的时候静悄悄的， 不要打扰我
+  (setq auto-save-delete-trailing-whitespace nil)
+  (setq auto-save-disable-predicates
+        '((lambda ()
+            (string-suffix-p
+             "gpg"
+             (file-name-extension (buffer-name)) t)))))
 
 (use-package paredit
   ;; check if the parens is matched
@@ -228,6 +235,7 @@ Return a new buffer or BUF with the code in it."
 	  ("Google" "http://www.google.com/search?q=%s" nil)
 	  ("Youtube" "http://www.youtube.com/results?search_query=%s" nil)
 	  ("Bilibili" "https://search.bilibili.com/all?keyword=%s" nil)
+          ("Zhihu" "https://www.zhihu.com/search?type=content&q=%s" nil)
 	  ("Stackoveflow" "http://stackoverflow.com/search?q=%s" nil)
 	  ("Sogou" "https://www.sogou.com/web?query=%s" nil)
 	  ("Github" "https://github.com/search?q=%s" nil)
@@ -420,24 +428,33 @@ Version 2019-11-04"
 (require 'dired)
 (define-key dired-mode-map (kbd "<C-return>") 'xah-open-in-external-app)
 
-(define-minor-mode org-starless-mode
-  "Starless org-mode"
-  nil nil nil
-  :require 'org
-  (let* ((keyword
-          `(("^\\(\\*+ \\)\\s-*\\S-" ; Do not hide empty headings!
-             (1 (put-text-property (match-beginning 1) (match-end 1) 'invisible t)
-                nil)))))
-    (if org-starless-mode
-        (progn
-          (font-lock-add-keywords nil keyword)
-          (font-lock-ensure)
-          (font-lock-flush))
-      (save-excursion
-        (goto-char (point-min))
-        (font-lock-remove-keywords nil keyword)
-        (font-lock-ensure)
-        (font-lock-flush)))))
+;; (define-minor-mode org-starless-mode
+;;   "Starless org-mode"
+;;   nil nil nil
+;;   :require 'org
+;;   (let* ((keyword
+;;           `(("^\\(\\*+ \\)\\s-*\\S-" ; Do not hide empty headings!
+;;              (1 (put-text-property (match-beginning 1) (match-end 1) 'invisible t)
+;;                 nil)))))
+;;     (if org-starless-mode
+;;         (progn
+;;           (font-lock-add-keywords nil keyword)
+;;           (font-lock-ensure)
+;;           (font-lock-flush))
+;;       (save-excursion
+;;         (goto-char (point-min))
+;;         (font-lock-remove-keywords nil keyword)
+;;         (font-lock-ensure)
+;;         (font-lock-flush)))))
+
+(defmacro +measure-time (&rest body)
+  "Measure the time it takes to evaluate BODY."
+  `(let ((time (current-time)))
+     ,@body
+     (message "%.06fs" (float-time (time-since time)))))
+
+;; (+measure-time
+;;  (format-mode-line mode-line-format))
 
 (provide 'init-utils)
 

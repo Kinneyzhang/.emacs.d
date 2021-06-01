@@ -28,18 +28,12 @@
 [submodule "site-lisp/pp-html"]
 	path = site-lisp/pp-html
 	url = https://github.com/Kinneyzhang/pp-html.git
-[submodule "site-lisp/nox"]
-	path = site-lisp/nox
-	url = https://github.com/manateelazycat/nox.git
 [submodule "site-lisp/telega"]
 	path = site-lisp/telega
 	url = https://github.com/zevlg/telega.el.git
 [submodule "site-lisp/shrface"]
 	path = site-lisp/shrface
 	url = https://github.com/chenyanming/shrface.git
-[submodule "site-lisp/valign"]
-	path = site-lisp/valign
-	url = https://github.com/casouri/valign.git
 [submodule "site-lisp/tui"]
 	path = site-lisp/tui
 	url = https://github.com/ebpa/tui.el.git
@@ -49,3 +43,12 @@
 [submodule "site-lisp/org-clones"]
 	path = site-lisp/org-clones
 	url = https://github.com/legalnonsense/org-clones.git
+[submodule "site-lisp/auto-save"]
+	path = site-lisp/auto-save
+	url = https://github.com/manateelazycat/auto-save.git
+[submodule "site-lisp/snow.el"]
+	path = site-lisp/snow.el
+	url = https://github.com/alphapapa/snow.el.git
+[submodule "site-lisp/emacs-application-framework"]
+	path = site-lisp/emacs-application-framework
+	url = https://github.com/manateelazycat/emacs-application-framework.git

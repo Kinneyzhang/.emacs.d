@@ -1,3 +1,338 @@
-;; This buffer is for text that is not saved, and for Lisp evaluation.
-;; To create a file, visit it with <open> and enter text in its buffer.
+;; (setq colorcomp-ewoc nil
+;;       colorcomp-data nil
+;;       colorcomp-mode-map nil
+;;       colorcomp-labels ["Red" "Green" "Blue"])
 
+;; (defun colorcomp-pp (data)
+;;   (if data
+;;       (let ((comp (aref colorcomp-data data)))
+;;         (insert (aref colorcomp-labels data) "\t: #x"
+;;                 (format "%02X" comp) " "
+;;                 (make-string (ash comp -2) ?#) "\n"))
+;;     (let ((cstr (format "#%02X%02X%02X"
+;;                         (aref colorcomp-data 0)
+;;                         (aref colorcomp-data 1)
+;;                         (aref colorcomp-data 2)))
+;;           (samp " (sample text) "))
+;;       (insert "Color\t: "
+;;               (propertize samp 'face
+;;                           `(foreground-color . ,cstr))
+;;               (propertize samp 'face
+;;                           `(background-color . ,cstr))
+;;               "\n"))))
+
+;; (defun colorcomp (color)
+;;   "Allow fiddling with COLOR in a new buffer.
+;;      The buffer is in Color Components mode."
+;;   (interactive "sColor (name or #RGB or #RRGGBB): ")
+;;   (when (string= "" color)
+;;     (setq color "green"))
+;;   (unless (color-values color)
+;;     (error "No such color: %S" color))
+;;   (switch-to-buffer
+;;    (generate-new-buffer (format "originally: %s" color)))
+;;   (kill-all-local-variables)
+;;   (setq major-mode 'colorcomp-mode
+;;         mode-name "Color Components")
+;;   (use-local-map colorcomp-mode-map)
+;;   (erase-buffer)
+;;   (buffer-disable-undo)
+;;   (let ((data (apply 'vector (mapcar (lambda (n) (ash n -8))
+;;                                      (color-values color))))
+;;         (ewoc (ewoc-create 'colorcomp-pp
+;;                            "\nColor Components\n\n"
+;;                            (substitute-command-keys
+;;                             "\n\\{colorcomp-mode-map}"))))
+;;     (set (make-local-variable 'colorcomp-data) data)
+;;     (set (make-local-variable 'colorcomp-ewoc) ewoc)
+;;     (ewoc-enter-last ewoc 0)
+;;     (ewoc-enter-last ewoc 1)
+;;     (ewoc-enter-last ewoc 2)
+;;     (ewoc-enter-last ewoc nil)))
+
+;; (defun colorcomp-mod (index limit delta)
+;;   (let ((cur (aref colorcomp-data index)))
+;;     (unless (= limit cur)
+;;       (aset colorcomp-data index (+ cur delta)))
+;;     (ewoc-invalidate
+;;      colorcomp-ewoc
+;;      (ewoc-nth colorcomp-ewoc index)
+;;      (ewoc-nth colorcomp-ewoc -1))))
+
+;; (defun colorcomp-R-more () (interactive) (colorcomp-mod 0 255 1))
+;; (defun colorcomp-G-more () (interactive) (colorcomp-mod 1 255 1))
+;; (defun colorcomp-B-more () (interactive) (colorcomp-mod 2 255 1))
+;; (defun colorcomp-R-less () (interactive) (colorcomp-mod 0 0 -1))
+;; (defun colorcomp-G-less () (interactive) (colorcomp-mod 1 0 -1))
+;; (defun colorcomp-B-less () (interactive) (colorcomp-mod 2 0 -1))
+
+;; (defun colorcomp-copy-as-kill-and-exit ()
+;;   "Copy the color components into the kill ring and kill the buffer.
+;;      The string is formatted #RRGGBB (hash followed by six hex digits)."
+;;   (interactive)
+;;   (kill-new (format "#%02X%02X%02X"
+;;                     (aref colorcomp-data 0)
+;;                     (aref colorcomp-data 1)
+;;                     (aref colorcomp-data 2)))
+;;   (kill-buffer nil))
+
+;; (setq colorcomp-mode-map
+;;       (let ((m (make-sparse-keymap)))
+;;         (suppress-keymap m)
+;;         (define-key m "i" 'colorcomp-R-less)
+;;         (define-key m "o" 'colorcomp-R-more)
+;;         (define-key m "k" 'colorcomp-G-less)
+;;         (define-key m "l" 'colorcomp-G-more)
+;;         (define-key m "," 'colorcomp-B-less)
+;;         (define-key m "." 'colorcomp-B-more)
+;;         (define-key m " " 'colorcomp-copy-as-kill-and-exit)
+;;         m))
+
+;; (defclass mytest ()
+;;   ((name :initarg :name
+;;          :initform "kinney")
+;;    (age :initarg :age
+;;         :initform 25)))
+
+;; (setq test-instance (mytest :name "nancy"))
+;; (oref test-instance :age)
+
+;;============================
+;; ;;;###autoload
+;; (defun checklist-checklist-add ()
+;;   "Add a new checklist."
+;;   (interactive)
+;;   (let ((name (completing-read "Input the checklist name: " nil))
+;;         (type (completing-read "Choose the checklist type: "
+;;                                checklist-types nil t))
+;;         (icon (completing-read
+;;                (format "Input the icon of checklist \"%s\": " name) nil))
+;;         (color (completing-read
+;;                 (format "Input the color of checklist \"%s\": " name) nil))
+;;         (category (completing-read
+;;                    (format "Input the category of checklist \"%s\": " name) nil))
+;;         slot-pairs cklist)
+;;     (setq slot-pairs (checklist-construct-args
+;;                       (list name type icon color category)))
+;;     (setq cklist (apply #'checklist slot-pairs))
+;;     (checklist--add-checklist cklist)
+;;     (ewoc-refresh ewoc)))
+
+;; ;;;###autoload
+;; (defun checklist-checklist-delete (checklist)
+;;   "Delete the CHECKLIST."
+;;   (interactive)
+;;   )
+
+;; ;;;###autoload
+;; (defun checklist-checklist-update (checklist)
+;;   "Update the settings of the CHECKLIST"
+;;   (interactive))
+
+(setq repl-regexp-list
+      '(("(" "（")
+        (")" "）")
+        ("\\." "。")
+        ("," "，")
+        ("?" "？")
+        ;; ....
+        ))
+
+(defun replall--get-repl-regexp-list ()
+  (if (bound-and-true-p repl-regexp-list)
+      repl-regexp-list
+    (message "please set variable 'repl-regexp-list'!")))
+
+(defun replall--regexp (file lst)
+  (with-temp-buffer
+    (insert-file-contents file)
+    (goto-char (point-min))
+    (dolist (pair lst)
+      (while (re-search-forward (car pair) nil t)
+        (replace-match (cadr pair)))
+      (goto-char (point-min)))
+    (write-file file)))
+
+(defun replall-regexp-in-curr-buffer ()
+  (interactive)
+  (let ((curr-file (buffer-file-name (current-buffer)))
+        (repl-list (replall--get-repl-regexp-list)))
+    (replall--regexp curr-file repl-list)))
+
+
+(defun org-return (&optional indent)
+  "Goto next table row or insert a newline.
+
+Calls `org-table-next-row' or `newline', depending on context.
+
+When optional INDENT argument is non-nil, call
+`newline-and-indent' instead of `newline'.
+
+When `org-return-follows-link' is non-nil and point is on
+a timestamp or a link, call `org-open-at-point'.  However, it
+will not happen if point is in a table or on a \"dead\"
+object (e.g., within a comment).  In these case, you need to use
+`org-open-at-point' directly."
+  (interactive)
+  (let ((context (if org-return-follows-link (org-element-context)
+		   (org-element-at-point))))
+    (cond
+     ;; In a table, call `org-table-next-row'.  However, before first
+     ;; column or after last one, split the table.
+     ((or (and (eq 'table (org-element-type context))
+	       (not (eq 'table.el (org-element-property :type context)))
+	       (>= (point) (org-element-property :contents-begin context))
+	       (< (point) (org-element-property :contents-end context)))
+	  (org-element-lineage context '(table-row table-cell) t))
+      (if (or (looking-at-p "[ \t]*$")
+	      (save-excursion (skip-chars-backward " \t") (bolp)))
+	  (insert "\n")
+	(org-table-justify-field-maybe)
+	(call-interactively #'org-table-next-row)))
+     ;; On a link or a timestamp, call `org-open-at-point' if
+     ;; `org-return-follows-link' allows it.  Tolerate fuzzy
+     ;; locations, e.g., in a comment, as `org-open-at-point'.
+     ((and org-return-follows-link
+	   (or (and (eq 'link (org-element-type context))
+		    ;; Ensure point is not on the white spaces after
+		    ;; the link.
+		    (let ((origin (point)))
+		      (org-with-point-at (org-element-property :end context)
+			(skip-chars-backward " \t")
+			(> (point) origin))))
+	       (org-in-regexp org-ts-regexp-both nil t)
+	       (org-in-regexp org-tsr-regexp-both nil  t)
+	       (org-in-regexp org-link-any-re nil t)))
+      (call-interactively #'org-open-at-point))
+     ;; Insert newline in heading, but preserve tags.
+     ((and (not (bolp))
+	   (let ((case-fold-search nil))
+	     (org-match-line org-complex-heading-regexp)))
+      ;; At headline.  Split line.  However, if point is on keyword,
+      ;; priority cookie or tags, do not break any of them: add
+      ;; a newline after the headline instead.
+      (let ((tags-column (and (match-beginning 5)
+			      (save-excursion (goto-char (match-beginning 5))
+					      (current-column))))
+	    (string
+	     (when (and (match-end 4) (org-point-in-group (point) 4))
+	       (delete-and-extract-region (point) (match-end 4)))))
+	;; Adjust tag alignment.
+	(cond
+	 ((not (and tags-column string)))
+	 (org-auto-align-tags (org-align-tags))
+	 (t (org--align-tags-here tags-column))) ;preserve tags column
+	(end-of-line)
+	(org-show-entry)
+	(if indent (newline-and-indent) (newline))
+	(when string (save-excursion (insert (org-trim string))))))
+     ;; In a list, make sure indenting keeps trailing text within.
+     ((and indent
+	   (not (eolp))
+	   (org-element-lineage context '(item)))
+      (let ((trailing-data
+	     (delete-and-extract-region (point) (line-end-position))))
+	(newline-and-indent)
+	(save-excursion (insert trailing-data))))
+     (t
+      ;; Do not auto-fill when point is in an Org property drawer.
+      (let ((auto-fill-function (and (not (org-at-property-p))
+				     auto-fill-function)))
+	(if indent
+	    (newline-and-indent)
+	  (newline)))))))
+;; ------------------------------------------
+
+Mo  Tu  We  Th  Fr  Sa  Su  
+
+1   2   3   4  
+
+5   6   7   8   9  10  11  
+
+12  13  14  15  16  17  18  
+
+19  20  21  22  23  24  25  
+
+26  27  28  29  30  
+
+
+Mo  Tu  We  Th  Fr  Sa  Su  
+
+1   2  
+
+3   4   5   6   7   8   9  
+
+10  11  12  13  14  15  16  
+
+17  18  19  20  21  22  23  
+
+24  25  26  27  28  29  30  
+
+31  
+
+
+;; (defclass gtd-checklist ()
+;;   ((name :initarg :name :type string)
+;;    (type :initarg :type :initform "task" :type string)
+;;    (icon :initarg :icon :initform "☰" :type string)
+;;    (color :initarg :color :initform "grey" :type string)
+;;    (category :initarg :folder :initform "default" :type string))
+;;   "A class for processing checklist.")
+
+;; (cl-defmethod gtd-checklist--add-checklist ((cklist checklist))
+;;   "Add a new checklist."
+;;   (let ((name (oref cklist name))
+;;         (type (oref cklist type))
+;;         (icon (oref cklist icon))
+;;         (color (oref cklist color))
+;;         (category (oref cklist category)))
+;;     (gtd-checklist-db-add-gtd-checklist name type icon color category)))
+
+(setq day-seq '("01" "02" "03" "04" "11" "14" "15"))
+(defvar gtd-calendar-mode-map nil)
+
+(gtd-db-query [:select * :from habit])
+(gtd-db-query [:delete :from habit
+                       :where (= name "yoga")])
+
+(display-buffer-in-side-window (get-buffer-create "*gtd-test3*") nil)
+
+(let ((str (propertize (string-join gtd-habit-frequency-by-day "|")
+                       'face 'twidget-choice-rest-face))
+      (lst '("Tuesday" "Thursday" "Friday" "Sunday"))
+      twidget-beg twidget-end)
+  (insert "\n")
+  (setq twidget-beg (point))
+  (insert str)
+  (setq twidget-end (point))
+  (dolist (item lst)
+    (let* ((len (length item))
+           (beg (string-match item str))
+           (item-beg (+ beg twidget-beg))
+           (item-end (+ beg twidget-beg len)))
+      (put-text-property item-beg item-end
+                         'face  'twidget-choice-selected-face)))
+  )
+
+(progn
+  (set-face-background 'default "mac:windowBackgroundColor")
+  (dolist (f (face-list)) (set-face-stipple f "alpha:60%"))
+  (setq face-remapping-alist (append face-remapping-alist '((default my/default-blurred))))
+  (defface my/default-blurred
+    '((t :inherit 'default :stipple "alpha:60%"))
+    "Like 'default but blurred."
+    :group 'my))
+
+((ov (car (last twidget-overlays)))
+ (id (overlay-get ov 'twidget-id))
+ (beg (overlay-start ov)))
+
+;;; --------------------------------------------------
+
+(string-match "\\[t[0-9]*\\]" "Note content [t]" 0)
+
+(twidget--text-multiple-p "Note content [t]")
+
+(format "% \"%s\"\\%" "project")
+
+(message "%s" (concat "%\"" "project" "\"%"))

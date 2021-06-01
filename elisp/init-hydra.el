@@ -26,6 +26,11 @@
               " "))))
        (propertize title 'face face)))))
 
+(defun gk-open-scratch ()
+  "Open scratch.el file."
+  (interactive)
+  (find-file "~/scratch.el"))
+
 (pretty-hydra-define emacs-hydra
   (:color amaranth :exit t)
   ("Basic"
@@ -34,7 +39,7 @@
     ("c" org-capture "org capture")
     ("e" eval-expression "eval expression")
     ("f" find-file "find file")
-    ("s" swiper "swiper search")
+    ("s" gk-open-scratch "open scratch")
     ("t" toggle-truncate-lines "toggle truncate")
     ("<f2>" eval-buffer "eval buffer"))
    "Open Browser"
@@ -68,6 +73,7 @@
    (("x e" (browse-url "http://ergoemacs.org/emacs/emacs.html") "XahEmacs")
     ("b l" (browse-url "https://www.bilibili.com") "Bilibili")
     ("d b" (browse-url "https://www.douban.com") "Douban")
+    ("d d" (browse-url "https://dida365.com/webapp/#q/all/today") "TickTick")
     ("e c" (browse-url "https://www.emacs-china.org") "EmacsChina")
     ("e w" (browse-url "http://www.emacswiki.org/") "EmacsWiki")
     ("e l" (browse-url "https://www.gnu.org/software/emacs/manual/html_mono/elisp.html") "Elisp")
@@ -81,9 +87,11 @@
     ("g b" (browse-url "https://blog.geekinney.com") "Geekblog")
     ("r d" (browse-url "https://www.reddit.com") "Reddit")
     ("o m" (browse-url "https://orgmode.org/org.html") "OrgMode Manual")
-    ("z h" (browse-url "https://www.zhihu.com" "Zhihu"))
+    ("z h" (browse-url "https://www.zhihu.com") "Zhihu")
     ("v t" vterm "vterm")
     )))
+
+;; (setq eww-search-prefix "https://www.baidu.com/s?wd=")
 
 (provide 'init-hydra)
 

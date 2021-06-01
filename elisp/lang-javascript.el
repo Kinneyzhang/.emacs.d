@@ -20,22 +20,22 @@
 
   ;; tern :- IDE like features for javascript and completion
   ;; http://ternjs.net/doc/manual.html#emacs
-  (use-package tern
-    :ensure t
-    :config
-    (defun my-js-mode-hook ()
-      "Hook for `js-mode'."
-      (set (make-local-variable 'company-backends)
-           '((company-tern company-files))))
-    (add-hook 'js2-mode-hook 'my-js-mode-hook)
-    (add-hook 'js2-mode-hook 'company-mode))
+  ;; (use-package tern
+  ;;   :ensure t
+  ;;   :config
+  ;;   (defun my-js-mode-hook ()
+  ;;     "Hook for `js-mode'."
+  ;;     (set (make-local-variable 'company-backends)
+  ;;          '((company-tern company-files))))
+  ;;   (add-hook 'js2-mode-hook 'my-js-mode-hook)
+  ;;   (add-hook 'js2-mode-hook 'company-mode))
 
-  (add-hook 'js2-mode-hook 'tern-mode)
+  ;; (add-hook 'js2-mode-hook 'tern-mode)
 
   ;; company backend for tern
   ;; http://ternjs.net/doc/manual.html#emacs
-  (use-package company-tern
-    :ensure t)
+  ;; (use-package company-tern
+  ;;   :ensure t)
 
   ;; Run a JavaScript interpreter in an inferior process window
   ;; https://github.com/redguardtoo/js-comint

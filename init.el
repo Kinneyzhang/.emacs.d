@@ -1,12 +1,16 @@
-;; Addedrec export PATH="/path/to/code/cask/bin:$PATH" by Package.el.
+;; Add export PATH="/path/to/code/cask/bin:$PATH" by Package.el.
 ;; This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
+
+;; (load-theme 'doom-dracula t)
+
 (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
                          ;; ("melpa" . "https://mirrors.cloud.tencent.com/elpa/melpa/")
                          ))
+
 (package-initialize)
 
 ;; Bootstrap `use-package'
@@ -14,7 +18,7 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-(package-refresh-contents)
+;; (package-refresh-contents)
 
 (setq package-enable-at-startup nil
       file-name-handler-alist nil
@@ -28,7 +32,7 @@
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 (setq site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
-(load (concat user-emacs-directory "elisp/custom.el"))
+;; (load (concat user-emacs-directory "elisp/custom.el"))
 
 (require 'init-utils)
 (require 'init-ui)
@@ -38,6 +42,7 @@
 (require 'init-window)
 (require 'init-misc)
 (require 'init-org)
+(require 'init-gtd)
 (require 'init-music)
 (require 'init-elfeed)
 ;; (require 'init-flywrap)

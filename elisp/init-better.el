@@ -1,5 +1,5 @@
 ;;; some better defaults
-(setq inhibit-startup-message nil)
+(setq inhibit-startup-message t)
 (setq ring-bell-function 'ignore);;消除滑动到底部或顶部时的声音
 (global-auto-revert-mode 1);;自动加载更新内容
 (setq make-backup-files nil);;不允许备份
@@ -11,7 +11,7 @@
 (setq recentf-max-menu-items 10)
 (global-hl-line-mode -1)
 ;;(add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
-(add-hook 'emacs-lisp-mode-hook 'show-paren-mode);;括号匹配
+(show-paren-mode 1)
 (setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
 (fset 'yes-or-no-p 'y-or-n-p);;用y/s代替yes/no
 
@@ -23,9 +23,10 @@
 (setq show-trailing-whitespace t)
 
 (prefer-coding-system 'utf-8)
+(async-bytecomp-package-mode 1)
 
-;; (eval-after-load 'org-mode
-;;   (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1))))
+(eval-after-load 'org-mode
+  (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1))))
 
 ;; (add-hook 'org-agenda-mode-hook (lambda () (toggle-truncate-lines 1)))
 
@@ -53,6 +54,8 @@
 (put 'dired-find-alternate-file 'disabled nil);;避免每一级目录都产生一个buffer
 (require 'dired-x)
 (setq dired-dwim-target t)
+
+(define-key global-map (kbd "C-h p") 'describe-text-properties)
 
 ;;Highlight parens when inside it
 (define-advice show-paren-function (:around (fn) fix-show-paren-function)

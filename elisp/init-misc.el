@@ -1,46 +1,104 @@
+(use-package twidget
+  :load-path "~/iCloud/hack/twidget/")
+
+;; (use-package gtd
+;;   :load-path "~/iCloud/hack/gtd-mode/"
+;;   :init (setq gtd-chinese-p t))
+
+(require 'meghanada)
+(add-hook 'java-mode-hook
+          (lambda ()
+            ;; meghanada-mode on
+            (meghanada-mode t)
+            (flycheck-mode +1)
+            (setq c-basic-offset 2)
+            ;; use code format
+            (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
+(cond
+ ((eq system-type 'windows-nt)
+  (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
+  (setq meghanada-maven-path "mvn.cmd"))
+ (t
+  (setq meghanada-java-path "java")
+  (setq meghanada-maven-path "mvn")))
+
+(use-package roam-block
+  :load-path "~/iCloud/hack/roam-block/"
+  :init (setq roam-block-home '("~/iCloud/TEMP/")
+              roam-block-ref-highlight t
+              roam-block-embed-highlight t)
+  :bind
+  (:map roam-block-mode-map
+        (("C-c b d" . roam-block-delete-block)
+         ("C-c b r s" . roam-block-ref-store)
+         ("C-c b r i" . roam-block-ref-insert)
+         ("C-c b r d" . roam-block-ref-delete)
+         ("C-c b r t" . roam-block-ref-highlight-toggle)
+         ("C-c b e s" . roam-block-embed-store)
+         ("C-c b e i" . roam-block-embed-insert)
+         ("C-c b e t" . roam-block-embed-highlight-toggle)))
+  :config
+  (roam-block-mode 1)
+  ;; (defun roam-block-set-margins ()
+  ;;   "Set window margins for buffer window which roam-block works on."
+  ;;   (dolist (win (window-list))
+  ;;     (let* ((buf (window-buffer win))
+  ;;            (file (buffer-file-name buf)))
+  ;;       (when (roam-block-work-on buf)
+  ;;         (unless (car (window-margins win))
+  ;;           (set-window-margins win 1 1))))))
+  ;; (add-hook 'post-command-hook #'roam-block-set-margins)
+  ;; (add-hook 'window-configuration-change-hook #'roam-block-set-margins)
+  )
+
+(use-package burly
+  :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
+
 (use-package gkroam
-  :ensure nil
+  ;; :ensure t
   :load-path "~/iCloud/hack/gkroam/"
+  :hook (after-init . gkroam-mode)
   :init
   (setq gkroam-root-dir "~/gknows/")
-  (setq gkroam-window-margin 4)
-  (setq gkroam-use-default-filename t)
+  (setq gkroam-show-brackets-p nil
+        gkroam-prettify-page-p t
+        gkroam-use-default-filename t
+        gkroam-window-margin 4)
   :bind
-  (("C-c r G" . gkroam-update-all)
-   ("C-c r g" . gkroam-update)
-   ("C-c r d" . gkroam-daily)
-   ("C-c r f" . gkroam-find)
-   ("C-c r c" . gkroam-capture)
-   ("C-c r e" . gkroam-link-edit)
-   ("C-c r n" . gkroam-smart-new)
-   ("C-c r i" . gkroam-insert)
-   ("C-c r I" . gkroam-index)
-   ("C-c r t" . gkroam-toggle-brackets)
-   ("C-c r p" . gkroam-toggle-prettify)
-   ("C-c r D" . gkroam-toggle-dynamic))
+  (:map gkroam-mode-map
+        (("C-c r g" . gkroam-update)
+         ("C-c r d" . gkroam-daily)
+         ("C-c r D" . gkroam-delete)
+         ("C-c r f" . gkroam-find)
+         ("C-c r c" . gkroam-capture)
+         ("C-c r e" . gkroam-link-edit)
+         ("C-c r n" . gkroam-dwim)
+         ("C-c r i" . gkroam-insert)
+         ("C-c r I" . gkroam-index)
+         ("C-c r u" . gkroam-show-unlinked)
+         ("C-c r t" . gkroam-toggle-brackets)
+         ("C-c r p" . gkroam-toggle-prettify)
+         ("C-c r R" . gkroam-rebuild-caches)))
   :config
-  (setq org-startup-folded nil)
-  (defvar gkroam-develop-p t)
-  (defun gkroam-switch-env ()
-    "Switch dir between develop env and product env."
-    (interactive)
-    (if gkroam-develop-p
-	(progn
-	  (setq gkroam-develop-p nil)
-	  (setq gkroam-root-dir "~/gknows/")
-          (setq gkroam-db
-                (db-make
-                 `(db-hash
-                   :filename ,(concat gkroam-cache-dir "gknows-db"))))
-	  (message "have switched to product enviroment"))
-      (setq gkroam-develop-p t)
-      (setq gkroam-root-dir "~/gkroam-test/org/")
-      (setq gkroam-db
-            (db-make
-             `(db-hash
-               :filename ,(concat gkroam-cache-dir "gkroam-db"))))
-      (message "have switched to develop enviroment")))
-  (global-set-key (kbd "C-c r s") 'gkroam-switch-env))
+  (setq org-startup-folded nil))
+
+(use-package bongo
+  :ensure t
+  :init
+  (setq bongo-default-directory "~/Music/")
+  (setq bongo-enabled-backends '(mplayer mpv afplay vlc))
+  (setq bongo-custom-backend-matchers
+        '((mplayer local-file "mp3" "m4a" "wav")
+          (mpv local-file "mp4" "mkv")))
+  :config
+  (defun bongo-insert-default-dir (orig-fun)
+    "Insert default directory after bongo initialization."
+    (let ((buffer-exist-p (get-buffer bongo-default-playlist-buffer-name)))
+      (funcall orig-fun)
+      (unless buffer-exist-p
+        (let ((bongo-insert-whole-directory-trees t))
+          (bongo-insert-file "./")))))
+  (advice-add 'bongo-playlist :around #'bongo-insert-default-dir))
 
 (use-package eradio
   :ensure t
@@ -92,9 +150,12 @@
   :load-path "~/.emacs.d/site-lisp/netease-cloud-music")
 
 ;; (use-package valign
-;;   :load-path "~/.emacs.d/site-lisp/valign"
-;;   :init (setq valign-fancy-bar t)
+;;   :load-path "~/.emacs.d/site-lisp/valign/"
+;;   :init
+;;   (setq valign-fancy-bar t
+;;         valign-separator-row-style 'multi-column)
 ;;   :config
+;;   ;; (add-hook 'org-mode-hook #'valign-mode)
 ;;   (remove-hook 'org-mode-hook #'valign-mode))
 
 ;;(use-package gk-habit
@@ -115,12 +176,6 @@
   (use-package gnuplot-mode
     :ensure t))
 
-;; (use-package super-save
-;;   :ensure t
-;;   :init (setq super-save-auto-save-when-idle t)
-;;   :config
-;;   (super-save-mode -1))
-
 (use-package toc-org
   :ensure t
   :config
@@ -136,8 +191,7 @@
 
 (use-package geekblog
   :load-path "~/iCloud/hack/geekblog"
-  :init (setq gk-root-dir "~/iCloud/blog_site/")
-  :config (geekblog-load-config))
+  :init (setq gk-root-dir "~/iCloud/blog_site/"))
 
 (use-package shrface
   :load-path "~/.emacs.d/site-lisp/shrface")
@@ -213,25 +267,6 @@
 ;; 		    (setq left-margin-width 2 right-margin-width 0)
 ;; 		    ;; force fringe update
 ;; 		    (set-window-buffer nil (current-buffer)))))
-
-(use-package nox
-  :load-path "~/.emacs.d/site-lisp/nox"
-  :config
-  (dolist (hook (list
-		 'js-mode-hook
-		 'rust-mode-hook
-		 'python-mode-hook
-		 'ruby-mode-hook
-		 'java-mode-hook
-		 'sh-mode-hook
-		 'php-mode-hook
-		 'c-mode-common-hook
-		 'c-mode-hook
-		 'c++-mode-hook
-		 'haskell-mode-hook
-		 ))
-    (add-hook hook '(lambda () (nox-ensure))))
-  (add-to-list 'nox-server-programs '(python-mode . ("python-language-server" "--args"))))
 
 (require 'separedit)
 (define-key prog-mode-map (kbd "C-c '") #'separedit)
@@ -338,44 +373,18 @@
 ;;   )
 
 (use-package bm
-  :ensure t
+  :ensure nil
   :demand t
   :init
-  ;; restore on load (even before you require bm)
   (setq bm-restore-repository-on-load t)
   :config
-  ;; Allow cross-buffer 'next'
   (setq bm-cycle-all-buffers t)
-  ;; where to store persistant files
-  ;; save bookmarks
   (setq-default bm-buffer-persistence t)
-  ;; Loading the repository from file when on start up.
   (add-hook 'after-init-hook 'bm-repository-load)
-  ;; Saving bookmarks
   (add-hook 'kill-buffer-hook #'bm-buffer-save)
-  ;; Saving the repository to file when on exit.
-  ;; kill-buffer-hook is not called when Emacs is killed, so we
-  ;; must save all bookmarks first.
   (add-hook 'kill-emacs-hook #'(lambda nil
                                  (bm-buffer-save-all)
-                                 (bm-repository-save)))
-  ;; The `after-save-hook' is not necessary to use to achieve persistence,
-  ;; but it makes the bookmark data in repository more in sync with the file
-  ;; state.
-  (add-hook 'after-save-hook #'bm-buffer-save)
-  ;; Restoring bookmarks
-  (add-hook 'find-file-hooks   #'bm-buffer-restore)
-  (add-hook 'after-revert-hook #'bm-buffer-restore)
-  ;; The `after-revert-hook' is not necessary to use to achieve persistence,
-  ;; but it makes the bookmark data in repository more in sync with the file
-  ;; state. This hook might cause trouble when using packages
-  ;; that automatically reverts the buffer (like vc after a check-in).
-  ;; This can easily be avoided if the package provides a hook that is
-  ;; called before the buffer is reverted (like `vc-before-checkin-hook').
-  ;; Then new bookmarks can be saved before the buffer is reverted.
-  ;; Make sure bookmarks is saved before check-in (and revert-buffer)
-  (add-hook 'vc-before-checkin-hook #'bm-buffer-save)
-  )
+                                 (bm-repository-save))))
 
 (use-package org-ql
   :ensure t)
@@ -441,8 +450,8 @@
 		 'qmake-mode-hook
 		 'lua-mode-hook
 		 'swift-mode-hook
-		 'minibuffer-inactive-mode-hook
-		 ))
+                 'clojure-mode-hook
+		 'minibuffer-inactive-mode-hook))
     (add-hook hook '(lambda () (awesome-pair-mode 1))))
 
   (define-key awesome-pair-mode-map (kbd "(") 'awesome-pair-open-round)
@@ -812,7 +821,7 @@ specified.  Select the current line if the LINES prefix is zero."
   :ensure t
   :defer 5
   :config
-  (setq company-idle-delay 0.5)
+  (setq company-idle-delay 0.1)
   (setq company-candidates-length 5)
   (setq company-minimum-prefix-length 2)
   (global-company-mode t)
@@ -938,14 +947,14 @@ specified.  Select the current line if the LINES prefix is zero."
 (use-package django-mode
   :ensure t)
 
-(use-package undo-tree
-  :ensure t
-  :diminish undo-tree-mode
-  :config
-  (progn
-    (global-undo-tree-mode)
-    (setq undo-tree-visualizer-timestamps t)
-    (setq undo-tree-visualizer-diff t)))
+;; (use-package undo-tree
+;;   :ensure t
+;;   :diminish undo-tree-mode
+;;   :config
+;;   (progn
+;;     (global-undo-tree-mode)
+;;     (setq undo-tree-visualizer-timestamps t)
+;;     (setq undo-tree-visualizer-diff t)))
 
 (use-package exec-path-from-shell
   :defer 5
