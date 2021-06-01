@@ -184,17 +184,17 @@ Return a new buffer or BUF with the code in it."
 (use-package general
   :ensure t)
 
-(use-package auto-save
-  :load-path "~/.emacs.d/site-lisp/auto-save"
-  :config
-  (auto-save-enable)  ;; 开启自动保存功能。
-  (setq auto-save-slient nil) ;; 自动保存的时候静悄悄的， 不要打扰我
-  (setq auto-save-delete-trailing-whitespace nil)
-  (setq auto-save-disable-predicates
-        '((lambda ()
-            (string-suffix-p
-             "gpg"
-             (file-name-extension (buffer-name)) t)))))
+;; (use-package auto-save
+;;   :load-path "~/.emacs.d/site-lisp/auto-save"
+;;   :config
+;;   (auto-save-enable)  ;; 开启自动保存功能。
+;;   (setq auto-save-slient nil) ;; 自动保存的时候静悄悄的， 不要打扰我
+;;   (setq auto-save-delete-trailing-whitespace nil)
+;;   (setq auto-save-disable-predicates
+;;         '((lambda ()
+;;             (string-suffix-p
+;;              "gpg"
+;;              (file-name-extension (buffer-name)) t)))))
 
 (use-package paredit
   ;; check if the parens is matched
@@ -299,39 +299,6 @@ Return a new buffer or BUF with the code in it."
 
 (add-hook 'kill-emacs-hook #'chunyang-scratch-save)
 (add-hook 'after-init-hook #'chunyang-scratch-restore)
-
-;; 统一局域网下上传文件
-;; (require 'web-server)
-;; (ws-start
-;;  '(((:GET . ".*") .
-;;     (lambda (request)
-;;       (with-slots (process headers) request
-;;         (ws-response-header proc 200 '("Content-type" . "text/html"))
-;;         (process-send-string
-;;          process
-;;          "\
-;; <meta name='viewport' content='width=device-width, initial-scale=1'>
-;; <h1>Upload File</h1>
-;; <form method='post' enctype='multipart/form-data'>
-;;   <input type='file' name='file'>
-;;   <input type='submit'>
-;; </form>
-;; "))))
-;;    ((:POST . ".*") .
-;;     (lambda (request)
-;;       (with-slots (process headers) request
-;;         (let-alist (assoc-default "file" headers)
-;;           (let ((out (make-temp-file "x-" nil .filename)))
-;;             (let ((coding-system-for-write 'binary))
-;;               (write-region .content nil out))
-;;             (message "[%s] saved %d bytes to %s"
-;;                      (current-time-string)
-;;                      (string-bytes .content)
-;;                      out)
-;;             (ws-response-header process 200 '("Content-type" . "text/plain"))
-;;             (process-send-string process (format "saved to %s\n" out))))))))
-;;  9008 nil :host "0.0.0.0")
-
 ;;-----------------------------
 (add-hook 'focus-in-hook 'my/mac-switch-input-source)
 (defun my/mac-switch-input-source ()
@@ -344,19 +311,6 @@ Return a new buffer or BUF with the code in it."
       end if
     end tell' &>/dev/null")
   (message "Input source has changed to ABC!"))
-
-;;-----------
-;; (defun pp-html--nth-helper (lst acc)
-;;   "Helper function of pp-html-nth."
-;;   (if lst
-;;       (pp-html--nth-helper (cdr lst)
-;; 			   (list `(nth ,(car lst) ,@acc)))
-;;     acc))
-
-;; (defmacro pp-html-nth (ns sexp)
-;;   "Get the specific elem in list"
-;;   (car (pp-html--nth-helper ns `(,sexp))))
-;;-------------------
 
 (defun my/personal-summary (x)
   (interactive "swhich type of summary (w->week | m->month | y->year): ")
@@ -428,34 +382,5 @@ Version 2019-11-04"
 (require 'dired)
 (define-key dired-mode-map (kbd "<C-return>") 'xah-open-in-external-app)
 
-;; (define-minor-mode org-starless-mode
-;;   "Starless org-mode"
-;;   nil nil nil
-;;   :require 'org
-;;   (let* ((keyword
-;;           `(("^\\(\\*+ \\)\\s-*\\S-" ; Do not hide empty headings!
-;;              (1 (put-text-property (match-beginning 1) (match-end 1) 'invisible t)
-;;                 nil)))))
-;;     (if org-starless-mode
-;;         (progn
-;;           (font-lock-add-keywords nil keyword)
-;;           (font-lock-ensure)
-;;           (font-lock-flush))
-;;       (save-excursion
-;;         (goto-char (point-min))
-;;         (font-lock-remove-keywords nil keyword)
-;;         (font-lock-ensure)
-;;         (font-lock-flush)))))
-
-(defmacro +measure-time (&rest body)
-  "Measure the time it takes to evaluate BODY."
-  `(let ((time (current-time)))
-     ,@body
-     (message "%.06fs" (float-time (time-since time)))))
-
-;; (+measure-time
-;;  (format-mode-line mode-line-format))
-
 (provide 'init-utils)
-
 ;;; init-utils.el ends here

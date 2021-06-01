@@ -66,31 +66,21 @@
 ;;==================================================
 
 (use-package powerline
+  :ensure t
+  :config
+  (powerline-default-theme))
+
+(use-package all-the-icons
   :ensure t)
-(require 'powerline)
-(powerline-default-theme)
 
-;; (use-package all-the-icons
-;;   :ensure t)
-
-;; (use-package all-the-icons-dired
-;;   :ensure t
-;;   :config
-;;   (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+(use-package all-the-icons-dired
+  :ensure t
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 ;; colorful dired-mode
 (use-package diredfl
   :ensure t
   :config (diredfl-global-mode t))
-
-;; (use-package indent-guide
-;;   :ensure t
-;;   :config
-;;   (indent-guide-mode -1)
-;;   (add-hook 'prog-mode-hook 'indent-guide-mode)
-;;   (add-hook 'org-mode-hook 'indent-guide-mode)
-;;   (setq indent-guide-delay 0)
-;;   (setq indent-guide-recursive nil)
-;;   (setq indent-guide-char "¦"))
 
 (provide 'init-ui)

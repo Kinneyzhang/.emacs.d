@@ -1,86 +1,65 @@
-(use-package twidget
-  :load-path "~/iCloud/hack/twidget/")
+;; (use-package twidget
+;;   :load-path "~/iCloud/hack/twidget/")
 
-;; (use-package gtd
-;;   :load-path "~/iCloud/hack/gtd-mode/"
-;;   :init (setq gtd-chinese-p t))
-
-(require 'meghanada)
-(add-hook 'java-mode-hook
-          (lambda ()
-            ;; meghanada-mode on
-            (meghanada-mode t)
-            (flycheck-mode +1)
-            (setq c-basic-offset 2)
-            ;; use code format
-            (add-hook 'before-save-hook 'meghanada-code-beautify-before-save)))
-(cond
- ((eq system-type 'windows-nt)
-  (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
-  (setq meghanada-maven-path "mvn.cmd"))
- (t
-  (setq meghanada-java-path "java")
-  (setq meghanada-maven-path "mvn")))
-
-(use-package roam-block
-  :load-path "~/iCloud/hack/roam-block/"
-  :init (setq roam-block-home '("~/iCloud/TEMP/")
-              roam-block-ref-highlight t
-              roam-block-embed-highlight t)
-  :bind
-  (:map roam-block-mode-map
-        (("C-c b d" . roam-block-delete-block)
-         ("C-c b r s" . roam-block-ref-store)
-         ("C-c b r i" . roam-block-ref-insert)
-         ("C-c b r d" . roam-block-ref-delete)
-         ("C-c b r t" . roam-block-ref-highlight-toggle)
-         ("C-c b e s" . roam-block-embed-store)
-         ("C-c b e i" . roam-block-embed-insert)
-         ("C-c b e t" . roam-block-embed-highlight-toggle)))
-  :config
-  (roam-block-mode 1)
-  ;; (defun roam-block-set-margins ()
-  ;;   "Set window margins for buffer window which roam-block works on."
-  ;;   (dolist (win (window-list))
-  ;;     (let* ((buf (window-buffer win))
-  ;;            (file (buffer-file-name buf)))
-  ;;       (when (roam-block-work-on buf)
-  ;;         (unless (car (window-margins win))
-  ;;           (set-window-margins win 1 1))))))
-  ;; (add-hook 'post-command-hook #'roam-block-set-margins)
-  ;; (add-hook 'window-configuration-change-hook #'roam-block-set-margins)
-  )
+;; (use-package roam-block
+;;   :load-path "~/iCloud/hack/roam-block/"
+;;   :init (setq roam-block-home '("~/iCloud/TEMP/")
+;;               roam-block-ref-highlight t
+;;               roam-block-embed-highlight t)
+;;   :bind
+;;   (:map roam-block-mode-map
+;;         (("C-c b d" . roam-block-delete-block)
+;;          ("C-c b r s" . roam-block-ref-store)
+;;          ("C-c b r i" . roam-block-ref-insert)
+;;          ("C-c b r d" . roam-block-ref-delete)
+;;          ("C-c b r t" . roam-block-ref-highlight-toggle)
+;;          ("C-c b e s" . roam-block-embed-store)
+;;          ("C-c b e i" . roam-block-embed-insert)
+;;          ("C-c b e t" . roam-block-embed-highlight-toggle)))
+;;   :config
+;;   (roam-block-mode 1)
+;;   ;; (defun roam-block-set-margins ()
+;;   ;;   "Set window margins for buffer window which roam-block works on."
+;;   ;;   (dolist (win (window-list))
+;;   ;;     (let* ((buf (window-buffer win))
+;;   ;;            (file (buffer-file-name buf)))
+;;   ;;       (when (roam-block-work-on buf)
+;;   ;;         (unless (car (window-margins win))
+;;   ;;           (set-window-margins win 1 1))))))
+;;   ;; (add-hook 'post-command-hook #'roam-block-set-margins)
+;;   ;; (add-hook 'window-configuration-change-hook #'roam-block-set-margins)
+;;   )
 
 (use-package burly
   :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
 
-(use-package gkroam
-  ;; :ensure t
-  :load-path "~/iCloud/hack/gkroam/"
-  :hook (after-init . gkroam-mode)
-  :init
-  (setq gkroam-root-dir "~/gknows/")
-  (setq gkroam-show-brackets-p nil
-        gkroam-prettify-page-p t
-        gkroam-use-default-filename t
-        gkroam-window-margin 4)
-  :bind
-  (:map gkroam-mode-map
-        (("C-c r g" . gkroam-update)
-         ("C-c r d" . gkroam-daily)
-         ("C-c r D" . gkroam-delete)
-         ("C-c r f" . gkroam-find)
-         ("C-c r c" . gkroam-capture)
-         ("C-c r e" . gkroam-link-edit)
-         ("C-c r n" . gkroam-dwim)
-         ("C-c r i" . gkroam-insert)
-         ("C-c r I" . gkroam-index)
-         ("C-c r u" . gkroam-show-unlinked)
-         ("C-c r t" . gkroam-toggle-brackets)
-         ("C-c r p" . gkroam-toggle-prettify)
-         ("C-c r R" . gkroam-rebuild-caches)))
-  :config
-  (setq org-startup-folded nil))
+;; (use-package gkroam
+;;   ;; :ensure t
+;;   :load-path "~/iCloud/hack/gkroam/"
+;;   :hook (after-init . gkroam-mode)
+;;   :init
+;;   (setq gkroam-root-dir "~/gknows/")
+;;   (setq gkroam-show-brackets-p nil
+;;         gkroam-prettify-page-p t
+;;         gkroam-use-default-filename t
+;;         gkroam-window-margin 4)
+;;   :bind
+;;   (:map gkroam-mode-map
+;;         (("C-c r g" . gkroam-update)
+;;          ("C-c r d" . gkroam-daily)
+;;          ("C-c r D" . gkroam-delete)
+;;          ("C-c r f" . gkroam-find)
+;;          ("C-c r c" . gkroam-capture)
+;;          ("C-c r e" . gkroam-link-edit)
+;;          ("C-c r n" . gkroam-dwim)
+;;          ("C-c r i" . gkroam-insert)
+;;          ("C-c r I" . gkroam-index)
+;;          ("C-c r u" . gkroam-show-unlinked)
+;;          ("C-c r t" . gkroam-toggle-brackets)
+;;          ("C-c r p" . gkroam-toggle-prettify)
+;;          ("C-c r R" . gkroam-rebuild-caches)))
+;;   :config
+;;   (setq org-startup-folded nil))
 
 (use-package bongo
   :ensure t
@@ -109,66 +88,15 @@
           ("cyberia - lainon"  . "https://lainon.life/radio/cyberia.ogg.m3u")
           ("cafe - lainon"     . "https://lainon.life/radio/cafe.ogg.m3u"))))
 
-;; (use-package org-clones
-;;   :load-path "~/.emacs.d/site-lisp/org-clones/"
-;;   :hook
-;;   ;; Note: `org-clones-mode' will only activate
-;;   ;; `cursor-sensor-mode' if there are cursor-sensor-properties
-;;   ;; in the buffer.  Therefore, you can safely add `org-clones-mode'
-;;   ;; to `orgmode-hook' even if you don't plan to use it in every file. 
-;;   (orgmode . org-clones-mode)
-;;   :custom
-;;   (org-clones-commit-edit-shortcut "C-c C-c")
-;;   (org-clones-abort-edit-shortcut  "C-c C-k")
-;;   (org-clones-start-edit-shortcut  "C-c C-c")
-;;   (org-clones-jump-to-next-clone-shortcut "n")
-;;   (org-clones-clone-prefix-icon "◈ ")
-;;   (org-clones-empty-body-string "[empty clone body]")
-;;   (org-clones-empty-headling-string "[empty clone headline]")
-;;   (org-clones-prompt-before-syncing nil)
-;;   (org-clones-use-popup-prompt nil)
-;;   :custom-face
-;;   (org-clones-current-clone ((t (:background "orchid" :foreground "black"))))
-;;   (org-clones-clone ((t (:background "black"))))
-;;   :bind
-;;   (("C-; C-c C-m" . org-clones-store-marker)
-;;    ("C-; C-c C-c" . org-clones-create-clone-dwim)
-;;    ("C-; C-c C-d" . org-clones-delete-this-clone)
-;;    ("C-; C-c C-j" . org-clones-jump-to-clones)
-;;    ("C-; C-c C-u" . org-clones-unclone-this-clone)))
-
-;; (use-package rg
-;;   :ensure t
-;;   :config
-;;   (rg-enable-default-bindings))
-
 (use-package elisp-demos
   :ensure t
   :config (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1))
-
-(use-package netease-cloud-music
-  :load-path "~/.emacs.d/site-lisp/netease-cloud-music")
-
-;; (use-package valign
-;;   :load-path "~/.emacs.d/site-lisp/valign/"
-;;   :init
-;;   (setq valign-fancy-bar t
-;;         valign-separator-row-style 'multi-column)
-;;   :config
-;;   ;; (add-hook 'org-mode-hook #'valign-mode)
-;;   (remove-hook 'org-mode-hook #'valign-mode))
-
-;;(use-package gk-habit
-;;  :load-path "~/iCloud/hack/gk-habit/")
 
 (use-package sqlite3
   :ensure t)
 
 (use-package esqlite
   :ensure t)
-
-(use-package tui
-  :load-path "~/.emacs.d/site-lisp/tui/")
 
 (use-package gnuplot
   :ensure t
@@ -186,167 +114,8 @@
 	(add-hook 'markdown-mode-hook 'toc-org-mode))
     (warn "toc-org not found")))
 
-(use-package pp-html
-  :load-path "~/iCloud/hack/pp-html")
-
-(use-package geekblog
-  :load-path "~/iCloud/hack/geekblog"
-  :init (setq gk-root-dir "~/iCloud/blog_site/"))
-
-(use-package shrface
-  :load-path "~/.emacs.d/site-lisp/shrface")
-
-(use-package telega
-  :load-path  "~/.emacs.d/site-lisp/telega"
-  :commands (telega)
-  :defer t
-  :init
-  (setq telega-proxies
-	(list
-	 '(:server "127.0.0.1" :port 1086 :enable t
-		   :type (:@type "proxyTypeSocks5"
-				 ;; :username "rkn" :password "jopa"
-				 ))))
-  :config
-  (telega-notifications-mode 1)
-  (add-hook 'telega-chat-pre-message-hook 'telega-msg-ignore-blocked-sender)
-  (add-hook 'telega-chat-mode-hook
-	    (lambda ()
-	      (set (make-local-variable 'company-backends)
-		   (append '(telega-company-emoji
-			     telega-company-username
-			     telega-company-hashtag)
-			   (when (telega-chat-bot-p telega-chatbuf--chat)
-			     '(telega-company-botcmd))))
-	      (company-mode 1)))
-  
-  (setq telega-symbol-unread "🄌")
-  (defun my-telega-load ()
-    ;; 🄌 occupies two full chars, but (string-width "🄌") returns 1
-    ;; so we install custom widths to `char-width-table'
-    (telega-symbol-set-width telega-symbol-unread 2)
-    )
-
-  (add-hook 'telega-load-hook 'my-telega-load)
-  (use-package visual-fill-column :ensure t)
-  (use-package webpaste :ensure t))
-
-(use-package pp-html
-  :load-path "~/.emacs.d/site-lisp/pp-html")
-
-;; (use-package pomodoro
-;;   :load-path "~/.emacs.d/site-lisp/pomodoro"
-;;   :init
-;;   (setq pomodoro-work-time 25
-;; 	pomodoro-break-time 5
-;; 	pomodoro-long-break-time 15
-;; 	pomodoro-nth-for-longer-break 4
-;; 	;; pomodoro-desktop-notification nil
-;; 	pomodoro-work-cycle "work "	
-;; 	pomodoro-break-cycle "break "
-;; 	pomodoro-sound-player "mplayer"
-;; 	pomodoro-break-start-sound (expand-file-name (concat config-dir "alarm.mp3"))
-;; 	pomodoro-work-start-sound (expand-file-name (concat config-dir "alarm.mp3"))
-;; 	))
-
-;; (use-package pomidor
-;;   :bind (("<f12>" . pomidor))
-;;   :config
-;;   (setq pomidor-sound-tick nil
-;; 	pomidor-sound-tack nil
-;; 	pomidor-seconds 10;; (* 25 60)
-;; 					; 25 minutes for the work period
-;; 	pomidor-break-seconds 5;; (* 5 60)
-;; 					; 5 minutes break time
-;; 	pomidor-sound-overwork (expand-file-name (concat config-dir "alarm.mp3"))
-;; 	pomidor-sound-break-over (expand-file-name (concat config-dir "alarm.mp3")))
-;;   :hook
-;;   (pomidor-mode . (lambda ()
-;; 		    (display-line-numbers-mode -1) ; Emacs 26.1+
-;; 		    (setq left-fringe-width 0 right-fringe-width 0)
-;; 		    (setq left-margin-width 2 right-margin-width 0)
-;; 		    ;; force fringe update
-;; 		    (set-window-buffer nil (current-buffer)))))
-
-(require 'separedit)
-(define-key prog-mode-map (kbd "C-c '") #'separedit)
-(setq separedit-default-mode 'org-mode) ;; or org-mode-hook
-
-(require 'sunshine)
-
-(require 'alarm-clock)
-
-(use-package symbol-overlay
-  :ensure t)
-
-(use-package color-rg
-  :load-path "~/.emacs.d/site-lisp/color-rg")
-
-(use-package ox-rss
-  :load-path "~/.emacs.d/site-lisp/ox-rss")
-
-(use-package moz-controller
-  :ensure t)
-
-(use-package w3m
-  :ensure t
-  :commands w3m-goto-url w3m-search
-  :init
-  (setq w3m-use-cookies t)
-  ;; clean up the w3m buffers:
-  (add-hook 'w3m-display-functions 'w3m-hide-stuff)
-  (add-hook 'w3m-mode 'ace-link-mode)
-  (global-set-key (kbd "C-c w m") 'w3m-goto-url)
-  (global-set-key (kbd "C-c w l") 'browse-url-at-point)
-  (global-set-key (kbd "C-c w s") 'w3m-search)
-  :config
-  (define-key w3m-mode-map (kbd "&") 'w3m-view-url-with-external-browser))
-
-(use-package smart-comment
-  :ensure t
-  :bind ("M-;" . smart-comment))
-
-(use-package tramp-term
-  :ensure t)
-
-(use-package nov
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-  (defun my-nov-font-setup ()
-    (face-remap-add-relative 'variable-pitch :family "Liberation Serif"
-                             :height 1.0))
-  (add-hook 'nov-mode-hook 'my-nov-font-setup)
-  ;; (setq nov-text-width 80)
-  (setq nov-text-width t)
-  (setq visual-fill-column-center-text t)
-  (add-hook 'nov-mode-hook 'visual-line-mode)
-  (add-hook 'nov-mode-hook 'visual-fill-column-mode)
-
-  (with-no-warnings
-    (defun my-nov-content-unique-identifier (content)
-      "Return the the unique identifier for CONTENT."
-      (when-let* ((name (nov-content-unique-identifier-name content))
-                  (selector (format "package>metadata>identifier[id='%s']"
-                                    (regexp-quote name)))
-                  (id (car (esxml-node-children (esxml-query selector content)))))
-        (intern id)))
-    (advice-add #'nov-content-unique-identifier :override #'my-nov-content-unique-identifier)))
-
-(use-package hide-mode-line
-  :ensure t
-  :config
-  (add-hook 'completion-list-mode-hook #'hide-mode-line-mode)
-  (add-hook 'neotree-mode-hook #'hide-mode-line-mode))
-
-;; (use-package org-alert
-;;   :ensure nil
-;;   :init (setq alert-default-style 'libnotify)
-;;   :config
-;;   (require 'org-alert))
-
-(use-package org-noter
-  :ensure t)
+;; (use-package pp-html
+;;   :load-path "~/iCloud/hack/pp-html")
 
 (use-package ledger-mode
   :ensure t)
@@ -357,23 +126,8 @@
   (eval-after-load 'flycheck
     '(require 'flycheck-ledger)))
 
-;; (use-package git-gutter
-;;   :ensure t
-;;   :config
-;;   (global-git-gutter-mode +1)
-;;   (custom-set-variables
-;;    '(git-gutter:update-interval 1)
-;;    '(git-gutter:modified-sign " ") ;; two space
-;;    '(git-gutter:added-sign "+")    ;; multiple character is OK
-;;    '(git-gutter:deleted-sign "-")
-;;    '(git-gutter:lighter " GG"))
-;;   (set-face-background 'git-gutter:modified "purple") ;; background color
-;;   (set-face-foreground 'git-gutter:added "green")
-;;   (set-face-foreground 'git-gutter:deleted "red")
-;;   )
-
 (use-package bm
-  :ensure nil
+  :ensure t
   :demand t
   :init
   (setq bm-restore-repository-on-load t)
@@ -386,97 +140,68 @@
                                  (bm-buffer-save-all)
                                  (bm-repository-save))))
 
-(use-package org-ql
-  :ensure t)
-
 (use-package prescient
   :ensure t
   :config (prescient-persist-mode))
 (use-package ivy-prescient :ensure t :config (ivy-prescient-mode))
 (use-package company-prescient :ensure t :config (company-prescient-mode))
 
-(use-package org-analyzer
-  :ensure t)
+;; (use-package awesome-pair
+;;   :load-path "~/.emacs.d/site-lisp/awesome-pair"
+;;   :config
+;;   (dolist (hook (list
+;; 		 'c-mode-common-hook
+;; 		 'c-mode-hook
+;; 		 'c++-mode-hook
+;; 		 'java-mode-hook
+;; 		 'haskell-mode-hook
+;; 		 'emacs-lisp-mode-hook
+;; 		 'lisp-interaction-mode-hook
+;; 		 'lisp-mode-hook
+;; 		 'maxima-mode-hook
+;; 		 'ielm-mode-hook
+;; 		 'sh-mode-hook
+;; 		 'makefile-gmake-mode-hook
+;; 		 'php-mode-hook
+;; 		 'python-mode-hook
+;; 		 'js-mode-hook
+;; 		 'go-mode-hook
+;; 		 'qml-mode-hook
+;; 		 'jade-mode-hook
+;; 		 'css-mode-hook
+;; 		 'ruby-mode-hook
+;; 		 'coffee-mode-hook
+;; 		 'rust-mode-hook
+;; 		 'qmake-mode-hook
+;; 		 'lua-mode-hook
+;; 		 'swift-mode-hook
+;;                  'clojure-mode-hook
+;; 		 'minibuffer-inactive-mode-hook))
+;;     (add-hook hook '(lambda () (awesome-pair-mode 1))))
 
-(use-package diminish
-  :ensure t)
+;;   (define-key awesome-pair-mode-map (kbd "(") 'awesome-pair-open-round)
+;;   (define-key awesome-pair-mode-map (kbd "[") 'awesome-pair-open-bracket)
+;;   (define-key awesome-pair-mode-map (kbd "{") 'awesome-pair-open-curly)
+;;   (define-key awesome-pair-mode-map (kbd ")") 'awesome-pair-close-round)
+;;   (define-key awesome-pair-mode-map (kbd "]") 'awesome-pair-close-bracket)
+;;   (define-key awesome-pair-mode-map (kbd "}") 'awesome-pair-close-curly)
 
-(use-package org-download
-  :ensure t
-  :defer 5
-  :init (setq-default org-download-image-dir "~/Pictures/org")
-  :config
-  (add-hook 'dired-mode-hook 'org-download-enable))
+;;   ;; (define-key awesome-pair-mode-map (kbd "%") 'awesome-pair-match-paren)
+;;   (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
 
-(use-package grab-mac-link
-  :load-path "~/.emacs.d/site-lisp/grab-mac-link"
-  :bind (("C-c l g" . grab-mac-link)))
+;;   ;;(define-key awesome-pair-mode-map (kbd "M-o") 'awesome-pair-backward-delete)
+;;   ;;(define-key awesome-pair-mode-map (kbd "C-d") 'awesome-pair-forward-delete)
+;;   (define-key awesome-pair-mode-map (kbd "C-k") 'awesome-pair-kill)
 
-(use-package snails
-  :load-path "~/.emacs.d/site-lisp/snails")
+;;   (define-key awesome-pair-mode-map (kbd "M-\"") 'awesome-pair-wrap-double-quote)
+;;   (define-key awesome-pair-mode-map (kbd "M-[") 'awesome-pair-wrap-bracket)
+;;   (define-key awesome-pair-mode-map (kbd "M-{") 'awesome-pair-wrap-curly)
+;;   (define-key awesome-pair-mode-map (kbd "M-(") 'awesome-pair-wrap-round)
+;;   (define-key awesome-pair-mode-map (kbd "M-)") 'awesoMe-pair-unwrap)
 
-
-(use-package company-english-helper
-  :load-path "~/.emacs.d/site-lisp/company-english-helper"
-  :defer t
-  :bind (("C-x c e" . toggle-company-english-helper)))
-
-(use-package awesome-pair
-  :load-path "~/.emacs.d/site-lisp/awesome-pair"
-  :config
-  (dolist (hook (list
-		 'c-mode-common-hook
-		 'c-mode-hook
-		 'c++-mode-hook
-		 'java-mode-hook
-		 'haskell-mode-hook
-		 'emacs-lisp-mode-hook
-		 'lisp-interaction-mode-hook
-		 'lisp-mode-hook
-		 'maxima-mode-hook
-		 'ielm-mode-hook
-		 'sh-mode-hook
-		 'makefile-gmake-mode-hook
-		 'php-mode-hook
-		 'python-mode-hook
-		 'js-mode-hook
-		 'go-mode-hook
-		 'qml-mode-hook
-		 'jade-mode-hook
-		 'css-mode-hook
-		 'ruby-mode-hook
-		 'coffee-mode-hook
-		 'rust-mode-hook
-		 'qmake-mode-hook
-		 'lua-mode-hook
-		 'swift-mode-hook
-                 'clojure-mode-hook
-		 'minibuffer-inactive-mode-hook))
-    (add-hook hook '(lambda () (awesome-pair-mode 1))))
-
-  (define-key awesome-pair-mode-map (kbd "(") 'awesome-pair-open-round)
-  (define-key awesome-pair-mode-map (kbd "[") 'awesome-pair-open-bracket)
-  (define-key awesome-pair-mode-map (kbd "{") 'awesome-pair-open-curly)
-  (define-key awesome-pair-mode-map (kbd ")") 'awesome-pair-close-round)
-  (define-key awesome-pair-mode-map (kbd "]") 'awesome-pair-close-bracket)
-  (define-key awesome-pair-mode-map (kbd "}") 'awesome-pair-close-curly)
-
-  ;; (define-key awesome-pair-mode-map (kbd "%") 'awesome-pair-match-paren)
-  (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
-
-  ;;(define-key awesome-pair-mode-map (kbd "M-o") 'awesome-pair-backward-delete)
-  ;;(define-key awesome-pair-mode-map (kbd "C-d") 'awesome-pair-forward-delete)
-  (define-key awesome-pair-mode-map (kbd "C-k") 'awesome-pair-kill)
-
-  (define-key awesome-pair-mode-map (kbd "M-\"") 'awesome-pair-wrap-double-quote)
-  (define-key awesome-pair-mode-map (kbd "M-[") 'awesome-pair-wrap-bracket)
-  (define-key awesome-pair-mode-map (kbd "M-{") 'awesome-pair-wrap-curly)
-  (define-key awesome-pair-mode-map (kbd "M-(") 'awesome-pair-wrap-round)
-  (define-key awesome-pair-mode-map (kbd "M-)") 'awesoMe-pair-unwrap)
-
-  (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-left)
-  (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-right)
-  (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
+;;   (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-left)
+;;   (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-right)
+;;   (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
 
 
 (defun print-symbol-τ ()
@@ -725,25 +450,6 @@
   (insert "❤"))
 (global-set-key (kbd "C-c s t m") 'print-symbol-❤)
 
-(use-package furl
-  :ensure t
-  :defer 5)
-
-(use-package graphql
-  :ensure t
-  :defer 5)
-
-(use-package leetcode
-  :load-path "~/.emacs.d/site-lisp/leetcode"
-  :defer t
-  :init (setq leetcode-account "kinneyzhang666@gmail.com"))
-
-(use-package delete-block
-  :load-path "~/.emacs.d/site-lisp/delete-block"
-  :defer 5
-  :bind (("C-d" . delete-block-forward)
-	 ("<C-backspace>" . delete-block-backward)))
-
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-x /") 'split-window-right)
 
@@ -847,7 +553,6 @@ specified.  Select the current line if the LINES prefix is zero."
   (electric-pair-mode t)
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil))
 
-
 (use-package hungry-delete
   :defer 5
   :ensure t
@@ -906,20 +611,6 @@ specified.  Select the current line if the LINES prefix is zero."
   ;; (add-hook 'emacs-lisp-mode-hook 'flycheck-mode)
   )
 
-;; (use-package lsp-python-ms
-;;   :ensure t
-;;   :defer 5
-;;   :hook (python-mode . lsp)
-;;   :config
-
-;;   ;; for dev build of language server
-;;   (setq lsp-python-ms-dir
-;; 	(expand-file-name "~/python-language-server/output/bin/Release/"))
-;;   ;; for executable of language server, if it's not symlinked on your PATH
-;;   (setq lsp-python-ms-executable
-;; 	"~/python-language-server/output/bin/Release/osx-x64/publish/Microsoft.Python.LanguageServer"))
-
-
 ;; markdown and preview
 
 (use-package markdown-mode
@@ -931,31 +622,6 @@ specified.  Select the current line if the LINES prefix is zero."
   :init
   (setq markdown-command "markdown_py"))
 
-;; (use-package helpful
-;;   :ensure t
-;;   :defer 5
-;;   :pretty-hydra
-;;   ((:color teal :quit-key "q")
-;;    ("Helpful"
-;;     (("f" helpful-callable "callable")
-;;      ("v" helpful-variable "variable")
-;;      ("k" helpful-key "key")
-;;      ("c" helpful-command "command")
-;;      ("d" helpful-at-point "thing at point"))))
-;;   :bind ("C-h" . helpful-hydra/body))
-
-(use-package django-mode
-  :ensure t)
-
-;; (use-package undo-tree
-;;   :ensure t
-;;   :diminish undo-tree-mode
-;;   :config
-;;   (progn
-;;     (global-undo-tree-mode)
-;;     (setq undo-tree-visualizer-timestamps t)
-;;     (setq undo-tree-visualizer-diff t)))
-
 (use-package exec-path-from-shell
   :defer 5
   :if (memq window-system '(ns mac))
@@ -965,35 +631,6 @@ specified.  Select the current line if the LINES prefix is zero."
   (exec-path-from-shell-initialize))
 
 ;;;==================================================
-;; (use-package company-tabnine
-;;   :ensure t
-;;   :init ;; Trigger completion immediately.
-;;   (setq company-idle-delay 0)
-
-;;   ;; Number the candidates (use M-1, M-2 etc to select completions).
-;;   (setq company-show-numbers t)
-
-;;   ;; Use the tab-and-go frontend.
-;;   ;; Allows TAB to select and complete at the same time.
-;;   (company-tng-configure-default)
-;;   (setq company-frontends
-;; 	'(company-tng-frontend
-;;           company-pseudo-tooltip-frontend
-;;           company-echo-metadata-frontend))
-;;   :config
-;;   (add-to-list 'company-backends #'company-tabnine)
-;;   (company-tabnine nil))
-
-;; The free version of TabNine is good enough,
-;; and below code is recommended that TabNine not always
-;; prompt me to purchase a paid version in a large project.
-(defadvice company-echo-show (around disable-tabnine-upgrade-message activate)
-  (let ((company-message-func (ad-get-arg 0)))
-    (when (and company-message-func
-	       (stringp (funcall company-message-func)))
-      (unless (string-match "The free version of TabNine only indexes up to" (funcall company-message-func))
-        ad-do-it))))
-
 (defun maple/mac-switch-input-source ()
   (shell-command
    "osascript -e 'tell application \"System Events\" to tell process \"SystemUIServer\"
@@ -1002,30 +639,6 @@ specified.  Select the current line if the LINES prefix is zero."
    tell (1st menu bar item of menu bar 1 whose description is \"text input\") to {click, click (menu 1'\"'\"'s menu item \"ABC\")}
    end if
    end tell' &>/dev/null"))
-
-;; (run-with-idle-timer 10 t (maple/mac-switch-input-source))
-;;;==================================================
-
-;;==============================
-
-;; (use-package openwith
-;;   :ensure t
-;;   :config
-;;   (setq openwith-associations
-;;         (cond
-;;          ((string-equal system-type "darwin")
-;;           '(("\\.\\(dmg\\|doc\\|docs\\|xls\\|xlsx\\)$"
-;;              "open" (file))
-;;             ("\\.\\(mp4\\|mp3\\|webm\\|avi\\|flv\\|mov\\)$"
-;;              "mplayer" ("-a" "VLC" file))))
-;;          ((string-equal system-type "gnu/linux")
-;;           '(("\\.\\(mp4\\|mp3\\|webm\\|avi\\|flv\\|mov\\)$"
-;;              "xdg-open" (file))))))
-;;   (openwith-mode +1))
-
-;; (use-package calibredb
-;;   :quelpa
-;;   (calibredb :repo "chenyanming/calibredb.el" :fetcher github))
 
 (use-package cal-china-x
   :ensure t
@@ -1055,6 +668,5 @@ specified.  Select the current line if the LINES prefix is zero."
 	  (holiday-float 5 0 2 "母亲节")
 	  (holiday-float 6 0 3 "父亲节")
 	  (holiday-float 11 4 4 "感恩节"))))
-
 
 (provide 'init-misc)
