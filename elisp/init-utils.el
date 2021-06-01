@@ -48,9 +48,9 @@
 	(message "%s compress and convert to %s successfully!" video new)))))
 
 (use-package quelpa
-  :ensure nil
+  :ensure t
   :config
-  (use-package quelpa-use-package :ensure nil)
+  (use-package quelpa-use-package :ensure t)
   (setq quelpa-update-melpa-p nil)
   (setq quelpa-self-upgrade-p nil)
   (setq quelpa-upgrade-interval 30))

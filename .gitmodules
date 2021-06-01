@@ -1,3 +1,6 @@
+[submodule "site-lisp/auto-save"]
+	path = site-lisp/auto-save
+	url = https://github.com/manateelazycat/auto-save.git
 [submodule "site-lisp/awesome-pair"]
 	path = site-lisp/awesome-pair
 	url = https://github.com/manateelazycat/awesome-pair.git
@@ -10,12 +13,6 @@
 [submodule "site-lisp/leetcode"]
 	path = site-lisp/leetcode
 	url = https://github.com/kaiwk/leetcode.el.git
-[submodule "site-lisp/instant-rename-tag"]
-	path = site-lisp/instant-rename-tag
-	url = https://github.com/manateelazycat/instant-rename-tag.git
-[submodule "site-lisp/snails"]
-	path = site-lisp/snails
-	url = https://github.com/manateelazycat/snails.git
 [submodule "site-lisp/grab-mac-link"]
 	path = site-lisp/grab-mac-link
 	url = https://github.com/xuchunyang/grab-mac-link.el.git
@@ -31,24 +28,6 @@
 [submodule "site-lisp/telega"]
 	path = site-lisp/telega
 	url = https://github.com/zevlg/telega.el.git
-[submodule "site-lisp/shrface"]
-	path = site-lisp/shrface
-	url = https://github.com/chenyanming/shrface.git
-[submodule "site-lisp/tui"]
-	path = site-lisp/tui
-	url = https://github.com/ebpa/tui.el.git
 [submodule "site-lisp/netease-cloud-music"]
 	path = site-lisp/netease-cloud-music
 	url = https://github.com/SpringHan/netease-cloud-music.el.git
-[submodule "site-lisp/org-clones"]
-	path = site-lisp/org-clones
-	url = https://github.com/legalnonsense/org-clones.git
-[submodule "site-lisp/auto-save"]
-	path = site-lisp/auto-save
-	url = https://github.com/manateelazycat/auto-save.git
-[submodule "site-lisp/snow.el"]
-	path = site-lisp/snow.el
-	url = https://github.com/alphapapa/snow.el.git
-[submodule "site-lisp/emacs-application-framework"]
-	path = site-lisp/emacs-application-framework
-	url = https://github.com/manateelazycat/emacs-application-framework.git
