@@ -21,9 +21,7 @@
 (setq bookmark-save-flag 1)
 (setq org-image-actual-width nil)
 (setq show-trailing-whitespace t)
-
 (prefer-coding-system 'utf-8)
-(async-bytecomp-package-mode 1)
 
 (eval-after-load 'org-mode
   (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1))))
@@ -32,9 +30,7 @@
 
 (setq ad-redefinition-action 'accept);在执行程序的时候，不需要确认
 (setq org-confirm-babel-evaluate nil);设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
-(setq zone-when-idle 300)
 (setq exec-path-from-shell-check-startup-files nil)
-(setq epg-gpg-program "gpg2")
 (setq x-select-enable-primary nil) ;t:选中区域自动复制
 
 (setq confirm-kill-emacs

@@ -14,26 +14,28 @@
 (use-package package-lint
   :ensure t)
 
-;; (use-package vterm
-;;   :ensure t)
+(use-package vterm
+  :ensure t)
 
-;; (use-package vterm-toggle
-;;   :ensure t
-;;   :bind
-;;   (("M-<f1>" . vterm-toggle)
-;;    ("M-<f2>" . vterm-toggle-cd))
-;;   :config
-;;   (define-key vterm-mode-map (kbd "s-n") 'vterm-toggle-forward)
-;;   (define-key vterm-mode-map (kbd "s-p") 'vterm-toggle-backward)
-;;   (setq vterm-toggle-fullscreen-p nil)
-;;   (add-to-list 'display-buffer-alist
-;; 	       '("^v?term.*"
-;; 		 (display-buffer-reuse-window display-buffer-in-side-window)
-;; 		 (side . bottom)
-;; 		 ;;(dedicated . t) ;dedicated is supported in emacs27
-;; 		 (reusable-frames . visible)
-;; 		 (window-height . 0.3))))
+(use-package vterm-toggle
+  :ensure t
+  :bind
+  (("M-<f1>" . vterm-toggle)
+   ("M-<f2>" . vterm-toggle-cd))
+  :config
+  (define-key vterm-mode-map (kbd "s-n") 'vterm-toggle-forward)
+  (define-key vterm-mode-map (kbd "s-p") 'vterm-toggle-backward)
+  (setq vterm-toggle-fullscreen-p nil)
+  (add-to-list 'display-buffer-alist
+	       '("^v?term.*"
+		 (display-buffer-reuse-window display-buffer-in-side-window)
+		 (side . bottom)
+		 ;;(dedicated . t) ;dedicated is supported in emacs27
+		 (reusable-frames . visible)
+		 (window-height . 0.3))))
+
 ;;-----------------------------------------------
+
 (defun my/video-compress-and-convert (video new)
   (interactive "fvideo path: \nfnew item name (eg. exam.mp4, exam.gif) : ")
   (let ((video-format (cadr (split-string (file-name-nondirectory new) "\\."))))
@@ -184,17 +186,17 @@ Return a new buffer or BUF with the code in it."
 (use-package general
   :ensure t)
 
-;; (use-package auto-save
-;;   :load-path "~/.emacs.d/site-lisp/auto-save"
-;;   :config
-;;   (auto-save-enable)  ;; 开启自动保存功能。
-;;   (setq auto-save-slient nil) ;; 自动保存的时候静悄悄的， 不要打扰我
-;;   (setq auto-save-delete-trailing-whitespace nil)
-;;   (setq auto-save-disable-predicates
-;;         '((lambda ()
-;;             (string-suffix-p
-;;              "gpg"
-;;              (file-name-extension (buffer-name)) t)))))
+(use-package auto-save
+  :load-path "~/.emacs.d/site-lisp/auto-save"
+  :config
+  (auto-save-enable)  ;; 开启自动保存功能。
+  (setq auto-save-slient nil) ;; 自动保存的时候静悄悄的， 不要打扰我
+  (setq auto-save-delete-trailing-whitespace nil)
+  (setq auto-save-disable-predicates
+        '((lambda ()
+            (string-suffix-p
+             "gpg"
+             (file-name-extension (buffer-name)) t)))))
 
 (use-package paredit
   ;; check if the parens is matched

@@ -170,6 +170,7 @@ prog-mode-map
 			   ("project.org" :level . 1)
 			   ))
 
+(setq org-refile-targets nil)
 ;; Column View
 
 (setq org-columns-default-format "%40ITEM(Task) %Effort(EE){:} %CLOCKSUM(Time Spent) %SCHEDULED(Scheduled) %DEADLINE(Deadline)")
@@ -368,6 +369,85 @@ prefix argument (`C-u C-u C-u C-c C-w')."
 	    (setq org-markers-to-move nil)
 	    (message "%s to \"%s\" in file %s: done" actionmsg
 		     (car it) file)))))))
+
+(advice-add 'org-refile-get-location :override #'org-refile-get-location2)
+(defun org-refile-get-location2 (&optional prompt default-buffer new-nodes)
+  "Prompt the user for a refile location, using PROMPT.
+PROMPT should not be suffixed with a colon and a space, because
+this function appends the default value from
+`org-refile-history' automatically, if that is not empty."
+  (let ((org-refile-targets org-refile-targets)
+	(org-refile-use-outline-path org-refile-use-outline-path))
+    (setq org-refile-target-table (org-refile-get-targets default-buffer)))
+  (unless org-refile-target-table
+    (user-error "No refile targets"))
+  (let* ((cbuf (current-buffer))
+	 (cfn (buffer-file-name (buffer-base-buffer cbuf)))
+	 (cfunc (if (and org-refile-use-outline-path
+			 org-outline-path-complete-in-steps)
+		    #'org-olpath-completing-read
+		  #'completing-read))
+	 (extra (if org-refile-use-outline-path "/" ""))
+	 (cbnex (concat (buffer-name) extra))
+	 (filename (and cfn (expand-file-name cfn)))
+	 (tbl (mapcar
+	       (lambda (x)
+		 (if (and (not (member org-refile-use-outline-path
+				       '(file full-file-path)))
+			  (not (equal filename (nth 1 x))))
+		     (cons (concat (car x) extra " ("
+				   (file-name-nondirectory (nth 1 x)) ")")
+			   (cdr x))
+		   (cons (concat (car x) extra) (cdr x))))
+	       org-refile-target-table))
+	 (completion-ignore-case t)
+	 cdef
+	 (prompt (concat prompt
+			 (or (and (when-let* ((his (car org-refile-history))
+                                              (len (length his)))
+                                    (concat " (default "
+                                            (if (> len 20)
+                                                (concat (substring his 0 20) "...")
+                                              his)
+                                            ")")))
+			     (and (assoc cbnex tbl) (setq cdef cbnex)
+				  (concat " (default "
+                                          (if (> (length cbnex) 20)
+                                              (concat (substring cbnex 0 20) "...")
+                                            cbnex)
+                                          ")"))) ": "))
+	 pa answ parent-target child parent old-hist)
+    (setq old-hist org-refile-history)
+    (setq answ (funcall cfunc prompt tbl nil (not new-nodes)
+			nil 'org-refile-history
+			(or cdef (concat (car org-refile-history) extra))))
+    (if (setq pa (org-refile--get-location answ tbl))
+	(let* ((last-refile-loc (car org-refile-history))
+	       (last-refile-loc-path (concat last-refile-loc extra)))
+	  (org-refile-check-position pa)
+	  (when (or (not org-refile-history)
+		    (not (eq old-hist org-refile-history))
+		    (not (equal (car pa) last-refile-loc-path)))
+	    (setq org-refile-history
+		  (cons (car pa) (if (assoc last-refile-loc tbl)
+				     org-refile-history
+				   (cdr org-refile-history))))
+	    (when (or (equal last-refile-loc-path (nth 1 org-refile-history))
+		      (equal last-refile-loc (nth 1 org-refile-history)))
+	      (pop org-refile-history)))
+	  pa)
+      (if (string-match "\\`\\(.*\\)/\\([^/]+\\)\\'" answ)
+	  (progn
+	    (setq parent (match-string 1 answ)
+		  child (match-string 2 answ))
+	    (setq parent-target (org-refile--get-location parent tbl))
+	    (when (and parent-target
+		       (or (eq new-nodes t)
+			   (and (eq new-nodes 'confirm)
+				(y-or-n-p (format "Create new node \"%s\"? "
+						  child)))))
+	      (org-refile-new-child parent-target child)))
+	(user-error "Invalid target location")))))
 
 ;; org clock
 ;; Resume clocking task when emacs is restarted

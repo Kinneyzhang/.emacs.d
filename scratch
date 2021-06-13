@@ -1,35 +1,6 @@
 ;; (setq colorcomp-ewoc nil
 ;;       colorcomp-data nil
 ;;       colorcomp-mode-map nil
-;;       colorcomp-labels ["Red" "Green" "Blue"])
-
-;; (defun colorcomp-pp (data)
-;;   (if data
-;;       (let ((comp (aref colorcomp-data data)))
-;;         (insert (aref colorcomp-labels data) "\t: #x"
-;;                 (format "%02X" comp) " "
-;;                 (make-string (ash comp -2) ?#) "\n"))
-;;     (let ((cstr (format "#%02X%02X%02X"
-;;                         (aref colorcomp-data 0)
-;;                         (aref colorcomp-data 1)
-;;                         (aref colorcomp-data 2)))
-;;           (samp " (sample text) "))
-;;       (insert "Color\t: "
-;;               (propertize samp 'face
-;;                           `(foreground-color . ,cstr))
-;;               (propertize samp 'face
-;;                           `(background-color . ,cstr))
-;;               "\n"))))
-
-;; (defun colorcomp (color)
-;;   "Allow fiddling with COLOR in a new buffer.
-;;      The buffer is in Color Components mode."
-;;   (interactive "sColor (name or #RGB or #RRGGBB): ")
-;;   (when (string= "" color)
-;;     (setq color "green"))
-;;   (unless (color-values color)
-;;     (error "No such color: %S" color))
-;;   (switch-to-buffer
 ;;    (generate-new-buffer (format "originally: %s" color)))
 ;;   (kill-all-local-variables)
 ;;   (setq major-mode 'colorcomp-mode

@@ -30,36 +30,36 @@
 ;;   ;; (add-hook 'window-configuration-change-hook #'roam-block-set-margins)
 ;;   )
 
-(use-package burly
-  :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
+;;(use-package burly
+;;  :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
 
-;; (use-package gkroam
-;;   ;; :ensure t
-;;   :load-path "~/iCloud/hack/gkroam/"
-;;   :hook (after-init . gkroam-mode)
-;;   :init
-;;   (setq gkroam-root-dir "~/gknows/")
-;;   (setq gkroam-show-brackets-p nil
-;;         gkroam-prettify-page-p t
-;;         gkroam-use-default-filename t
-;;         gkroam-window-margin 4)
-;;   :bind
-;;   (:map gkroam-mode-map
-;;         (("C-c r g" . gkroam-update)
-;;          ("C-c r d" . gkroam-daily)
-;;          ("C-c r D" . gkroam-delete)
-;;          ("C-c r f" . gkroam-find)
-;;          ("C-c r c" . gkroam-capture)
-;;          ("C-c r e" . gkroam-link-edit)
-;;          ("C-c r n" . gkroam-dwim)
-;;          ("C-c r i" . gkroam-insert)
-;;          ("C-c r I" . gkroam-index)
-;;          ("C-c r u" . gkroam-show-unlinked)
-;;          ("C-c r t" . gkroam-toggle-brackets)
-;;          ("C-c r p" . gkroam-toggle-prettify)
-;;          ("C-c r R" . gkroam-rebuild-caches)))
-;;   :config
-;;   (setq org-startup-folded nil))
+(use-package gkroam
+  :ensure t
+  :hook (after-init . gkroam-mode)
+  :init
+  (setq gkroam-root-dir "~/gknows/")
+  (setq gkroam-show-brackets-p nil
+        gkroam-prettify-page-p t
+        gkroam-title-height 200
+        gkroam-use-default-filename t
+        gkroam-window-margin 4)
+  :bind
+  (:map gkroam-mode-map
+        (("C-c r g" . gkroam-update)
+         ("C-c r d" . gkroam-daily)
+         ("C-c r D" . gkroam-delete)
+         ("C-c r f" . gkroam-find)
+         ("C-c r c" . gkroam-capture)
+         ("C-c r e" . gkroam-link-edit)
+         ("C-c r n" . gkroam-dwim)
+         ("C-c r i" . gkroam-insert)
+         ("C-c r I" . gkroam-index)
+         ("C-c r u" . gkroam-show-unlinked)
+         ("C-c r t" . gkroam-toggle-brackets)
+         ("C-c r p" . gkroam-toggle-prettify)
+         ("C-c r R" . gkroam-rebuild-caches)))
+  :config
+  (setq org-startup-folded nil))
 
 (use-package bongo
   :ensure t
@@ -91,12 +91,6 @@
 (use-package elisp-demos
   :ensure t
   :config (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1))
-
-(use-package sqlite3
-  :ensure t)
-
-(use-package esqlite
-  :ensure t)
 
 (use-package gnuplot
   :ensure t
