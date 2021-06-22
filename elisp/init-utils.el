@@ -187,10 +187,10 @@ Return a new buffer or BUF with the code in it."
   :ensure t)
 
 (use-package auto-save
-  :load-path "~/.emacs.d/site-lisp/auto-save"
+  :load-path "~/.config/emacs/site-lisp/auto-save"
   :config
   (auto-save-enable)  ;; 开启自动保存功能。
-  (setq auto-save-slient nil) ;; 自动保存的时候静悄悄的， 不要打扰我
+  (setq auto-save-slient nil) ;; 自动保存的时候静悄悄的，不要打扰我
   (setq auto-save-delete-trailing-whitespace nil)
   (setq auto-save-disable-predicates
         '((lambda ()

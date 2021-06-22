@@ -33,6 +33,14 @@
 ;;(use-package burly
 ;;  :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
 
+(use-package org-appear
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook 'org-appear-mode)
+  (setq org-appear-autoemphasis t
+        org-appear-autosubmarkers t
+        org-appear-autolinks nil))
+
 (use-package gtd
   :load-path "~/Emacs/gtd-mode")
 
@@ -144,7 +152,7 @@
 (use-package company-prescient :ensure t :config (company-prescient-mode))
 
 ;; (use-package awesome-pair
-;;   :load-path "~/.emacs.d/site-lisp/awesome-pair"
+;;   :load-path "~/.config/emacs/site-lisp/awesome-pair"
 ;;   :config
 ;;   (dolist (hook (list
 ;; 		 'c-mode-common-hook
@@ -506,14 +514,10 @@ specified.  Select the current line if the LINES prefix is zero."
 
 (defun open-my-init-file()
   (interactive)
-  (find-file "~/.emacs.d/init.el")
+  (find-file (concat user-emacs-directory "init.el"))
   (with-current-buffer "init.el"
     (read-only-mode)))
 (global-set-key (kbd "<f1>") 'open-my-init-file)
-
-(defun open-my-misc-file()
-  (interactive)
-  (find-file "~/.emacs.d/elisp/init-misc.el"))
 
 (use-package magit
   :defer t
@@ -537,8 +541,7 @@ specified.  Select the current line if the LINES prefix is zero."
 (use-package yasnippet
   :ensure t
   :defer t
-  :init (setq yas-snippet-dirs
-	      '("~/.emacs.d/snippets"))
+  :init (setq yas-snippet-dirs `(,(concat user-emacs-directory "snippets")))
   :config
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode)
