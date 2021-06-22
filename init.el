@@ -4,8 +4,6 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 
-;; (load-theme 'doom-dracula t)
-
 (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
                          ;; ("melpa" . "https://mirrors.cloud.tencent.com/elpa/melpa/")

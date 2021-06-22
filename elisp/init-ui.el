@@ -9,10 +9,9 @@
 
 (global-hl-line-mode -1);;光标行高亮
 
-;; from centaur
-(push '(vertical-scroll-bars . nil) default-frame-alist)
-;; (when (featurep 'ns)
-;;   (push '(ns-transparent-titlebar . t) default-frame-alist))
+(when (featurep 'ns)
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-to-list 'default-frame-alist '(ns-appearance . light)))
 
 (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
 (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
@@ -25,10 +24,10 @@
 
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("Source Code Variable"
+  (cl-loop for font in '("Fira Code"
+                         "Source Code Variable"
                          "Menlo" "SF"
                          "Monaco Mono" "Hack"
-                         "Fira Code"
                          "DejaVu Sans Mono"
                          "Consolas")
            when (font-installed-p font)
@@ -42,8 +41,8 @@
            when (font-installed-p font)
            return(set-fontset-font t 'unicode font nil 'prepend))
   ;; Specify font for Chinese characters
-  (cl-loop for font in '("Source Han Serif SC"
-                         "Source Han Sans SC"
+  (cl-loop for font in '("Source Han Sans SC"
+                         "Source Han Serif SC"
                          "WenQuanYi Micro Hei"
                          "Microsoft Yahei")
            when (font-installed-p font)
@@ -69,6 +68,11 @@
   :ensure t
   :config
   (powerline-default-theme))
+
+(use-package spaceline
+  :ensure t
+  :config
+  (spaceline-spacemacs-theme))
 
 ;; colorful dired-mode
 (use-package diredfl

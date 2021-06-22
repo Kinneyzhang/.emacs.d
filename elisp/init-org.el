@@ -165,12 +165,12 @@
   :ensure t
   :defer 5)
 
-(use-package idle-org-agenda
-  :after org-agenda
-  :ensure t
-  :init (setq idle-org-agenda-interval 6000
-	      idle-org-agenda-key "d")
-  :config (idle-org-agenda-mode))
+;; (use-package idle-org-agenda
+;;   :after org-agenda
+;;   :ensure t
+;;   :init (setq idle-org-agenda-interval 6000
+;; 	      idle-org-agenda-key "d")
+;;   :config (idle-org-agenda-mode))
 
 (defun org-display-subtree-inline-images ()
   "Toggle the display of inline images.

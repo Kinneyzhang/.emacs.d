@@ -33,6 +33,9 @@
 ;;(use-package burly
 ;;  :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
 
+(use-package gtd
+  :load-path "~/Emacs/gtd-mode")
+
 (use-package gkroam
   :ensure t
   :hook (after-init . gkroam-mode)
