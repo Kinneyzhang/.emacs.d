@@ -33,13 +33,21 @@
 ;;(use-package burly
 ;;  :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
 
-(use-package org-appear
-  :ensure t
-  :config
-  (add-hook 'org-mode-hook 'org-appear-mode)
-  (setq org-appear-autoemphasis t
-        org-appear-autosubmarkers t
-        org-appear-autolinks nil))
+(defun my/org-hide-emphasis-markers ()
+  (interactive)
+  (setq org-hide-emphasis-markers t))
+
+(defun my/org-show-emphasis-markers ()
+  (interactive)
+  (setq org-hide-emphasis-markers nil))
+
+;; (use-package org-appear
+;;   :ensure t
+;;   :config
+;;   (add-hook 'org-mode-hook 'org-appear-mode)
+;;   (setq org-appear-autoemphasis t
+;;         org-appear-autosubmarkers t
+;;         org-appear-autolinks nil))
 
 (use-package gtd
   :load-path "~/Emacs/gtd-mode")
@@ -151,62 +159,62 @@
 (use-package ivy-prescient :ensure t :config (ivy-prescient-mode))
 (use-package company-prescient :ensure t :config (company-prescient-mode))
 
-;; (use-package awesome-pair
-;;   :load-path "~/.config/emacs/site-lisp/awesome-pair"
-;;   :config
-;;   (dolist (hook (list
-;; 		 'c-mode-common-hook
-;; 		 'c-mode-hook
-;; 		 'c++-mode-hook
-;; 		 'java-mode-hook
-;; 		 'haskell-mode-hook
-;; 		 'emacs-lisp-mode-hook
-;; 		 'lisp-interaction-mode-hook
-;; 		 'lisp-mode-hook
-;; 		 'maxima-mode-hook
-;; 		 'ielm-mode-hook
-;; 		 'sh-mode-hook
-;; 		 'makefile-gmake-mode-hook
-;; 		 'php-mode-hook
-;; 		 'python-mode-hook
-;; 		 'js-mode-hook
-;; 		 'go-mode-hook
-;; 		 'qml-mode-hook
-;; 		 'jade-mode-hook
-;; 		 'css-mode-hook
-;; 		 'ruby-mode-hook
-;; 		 'coffee-mode-hook
-;; 		 'rust-mode-hook
-;; 		 'qmake-mode-hook
-;; 		 'lua-mode-hook
-;; 		 'swift-mode-hook
-;;                  'clojure-mode-hook
-;; 		 'minibuffer-inactive-mode-hook))
-;;     (add-hook hook '(lambda () (awesome-pair-mode 1))))
+(use-package awesome-pair
+  :load-path "~/.config/emacs/site-lisp/awesome-pair"
+  :config
+  (dolist (hook (list
+		 'c-mode-common-hook
+		 'c-mode-hook
+		 'c++-mode-hook
+		 'java-mode-hook
+		 'haskell-mode-hook
+		 'emacs-lisp-mode-hook
+		 'lisp-interaction-mode-hook
+		 'lisp-mode-hook
+		 'maxima-mode-hook
+		 'ielm-mode-hook
+		 'sh-mode-hook
+		 'makefile-gmake-mode-hook
+		 'php-mode-hook
+		 'python-mode-hook
+		 'js-mode-hook
+		 'go-mode-hook
+		 'qml-mode-hook
+		 'jade-mode-hook
+		 'css-mode-hook
+		 'ruby-mode-hook
+		 'coffee-mode-hook
+		 'rust-mode-hook
+		 'qmake-mode-hook
+		 'lua-mode-hook
+		 'swift-mode-hook
+                 'clojure-mode-hook
+		 'minibuffer-inactive-mode-hook))
+    (add-hook hook '(lambda () (awesome-pair-mode 1))))
 
-;;   (define-key awesome-pair-mode-map (kbd "(") 'awesome-pair-open-round)
-;;   (define-key awesome-pair-mode-map (kbd "[") 'awesome-pair-open-bracket)
-;;   (define-key awesome-pair-mode-map (kbd "{") 'awesome-pair-open-curly)
-;;   (define-key awesome-pair-mode-map (kbd ")") 'awesome-pair-close-round)
-;;   (define-key awesome-pair-mode-map (kbd "]") 'awesome-pair-close-bracket)
-;;   (define-key awesome-pair-mode-map (kbd "}") 'awesome-pair-close-curly)
+  (define-key awesome-pair-mode-map (kbd "(") 'awesome-pair-open-round)
+  (define-key awesome-pair-mode-map (kbd "[") 'awesome-pair-open-bracket)
+  (define-key awesome-pair-mode-map (kbd "{") 'awesome-pair-open-curly)
+  (define-key awesome-pair-mode-map (kbd ")") 'awesome-pair-close-round)
+  (define-key awesome-pair-mode-map (kbd "]") 'awesome-pair-close-bracket)
+  (define-key awesome-pair-mode-map (kbd "}") 'awesome-pair-close-curly)
 
-;;   ;; (define-key awesome-pair-mode-map (kbd "%") 'awesome-pair-match-paren)
-;;   (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
+  ;; (define-key awesome-pair-mode-map (kbd "%") 'awesome-pair-match-paren)
+  (define-key awesome-pair-mode-map (kbd "\"") 'awesome-pair-double-quote)
 
-;;   ;;(define-key awesome-pair-mode-map (kbd "M-o") 'awesome-pair-backward-delete)
-;;   ;;(define-key awesome-pair-mode-map (kbd "C-d") 'awesome-pair-forward-delete)
-;;   (define-key awesome-pair-mode-map (kbd "C-k") 'awesome-pair-kill)
+  ;;(define-key awesome-pair-mode-map (kbd "M-o") 'awesome-pair-backward-delete)
+  ;;(define-key awesome-pair-mode-map (kbd "C-d") 'awesome-pair-forward-delete)
+  (define-key awesome-pair-mode-map (kbd "C-k") 'awesome-pair-kill)
 
-;;   (define-key awesome-pair-mode-map (kbd "M-\"") 'awesome-pair-wrap-double-quote)
-;;   (define-key awesome-pair-mode-map (kbd "M-[") 'awesome-pair-wrap-bracket)
-;;   (define-key awesome-pair-mode-map (kbd "M-{") 'awesome-pair-wrap-curly)
-;;   (define-key awesome-pair-mode-map (kbd "M-(") 'awesome-pair-wrap-round)
-;;   (define-key awesome-pair-mode-map (kbd "M-)") 'awesoMe-pair-unwrap)
+  (define-key awesome-pair-mode-map (kbd "M-\"") 'awesome-pair-wrap-double-quote)
+  (define-key awesome-pair-mode-map (kbd "M-[") 'awesome-pair-wrap-bracket)
+  (define-key awesome-pair-mode-map (kbd "M-{") 'awesome-pair-wrap-curly)
+  (define-key awesome-pair-mode-map (kbd "M-(") 'awesome-pair-wrap-round)
+  (define-key awesome-pair-mode-map (kbd "M-)") 'awesoMe-pair-unwrap)
 
-;;   (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-left)
-;;   (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-right)
-;;   (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
+  (define-key awesome-pair-mode-map (kbd "M-p") 'awesome-pair-jump-left)
+  (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-right)
+  (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
 
 
 (defun print-symbol-τ ()

@@ -41,7 +41,7 @@
            when (font-installed-p font)
            return(set-fontset-font t 'unicode font nil 'prepend))
   ;; Specify font for Chinese characters
-  (cl-loop for font in '("Source Han Sans SC"
+  (cl-loop for font in '("Source Han Sans SC VF"
                          "Source Han Serif SC"
                          "WenQuanYi Micro Hei"
                          "Microsoft Yahei")
