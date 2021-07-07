@@ -95,14 +95,12 @@ in `vb-fetch-buffer' buffer."
   (save-excursion
     (goto-char (point-min))
     (let ((count 0))
-      (while (re-search-forward "^;; -+" nil t)
+      (while (re-search-forward "^-+.+-+$" nil t)
         (setq count (1+ count))
         (let* ((beg (point))
                (end (save-excursion
-                      (if (re-search-forward "^;; -+" nil t)
-                          (progn
-                            (forward-line -1)
-                            (point))
+                      (if (re-search-forward "^-+.+-+$" nil t)
+                          (line-beginning-position)
                         (point-max))))
                (_ (message "beg,end: %s %s"  beg end))
                (str (string-trim (buffer-substring-no-properties beg end)))
@@ -118,17 +116,17 @@ in `vb-fetch-buffer' buffer."
                                      (cadr (split-string str))))
                              lst))
                (message "io pairs:%S" vb-field-pairs)))))))
-  (pop-to-buffer "*VB Result*")
-  (erase-buffer)
-  (org-mode)
-  (insert "* VB ifiled to ofield\n\n")
   (let* ((inhibit-read-only 1)
          (data (vb-trans-field vb-ifileds vb-ofileds))
          (data (progn
                  (push 'hl data)
                  (push '("src" "des" "ifield" "ofield") data))))
-    (insert (vb-org-table-create data)))
-  (read-only-mode 1))
+    (view-buffer (get-buffer-create "*VB Result*") #'kill-buffer)
+    (erase-buffer)
+    (org-mode)
+    (insert "* VB ifiled to ofield\n\n")
+    (insert (vb-org-table-create data))
+    (read-only-mode 1)))
 
 ;;;###autoload
 (defun vb-trans ()
@@ -137,61 +135,15 @@ in `vb-fetch-buffer' buffer."
     (switch-to-buffer buf)
     (vb-fetch-mode)
     (erase-buffer)
-    (insert ";; 1.请在下面输入所有 'ifield' 字段名，每个字段一行：
-;; -----------------------------------\n\n")
-    (insert ";; 2.请在下面输入所有 'ofield' 字段名，每个字段一行：
-;; -----------------------------------\n\n")
-    (insert ";; 3.请在下面输入所有不同的 'ifield ofiled' 匹配，每个匹配一行：
-;; -----------------------------------\n")))
+    (insert "------------------------ ifield ---------------------\n\n")
+    (insert "------------------------ ofield ---------------------\n\n")
+    (insert "-----------------ifield and ofield diff ---------------\n")))
 
 
 (bind-key (kbd "C-c c v") #'vb-trans 'global-map)
 
-;; test data
-;; 1.请在下面输入所有 'ifield' 字段名，每个字段一行：
-;; -----------------------------------
-CUST_ID
-GROUP_ID
-GROUP_CUST_NAME
-GROUP_TYPE
-MEMBER_BELONG
-MEMBER_KIND
-MEMBER_CUST_ID
-USECUST_ID
-USER_ID
-SERIAL_NUMBER
-NET_TYPE_CODE
-CUST_NAME
-USECUST_NAME
-VPMN_GROUP_ID
-JOIN_TYPE
-JOIN_DATE
-JOIN_STAFF_ID
-JOIN_DEPART_ID
-REMOVE_TAG
-REMOVE_DATE
-REMOVE_STAFF_ID
-REMOVE_REASON
-UPDATE_TIME
-;; 2.请在下面输入所有 'ofield' 字段名，每个字段一行：
-;; -----------------------------------
-CUST_ID
-GROUP_ID
-GROUP_TYPE
-MEMBER_CUST_ID
-USECUST_ID
-USER_ID
-REMOVE_TAG
-VALID_DATE
-EXPIRE_DATE
-OPER_TYPE
-SO_NBR
-COMMIT_DATE
-REMARK
-;; 3.请在下面输入所有不同的 'ifield ofiled' 匹配，每个匹配一行：
-;; -----------------------------------
-JOIN_DATE VALID_DATE
-REMOVE_DATE EXPIRE_DATE
-MODIFY_TAG OPER_TYPE
-event_code SO_NBR
-UPDATE_TIME COMMIT_DATE
+;; sql-plus
+
+(require 'sqlplus)
+
+;; jdbc:oracle:thin:@10.170.103.171:1521:V8TESTCI
