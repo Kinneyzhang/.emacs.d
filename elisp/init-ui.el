@@ -17,6 +17,9 @@
 (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
 (setq-default cursor-type 'box) ;变光标, setq-default设置全局
 
+;; theme
+(load-theme 'leuven t)
+
 ;; Fonts
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."

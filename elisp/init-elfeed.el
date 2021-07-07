@@ -35,7 +35,7 @@
   :defer 5
   :pretty-hydra
   ((:title (pretty-hydra-title "Elfeed" 'faicon "rss-square")
-    :color amaranth :quit-key "q")
+           :color amaranth :quit-key "q")
    ("Search"
     (("g" elfeed-search-update--force "refresh")
      ("G" elfeed-search-fetch "update")
@@ -64,8 +64,24 @@
   :config
   (setq elfeed-show-entry-switch #'pop-to-buffer
         elfeed-show-entry-delete #'delete-window
-        elfeed-feeds '("https://blog.geekinney.com/feed.xml"
-		       )))
+        elfeed-feeds
+        '("http://0x100.club"
+          "https://isamert.net/feeds.html"
+          "http://pragmaticemacs.com/feed/"
+          "https://blog.tecosaur.com/tmio/rss.xml"
+          "https://nullprogram.com/feed/"
+          "https://kitchingroup.cheme.cmu.edu/blog/"
+          "https://protesilaos.com/feeds/"
+          "http://weiwuhui.com/feed"
+          "https://bzg.fr/index.xml"
+          "https://alhassy.github.io/rss.xml"
+          "http://blog.aaronbieber.com/feed.xml"
+          "https://rgoswami.me/posts/index.xml"
+          "https://archive.casouri.cat/note/rss.xml"
+          "http://bnbeckwith.com/rss.xml"
+          "http://abovethecrowd.com"
+          "http://feeds.feedburner.com/xxddite"
+          "http://batsov.com/atom.xml")))
 
 (provide 'init-elfeed)
 

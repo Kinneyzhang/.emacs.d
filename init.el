@@ -52,3 +52,4 @@
 (require 'lang-elisp)
 (require 'lang-rust)
 (require 'init-pdf)
+(require 'init-sql)
