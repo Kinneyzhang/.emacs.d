@@ -37,11 +37,11 @@
 (require 'server)
 (unless (server-running-p) (server-start))
 
-(use-package emacs-everywhere
-  :ensure t)
+;; (use-package emacs-everywhere
+;;   :ensure t)
 
-(use-package netease-cloud-music
-  :load-path "~/.config/emacs/site-lisp/netease-cloud-music/")
+;; (use-package netease-cloud-music
+;;   :load-path "~/.config/emacs/site-lisp/netease-cloud-music/")
 
 (defun my/org-hide-emphasis-markers ()
   (interactive)
@@ -59,8 +59,8 @@
 ;;         org-appear-autosubmarkers t
 ;;         org-appear-autolinks nil))
 
-(use-package gtd
-  :load-path "~/Emacs/gtd-mode")
+;; (use-package gtd
+;;   :load-path "~/Emacs/gtd-mode")
 
 (use-package gkroam
   :ensure t
