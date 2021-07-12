@@ -147,3 +147,17 @@ in `vb-fetch-buffer' buffer."
 (require 'sqlplus)
 
 ;; jdbc:oracle:thin:@10.170.103.171:1521:V8TESTCI
+
+;; PD/V8testci@10.170.103.171:1521/V8TESTCI
+
+;; select * from pd.td_b_ifield_def where info_type=307;
+
+(setq sql-connection-alist
+      '(("V8TESTCI"
+         (sql-product 'oracle)
+         (sql-user "pd")
+         (sql-password "V8testci")
+         (sql-database "10.170.103.171:1521/V8TESTCI"))))
+
+;; (sql-connect "V8TESTCI")
+
