@@ -33,6 +33,16 @@
 ;;(use-package burly
 ;;  :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
 
+;; emacsclient
+(require 'server)
+(unless (server-running-p) (server-start))
+
+(use-package emacs-everywhere
+  :ensure t)
+
+(use-package netease-cloud-music
+  :load-path "~/.config/emacs/site-lisp/netease-cloud-music/")
+
 (defun my/org-hide-emphasis-markers ()
   (interactive)
   (setq org-hide-emphasis-markers t))
@@ -80,42 +90,10 @@
   :config
   (setq org-startup-folded nil))
 
-(use-package bongo
-  :ensure t
-  :init
-  (setq bongo-default-directory "~/Music/")
-  (setq bongo-enabled-backends '(mplayer mpv afplay vlc))
-  (setq bongo-custom-backend-matchers
-        '((mplayer local-file "mp3" "m4a" "wav")
-          (mpv local-file "mp4" "mkv")))
-  :config
-  (defun bongo-insert-default-dir (orig-fun)
-    "Insert default directory after bongo initialization."
-    (let ((buffer-exist-p (get-buffer bongo-default-playlist-buffer-name)))
-      (funcall orig-fun)
-      (unless buffer-exist-p
-        (let ((bongo-insert-whole-directory-trees t))
-          (bongo-insert-file "./")))))
-  (advice-add 'bongo-playlist :around #'bongo-insert-default-dir))
-
-(use-package eradio
-  :ensure t
-  :init
-  (setq eradio-channels
-        '(("def con - soma fm" . "https://somafm.com/defcon256.pls")
-          ("metal - soma fm"   . "https://somafm.com/metal130.pls")
-          ("cyberia - lainon"  . "https://lainon.life/radio/cyberia.ogg.m3u")
-          ("cafe - lainon"     . "https://lainon.life/radio/cafe.ogg.m3u"))))
 
 (use-package elisp-demos
   :ensure t
   :config (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1))
-
-(use-package gnuplot
-  :ensure t
-  :config
-  (use-package gnuplot-mode
-    :ensure t))
 
 (use-package toc-org
   :ensure t
