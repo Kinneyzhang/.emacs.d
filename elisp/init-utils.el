@@ -302,17 +302,17 @@ Return a new buffer or BUF with the code in it."
 (add-hook 'kill-emacs-hook #'chunyang-scratch-save)
 (add-hook 'after-init-hook #'chunyang-scratch-restore)
 ;;-----------------------------
-(add-hook 'focus-in-hook 'my/mac-switch-input-source)
-(defun my/mac-switch-input-source ()
-  (interactive)
-  (shell-command
-   "osascript -e 'tell application \"System Events\" to tell process \"SystemUIServer\"
-      set currentLayout to get the value of the first menu bar item of menu bar 1 whose description is \"text input\"
-      if currentLayout is not \"ABC\" then
-        tell (1st menu bar item of menu bar 1 whose description is \"text input\") to {click, click (menu 1'\"'\"'s menu item \"ABC\")}
-      end if
-    end tell' &>/dev/null")
-  (message "Input source has changed to ABC!"))
+;; (add-hook 'focus-in-hook 'my/mac-switch-input-source)
+;; (defun my/mac-switch-input-source ()
+;;   (interactive)
+;;   (shell-command
+;;    "osascript -e 'tell application \"System Events\" to tell process \"SystemUIServer\"
+;;       set currentLayout to get the value of the first menu bar item of menu bar 1 whose description is \"text input\"
+;;       if currentLayout is not \"ABC\" then
+;;         tell (1st menu bar item of menu bar 1 whose description is \"text input\") to {click, click (menu 1'\"'\"'s menu item \"ABC\")}
+;;       end if
+;;     end tell' &>/dev/null")
+;;   (message "Input source has changed to ABC!"))
 
 (defun my/personal-summary (x)
   (interactive "swhich type of summary (w->week | m->month | y->year): ")

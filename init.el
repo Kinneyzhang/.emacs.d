@@ -30,6 +30,7 @@
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 (setq site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
+(defvar emacs-site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
 
 (require 'init-utils)
 (require 'init-ui)
