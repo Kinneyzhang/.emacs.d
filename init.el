@@ -23,7 +23,8 @@
       message-log-max 16384
       gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6
-      auto-window-vscroll nil)
+      auto-window-vscroll nil
+      user-full-name "Kinneyzhang")
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 

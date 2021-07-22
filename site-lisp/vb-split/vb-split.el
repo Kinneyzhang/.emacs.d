@@ -78,9 +78,10 @@
                 ((pred string-empty-p) (setq value "null"))
                 ((pred null) (setq value "")))
               (push (list order field value) table-data)))
-          (setq table-data (reverse table-data))
+          (setq table-data
+                (append '(("NO." "Field" "Value") hl)
+                        (reverse table-data)))
           (insert (format "* %s\n" info-type))
           (vb-org-table-create table-data))
         (read-only-mode 1)))))
-
 ;; ---------------------------
