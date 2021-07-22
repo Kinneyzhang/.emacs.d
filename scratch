@@ -390,3 +390,16 @@ REMOVE_DATE EXPIRE_DATE
 MODIFY_TAG OPER_TYPE
 event_code SO_NBR
 UPDATE_TIME COMMIT_DATE
+
+(defun vb-test (info-type info-str)
+  (interactive "sInput the info-type: \nsInput the info-str: ")
+  (let* ((lst (split-string info-str ""))
+         (len (length lst)))
+    (with-output-to-temp-buffer "*vb test*"
+      (prin1 (format "info-type:%s length:%s\n fields:%s" info-type len lst)))))
+
+
+麦田守望者:
+http://wiki.c2.com/
+http://incubator.apache.org/jspwik
+http://www.jspwiki.org
