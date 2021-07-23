@@ -62,4 +62,9 @@ roam-block
 test
 notebook
 ncm-playlist
+<<<<<<< HEAD
 elisp/custom.el
+=======
+elisp/custom.el
+server
+>>>>>>> e9fb4a9abf2e1c4daf3615730988a69a88cff514

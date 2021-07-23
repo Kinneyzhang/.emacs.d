@@ -391,6 +391,7 @@ MODIFY_TAG OPER_TYPE
 event_code SO_NBR
 UPDATE_TIME COMMIT_DATE
 
+<<<<<<< HEAD
 (defun vb-test (info-type info-str)
   (interactive "sInput the info-type: \nsInput the info-str: ")
   (let* ((lst (split-string info-str ""))
@@ -403,3 +404,19 @@ UPDATE_TIME COMMIT_DATE
 http://wiki.c2.com/
 http://incubator.apache.org/jspwik
 http://www.jspwiki.org
+=======
+CONDITION = SERVICE_ID='400000515'||SERVICE_ID='400000039'的转换表达式失败！请检查TD_B_IFIELD_DEF和td_b_trans_enum表的FIELD_NAME字段！ INFO_TYPE = 304
+
+
+
+
+
+7521071702426057
+00
+99091289
+G001
+20210717104847
+20501231235959
+20210717104846
+7521071701015780
+>>>>>>> e9fb4a9abf2e1c4daf3615730988a69a88cff514

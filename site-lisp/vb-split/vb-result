@@ -1,0 +1,40 @@
+* 301
+|  1 | USER_ID_A          | 7220122102404782 |
+|  2 | MEMBER_ROLE_CODE   |             G402 |
+|  3 | MEMBER_ROLE_TYPE   |                0 |
+|  4 | USER_ID_B          | 7200061398720211 |
+|  5 | SERIAL_NUMBER_B    |      13908720211 |
+|  6 | START_DATE         |   20210722163425 |
+|  7 | END_DATE           |   20501231235959 |
+|  8 | UPDATE_TIME        |   20210722163426 |
+|  9 | SERIAL_NUMBER_A    | G472122102404782 |
+| 10 | INST_ID            | 7221072200317860 |
+| 11 | ORDERNO            |                0 |
+| 12 | RELATION_TYPE_CODE |               G4 |
+| 13 | ROLE_CODE_B        |                2 |
+| 14 | ID_TYPE            |                1 |
+| 15 | IDENTITY_TYPE      |                0 |
+| 16 | PRODUCT_ID         |             null |
+| 17 | ACTIVE_STATE       |                1 |
+* 313
+| NO. | field          |            value |
+|-----+----------------+------------------|
+|   1 | USER_ID        | 7221072202428065 |
+|   2 | INST_ID        | 7221072200229865 |
+|   3 | PAYITEM_CODE   |               -1 |
+|   4 | ACCT_PRIORITY  |                0 |
+|   5 | ADDUP_METHOD   |                0 |
+|   6 | ADDUP_MONTHS   |                0 |
+|   7 | LIMIT_TYPE     |                0 |
+|   8 | LIMIT          |                0 |
+|   9 | COMPLEMENT_TAG |                1 |
+|  10 | ACCT_ID        | 7200000013619300 |
+|  11 | BIND_TYPE      |                1 |
+|  12 | USER_PRIORITY  |                0 |
+|  13 | DEFAULT_TAG    |                1 |
+|  14 | ACT_TAG        |                1 |
+|  15 | START_CYCLE_ID |         20210722 |
+|  16 | END_CYCLE_ID   |         20501231 |
+|  17 | UPDATE_TIME    |   20210722102559 |
+|  18 | REGION_CODE    |             0872 |
+|  19 | PAY_TYPE       |             null |

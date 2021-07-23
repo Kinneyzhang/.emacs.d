@@ -23,14 +23,15 @@
       message-log-max 16384
       gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6
-      auto-window-vscroll nil)
+      auto-window-vscroll nil
+      user-full-name "Kinneyzhang")
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 (setq site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
-;; (load (concat user-emacs-directory "elisp/custom.el"))
+(defvar emacs-site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
 
 (require 'init-utils)
 (require 'init-ui)

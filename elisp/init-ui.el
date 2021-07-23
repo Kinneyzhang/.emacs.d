@@ -37,7 +37,7 @@
            return (set-face-attribute 'default nil
                                       :font font
                                       :height (cond ((eq system-type 'darwin) 130)
-                                                    ((eq system-type 'windows-nt) 110)
+                                                    ((eq system-type 'windows-nt) 90)
                                                     (t 120))))
   ;; Specify font for all unicode characters
   (cl-loop for font in '("Apple Color Emoji" "Symbola" "Symbol")
