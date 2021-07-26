@@ -30,8 +30,8 @@
 ;;   ;; (add-hook 'window-configuration-change-hook #'roam-block-set-margins)
 ;;   )
 
-;;(use-package burly
-;;  :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
+(use-package burly
+  :ensure t)
 
 ;; emacsclient
 (require 'server)
@@ -42,6 +42,8 @@
 
 ;; (use-package netease-cloud-music
 ;;   :load-path "~/.config/emacs/site-lisp/netease-cloud-music/")
+
+
 
 (defun my/org-hide-emphasis-markers ()
   (interactive)

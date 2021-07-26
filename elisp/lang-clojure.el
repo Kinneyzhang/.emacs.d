@@ -10,3 +10,5 @@
 
 (use-package cider
   :ensure t)
+
+(provide 'lang-clojure)

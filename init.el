@@ -4,10 +4,9 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ;; ("melpa" . "https://mirrors.cloud.tencent.com/elpa/melpa/")
-                         ))
+(setq package-archives '(("melpa-cn" . "http://mirrors.cloud.tencent.com/elpa/melpa/")
+                         ("org-cn"   . "http://mirrors.cloud.tencent.com/elpa/org/")
+                         ("gnu-cn"   . "http://mirrors.cloud.tencent.com/elpa/gnu/")))
 
 (package-initialize)
 
@@ -47,9 +46,10 @@
 ;;(require 'lang-python)
 ;;(require 'lang-ruby)
 ;;(require 'lang-javascript)
-;;(require 'lang-web)
+(require 'lang-web)
 ;;(require 'lang-c)
 ;;(require 'lang-php)
+(require 'lang-clojure)
 (require 'lang-elisp)
 ;;(require 'lang-rust)
 ;;(require 'init-pdf)
