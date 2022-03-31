@@ -44,7 +44,7 @@
 			  (:name "handly todo"
 				 :and (:category ("Task") :date nil :not (:habit t)))
 			  (:discard (:anything t)))))))
-	 ((org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org"))))
+	 ((org-agenda-files '("~/GTD/org/task.org" "~/GTD/org/project.org"))))
         ("p" "Project Review"
          ((alltodo "" ((org-agenda-overriding-header "Project Review")
 		       (org-agenda-skip-function 'jethro/org-agenda-skip-all-siblings-but-first)
@@ -52,13 +52,13 @@
 			'((:name "Active Projects"
 				 :and (:category "Project" :not (:tag "#archive")))
 			  (:discard (:anything t)))))))
-         ((org-agenda-files '("~/iCloud/org/project.org"))))
+         ((org-agenda-files '("~/GTD/org/project.org"))))
 	("i" "Inbox Agenda"
 	 ((alltodo "" ((org-agenda-overriding-header "Inbox Review")
 		       (org-super-agenda-groups
 			'((:name "Need to handle:"
 				 :category "Inbox"))))))
-	 ((org-agenda-files '("~/iCloud/org/inbox.org"))))
+	 ((org-agenda-files '("~/GTD/org/inbox.org"))))
 	("s" "Someday/Maybe Agenda"
 	 ((alltodo "" ((org-agenda-overriding-header "Someday/Maybe")
 		       (org-super-agenda-groups
@@ -70,7 +70,7 @@
 				 :tag "#emacs")
                           (:name "好物待购"
 				 :tag "#buy"))))))
-	 ((org-agenda-files '("~/iCloud/org/someday.org"))))))
+	 ((org-agenda-files '("~/GTD/org/someday.org"))))))
 
 (defun jethro/org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."

@@ -84,4 +84,3 @@
           (insert (format "* %s\n" info-type))
           (vb-org-table-create table-data))
         (read-only-mode 1)))))
-;; ---------------------------

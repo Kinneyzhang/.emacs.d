@@ -1,4 +1,18 @@
 ;;; init-utils
+(defun gk/deploy-langc ()
+  "Deploy geekblog."
+  (interactive)
+  (let ((display-buffer-alist
+         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
+    (async-shell-command "cd C:/Users/26289/LangC && sh ./deploy.sh")))
+
+(defun gk/deploy-gknows ()
+  "Deploy geekblog."
+  (interactive)
+  (let ((display-buffer-alist
+         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
+    (async-shell-command "cd C:/Users/26289/gknows && sh ./deploy.sh")))
+
 (use-package command-log-mode
   :ensure t)
 
@@ -187,7 +201,7 @@ Return a new buffer or BUF with the code in it."
   :ensure t)
 
 (use-package auto-save
-  :load-path "~/.config/emacs/site-lisp/auto-save"
+  :load-path "~/.emacs.d/site-lisp/auto-save"
   :config
   (auto-save-enable)  ;; 开启自动保存功能。
   (setq auto-save-slient nil) ;; 自动保存的时候静悄悄的，不要打扰我

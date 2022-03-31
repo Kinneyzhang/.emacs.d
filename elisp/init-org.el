@@ -24,8 +24,8 @@
     (setq org-src-fontify-natively t)
     ;; how the source code edit buffer is displayed
     (setq org-src-window-setup 'current-window)
-    (setq org-directory "~/iCloud/org/")
-    (setq org-agenda-files '("~/iCloud/org/"))
+    (setq org-directory "~/GTD/org/")
+    (setq org-agenda-files '("~/GTD/org/"))
     (setq org-src-fontify-natively t)
     (setq org-agenda-window-setup 'current-window)
     ))
@@ -96,24 +96,24 @@
 (setq org-confirm-babel-evaluate nil)
 
 (setq org-capture-templates
-      '(("i" "inbox" entry (file "~/iCloud/org/inbox.org")
+      '(("i" "inbox" entry (file "~/GTD/org/inbox.org")
 	 "* TODO %?" :clock-resume t)
-	("t" "task" entry (file "~/iCloud/org/task.org")
+	("t" "task" entry (file "~/GTD/org/task.org")
 	 "* TODO %?" :clock-resume t)
-	("s" "someday" entry (file "~/iCloud/org/someday.org")
+	("s" "someday" entry (file "~/GTD/org/someday.org")
 	 "* TODO %?" :clock-resume t)
-	("a" "appointment" entry (file "~/iCloud/org/task.org")
+	("a" "appointment" entry (file "~/GTD/org/task.org")
 	 "* APPT %?")
-	("p" "project" entry (file "~/iCloud/org/project.org")
+	("p" "project" entry (file "~/GTD/org/project.org")
 	 "* PROJ %? [%]\n** TODO" :clock-resume t)
-	("h" "habit" entry (file "~/iCloud/org/task.org")
+	("h" "habit" entry (file "~/GTD/org/task.org")
 	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
 	 )
-	("j" "Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
+	("j" "Journal" entry (file+datetree "~/GTD/blog_site/org/draft/journal.org")
          "* %?\nEntered on %U\n\n")	
-	("m" "Morning Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
+	("m" "Morning Journal" entry (file+datetree "~/GTD/blog_site/org/draft/journal.org")
          "* 晨间记录\nEntered on %U\n\n天气:%? / 温度: / 地点:\n\n")
-	("e" "Evening Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
+	("e" "Evening Journal" entry (file+datetree "~/GTD/blog_site/org/draft/journal.org")
 	 "* 晚间总结\nEntered on %U\n\n*1.最影响情绪的事是什么?*\n\n/正面:/%?\n\n/负面:/\n\n*2.今天做了什么?*\n\n/日常行为:/\n\n/突发行为:/\n\n*3.今天思考了什么?*\n")
 	))
 
@@ -135,10 +135,11 @@
 (setq org-html-validation-link nil)
 (setq org-export-backends '(ascii html icalendar latex md))
 
-(use-package org-bullets
-  :ensure t
-  :hook (org-mode . org-bullets-mode)
-  :init (setq org-bullets-bullet-list '("◉" "○" "✸" "✿")))
+;; (use-package org-bullets
+;;   :ensure t
+;;   :hook (org-mode . org-bullets-mode)
+;;   :init
+;;   (setq org-bullets-bullet-list '()))
 
 (use-package calfw-org
   :ensure t

@@ -43,6 +43,10 @@
 ;; (use-package netease-cloud-music
 ;;   :load-path "~/.config/emacs/site-lisp/netease-cloud-music/")
 
+(use-package sql-indent
+  :ensure t
+  :config (sqlind-minor-mode 1))
+
 (defun my/org-hide-emphasis-markers ()
   (interactive)
   (setq org-hide-emphasis-markers t))
@@ -63,7 +67,7 @@
 ;;   :load-path "~/Emacs/gtd-mode")
 
 (use-package gkroam
-  :ensure t
+  :load-path "~/Hackings/gkroam"
   :hook (after-init . gkroam-mode)
   :init
   (setq gkroam-root-dir "~/gknows/")
@@ -117,19 +121,19 @@
   (eval-after-load 'flycheck
     '(require 'flycheck-ledger)))
 
-(use-package bm
-  :ensure t
-  :demand t
-  :init
-  (setq bm-restore-repository-on-load t)
-  :config
-  (setq bm-cycle-all-buffers t)
-  (setq-default bm-buffer-persistence t)
-  (add-hook 'after-init-hook 'bm-repository-load)
-  (add-hook 'kill-buffer-hook #'bm-buffer-save)
-  (add-hook 'kill-emacs-hook #'(lambda nil
-                                 (bm-buffer-save-all)
-                                 (bm-repository-save))))
+;; (use-package bm
+;;   :ensure t
+;;   :demand t
+;;   :init
+;;   (setq bm-restore-repository-on-load t)
+;;   :config
+;;   (setq bm-cycle-all-buffers t)
+;;   (setq-default bm-buffer-persistence t)
+;;   (add-hook 'after-init-hook 'bm-repository-load)
+;;   (add-hook 'kill-buffer-hook #'bm-buffer-save)
+;;   (add-hook 'kill-emacs-hook #'(lambda nil
+;;                                  (bm-buffer-save-all)
+;;                                  (bm-repository-save))))
 
 (use-package prescient
   :ensure t
@@ -138,7 +142,7 @@
 (use-package company-prescient :ensure t :config (company-prescient-mode))
 
 (use-package awesome-pair
-  :load-path "~/.config/emacs/site-lisp/awesome-pair"
+  :load-path "~/.emacs.d/site-lisp/awesome-pair"
   :config
   (dolist (hook (list
 		 'c-mode-common-hook
