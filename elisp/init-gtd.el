@@ -44,21 +44,21 @@
 			  (:name "handly todo"
 				 :and (:category ("Task") :date nil :not (:habit t)))
 			  (:discard (:anything t)))))))
-	 ((org-agenda-files '("~/GTD/org/task.org" "~/GTD/org/project.org"))))
-        ("p" "Project Review"
-         ((alltodo "" ((org-agenda-overriding-header "Project Review")
-		       (org-agenda-skip-function 'jethro/org-agenda-skip-all-siblings-but-first)
-		       (org-super-agenda-groups
-			'((:name "Active Projects"
-				 :and (:category "Project" :not (:tag "#archive")))
-			  (:discard (:anything t)))))))
-         ((org-agenda-files '("~/GTD/org/project.org"))))
+	 ((org-agenda-files '("~/GTD/Todo.org"))))
+        ;; ("p" "Project Review"
+        ;;  ((alltodo "" ((org-agenda-overriding-header "Project Review")
+	;; 	       (org-agenda-skip-function 'jethro/org-agenda-skip-all-siblings-but-first)
+	;; 	       (org-super-agenda-groups
+	;; 		'((:name "Active Projects"
+	;; 			 :and (:category "Project" :not (:tag "#archive")))
+	;; 		  (:discard (:anything t)))))))
+        ;;  ((org-agenda-files '("~/GTD/project.org"))))
 	("i" "Inbox Agenda"
 	 ((alltodo "" ((org-agenda-overriding-header "Inbox Review")
 		       (org-super-agenda-groups
 			'((:name "Need to handle:"
 				 :category "Inbox"))))))
-	 ((org-agenda-files '("~/GTD/org/inbox.org"))))
+	 ((org-agenda-files '("~/GTD/Inbox.org"))))
 	("s" "Someday/Maybe Agenda"
 	 ((alltodo "" ((org-agenda-overriding-header "Someday/Maybe")
 		       (org-super-agenda-groups
@@ -70,7 +70,7 @@
 				 :tag "#emacs")
                           (:name "好物待购"
 				 :tag "#buy"))))))
-	 ((org-agenda-files '("~/GTD/org/someday.org"))))))
+	 ((org-agenda-files '("~/GTD/Someday.org"))))))
 
 (defun jethro/org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
@@ -165,12 +165,8 @@ prog-mode-map
 (setq org-refile-use-outline-path 'file)
 (setq org-outline-path-complete-in-steps nil)
 (setq org-refile-allow-creating-parent-nodes nil)
-(setq org-refile-targets '(("task.org" :level . 0)
-			   ("someday.org" :level . 0)
-			   ("project.org" :level . 1)
-			   ))
-
-(setq org-refile-targets nil)
+(setq org-refile-targets '(("Todo.org" :level . 0)
+			   ("Someday.org" :level . 0)))
 ;; Column View
 
 (setq org-columns-default-format "%40ITEM(Task) %Effort(EE){:} %CLOCKSUM(Time Spent) %SCHEDULED(Scheduled) %DEADLINE(Deadline)")

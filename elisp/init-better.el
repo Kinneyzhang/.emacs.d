@@ -91,10 +91,10 @@
 					try-complete-lisp-symbol-partially
 					try-complete-lisp-symbol))
 
-(use-package restart-emacs
-  :ensure t
-  :defer 5
-  :bind (("C-x C-c" . restart-emacs)))
+;; (use-package restart-emacs
+;;   :ensure t
+;;   :defer 5
+;;   :bind (("C-x C-c" . restart-emacs)))
 
 (use-package disable-mouse
   :defer t

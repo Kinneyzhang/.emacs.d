@@ -112,14 +112,14 @@
 ;; (use-package pp-html
 ;;   :load-path "~/iCloud/hack/pp-html")
 
-(use-package ledger-mode
-  :ensure t)
+;; (use-package ledger-mode
+;;   :ensure t)
 
-(use-package flycheck-ledger
-  :ensure t
-  :config
-  (eval-after-load 'flycheck
-    '(require 'flycheck-ledger)))
+;; (use-package flycheck-ledger
+;;   :ensure t
+;;   :config
+;;   (eval-after-load 'flycheck
+;;     '(require 'flycheck-ledger)))
 
 ;; (use-package bm
 ;;   :ensure t

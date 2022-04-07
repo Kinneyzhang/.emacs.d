@@ -24,8 +24,8 @@
     (setq org-src-fontify-natively t)
     ;; how the source code edit buffer is displayed
     (setq org-src-window-setup 'current-window)
-    (setq org-directory "~/GTD/org/")
-    (setq org-agenda-files '("~/GTD/org/"))
+    (setq org-directory "~/GTD/")
+    ;; (setq org-agenda-files '("~/GTD/org/"))
     (setq org-src-fontify-natively t)
     (setq org-agenda-window-setup 'current-window)
     ))
@@ -55,7 +55,7 @@
     (interactive
      (let ((src-code-types
 	    '("emacs-lisp" "rust" "python" "C" "shell" "java" "js" "clojure" "C++" "css"
-	      "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
+	      "calc" "asymptote" "dot" "gnuplot" "lilypond" "mscgen"
 	      "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
 	      "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
 	      "scheme" "sqlite" "html")))
@@ -89,33 +89,21 @@
    (emacs-lisp . t)
    (matlab . t)
    (C . t)
-   (ledger . t)
+   ;; (ledger . t)
    (org . t)
    ))
 
 (setq org-confirm-babel-evaluate nil)
 
 (setq org-capture-templates
-      '(("i" "inbox" entry (file "~/GTD/org/inbox.org")
+      '(("i" "inbox" entry (file "~/GTD/Inbox.org")
 	 "* TODO %?" :clock-resume t)
-	("t" "task" entry (file "~/GTD/org/task.org")
+	("t" "task" entry (file "~/GTD/Todo.org")
 	 "* TODO %?" :clock-resume t)
-	("s" "someday" entry (file "~/GTD/org/someday.org")
+	("s" "someday" entry (file "~/GTD/Someday.org")
 	 "* TODO %?" :clock-resume t)
-	("a" "appointment" entry (file "~/GTD/org/task.org")
-	 "* APPT %?")
-	("p" "project" entry (file "~/GTD/org/project.org")
-	 "* PROJ %? [%]\n** TODO" :clock-resume t)
-	("h" "habit" entry (file "~/GTD/org/task.org")
-	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
-	 )
-	("j" "Journal" entry (file+datetree "~/GTD/blog_site/org/draft/journal.org")
-         "* %?\nEntered on %U\n\n")	
-	("m" "Morning Journal" entry (file+datetree "~/GTD/blog_site/org/draft/journal.org")
-         "* 晨间记录\nEntered on %U\n\n天气:%? / 温度: / 地点:\n\n")
-	("e" "Evening Journal" entry (file+datetree "~/GTD/blog_site/org/draft/journal.org")
-	 "* 晚间总结\nEntered on %U\n\n*1.最影响情绪的事是什么?*\n\n/正面:/%?\n\n/负面:/\n\n*2.今天做了什么?*\n\n/日常行为:/\n\n/突发行为:/\n\n*3.今天思考了什么?*\n")
-	))
+	("a" "appointment" entry (file "~/GTD/Todo.org")
+	 "* APPT %?")))
 
 ;;; =========================================================================
 ;; other package and config

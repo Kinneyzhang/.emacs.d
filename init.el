@@ -48,7 +48,7 @@
 ;;(require 'lang-ruby)
 ;;(require 'lang-javascript)
 ;;(require 'lang-web)
-;;(require 'lang-c)
+(require 'lang-c)
 ;;(require 'lang-php)
 (require 'lang-elisp)
 ;;(require 'lang-rust)
