@@ -34,14 +34,45 @@
 ;;  :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
 
 ;; emacsclient
-(require 'server)
-(unless (server-running-p) (server-start))
+;; (require 'server)
+;; (unless (server-running-p) (server-start))
 
 ;; (use-package emacs-everywhere
 ;;   :ensure t)
 
 ;; (use-package netease-cloud-music
 ;;   :load-path "~/.config/emacs/site-lisp/netease-cloud-music/")
+
+;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd-macs.el")
+;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd-cmds.el")
+;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd-project.el")
+;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd.el")
+(add-to-list 'load-path "c:/Users/26289/Hackings/myGTD/")
+(require 'mygtd)
+
+(use-package slime
+  :ensure t
+  :config
+  ;; 设置具体的 Common Lisp 实现，我这里是 sbcl
+  (setq inferior-lisp-program "sbcl")
+  ;; Slime 把多数功能拆成独立的包（Contrib Packages）
+  ;; 需要根据功能单独加载，其中 slime-fancy 会自动加载流行的包，一般情况下只加载 slime-fancy 即可
+  (setq slime-contribs '(slime-fancy)))
+
+(use-package tree-sitter
+  :ensure t)
+
+(use-package tree-sitter-langs
+  :ensure t)
+
+(unbind-key (kbd "<f3>") global-map)
+(unbind-key (kbd "<f4>") global-map)
+(global-set-key (kbd "<f7>") #'kmacro-start-macro-or-insert-counter)
+(global-set-key (kbd "<f8>") #'kmacro-end-or-call-macro)
+(use-package avy
+  :ensure t
+  :bind (("<f4>" . avy-goto-line)
+         ("<f3>" . avy-goto-char-timer)))
 
 (use-package sql-indent
   :ensure t
@@ -448,7 +479,7 @@
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-x /") 'split-window-right)
 
-(global-set-key (kbd "<f5>") 'revert-buffer)
+;; (global-set-key (kbd "<f5>") 'revert-buffer)
 
 ;; ================================================
 (global-set-key (kbd "C-c y s c") 'aya-create)
@@ -534,8 +565,7 @@ specified.  Select the current line if the LINES prefix is zero."
   :init (setq yas-snippet-dirs `(,(concat user-emacs-directory "snippets")))
   :config
   (yas-reload-all)
-  (add-hook 'prog-mode-hook #'yas-minor-mode)
-  (add-hook 'org-mode-hook #'yas-minor-mode))
+  (add-hook 'prog-mode-hook #'yas-minor-mode))
 
 (use-package smartparens
   :ensure t

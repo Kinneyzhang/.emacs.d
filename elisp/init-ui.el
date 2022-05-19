@@ -7,7 +7,8 @@
 (setq display-time-default-load-average t)
 (display-time-mode -1)
 
-(global-hl-line-mode -1);;光标行高亮
+;;光标行高亮
+(global-hl-line-mode 1)
 
 (when (featurep 'ns)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -18,7 +19,7 @@
 (setq-default cursor-type 'box) ;变光标, setq-default设置全局
 
 ;; theme
-(load-theme 'tsdh-light t)
+(load-theme 'material t)
 
 ;; Fonts
 (defun font-installed-p (font-name)
@@ -27,12 +28,7 @@
 
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("Fira Code"
-                         "Source Code Variable"
-                         "Menlo" "SF"
-                         "Monaco Mono" "Hack"
-                         "DejaVu Sans Mono"
-                         "Consolas")
+  (cl-loop for font in '("Consolas")
            when (font-installed-p font)
            return (set-face-attribute 'default nil
                                       :font font
@@ -40,20 +36,33 @@
                                                     ((eq system-type 'windows-nt) 110)
                                                     (t 100))))
   ;; Specify font for all unicode characters
-  (cl-loop for font in '("Apple Color Emoji" "Symbola" "Symbol")
+  (cl-loop for font in '("Symbola" "Symbol")
            when (font-installed-p font)
-           return(set-fontset-font t 'unicode font nil 'prepend))
+           return (set-fontset-font t 'unicode font nil 'append))
   ;; Specify font for Chinese characters
-  (cl-loop for font in '("仿宋"
-                         "思源宋体 SemiBold"
-                         "思源黑体"
-                         "微软雅黑")
+  (cl-loop for font in '("仿宋" "微软雅黑")
            when (font-installed-p font)
-           return (set-fontset-font t '(#x4e00 . #x9fff) font)))
+           return (dolist (charset '(kana han hangul cjk-misc bopomofo))
+                    (set-fontset-font t charset font))))
+
+;; (set-fontset-font t '(#x4e00 . #x9fff) font)
+;; (when window-system
+;;   (cl-loop for font in '("Microsoft Yahei" "PingFang SC" "Noto Sans Mono CJK SC")
+;;            when (font-installed-p font)
+;;            return (dolist (charset '(kana han hangul cjk-misc bopomofo))
+;;                     (set-fontset-font t charset font)))
+;;   (cl-loop for font in '("Segoe UI Emoji" "Apple Color Emoji" "Noto Color Emoji")
+;;            when (font-installed-p font)
+;;            return (set-fontset-font t 'unicode font nil 'append))
+;;   (dolist (font '("HanaMinA" "HanaMinB"))
+;;     (when (font-installed-p font)
+;;       (set-fontset-font t 'unicode font nil 'append))))
+
 ;; 设置中文标点
 ;; (set-fontset-font t 'cjk-misc "微软雅黑")
 ;; (dolist (character '(?\x25C9 ?\x25CB ?\x2738 ?\x273F ?\xA1F3))
 ;;   (set-fontset-font nil character (font-spec :family "微软雅黑")))
+
 (set-fontset-font t 'cjk-misc "Noto Sans CJK SC Regular")
 ;; (message "%s"(font-family-list))
 

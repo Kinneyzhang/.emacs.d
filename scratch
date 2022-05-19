@@ -1,18 +1,3 @@
-;; This buffer is for text that is not saved, and for Lisp evaluation.
-;; To create a file, visit it with <open> and enter text in its buffer.ca
 
-truncate table ZD.SYS_RT_PBX;
-truncate table ZD.SYS_RT_PAY_RELATION;
-truncate table ZD.SYS_RT_IDENTITY;
-truncate table ZD.SYS_RT_CUSTOMER;
-truncate table ZD.SYS_RT_GROUP;
-truncate table ZD.SYS_RT_RESOURCE;
-truncate table ZD.SYS_RT_GROUP_EXTERIOR;
-truncate table ZD.SYS_RT_GROUP_RELATION;
-truncate table ZD.SYS_RT_INDUSTRY;
-truncate table ZD.SYS_RT_ACCOUNT;
-truncate table ZD.SYS_NATIONAL_NP;
-truncate table ZD.SYS_RT_TENANT;
-truncate table ZD.SYS_RT_OPERATOR;
-truncate table ZD.SYS_RT_OPERATOR_MAPPING;
-truncate table ZD.SYS_PARTITION_TENANT_GROUP;
+;; This buffer is for text that is not saved, and for Lisp evaluation.
+;; To create a file, visit it with <open> and enter text in its buffer.

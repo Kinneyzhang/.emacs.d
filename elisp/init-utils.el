@@ -1,4 +1,30 @@
 ;;; init-utils
+(defvar gk-chinese-weekdays '("周一" "周二" "周三" "周四" "周五" "周六" "周日"))
+(defvar gk-english-weekdays '("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
+(defun gk-convert-weekday-to-english ()
+  (interactive)
+  (let ((file "~/GTD/Todo.org")
+        (regexp (string-join
+                 (mapcar (lambda (e)
+                           (s-wrap e "\\(" "\\)"))
+                         gk-chinese-weekdays)
+                 "\\|")))
+    (with-current-buffer (find-file-noselect file)
+      (goto-char (point-min))
+      (while (re-search-forward regexp nil t)
+        (let* ((weekday (match-string-no-properties 0))
+               (pos (seq-position gk-chinese-weekdays weekday))
+               (eng-weekday (nth pos gk-english-weekdays)))
+          (message "%s" eng-weekday)
+          (replace-match eng-weekday t))))))
+
+(defun gk/deploy-gtd ()
+  "Deploy geekblog."
+  (interactive)
+  (let ((display-buffer-alist
+         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
+    (async-shell-command "cd C:/Users/26289/GTD && git add . && git commit -m 'update' && git push")))
+
 (defun gk/deploy-langc ()
   "Deploy geekblog."
   (interactive)
@@ -11,7 +37,7 @@
   (interactive)
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
-    (async-shell-command "cd C:/Users/26289/gknows && sh ./deploy.sh")))
+    (async-shell-command "cd C:/Users/26289/gknows && git add . && git commit -m 'update' && git push")))
 
 (use-package command-log-mode
   :ensure t)
@@ -289,7 +315,6 @@ Return a new buffer or BUF with the code in it."
 
 (use-package darkroom
   :ensure t
-  :defer t
   :bind (("C-c d" . darkroom-tentative-mode)))
 
 (use-package password-generator

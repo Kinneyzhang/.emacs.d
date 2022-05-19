@@ -40,7 +40,7 @@
 (use-package neotree
   :ensure t
   :defer 5
-  :bind (("<f8>" . neotree-toggle))
+  :bind (("<f9>" . neotree-toggle))
   :config
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
