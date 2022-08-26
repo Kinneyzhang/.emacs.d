@@ -10,7 +10,7 @@
                          ))
 
 (package-initialize)
-
+;; (toggle-debug-on-error)
 ;; Bootstrap `use-package'
 (require 'package)
 (unless (package-installed-p 'use-package)
@@ -54,3 +54,4 @@
 ;;(require 'lang-rust)
 ;;(require 'init-pdf)
 (require 'init-sql)
+(require 'init-hack)
