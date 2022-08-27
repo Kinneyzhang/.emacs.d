@@ -30,20 +30,178 @@
 ;;   ;; (add-hook 'window-configuration-change-hook #'roam-block-set-margins)
 ;;   )
 
+;; (add-to-list 'load-path "~/iCloud/hack/mygtd/")
+;; (require 'mygtd)
+
+(defun gkroam-file-content (title)
+  (let* ((page (gkroam--get-page title))
+         (file (when page (gkroam--get-file page))))
+    (if file
+        (with-current-buffer (find-file-noselect file)
+          (save-restriction
+            (gkroam--narrow-to-content)
+            (buffer-substring-no-properties (point-min)
+                                            (point-max))))
+      (user-error "No such gkroam page: %s" title))))
+
+(defun md-wiki-content-replace-or-insert ()
+  )
+
+(defun gkroam-to-gkwiki (roam-title wiki-title)
+  (let ((roam-content (gkroam-file-content roam-title))
+        (wiki-file (md-wiki-page-file wiki-title)))
+    ))
+
+(defun daily-page-to-mdwiki (title)
+  (interactive)
+  (let* ((title (or title (format-time-string "%b %d, %Y")))
+         (gkroam-content (gkroam-file-content title))
+         (daily-file (md-wiki-page-file "Daily Page"))
+         str)
+    (if file
+        (progn
+          (with-file-buffer file
+            (when (re-search-forward "^#\\+TITLE:.+" nil t)
+              (setq str (string-trim (buffer-substring-no-properties
+                                      (point) (point-max))))))
+          (with-file-buffer daily-file
+            (let (beg (end (point-max)))
+              (if (re-search-forward (concat "^# " title) nil t)
+                  (progn
+                    (setq beg (line-beginning-position))
+                    (save-excursion
+                      (when (re-search-forward "^# .+" nil t)
+                        (setq end (line-beginning-position))))
+                    (delete-region beg end)
+                    (insert "# " title "\n" str "\n\n"))
+                (when (re-search-forward "^---.*" nil t 4)
+                  (insert "\n# " title "\n" str "\n"))))))
+      (user-error "no such page: %s" title))))
+
+(daily-page-to-mdwiki "pelican")
+
+(defun md-wiki-gen-site-force-nav-and-wiki ()
+  (interactive)
+  (md-wiki-gen-site-force-nav)
+  (gk/deploy-wiki))
+
+(defun md-wiki-gen-site-force-meta-and-wiki ()
+  (interactive)
+  (md-wiki-gen-site-force-meta)
+  (gk/deploy-wiki))
+
+(use-package md-wiki
+  :load-path "~/iCloud/hack/md-wiki"
+  :config
+  (setq md-wiki-tree-file "~/iCloud/hack/md-wiki/config/mdwiki.org")
+  (setq md-wiki-diff-file "~/iCloud/hack/md-wiki/config/mdwiki-diff.el")
+  (bind-key (kbd "C-c w f") #'md-wiki-page-edit)
+  (bind-key (kbd "C-c w p") #'md-wiki-gen-site)
+  (bind-key (kbd "C-c w [") #'md-wiki-gen-site-force-nav-and-wiki)
+  (bind-key (kbd "C-c w ]") #'md-wiki-gen-site-force-meta-and-wiki)
+  (bind-key (kbd "C-c w o") #'md-wiki-tree-edit)
+  (bind-key (kbd "C-c w d") #'md-wiki-show-diff))
+
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory (file-truename "~/org-roam"))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :config
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol))
+
+(unbind-key (kbd "<f3>") global-map)
+(unbind-key (kbd "<f4>") global-map)
+(global-set-key (kbd "<f7>") #'kmacro-start-macro-or-insert-counter)
+(global-set-key (kbd "<f8>") #'kmacro-end-or-call-macro)
+(use-package avy
+  :ensure t
+  :bind (("<f4>" . avy-goto-line)
+         ("<f3>" . avy-goto-char-timer)))
+
+;; (use-package telega
+;; :ensure t
+;; :config
+;; (setq telega-proxies
+;;       (list '(:server "127.0.0.1" :port 1088 :enable t
+;;                       :type (:@type "proxyTypeSocks5"))))
+;; (setq telega-symbol-unread "🄌")
+;; (defun my-telega-load ()
+;;   ;; 🄌 occupies two full chars, but (string-width "🄌") returns 1
+;;   ;; so we install custom widths to `char-width-table'
+;;   (telega-symbol-set-width telega-symbol-unread 2)
+;;   ;; ... other code
+;;   )
+;; (add-hook 'telega-load-hook 'my-telega-load)
+;; (define-key global-map (kbd "C-c t") telega-prefix-map)
+;; ;; align avatar
+;; ;; (set-face-font 'my-align-by-sarasa (font-spec :family "Sarasa Mono SC"))
+;; ;; (defun my-align-with-sarasa-font ()
+;; ;;   (interactive)
+;; ;;   (when (member "Sarasa Mono SC" (font-family-list))
+;; ;;     (setq buffer-face-mode-face 'my-align-by-sarasa)
+;; ;;     (make-variable-buffer-local 'face-font-rescale-alist)
+;; ;;     ;; make symbols smaller
+;; ;;     (add-to-list 'face-font-rescale-alist '("-Noto Color Emoji-" . 0.9))
+;; ;;     (add-to-list 'face-font-rescale-alist '("-Apple Color Emoji-" . 0.78))
+;; ;;     (add-to-list 'face-font-rescale-alist '("-Noto Sans Symbols-" . 0.9))
+;; ;;     (add-to-list 'face-font-rescale-alist '("-Noto Sans Symbols2-" . 0.9))
+;; ;;     (add-to-list 'face-font-rescale-alist '("-Symbola-" . 0.78))
+;; ;;     (buffer-face-mode 1)))
+;; ;; (add-hook 'telega-root-mode-hook 'my-align-with-sarasa-font)
+;; ;; (add-hook 'telega-chat-mode-hook 'my-align-with-sarasa-font)
+;; )
+
+(use-package nov
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+  ;; FIXME: errors while opening `nov' files with Unicode characters
+  (with-no-warnings
+    (defun my-nov-content-unique-identifier (content)
+      "Return the the unique identifier for CONTENT."
+      (when-let* ((name (nov-content-unique-identifier-name content))
+                  (selector (format "package>metadata>identifier[id='%s']"
+                                    (regexp-quote name)))
+                  (id (car (esxml-node-children (esxml-query selector content)))))
+        (intern id)))
+    (advice-add #'nov-content-unique-identifier :override #'my-nov-content-unique-identifier)))
+
+(use-package grab-mac-link
+  :ensure t
+  :bind (("C-c l g" . grab-mac-link)))
+
 (use-package burly
   :ensure t)
 
+;; (use-package helpful
+;;   :ensure t
+;;   :bind (("C-h f" . helpful-callable)
+;;          ("C-h v" . helpful-variable)
+;;          ("C-h k" . helpful-key)
+;;          ("C-c C-d" . helpful-at-point)
+;;          ("C-h F" . helpful-function)
+;;          ("C-h C" . helpful-command)))
+
 ;; emacsclient
-(require 'server)
-(unless (server-running-p) (server-start))
+;; (require 'server)
+;; (unless (server-running-p) (server-start))
 
 ;; (use-package emacs-everywhere
 ;;   :ensure t)
 
-;; (use-package netease-cloud-music
-;;   :load-path "~/.config/emacs/site-lisp/netease-cloud-music/")
-
-
+(use-package netease-cloud-music
+  :ensure t)
 
 (defun my/org-hide-emphasis-markers ()
   (interactive)
@@ -53,19 +211,11 @@
   (interactive)
   (setq org-hide-emphasis-markers nil))
 
-;; (use-package org-appear
-;;   :ensure t
-;;   :config
-;;   (add-hook 'org-mode-hook 'org-appear-mode)
-;;   (setq org-appear-autoemphasis t
-;;         org-appear-autosubmarkers t
-;;         org-appear-autolinks nil))
-
 ;; (use-package gtd
 ;;   :load-path "~/Emacs/gtd-mode")
 
 (use-package gkroam
-  :ensure t
+  :load-path "~/iCloud/hack/gkroam"
   :hook (after-init . gkroam-mode)
   :init
   (setq gkroam-root-dir "~/gknows/")
@@ -533,7 +683,8 @@ specified.  Select the current line if the LINES prefix is zero."
   :config
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode)
-  (add-hook 'org-mode-hook #'yas-minor-mode))
+  (add-hook 'org-mode-hook #'yas-minor-mode)
+  (add-hook 'c-mode-hook #'yas-minor-mode))
 
 (use-package smartparens
   :ensure t

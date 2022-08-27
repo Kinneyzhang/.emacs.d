@@ -15,41 +15,41 @@
       '(("d" "Daily Agenda"
          ((agenda "" ((org-agenda-span 'day)
 		      (org-super-agenda-groups
-                       '((:name "Daily Agenda"
+                       '((:name "◈ Daily Agenda"
                                 :time-grid t
-		      		:habit t
+		      	        :habit t
                                 :order 1)
-		      	 (:name "Due Today"
+		      	 (:name "◈ Due Today"
                                 :deadline today
                                 :order 2)
-                         (:name "Overdue"
+                         (:name "◈ Overdue"
                                 :deadline past
                                 :order 3)
-                         (:name "Due Soon"
+                         (:name "◈ Due Soon"
                                 :deadline future
                                 :order 4)
-			 (:name "Important!"
-				:priority "A"
-				:order 5)
+			 (:name "◈ Important"
+			        :priority "A"
+			        :order 5)
 		      	 (:discard (:anything t))))))
-	  (alltodo "" ((org-agenda-overriding-header "")
+          (alltodo "" ((org-agenda-overriding-header "")
 		       (org-super-agenda-groups
-			'((:name "Weekly rewards"
-				 :tag "#reward")
+			'((:name "◈ Important"
+				 :priority "A")
+			  (:name "◈ Handly Todo"
+			         :and (:category ("Task") :date nil :not (:habit t)))
 			  (:discard (:anything t))))))
 	  (alltodo "" ((org-agenda-overriding-header "")
 		       (org-super-agenda-groups
-			'((:name "Important!"
-				 :priority "A")
-			  (:name "handly todo"
-				 :and (:category ("Task") :date nil :not (:habit t)))
+			'((:name "◈ Weekly rewards"
+				 :tag "#reward")
 			  (:discard (:anything t)))))))
 	 ((org-agenda-files '("~/iCloud/org/task.org" "~/iCloud/org/project.org"))))
         ("p" "Project Review"
          ((alltodo "" ((org-agenda-overriding-header "Project Review")
 		       (org-agenda-skip-function 'jethro/org-agenda-skip-all-siblings-but-first)
 		       (org-super-agenda-groups
-			'((:name "Active Projects"
+			'((:name "◈ Active Projects"
 				 :and (:category "Project" :not (:tag "#archive")))
 			  (:discard (:anything t)))))))
          ((org-agenda-files '("~/iCloud/org/project.org"))))
@@ -167,10 +167,7 @@ prog-mode-map
 (setq org-refile-allow-creating-parent-nodes nil)
 (setq org-refile-targets '(("task.org" :level . 0)
 			   ("someday.org" :level . 0)
-			   ("project.org" :level . 1)
-			   ))
-
-(setq org-refile-targets nil)
+			   ("project.org" :level . 1)))
 ;; Column View
 
 (setq org-columns-default-format "%40ITEM(Task) %Effort(EE){:} %CLOCKSUM(Time Spent) %SCHEDULED(Scheduled) %DEADLINE(Deadline)")

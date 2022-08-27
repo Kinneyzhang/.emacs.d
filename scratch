@@ -1,4 +1,4 @@
-;; (setq colorcomp-ewoc nil
+≈≈≈x≈≈;; (setq colorcomp-ewoc nil
 ;;       colorcomp-data nil
 ;;       colorcomp-mode-map nil
 ;;    (generate-new-buffer (format "originally: %s" color)))
@@ -404,3 +404,58 @@ UPDATE_TIME COMMIT_DATE
 (load-file "~/iCloud/hack/geekblog/geekblog-vars.el")
 (load-file "~/iCloud/hack/geekblog/geekblog.el")
 (require 'geekblog)
+
+(setq org-html-head
+      "
+<link rel=\"stylesheet\" type=\"text/css\" href=\"https://www.gnu.org/reset.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"https://www.gnu.org/style.css\"/>
+<link rel=\"stylesheet\" type=\"text/css\" href=\"https://www.gnu.org/software/emacs/manual.css\"/>")
+
+;;;=====================================================================
+(svg-tag-mode 1)
+
+(defface svg-tag-note-face
+  '((t :foreground "black" :background "white" :box "black"
+       :family "Roboto Mono" :weight light :height 120))
+  "Face for note tag" :group nil)
+
+(defface svg-tag-keyboard-face
+  '((t :foreground "#333333" :background "#f9f9f9" :box "#333333"
+       :family "Roboto Mono" :weight light :height 120))
+  "Face for keyboard bindings tag" :group nil)
+
+(defface svg-tag-org-face
+  '((t :foreground "#333333" :background "#fffff0" :box "#333333"
+       :family "Roboto Mono" :weight light :height 120))
+  "Face for keyboard bindings tag" :group nil)
+
+(setq svg-tag-todo
+      (svg-tag-make "TODO" nil 1 1 2))
+
+(setq svg-tag-note
+      (svg-tag-make "NOTE" 'svg-tag-note-face 2 0 2))
+
+(defun svg-tag-round (text)
+  (svg-tag-make (substring text 1 -1) 'svg-tag-note-face 1 1 12))
+
+(defun svg-tag-quasi-round (text)
+  (svg-tag-make (substring text 1 -1) 'svg-tag-note-face 1 1 8))
+
+(defun svg-tag-keyboard (text)
+  (svg-tag-make (substring text 1 -1) 'svg-tag-keyboard-face 1 1 2))
+
+(defun svg-tag-org (text)
+  (svg-tag-make (substring text 1 -1) 'svg-tag-org-face 1 1 2))
+
+(setq svg-tag-tags
+      '(("@[0-9a-zA-Z]+:"                   . svg-tag-org)
+        (":TODO:"                           . svg-tag-todo)
+        (":NOTE:"                           . svg-tag-note)
+        ("\([0-9a-zA-Z]\)"                  . svg-tag-round)
+        ("\([0-9a-zA-Z][0-9a-zA-Z]\)"       . svg-tag-quasi-round)
+        ("|[0-9a-zA-Z- ⇥></%⌘^→←↑↓]+?|"    . svg-tag-keyboard)))
+
+
+(let ((lst '(1 2 3 4 5 6 7 8)))
+  (dolist (n1 n2 lst)
+    (message (format "%s %s" n1 n2))))

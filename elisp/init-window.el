@@ -33,9 +33,9 @@
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
-(use-package popwin
-  :ensure t
-  :config (popwin-mode 1))
+;; (use-package popwin
+;;   :ensure t
+;;   :config (popwin-mode 1))
 
 (use-package neotree
   :ensure t

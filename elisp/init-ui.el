@@ -8,6 +8,7 @@
 (display-time-mode -1)
 
 (global-hl-line-mode -1);;光标行高亮
+(global-display-line-numbers-mode -1)
 
 (when (featurep 'ns)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -15,10 +16,13 @@
 
 (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
 (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
-(setq-default cursor-type 'box) ;变光标, setq-default设置全局
+(setq-default cursor-type 'bar) ;变光标, setq-default设置全局
 
 ;; theme
-(load-theme 'leuven t)
+;; (load-theme 'leuven t)
+(load-theme 'doom-material t)
+
+(setq inhibit-compacting-font-caches t)
 
 ;; Fonts
 (defun font-installed-p (font-name)
@@ -40,14 +44,15 @@
                                                     ((eq system-type 'windows-nt) 90)
                                                     (t 120))))
   ;; Specify font for all unicode characters
-  (cl-loop for font in '("Apple Color Emoji" "Symbola" "Symbol")
+  (cl-loop for font in '("Symbola" "Apple Color Emoji" "Symbol")
            when (font-installed-p font)
            return(set-fontset-font t 'unicode font nil 'prepend))
   ;; Specify font for Chinese characters
-  (cl-loop for font in '("Source Han Sans SC VF"
-                         "Source Han Serif SC"
-                         "WenQuanYi Micro Hei"
-                         "Microsoft Yahei")
+  (cl-loop for font in
+           '("Source Han Serif SC"
+             "Source Han Sans SC VF"
+             "WenQuanYi Micro Hei"
+             "Microsoft Yahei")
            when (font-installed-p font)
            return (set-fontset-font t '(#x4e00 . #x9fff) font)))
 

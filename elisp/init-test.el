@@ -1,8 +1,5 @@
 (setq repl-string-list
-      '(("old" "new")
-	("test" "测试")
-	("错误" "right")
-	("隔开你" "戈楷旎")))
+      '(("\"" "")))
 
 (setq repl-regexp-list
       '(("\\." "。")))

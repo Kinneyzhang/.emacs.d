@@ -33,7 +33,6 @@
 (use-package org-src
   :hook ((org-mode . (lambda ()
                        "Beautify Org Checkbox Symbol"
-		       (local-set-key (kbd "C-<tab>") 'yas/expand-from-trigger-key)
 		       (local-set-key (kbd "C-c o e") 'org-edit-src-code)
 		       (local-set-key (kbd "C-c o i") 'org-insert-src-block)
 		       ))
@@ -89,8 +88,9 @@
    (emacs-lisp . t)
    (matlab . t)
    (C . t)
-   (ledger . t)
+   ;; (ledger . t)
    (org . t)
+   (clojure . t)
    ))
 
 (setq org-confirm-babel-evaluate nil)
@@ -102,20 +102,8 @@
 	 "* TODO %?" :clock-resume t)
 	("s" "someday" entry (file "~/iCloud/org/someday.org")
 	 "* TODO %?" :clock-resume t)
-	("a" "appointment" entry (file "~/iCloud/org/task.org")
-	 "* APPT %?")
 	("p" "project" entry (file "~/iCloud/org/project.org")
-	 "* PROJ %? [%]\n** TODO" :clock-resume t)
-	("h" "habit" entry (file "~/iCloud/org/task.org")
-	 "* TODO %?\n  :PROPERTIES:\n  :CATEGORY: Habit\n  :STYLE: habit\n  :REPEAT_TO_STATE: TODO\n  :END:\n  :LOGBOOK:\n  - Added %U\n  :END:"
-	 )
-	("j" "Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
-         "* %?\nEntered on %U\n\n")	
-	("m" "Morning Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
-         "* 晨间记录\nEntered on %U\n\n天气:%? / 温度: / 地点:\n\n")
-	("e" "Evening Journal" entry (file+datetree "~/iCloud/blog_site/org/draft/journal.org")
-	 "* 晚间总结\nEntered on %U\n\n*1.最影响情绪的事是什么?*\n\n/正面:/%?\n\n/负面:/\n\n*2.今天做了什么?*\n\n/日常行为:/\n\n/突发行为:/\n\n*3.今天思考了什么?*\n")
-	))
+	 "* PROJ %? [%]\n** TODO" :clock-resume t)))
 
 ;;; =========================================================================
 ;; other package and config

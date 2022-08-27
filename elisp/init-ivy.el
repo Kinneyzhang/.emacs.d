@@ -122,9 +122,7 @@
 
 ;;; avy
 (use-package avy
-  :ensure t
-  :bind (("<f6>" . avy-goto-line)
-         ("<f7>" . avy-goto-char-timer)))
+  :ensure t)
 
 ;; (kmacro-start-macro-or-insert-counter) default <f3>
 ;; (kmacro-end-or-call-macro) default <f4>

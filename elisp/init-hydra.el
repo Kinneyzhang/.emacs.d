@@ -84,7 +84,7 @@
     ("y t" (browse-url "https://www.youtube.com") "YouTube")
     ("f d" (browse-url "https://feedly.com/i/latest") "Feedly")
     ("g m" (browse-url "https://mail.google.com/mail/u/0/?client=safari#inbox") "Gmail")
-    ("g b" (browse-url "https://blog.geekinney.com") "Geekblog")
+    ("g b" (browse-url "https://geekinney.com") "Geekblog")
     ("r d" (browse-url "https://www.reddit.com") "Reddit")
     ("o m" (browse-url "https://orgmode.org/org.html") "OrgMode Manual")
     ("z h" (browse-url "https://www.zhihu.com") "Zhihu")

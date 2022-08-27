@@ -1,3 +1,7 @@
+(use-package cider
+  :ensure t
+  :config   (setq org-babel-clojure-backend 'cider))
+
 (use-package clj-refactor
   :ensure t
   :config
@@ -5,10 +9,8 @@
 
 (use-package clojure-mode
   :ensure nil
-  :hook ((clojure-mode . clj-refactor-mode))
+  :hook ((clojure-mode . clj-refactor-mode)
+         (clojure-mode . cider-mode))
   :config (setq clojure-toplevel-inside-comment-form t))
-
-(use-package cider
-  :ensure t)
 
 (provide 'lang-clojure)

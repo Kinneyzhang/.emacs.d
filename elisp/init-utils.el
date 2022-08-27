@@ -1,4 +1,19 @@
 ;;; init-utils
+(defun gk/learning-ca ()
+  "Open ca coding file and pdf."
+  (interactive)
+  (delete-other-windows)
+  (find-file "/Users/geekinney/iCloud/LangC/C-Algorithm")
+  (split-window (selected-window) t 'right)
+  (other-window 1)
+  (shell-command "open "))
+
+"/Users/geekinney/Library/Mobile\ Documents/com~apple~CloudDocs/books/数据结构与算法分析\ C语言描述\ by\ 韦斯\ \(Mark\ Allen\ Weiss\)\ \(z-lib.org\).pdf"
+
+
+(use-package all-the-icons
+  :ensure t)
+
 (use-package command-log-mode
   :ensure t)
 
@@ -255,11 +270,10 @@ Return a new buffer or BUF with the code in it."
 ;; use xwidget-webkit
 ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
 ;; (defun browse-url-default-browser (url &rest args)
-;;   "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
-;;   (xwidget-webkit-browse-url url args))
+;;  "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
+;;  (xwidget-webkit-browse-url url args))
 ;;(define-key xwidget-webkit-mode-map (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
 ;;(define-key xwidget-webkit-mode-map (kbd "C-c w k") 'xwidget-webkit-current-url-message-kill)
-
 
 (use-package browse-at-remote
   :ensure t
@@ -287,20 +301,20 @@ Return a new buffer or BUF with the code in it."
     (insert-file-contents filename) ;; 先将文件内容插入临时buffer，再读取内容
     (buffer-substring-no-properties (point-min) (point-max))))
 
-(defun chunyang-scratch-save ()
-  (ignore-errors
-    (with-current-buffer "*scratch*"
-      (write-region nil nil (concat user-emacs-directory "scratch")))))
+;; (defun chunyang-scratch-save ()
+;;   (ignore-errors
+;;     (with-current-buffer "*scratch*"
+;;       (write-region nil nil (concat user-emacs-directory "scratch")))))
 
-(defun chunyang-scratch-restore ()
-  (let ((f (concat user-emacs-directory "scratch")))
-    (when (file-exists-p f)
-      (with-current-buffer "*scratch*"
-	(erase-buffer)
-	(insert-file-contents f)))))
+;; (defun chunyang-scratch-restore ()
+;;   (let ((f (concat user-emacs-directory "scratch")))
+;;     (when (file-exists-p f)
+;;       (with-current-buffer "*scratch*"
+;; 	(erase-buffer)
+;; 	(insert-file-contents f)))))
 
-(add-hook 'kill-emacs-hook #'chunyang-scratch-save)
-(add-hook 'after-init-hook #'chunyang-scratch-restore)
+;; (add-hook 'kill-emacs-hook #'chunyang-scratch-save)
+;; (add-hook 'after-init-hook #'chunyang-scratch-restore)
 ;;-----------------------------
 ;; (add-hook 'focus-in-hook 'my/mac-switch-input-source)
 ;; (defun my/mac-switch-input-source ()
@@ -557,6 +571,91 @@ in `vb-fetch-buffer' buffer."
 ;; MODIFY_TAG OPER_TYPE
 ;; event_code SO_NBR
 ;; UPDATE_TIME COMMIT_DATE
+
+(defun swap-success-block ()
+  (interactive)
+  (with-current-buffer (find-file-noselect "~/geekblog/content/success.md")
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "^# [-0-9]+$" nil t)
+        (let* ((beg (1+ (point)))
+               (end (save-excursion
+                      (if (re-search-forward "^# [-0-9]+$" nil t)
+                          (line-beginning-position)
+                        (point-max))))
+               (content (buffer-substring-no-properties beg end))
+               new-content)
+          (with-temp-buffer
+            (insert content)
+            (let ((end (goto-char (point-max))))
+              (while (re-search-backward "^## [-0-9 ~]+$" nil t)
+                (let* ((beg (point))
+                       (text (buffer-substring-no-properties beg end)))
+                  (setq end (point))
+                  (setq new-content (concat new-content text))))))
+          (delete-region beg end)
+          (insert "\n" new-content))))))
+
+;;; geekblog utils
+
+(defun gk/deploy-wiki ()
+  "Deploy geekblog."
+  (interactive)
+  (let ((display-buffer-alist
+         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
+    (async-shell-command "cd ~/iCloud/hack/md-wiki && git add . && git commit -m 'update' && git push")))
+
+(defun gk/deploy-blog ()
+  "Deploy geekblog."
+  (interactive)
+  (let ((display-buffer-alist
+         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
+    (async-shell-command "cd ~/geekblog/ && ./deploy.sh")))
+
+(defun gk/deploy-langc ()
+  "Deploy geekblog."
+  (interactive)
+  (let ((display-buffer-alist
+         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
+    (async-shell-command "cd ~/iCloud/LangC/ && git add . && git commit -m 'update' && git push")))
+
+(defun gk/deploy-gknows ()
+  "Deploy geekblog."
+  (interactive)
+  (let ((display-buffer-alist
+         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
+    (async-shell-command "cd ~/gknows/ && git add . && git commit -m 'update' && git push")))
+
+(defun gk/deploy-mygtd ()
+  "Deploy geekblog."
+  (interactive)
+  (let ((display-buffer-alist
+         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
+    (async-shell-command "cd ~/iCloud/hack/mygtd/ && git add . && git commit -m 'update' && git push")))
+
+;; (defun gk/deploy-gtd ()
+;;   "Deploy geekblog."
+;;   (interactive)
+;;   (let ((display-buffer-alist
+;;          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
+;;     (async-shell-command "cd ~/iCloud/GTD/ && git add . && git commit -m 'update' && git push")))
+
+;;;;;;Blog Hacking;;;;;;;;
+(defun gkblog-add-week-after-date ()
+  "Add week after the date."
+  (interactive)
+  (let ((file "/Users/geekinney/geekblog/content/success.md")
+        (regexp "^## \\([-0-9]\\{10\\}\\)"))
+    (with-current-buffer (find-file-noselect file)
+      (save-excursion
+        (goto-char (point-min))
+        (while (re-search-forward regexp nil t)
+          (let* ((date (concat (match-string-no-properties 1)
+                               " 00:00:00"))
+                 (week (format-time-string "%a" (date-to-time date))))
+            (insert " " week)))))))
+
+
 
 (provide 'init-utils)
 ;;; init-utils.el ends here
