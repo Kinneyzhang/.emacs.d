@@ -8,7 +8,7 @@
                          ("gnu-cn"   . "http://mirrors.cloud.tencent.com/elpa/gnu/")))
 
 (package-initialize)
-
+;; (toggle-debug-on-error)
 ;; Bootstrap `use-package'
 (require 'package)
 (unless (package-installed-p 'use-package)
@@ -27,8 +27,8 @@
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
-(setq icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
-(setq site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
+(defvar icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
+(defvar site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
 (defvar emacs-site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
 
 (require 'init-utils)
@@ -39,7 +39,7 @@
 (require 'init-window)
 (require 'init-misc)
 (require 'init-org)
-(require 'init-music)
+;; (require 'init-music)
 (require 'lang-python)
 (require 'lang-web)
 (require 'lang-clojure)
@@ -47,10 +47,4 @@
 (require 'lang-rust)
 (require 'init-sql)
 (require 'init-gtd)
-;; (require 'init-modal)
-;;(require 'init-elfeed)
-;;(require 'lang-ruby)
-;;(require 'lang-javascript)
-;;(require 'lang-c)
-;;(require 'lang-php)
-;;(require 'init-pdf)
+;; (require 'init-hack)

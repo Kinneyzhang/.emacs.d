@@ -12,7 +12,21 @@
 (global-hl-line-mode -1)
 ;;(add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
 (show-paren-mode 1)
-(setq scroll-step 1 scroll-margin 3 scroll-conservatively 10000)
+(setq scroll-step 1
+      scroll-margin 1
+      scroll-conservatively 10000)
+
+(defun my/move-to-window-bottom ()
+  (interactive)
+  (move-to-window-line -1))
+
+(defun my/move-to-window-top ()
+  (interactive)
+  (move-to-window-line 0))
+
+(global-set-key (kbd "<f5>") #'my/move-to-window-bottom)
+(global-set-key (kbd "<f6>") #'my/move-to-window-top)
+
 (fset 'yes-or-no-p 'y-or-n-p);;用y/s代替yes/no
 
 (setq default-buffer-file-coding-system 'utf-8)
@@ -90,16 +104,6 @@
 					try-expand-line
 					try-complete-lisp-symbol-partially
 					try-complete-lisp-symbol))
-
-(use-package restart-emacs
-  :ensure t
-  :defer 5
-  :bind (("C-x C-c" . restart-emacs)))
-
-(use-package disable-mouse
-  :defer t
-  :ensure nil
-  :config (global-disable-mouse-mode -1))
 
 (defun my/split-three-windows ()
   (interactive)

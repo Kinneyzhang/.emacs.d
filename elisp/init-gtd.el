@@ -58,7 +58,7 @@
 		       (org-super-agenda-groups
 			'((:name "Need to handle:"
 				 :category "Inbox"))))))
-	 ((org-agenda-files '("~/iCloud/org/inbox.org"))))
+	 ((org-agenda-files '("~/GTD/Inbox.org"))))
 	("s" "Someday/Maybe Agenda"
 	 ((alltodo "" ((org-agenda-overriding-header "Someday/Maybe")
 		       (org-super-agenda-groups
@@ -70,7 +70,7 @@
 				 :tag "#emacs")
                           (:name "好物待购"
 				 :tag "#buy"))))))
-	 ((org-agenda-files '("~/iCloud/org/someday.org"))))))
+	 ((org-agenda-files '("~/GTD/Someday.org"))))))
 
 (defun jethro/org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
@@ -489,5 +489,6 @@ this function appends the default value from
 	org-pomodoro-long-break-sound (concat user-emacs-directory "/pomodoro/alarm.m4a"))
   :config
   (define-key org-agenda-mode-map "P" 'org-pomodoro))
+
 
 (provide 'init-gtd)

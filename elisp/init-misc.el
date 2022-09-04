@@ -33,52 +33,6 @@
 ;; (add-to-list 'load-path "~/iCloud/hack/mygtd/")
 ;; (require 'mygtd)
 
-(defun gkroam-file-content (title)
-  (let* ((page (gkroam--get-page title))
-         (file (when page (gkroam--get-file page))))
-    (if file
-        (with-current-buffer (find-file-noselect file)
-          (save-restriction
-            (gkroam--narrow-to-content)
-            (buffer-substring-no-properties (point-min)
-                                            (point-max))))
-      (user-error "No such gkroam page: %s" title))))
-
-(defun md-wiki-content-replace-or-insert ()
-  )
-
-(defun gkroam-to-gkwiki (roam-title wiki-title)
-  (let ((roam-content (gkroam-file-content roam-title))
-        (wiki-file (md-wiki-page-file wiki-title)))
-    ))
-
-(defun daily-page-to-mdwiki (title)
-  (interactive)
-  (let* ((title (or title (format-time-string "%b %d, %Y")))
-         (gkroam-content (gkroam-file-content title))
-         (daily-file (md-wiki-page-file "Daily Page"))
-         str)
-    (if file
-        (progn
-          (with-file-buffer file
-            (when (re-search-forward "^#\\+TITLE:.+" nil t)
-              (setq str (string-trim (buffer-substring-no-properties
-                                      (point) (point-max))))))
-          (with-file-buffer daily-file
-            (let (beg (end (point-max)))
-              (if (re-search-forward (concat "^# " title) nil t)
-                  (progn
-                    (setq beg (line-beginning-position))
-                    (save-excursion
-                      (when (re-search-forward "^# .+" nil t)
-                        (setq end (line-beginning-position))))
-                    (delete-region beg end)
-                    (insert "# " title "\n" str "\n\n"))
-                (when (re-search-forward "^---.*" nil t 4)
-                  (insert "\n# " title "\n" str "\n"))))))
-      (user-error "no such page: %s" title))))
-
-(daily-page-to-mdwiki "pelican")
 
 (defun md-wiki-gen-site-force-nav-and-wiki ()
   (interactive)
@@ -101,24 +55,6 @@
   (bind-key (kbd "C-c w ]") #'md-wiki-gen-site-force-meta-and-wiki)
   (bind-key (kbd "C-c w o") #'md-wiki-tree-edit)
   (bind-key (kbd "C-c w d") #'md-wiki-show-diff))
-
-(use-package org-roam
-  :ensure t
-  :custom
-  (org-roam-directory (file-truename "~/org-roam"))
-  :bind (("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n f" . org-roam-node-find)
-         ("C-c n g" . org-roam-graph)
-         ("C-c n i" . org-roam-node-insert)
-         ("C-c n c" . org-roam-capture)
-         ;; Dailies
-         ("C-c n j" . org-roam-dailies-capture-today))
-  :config
-  ;; If you're using a vertical completion framework, you might want a more informative completion interface
-  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
-  (org-roam-db-autosync-mode)
-  ;; If using org-roam-protocol
-  (require 'org-roam-protocol))
 
 (unbind-key (kbd "<f3>") global-map)
 (unbind-key (kbd "<f4>") global-map)
@@ -203,6 +139,28 @@
 (use-package netease-cloud-music
   :ensure t)
 
+(use-package slime
+  :ensure t
+  :config
+  ;; 设置具体的 Common Lisp 实现，我这里是 sbcl
+  (setq inferior-lisp-program "sbcl")
+  ;; Slime 把多数功能拆成独立的包（Contrib Packages）
+  ;; 需要根据功能单独加载，其中 slime-fancy 会自动加载流行的包，一般情况下只加载 slime-fancy 即可
+  (setq slime-contribs '(slime-fancy)))
+
+(unbind-key (kbd "<f3>") global-map)
+(unbind-key (kbd "<f4>") global-map)
+(global-set-key (kbd "<f7>") #'kmacro-start-macro-or-insert-counter)
+(global-set-key (kbd "<f8>") #'kmacro-end-or-call-macro)
+(use-package avy
+  :ensure t
+  :bind (("<f4>" . avy-goto-line)
+         ("<f3>" . avy-goto-char-timer)))
+
+(use-package sql-indent
+  :ensure t
+  :config (sqlind-minor-mode 1))
+
 (defun my/org-hide-emphasis-markers ()
   (interactive)
   (setq org-hide-emphasis-markers t))
@@ -219,8 +177,8 @@
   :hook (after-init . gkroam-mode)
   :init
   (setq gkroam-root-dir "~/gknows/")
-  (setq gkroam-show-brackets-p nil
-        gkroam-prettify-page-p t
+  (setq gkroam-show-brackets-flag nil
+        gkroam-prettify-page-flag t
         gkroam-title-height 200
         gkroam-use-default-filename t
         gkroam-window-margin 4)
@@ -228,6 +186,7 @@
   (:map gkroam-mode-map
         (("C-c r g" . gkroam-update)
          ("C-c r d" . gkroam-daily)
+         ("C-c r b" . gkroam-bootstrap)
          ("C-c r D" . gkroam-delete)
          ("C-c r f" . gkroam-find)
          ("C-c r c" . gkroam-capture)
@@ -240,7 +199,10 @@
          ("C-c r p" . gkroam-toggle-prettify)
          ("C-c r R" . gkroam-rebuild-caches)))
   :config
-  (setq org-startup-folded nil))
+  (setq org-startup-folded nil)
+  (defun gkroam-bootstrap ()
+    (interactive)
+    (gkroam-find "bootstrap")))
 
 
 (use-package elisp-demos
@@ -260,28 +222,28 @@
 ;; (use-package pp-html
 ;;   :load-path "~/iCloud/hack/pp-html")
 
-(use-package ledger-mode
-  :ensure t)
+;; (use-package ledger-mode
+;;   :ensure t)
 
-(use-package flycheck-ledger
-  :ensure t
-  :config
-  (eval-after-load 'flycheck
-    '(require 'flycheck-ledger)))
+;; (use-package flycheck-ledger
+;;   :ensure t
+;;   :config
+;;   (eval-after-load 'flycheck
+;;     '(require 'flycheck-ledger)))
 
-(use-package bm
-  :ensure t
-  :demand t
-  :init
-  (setq bm-restore-repository-on-load t)
-  :config
-  (setq bm-cycle-all-buffers t)
-  (setq-default bm-buffer-persistence t)
-  (add-hook 'after-init-hook 'bm-repository-load)
-  (add-hook 'kill-buffer-hook #'bm-buffer-save)
-  (add-hook 'kill-emacs-hook #'(lambda nil
-                                 (bm-buffer-save-all)
-                                 (bm-repository-save))))
+;; (use-package bm
+;;   :ensure t
+;;   :demand t
+;;   :init
+;;   (setq bm-restore-repository-on-load t)
+;;   :config
+;;   (setq bm-cycle-all-buffers t)
+;;   (setq-default bm-buffer-persistence t)
+;;   (add-hook 'after-init-hook 'bm-repository-load)
+;;   (add-hook 'kill-buffer-hook #'bm-buffer-save)
+;;   (add-hook 'kill-emacs-hook #'(lambda nil
+;;                                  (bm-buffer-save-all)
+;;                                  (bm-repository-save))))
 
 (use-package prescient
   :ensure t
@@ -596,7 +558,7 @@
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-x /") 'split-window-right)
 
-(global-set-key (kbd "<f5>") 'revert-buffer)
+;; (global-set-key (kbd "<f5>") 'revert-buffer)
 
 ;; ================================================
 (global-set-key (kbd "C-c y s c") 'aya-create)

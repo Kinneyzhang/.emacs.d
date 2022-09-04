@@ -15,12 +15,13 @@
   (add-to-list 'default-frame-alist '(ns-appearance . light)))
 
 (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
+
 (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗口
 (setq-default cursor-type 'bar) ;变光标, setq-default设置全局
 
 ;; theme
 ;; (load-theme 'leuven t)
-(load-theme 'doom-material t)
+(load-theme 'tsdh-light t)
 
 (setq inhibit-compacting-font-caches t)
 
@@ -38,15 +39,16 @@
                          "DejaVu Sans Mono"
                          "Consolas")
            when (font-installed-p font)
-           return (set-face-attribute 'default nil
-                                      :font font
-                                      :height (cond ((eq system-type 'darwin) 130)
-                                                    ((eq system-type 'windows-nt) 90)
-                                                    (t 120))))
+           return (set-face-attribute
+                   'default nil
+                   :font font
+                   :height (cond ((eq system-type 'darwin) 135)
+                                 ((eq system-type 'windows-nt) 110)
+                                 (t 100))))
   ;; Specify font for all unicode characters
   (cl-loop for font in '("Symbola" "Apple Color Emoji" "Symbol")
            when (font-installed-p font)
-           return(set-fontset-font t 'unicode font nil 'prepend))
+           return (set-fontset-font t 'unicode font nil 'append))
   ;; Specify font for Chinese characters
   (cl-loop for font in
            '("Source Han Serif SC"
@@ -54,7 +56,16 @@
              "WenQuanYi Micro Hei"
              "Microsoft Yahei")
            when (font-installed-p font)
-           return (set-fontset-font t '(#x4e00 . #x9fff) font)))
+           return (dolist (charset '(kana han hangul cjk-misc bopomofo))
+                    (set-fontset-font t charset font))))
+
+;; 设置中文标点
+;; (set-fontset-font t 'cjk-misc "微软雅黑")
+;; (dolist (character '(?\x25C9 ?\x25CB ?\x2738 ?\x273F ?\xA1F3))
+;;   (set-fontset-font nil character (font-spec :family "微软雅黑")))
+
+(set-fontset-font t 'cjk-misc "Noto Sans CJK SC Regular")
+;; (message "%s"(font-family-list))
 
 ;; @purcell
 (defun sanityinc/adjust-opacity (frame incr)

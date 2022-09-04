@@ -55,28 +55,14 @@
 ;;   (ivy-posframe--display str #'posframe-poshandler-frame-top-center))
 
 ;; projectile
-(use-package projectile
-  :ensure t)
+;; (use-package projectile
+;;   :ensure t)
 
-(use-package counsel-projectile
-  :ensure t
-  :config
-  (counsel-projectile-mode)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
-
-(use-package counsel-world-clock
-  :ensure t
-  :defer 5)
-
-;; open osx app
-(use-package counsel-osx-app
-  :ensure t
-  :defer 5)
-
-
-(use-package spotlight
-  :ensure t
-  :defer 5)
+;; (use-package counsel-projectile
+;;   :ensure t
+;;   :config
+;;   (counsel-projectile-mode)
+;;   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
 ;; (use-package all-the-icons-ivy
 ;;   :ensure t
@@ -120,10 +106,10 @@
 ;; 	    (ivy-rich-file-last-modified-time (:face font-lock-comment-face))))) ; return the last modified time of the file
 ;; 	))
 
+
 ;;; avy
 (use-package avy
   :ensure t)
-
 ;; (kmacro-start-macro-or-insert-counter) default <f3>
 ;; (kmacro-end-or-call-macro) default <f4>
 
