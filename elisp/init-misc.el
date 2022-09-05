@@ -43,12 +43,80 @@
 ;; (use-package netease-cloud-music
 ;;   :load-path "~/.config/emacs/site-lisp/netease-cloud-music/")
 
-;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd-macs.el")
-;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd-cmds.el")
-;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd-project.el")
-;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd.el")
-(add-to-list 'load-path "c:/Users/26289/Hackings/myGTD/")
-(require 'mygtd)
+(setq js-indent-level 2)
+(setq css-indent-offset 2)
+
+(defun md-wiki-gen-site-force-nav-and-wiki ()
+  (interactive)
+  (md-wiki-gen-site-force-nav)
+  (gk/deploy-wiki))
+
+(defun md-wiki-gen-site-force-meta-and-wiki ()
+  (interactive)
+  (md-wiki-gen-site-force-meta)
+  (gk/deploy-wiki))
+
+(use-package md-wiki
+  :load-path "~/Hackings/md-wiki"
+  :config
+  (setq md-wiki-tree-file "~/Hackings/md-wiki/config/mdwiki.org")
+  (setq md-wiki-diff-file "~/Hackings/md-wiki/config/mdwiki-diff.el")
+  (bind-key (kbd "C-c w f") #'md-wiki-page-edit)
+  (bind-key (kbd "C-c w p") #'md-wiki-gen-site)
+  (bind-key (kbd "C-c w [") #'md-wiki-gen-site-force-nav-and-wiki)
+  (bind-key (kbd "C-c w ]") #'md-wiki-gen-site-force-meta-and-wiki)
+  (bind-key (kbd "C-c w o") #'md-wiki-tree-edit)
+  (bind-key (kbd "C-c w d") #'md-wiki-show-diff)
+  (bind-key (kbd "C-c w b") #'md-wiki-browse-page))
+
+(use-package python
+  :ensure nil
+  :config
+  (setq python-indent-offset 3))
+
+(use-package crow
+  :load-path "~/emacs-pkgs/emacs-crow"
+  :config
+  (setq
+   ;; crow开启的翻译信息
+   crow-enable-info '(:examples nil
+                                :source t
+                                :translit nil
+                                :translation t
+                                :options nil)
+   ;; crow翻译间隔延迟
+   crow-translate-delay 0
+   ;; crow翻译单位类型
+   crow-translate-type (list 'word 'sentence)
+   ;; 翻译文本ui呈现类型
+   crow-ui-type '(posframe eldoc)
+   ;; posframe超时隐藏时间
+   crow-posframe-hide-timeout 3
+   ;; crow posframe放置的位置
+   crow-posframe-position (lambda () (point))))
+
+(use-package org-roam
+  :ensure t
+  :custom
+  (org-roam-directory (file-truename "~/org-roam/"))
+  :bind (("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n g" . org-roam-graph)
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ;; Dailies
+         ("C-c n j" . org-roam-dailies-capture-today))
+  :config
+  ;; If you're using a vertical completion framework, you might want a more informative completion interface
+  (setq org-roam-node-display-template (concat "${title:*} " (propertize "${tags:10}" 'face 'org-tag)))
+  (org-roam-db-autosync-mode)
+  ;; If using org-roam-protocol
+  (require 'org-roam-protocol))
+
+(use-package mygtd
+  :load-path "~/Hackings/mygtd"
+  :config
+  (setq mygtd-dir "~/mygtd-org"))
 
 (use-package slime
   :ensure t
@@ -102,8 +170,8 @@
   :hook (after-init . gkroam-mode)
   :init
   (setq gkroam-root-dir "~/gknows/")
-  (setq gkroam-show-brackets-p nil
-        gkroam-prettify-page-p t
+  (setq gkroam-show-brackets-flag nil
+        gkroam-prettify-page-flag t
         gkroam-title-height 200
         gkroam-use-default-filename t
         gkroam-window-margin 4)
@@ -629,7 +697,20 @@ specified.  Select the current line if the LINES prefix is zero."
   (add-hook 'web-mode-hook 'flycheck-mode)
   (add-hook 'ledger-mode-hook 'flycheck-mode)
   ;; (add-hook 'emacs-lisp-mode-hook 'flycheck-mode)
-  )
+
+;;; On Windows, commands run by flycheck may have CRs (\r\n line endings).
+;;; Strip them out before parsing.
+  (defun flycheck-parse-output-1 (output checker buffer)
+    "Parse OUTPUT from CHECKER in BUFFER.
+OUTPUT is a string with the output from the checker symbol
+CHECKER.  BUFFER is the buffer which was checked.
+Return the errors parsed with the error patterns of CHECKER."
+    (let ((sanitized-output (replace-regexp-in-string "\r" "" output)))
+      (funcall (flycheck-checker-get checker 'error-parser)
+               sanitized-output checker buffer)))
+  (advice-add 'flycheck-parse-output :override 'flycheck-parse-output-1))
+
+
 
 ;; markdown and preview
 

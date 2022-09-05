@@ -11,10 +11,14 @@
 (setq recentf-max-menu-items 10)
 (global-hl-line-mode -1)
 ;;(add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
+(set-display-table-slot standard-display-table 'wrap ?\ )
 (show-paren-mode 1)
 (setq scroll-step 1
       scroll-margin 1
       scroll-conservatively 10000)
+
+(setq-default tab-width 4)
+(setq-default cursor-type '(bar . 3))
 
 (defun my/move-to-window-bottom ()
   (interactive)
@@ -29,13 +33,13 @@
 
 (fset 'yes-or-no-p 'y-or-n-p);;用y/s代替yes/no
 
-(setq default-buffer-file-coding-system 'utf-8)
 (setq bookmark-file-coding-system 'utf-8)
 (setq magit-git-output-coding-system 'utf-8)
 (setq bookmark-save-flag 1)
 (setq org-image-actual-width nil)
 (setq show-trailing-whitespace t)
 (prefer-coding-system 'utf-8)
+(setq buffer-file-coding-system 'utf-8-dos)
 
 (eval-after-load 'org-mode
   (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1))))

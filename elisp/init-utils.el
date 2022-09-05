@@ -32,12 +32,19 @@
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
     (async-shell-command "cd c:/Users/26289/Hackings/mygtd && git add . && git commit -m 'update' && git push")))
 
-(defun gk/deploy-docks ()
+(defun gk/deploy-wiki ()
   "Deploy geekblog."
   (interactive)
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
-    (async-shell-command "cd c:/Users/26289/hugo-doks && git add . && git commit -m 'update' && git push")))
+    (async-shell-command "cd c:/Users/26289/Hackings/md-wiki/ && sh ./deploy.sh")))
+
+(defun gk/deploy-blog ()
+  "Deploy geekblog."
+  (interactive)
+  (let ((display-buffer-alist
+         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
+    (async-shell-command "cd c:/Users/26289/geekblog/ && sh ./deploy.sh")))
 
 (defun gk/deploy-langc ()
   "Deploy geekblog."
@@ -451,24 +458,6 @@ Version 2019-11-04"
 (require 'dired)
 (define-key dired-mode-map (kbd "<C-return>") 'xah-open-in-external-app)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Daily page to blog
-(defvar gk-blog-page-dir "c:/Users/26289/geekblog")
 
-(defun gk-daily-page-to-blog ()
-  (interactive)
-  (let* ((title (format-time-string "%b %d, %Y"))
-         (file (expand-file-name (gkroam--get-page title) gkroam-root-dir))
-         content)
-    (with-current-buffer (find-file-noselect file)
-      (save-excursion
-        (goto-char (point-min))
-        (if (re-search-forward (concat "^#\\+TITLE: " title) nil t)
-            (setq content (string-trim (buffer-substring-no-properties
-                                        (1+ (point)) (point-max))))
-          (user-error "Dismatched daily page title, please check!"))))))
-
-(gk-daily-page-to-blog)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'init-utils)
 ;; ;;; init-utils.el ends here
