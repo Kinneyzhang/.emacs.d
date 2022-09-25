@@ -4,6 +4,3 @@
 [submodule "site-lisp/awesome-pair"]
 	path = site-lisp/awesome-pair
 	url = https://github.com/manateelazycat/awesome-pair.git
-[submodule "site-lisp/netease-cloud-music"]
-	path = site-lisp/netease-cloud-music
-	url = https://github.com/SpringHan/netease-cloud-music.el.git
