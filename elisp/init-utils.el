@@ -1,34 +1,3 @@
-;;; init-utils
-(defun gk/learning-ca ()
-  "Open ca coding file and pdf."
-  (interactive)
-  (delete-other-windows)
-  (find-file "/Users/geekinney/iCloud/LangC/C-Algorithm")
-  (split-window (selected-window) t 'right)
-  (other-window 1)
-  (shell-command "open "))
-
-"/Users/geekinney/Library/Mobile\ Documents/com~apple~CloudDocs/books/数据结构与算法分析\ C语言描述\ by\ 韦斯\ \(Mark\ Allen\ Weiss\)\ \(z-lib.org\).pdf"
-
-
-(use-package all-the-icons
-  :ensure t)
-
-(use-package command-log-mode
-  :ensure t)
-
-(use-package winner-mode
-  :ensure nil
-  :hook (after-init . winner-mode))
-
-(use-package aggressive-indent
-  :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
-
-(use-package package-lint
-  :ensure t)
-
 ;; (use-package vterm
 ;;   :ensure t)
 
@@ -50,27 +19,6 @@
 ;; 		 (window-height . 0.3))))
 
 ;;-----------------------------------------------
-
-(defun my/video-compress-and-convert (video new)
-  (interactive "fvideo path: \nfnew item name (eg. exam.mp4, exam.gif) : ")
-  (let ((video-format (cadr (split-string (file-name-nondirectory new) "\\."))))
-    (if (string= video-format "gif")
-	(progn
-	  (shell-command
-	   (concat "ffmpeg -i " video " -r 5 " new))
-	  (message "%s convert to %s successfully!" video new))
-      (progn
-	(shell-command
-	 (concat "ffmpeg -i " video " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " new))
-	(message "%s compress and convert to %s successfully!" video new)))))
-
-(use-package quelpa
-  :ensure t
-  :config
-  (use-package quelpa-use-package :ensure t)
-  (setq quelpa-update-melpa-p nil)
-  (setq quelpa-self-upgrade-p nil)
-  (setq quelpa-upgrade-interval 30))
 
 ;; count words
 (defvar wc-regexp-chinese-char-and-punc
@@ -142,157 +90,14 @@
 
 (global-set-key (kbd "C-c t t") 'my/insert-current-time)
 (global-set-key (kbd "C-c t d") 'my/insert-current-date)
-;;--------------------------------------------------------------------
-(defvar my-mood-diary-file "~/iCloud/blog_site/org/include/diary.org")
-(defun my/mood-diary-quick-capture ()
-  (interactive)
-  (find-file my-mood-diary-file)
-  (with-current-buffer (buffer-name)
-    (goto-char (point-min))
-    (re-search-forward "-----")
-    (previous-line)
-    (end-of-line)
-    (insert "\n-----\n**")
-    (backward-char)
-    (my/insert-current-time)
-    (forward-char)
-    (insert "\n\n")))
-(defun my/habit-recording ()
-  (interactive)
-  (find-file "~/iCloud/program_org/habit-recording-2020.org"))
-(global-set-key (kbd "C-c m d") 'my/mood-diary-quick-capture)
-(global-set-key (kbd "C-c m h") 'my/habit-recording)
 
-;;-------------------------------------------------------------------
-;; generate qrcode
-(setq lexical-binding t)
-(defun my/qr-encode (str &optional buf)
-  "Encode STR as a QR code.
-Return a new buffer or BUF with the code in it."
-  (interactive "MString to encode: ")
-  (let ((buffer (get-buffer-create (or buf "*QR Code*")))
-        (format (if (display-graphic-p) "PNG" "UTF8"))
-        (inhibit-read-only t))
-    (with-current-buffer buffer
-      (delete-region (point-min) (point-max)))
-    (make-process
-     :name "qrencode" :buffer buffer
-     :command `("qrencode" ,str "-t" ,format "-o" "-")
-     :coding 'no-conversion
-     ;; seems only the filter function is able to move point to top
-     :filter (lambda (process string)
-               (with-current-buffer (process-buffer process)
-                 (insert string)
-                 (goto-char (point-min))
-                 (set-marker (process-mark process) (point))))
-     :sentinel (lambda (process change)
-                 (when (string= change "finished\n")
-                   (with-current-buffer (process-buffer process)
-                     (cond ((string= format "PNG")
-                            (image-mode)
-                            (image-transform-fit-to-height))
-                           (t ;(string= format "UTF8")
-                            (text-mode)
-                            (decode-coding-region (point-min) (point-max) 'utf-8)))))))
-    (when (called-interactively-p 'interactive)
-      (display-buffer buffer))
-    buffer))
-;; =========================
 (use-package general
   :ensure t)
-
-(use-package auto-save
-  :load-path "~/.config/emacs/site-lisp/auto-save"
-  :config
-  (auto-save-enable)  ;; 开启自动保存功能。
-  (setq auto-save-slient nil) ;; 自动保存的时候静悄悄的，不要打扰我
-  (setq auto-save-delete-trailing-whitespace nil)
-  (setq auto-save-disable-predicates
-        '((lambda ()
-            (string-suffix-p
-             "gpg"
-             (file-name-extension (buffer-name)) t)))))
 
 (use-package paredit
   ;; check if the parens is matched
   :ensure t
   :defer t)
-
-(use-package which-key
-  :ensure t
-  :hook (after-init . which-key-mode)
-  :init (setq which-key-idle-delay 0.5))
-
-;;google translate
-;; (use-package go-translate
-;;   :ensure t
-;;   :init (setq go-translate-base-url "https://translate.google.cn"
-;; 	      go-translate-local-language "zh-CN"))
-
-(use-package youdao-dictionary
-  :ensure t
-  :defer 5
-  :bind (("C-c y y" . youdao-dictionary-search-at-point+)
-  	 ("C-c y i" . youdao-dictionary-search-from-input))
-  :init
-  (setq url-automatic-caching t))
-
-(use-package osx-dictionary
-  :ensure t
-  ;; :bind (("C-c y y" . osx-dictionary-search-word-at-point)
-  ;; 	 ("C-c y i" . osx-dictionary-search-input))
-  )
-
-(use-package search-web
-  :defer 5
-  :ensure t
-  :init
-  (setq search-web-engines
-	'(("腾讯视频" "https://v.qq.com/x/search/?q=%s" nil)
-	  ("Google" "http://www.google.com/search?q=%s" nil)
-	  ("Youtube" "http://www.youtube.com/results?search_query=%s" nil)
-	  ("Bilibili" "https://search.bilibili.com/all?keyword=%s" nil)
-          ("Zhihu" "https://www.zhihu.com/search?type=content&q=%s" nil)
-	  ("Stackoveflow" "http://stackoverflow.com/search?q=%s" nil)
-	  ("Sogou" "https://www.sogou.com/web?query=%s" nil)
-	  ("Github" "https://github.com/search?q=%s" nil)
-	  ("Melpa" "https://melpa.org/#/?q=%s" nil)
-	  ("Emacs-China" "https://emacs-china.org/search?q=%s" nil)
-	  ("EmacsWiki" "https://www.emacswiki.org/emacs/%s" nil)
-	  ("Wiki-zh" "https://zh.wikipedia.org/wiki/%s" nil)
-	  ("Wiki-en" "https://en.wikipedia.org/wiki/%s" nil)
-	  ))
-  :bind (("C-c w u" . browse-url)
-	 ("C-c w w" . search-web)
-	 ("C-c w p" . search-web-at-point)
-	 ("C-c w r" . search-web-region)))
-
-;; use xwidget-webkit
-;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
-;; (defun browse-url-default-browser (url &rest args)
-;;  "Override `browse-url-default-browser' to use `xwidget-webkit' URL ARGS."
-;;  (xwidget-webkit-browse-url url args))
-;;(define-key xwidget-webkit-mode-map (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
-;;(define-key xwidget-webkit-mode-map (kbd "C-c w k") 'xwidget-webkit-current-url-message-kill)
-
-(use-package browse-at-remote
-  :ensure t
-  :bind ("C-c w g" . browse-at-remote))
-
-;; (use-package proxy-mode
-;;   :ensure t
-;;   :defer 5
-;;   :init
-;;   (setq proxy-mode-socks-proxy '("socks5" "127.0.0.1" 1086 5))
-;;   (setq url-gateway-local-host-regexp
-;; 	(concat "\\`" (regexp-opt '("localhost" "127.0.0.1")) "\\'")))
-
-(use-package darkroom
-  :ensure t
-  :bind (("C-c d" . darkroom-tentative-mode)))
-
-(use-package password-generator
-  :ensure t)
 
 (defun file-contents (filename)
   (interactive "fFind file: ")
@@ -300,128 +105,7 @@ Return a new buffer or BUF with the code in it."
     (insert-file-contents filename) ;; 先将文件内容插入临时buffer，再读取内容
     (buffer-substring-no-properties (point-min) (point-max))))
 
-;; (defun chunyang-scratch-save ()
-;;   (ignore-errors
-;;     (with-current-buffer "*scratch*"
-;;       (write-region nil nil (concat user-emacs-directory "scratch")))))
-
-;; (defun chunyang-scratch-restore ()
-;;   (let ((f (concat user-emacs-directory "scratch")))
-;;     (when (file-exists-p f)
-;;       (with-current-buffer "*scratch*"
-;; 	(erase-buffer)
-;; 	(insert-file-contents f)))))
-
-;; (add-hook 'kill-emacs-hook #'chunyang-scratch-save)
-;; (add-hook 'after-init-hook #'chunyang-scratch-restore)
-;;-----------------------------
-;; (add-hook 'focus-in-hook 'my/mac-switch-input-source)
-;; (defun my/mac-switch-input-source ()
-;;   (interactive)
-;;   (shell-command
-;;    "osascript -e 'tell application \"System Events\" to tell process \"SystemUIServer\"
-;;       set currentLayout to get the value of the first menu bar item of menu bar 1 whose description is \"text input\"
-;;       if currentLayout is not \"ABC\" then
-;;         tell (1st menu bar item of menu bar 1 whose description is \"text input\") to {click, click (menu 1'\"'\"'s menu item \"ABC\")}
-;;       end if
-;;     end tell' &>/dev/null")
-;;   (message "Input source has changed to ABC!"))
-
-(defun my/personal-summary (x)
-  (interactive "swhich type of summary (w->week | m->month | y->year): ")
-  (let* ((year (format-time-string "%Y"))
-	 (month (format-time-string "%m"))
-	 (week (format-time-string "%W"))
-	 (week-file (concat "~/iCloud/program_org/" year "-week-summary-" week ".org"))
-	 (month-file (concat "~/iCloud/program_org/" year "-month-summary-" month ".org"))
-	 (year-file (concat "~/iCloud/program_org/" year "-year-summary.org"))
-	 (org-head
-	  (concat "#+DATE: " (format-time-string "%F") "\n"
-		  "#+CATEGORY: 总结
-#+STARTUP: showall
-#+OPTIONS: toc:nil H:2 num:0
-#+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"https://geekinney.com/assets/css/light.css\"/>\n
-")))
-    (with-temp-buffer
-      (cond ((string= x "w")
-	     (insert (concat "#+TITLE: " year "年" week "周总结\n"))
-	     (insert org-head)
-	     (insert "* 本周总结\n* 下周规划")
-	     (write-file week-file))
-	    ((string= x "m")
-	     (insert (concat "#+TITLE: " year "年" month "月总结\n"))
-	     (insert org-head)
-	     (insert "* 本月总结\n* 下月规划")
-	     (write-file month-file))
-	    ((string= x "y")
-	     (insert (concat "#+TITLE: " year "年度总结\n"))
-	     (insert org-head)
-	     (insert "* 年度总结\n* 明年规划")
-	     (write-file year-file))))))
-
-(defun xah-open-in-external-app (&optional @fname)
-  "Open the current file or dired marked files in external app.
-The app is chosen from your OS's preference.
-When called in emacs lisp, if @fname is given, open that.
-URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
-Version 2019-11-04"
-  (interactive)
-  (let* (($file-list
-	  (if @fname
-	      (progn (list @fname))
-	    (if (string-equal major-mode "dired-mode")
-		(dired-get-marked-files)
-	      (list (buffer-file-name)))))
-	 ($do-it-p (if (<= (length $file-list) 5)
-		       t
-		     (y-or-n-p "Open more than 5 files? "))))
-    (when $do-it-p
-      (cond
-       ((string-equal system-type "windows-nt")
-	(mapc
-	 (lambda ($fpath)
-	   (w32-shell-execute "open" $fpath))
-	 $file-list))
-       ((string-equal system-type "darwin")
-	(mapc
-	 (lambda ($fpath)
-	   (shell-command
-	    (concat "open " (shell-quote-argument $fpath))))
-	 $file-list))
-       ((string-equal system-type "gnu/linux")
-	(mapc
-	 (lambda ($fpath) (let ((process-connection-type nil))
-			    (start-process "" nil "xdg-open" $fpath)))
-	 $file-list))))))
-
-(require 'dired)
-(define-key dired-mode-map (kbd "<C-return>") 'xah-open-in-external-app)
-
-(defun swap-success-block ()
-  (interactive)
-  (with-current-buffer (find-file-noselect "~/geekblog/content/success.md")
-    (save-excursion
-      (goto-char (point-min))
-      (while (re-search-forward "^# [-0-9]+$" nil t)
-        (let* ((beg (1+ (point)))
-               (end (save-excursion
-                      (if (re-search-forward "^# [-0-9]+$" nil t)
-                          (line-beginning-position)
-                        (point-max))))
-               (content (buffer-substring-no-properties beg end))
-               new-content)
-          (with-temp-buffer
-            (insert content)
-            (let ((end (goto-char (point-max))))
-              (while (re-search-backward "^## [-0-9 ~]+$" nil t)
-                (let* ((beg (point))
-                       (text (buffer-substring-no-properties beg end)))
-                  (setq end (point))
-                  (setq new-content (concat new-content text))))))
-          (delete-region beg end)
-          (insert "\n" new-content))))))
-
-;;; geekblog utils
+;;; deploy functions
 
 (defun gk/deploy-wiki ()
   "Deploy geekblog."
@@ -458,28 +142,266 @@ Version 2019-11-04"
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
     (async-shell-command "cd ~/iCloud/hack/mygtd/ && git add . && git commit -m 'update' && git push")))
 
-;; (defun gk/deploy-gtd ()
-;;   "Deploy geekblog."
-;;   (interactive)
-;;   (let ((display-buffer-alist
-;;          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
-;;     (async-shell-command "cd ~/iCloud/GTD/ && git add . && git commit -m 'update' && git push")))
+;;; print symbol
 
-;;;;;;Blog Hacking;;;;;;;;
-(defun gkblog-add-week-after-date ()
-  "Add week after the date."
+(defun print-symbol-τ ()
+  "print to"
   (interactive)
-  (let ((file "/Users/geekinney/geekblog/content/success.md")
-        (regexp "^## \\([-0-9]\\{10\\}\\)"))
-    (with-current-buffer (find-file-noselect file)
-      (save-excursion
-        (goto-char (point-min))
-        (while (re-search-forward regexp nil t)
-          (let* ((date (concat (match-string-no-properties 1)
-                               " 00:00:00"))
-                 (week (format-time-string "%a" (date-to-time date))))
-            (insert " " week)))))))
+  (insert "τ"))
+(global-set-key (kbd "C-c s t o") 'print-symbol-τ)
 
+(defun print-symbol-∂ ()
+  "print round"
+  (interactive)
+  (insert "∂"))
+(global-set-key (kbd "C-c s r d") 'print-symbol-∂)
+
+(defun print-symbol-∮ ()
+  "print qjf"
+  (interactive)
+  (insert "∮")∮)
+(global-set-key (kbd "C-c s q j f") 'print-symbol-∮)
+
+(defun print-symbol-ρ ()
+  "print ru"
+  (interactive)
+  (insert "ρ"))
+(global-set-key (kbd "C-c s r u") 'print-symbol-ρ)
+
+(defun print-symbol-± ()
+  "print plus and minus"
+  (interactive)
+  (insert "±"))
+(global-set-key (kbd "C-c s p m") 'print-symbol-±)
+
+(defun print-symbol-⊥ ()
+  "print perpendicular to"
+  (interactive)
+  (insert "⊥"))
+(global-set-key (kbd "C-c s p t") 'print-symbol-⊥)
+
+(defun print-symbol-ʃ ()
+  "print jifen"
+  (interactive)
+  (insert "ʃ"))
+(global-set-key (kbd "C-c s j f") 'print-symbol-ʃ)
+
+(defun print-symbol-≥ ()
+  "print more and equal"
+  (interactive)
+  (insert "≥"))
+(global-set-key (kbd "C-c s m e") 'print-symbol-≥)
+
+(defun print-symbol-≤ ()
+  "print less and equal"
+  (interactive)
+  (insert "≤"))
+(global-set-key (kbd "C-c s l e") 'print-symbol-≤)
+
+(defun print-symbol-≠ ()
+  "print Inequality"
+  (interactive)
+  (insert "≠"))
+(global-set-key (kbd "C-c s i e") 'print-symbol-≠)
+
+(defun print-symbol-∃ ()
+  "print existence"
+  (interactive)
+  (insert "∃"))
+(global-set-key (kbd "C-c s e x") 'print-symbol-∃)
+
+(defun print-symbol-∀ ()
+  "print Arbitrary"
+  (interactive)
+  (insert "∀"))
+(global-set-key (kbd "C-c s a b") 'print-symbol-∀)
+
+(defun print-symbol-⊆ ()
+  "print contained"
+  (interactive)
+  (insert "⊆"))
+(global-set-key (kbd "C-c s c t") 'print-symbol-⊆)
+
+(defun print-symbol-∈ ()
+  "print Belong"
+  (interactive)
+  (insert "∈"))
+(global-set-key (kbd "C-c s b l") 'print-symbol-∈)
+
+(defun print-symbol-∞ ()
+  "print Infinit"
+  (interactive)
+  (insert "∞"))
+(global-set-key (kbd "C-c s i f") 'print-symbol-∞)
+
+(defun print-symbol-ξ ()
+  "print ksi"
+  (interactive)
+  (insert "ξ"))
+(global-set-key (kbd "C-c s k s") 'print-symbol-ξ)
+
+(defun print-symbol-η ()
+  "print eta"
+  (interactive)
+  (insert "η"))
+(global-set-key (kbd "C-c s e t") 'print-symbol-η)
+
+(defun print-symbol-ε ()
+  "print Epsilon"
+  (interactive)
+  (insert "ε"))
+(global-set-key (kbd "C-c s e p") 'print-symbol-ε)
+
+(defun print-symbol-α ()
+  "print Alpha"
+  (interactive)
+  (insert "α"))
+(global-set-key (kbd "C-c s a p") 'print-symbol-α)
+
+(defun print-symbol-β ()
+  "print Beta"
+  (interactive)
+  (insert "β"))
+(global-set-key (kbd "C-c s b t") 'print-symbol-β)
+
+(defun print-symbol-γ ()
+  "print Gamma"
+  (interactive)
+  (insert "γ"))
+(global-set-key (kbd "C-c s g m") 'print-symbol-γ)
+
+(defun print-symbol-λ ()
+  "print lambda"
+  (interactive)
+  (insert "λ"))
+(global-set-key (kbd "C-c s l d") 'print-symbol-λ)
+
+(defun print-symbol-θ ()
+  "print Theta"
+  (interactive)
+  (insert "θ"))
+(global-set-key (kbd "C-c s t t") 'print-symbol-θ)
+
+(defun print-symbol-ζ ()
+  "print Zeta"
+  (interactive)
+  (insert "ζ"))
+(global-set-key (kbd "C-c s z t") 'print-symbol-ζ)
+
+(defun print-symbol-Δ ()
+  "print Delte"
+  (interactive)
+  (insert "Δ"))
+(global-set-key (kbd "C-c s d t") 'print-symbol-Δ)
+
+(defun print-symbol-μ ()
+  "print Mu"
+  (interactive)
+  (insert "μ"))
+(global-set-key (kbd "C-c s m u ") 'print-symbol-μ)
+
+(defun print-symbol-π ()
+  "print Pi"
+  (interactive)
+  (insert "π"))
+(global-set-key (kbd "C-c s p i") 'print-symbol-π)
+
+(defun print-symbol-σ ()
+  "print Sigma"
+  (interactive)
+  (insert "σ"))
+(global-set-key (kbd "C-c s s m") 'print-symbol-σ)
+
+(defun print-symbol-Σ ()
+  "print upper Sigma"
+  (interactive)
+  (insert "Σ"))
+(global-set-key (kbd "C-c s u s m") 'print-symbol-Σ)
+
+(defun print-symbol-ρ ()
+  "print Rho"
+  (interactive)
+  (insert "ρ"))
+(global-set-key (kbd "C-c s r h") 'print-symbol-ρ)
+
+(defun print-symbol-ψ ()
+  "print Psi"
+  (interactive)
+  (insert "ψ"))
+(global-set-key (kbd "C-c s p s") 'print-symbol-ψ)
+
+(defun print-symbol-φ ()
+  "print Phi"
+  (interactive)
+  (insert "φ"))
+(global-set-key (kbd "C-c s p h") 'print-symbol-φ)
+
+(defun print-symbol-Φ ()
+  "print upper Phi"
+  (interactive)
+  (insert "Φ"))
+(global-set-key (kbd "C-c s u p h") 'print-symbol-Φ)
+
+(defun print-symbol-ω ()
+  "print lower Omiga"
+  (interactive)
+  (insert "ω"))
+(global-set-key (kbd "C-c s l o g") 'print-symbol-ω)
+
+(defun print-symbol-Ω ()
+  "print upper Omiga"
+  (interactive)
+  (insert "Ω"))
+(global-set-key (kbd "C-c s u o g") 'print-symbol-Ω)
+
+;;=================================================================
+(defun print-symbol-◉ ()
+  (interactive)
+  (insert "◉"))
+(global-set-key (kbd "C-c s t d") 'print-symbol-◉)
+
+(defun print-symbol-● ()
+  (interactive)
+  (insert "●"))
+(global-set-key (kbd "C-c s s d") 'print-symbol-●) ;;solid dot
+
+(defun print-symbol-○ ()
+  (interactive)
+  (insert "○"))
+(global-set-key (kbd "C-c s h d") 'print-symbol-○) ;;hollow dot
+
+(defun print-symbol-× ()
+  (interactive)
+  (insert "×"))
+(global-set-key (kbd "C-c s c h") 'print-symbol-×) ;;cross
+
+(defun print-symbol-★ ()
+  (interactive)
+  (insert "★"))
+(global-set-key (kbd "C-c s 1") 'print-symbol-★)
+
+(defun print-symbol-√ ()
+  (interactive)
+  (insert "√"))
+(global-set-key (kbd "C-c s g h") 'print-symbol-√)
+
+(defun print-symbol-❤ ()
+  (interactive)
+  (insert "❤"))
+(global-set-key (kbd "C-c s t m") 'print-symbol-❤)
+
+(use-package grab-mac-link
+  :ensure t
+  :bind (("C-c l g" . grab-mac-link)))
+
+(defun diary-last-day-of-month (date)
+  "Return `t` if DATE is the last day of the month."
+  (let* ((day (calendar-extract-day date))
+         (month (calendar-extract-month date))
+         (year (calendar-extract-year date))
+         (last-day-of-month
+          (calendar-last-day-of-month month year)))
+    (= day last-day-of-month)))
 
 (provide 'init-utils)
 ;; ;;; init-utils.el ends here

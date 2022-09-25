@@ -12,7 +12,8 @@
   :bind (("<f2>" . emacs-hydra/body)
 	 ("C-c o" . hydra-launch/body))
   :init
-  (cl-defun pretty-hydra-title (title &optional icon-type icon-name &key face height v-adjust)
+  (cl-defun pretty-hydra-title
+      (title &optional icon-type icon-name &key face height v-adjust)
     "Add an icon in the hydra title."
     (let ((face (or face `(:foreground ,(face-background 'highlight))))
           (height (or height 1.0))
@@ -22,21 +23,17 @@
          (let ((f (intern (format "all-the-icons-%s" icon-type))))
            (when (fboundp f)
              (concat
-              (apply f (list icon-name :face face :height height :v-adjust v-adjust))
+              (apply f (list icon-name
+                             :face face
+                             :height height
+                             :v-adjust v-adjust))
               " "))))
        (propertize title 'face face)))))
-
-(defun gk-open-scratch ()
-  "Open scratch.el file."
-  (interactive)
-  (find-file "~/scratch.el"))
 
 (pretty-hydra-define emacs-hydra
   (:color amaranth :exit t)
   ("Basic"
-   (("a" org-agenda "org agenda")
-    ("b" ivy-switch-buffer "switch buffer")
-    ("c" org-capture "org capture")
+   (("b" ivy-switch-buffer "switch buffer")
     ("e" eval-expression "eval expression")
     ("f" find-file "find file")
     ("s" gk-open-scratch "open scratch")
@@ -47,25 +44,7 @@
     ("w u" browse-url "with url")
     ("w p" search-web-at-point "point")
     ("w r" search-web-region "region")
-    ("w g" browse-at-remote "remote"))
-   "Habit"
-   (("h n" gkh-new "new habit")
-    ("h r" gkh-record "record habit")
-    ("h d" gkh-org-table-display "display org table"))
-   "Bookmark"
-   (("m t" bm-toggle "toggle")
-    ("m s" bm-show "show")
-    ("m n" bm-next "next")
-    ("m p" bm-previous "previous"))
-   "Pomodoro"
-   (("p s" pomodoro-start "start")
-    ("p d" pomodoro-stop "stop")
-    ("p p" pomodoro-pause "pause")
-    ("p r" pomodoro-resume "resume"))
-   "Avy"
-   (("g c" avy-goto-char-timer "goto char")
-    ("g l" avy-goto-line "goto line"))
-   ))
+    ("w g" browse-at-remote "remote"))))
 
 (pretty-hydra-define hydra-launch
   (:color amaranth :exit t)
@@ -88,11 +67,6 @@
     ("r d" (browse-url "https://www.reddit.com") "Reddit")
     ("o m" (browse-url "https://orgmode.org/org.html") "OrgMode Manual")
     ("z h" (browse-url "https://www.zhihu.com") "Zhihu")
-    ("v t" vterm "vterm")
-    )))
-
-;; (setq eww-search-prefix "https://www.baidu.com/s?wd=")
+    ("v t" vterm "vterm"))))
 
 (provide 'init-hydra)
-
-;;; hydra end here

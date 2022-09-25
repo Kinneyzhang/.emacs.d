@@ -1,5 +1,3 @@
-;;; window config
-
 (use-package winum
   :ensure t
   :config
@@ -33,17 +31,6 @@
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 
-;; (use-package popwin
-;;   :ensure t
-;;   :config (popwin-mode 1))
-
-(use-package neotree
-  :ensure t
-  :defer 5
-  :bind (("<f9>" . neotree-toggle))
-  :config
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
-
 ;; My own functions
 (defun gk-enlarge-window ()
   "Enlarge current window horizontally by 10 columns left and right."
@@ -63,5 +50,37 @@
 
 (global-set-key (kbd "C-x }") #'gk-enlarge-window)
 (global-set-key (kbd "C-x {") #'gk-shrink-window)
+
+;; split windows
+
+(defun my/split-three-windows ()
+  (interactive)
+  (delete-other-windows)
+  (split-window-right)
+  (split-window-right)
+  (balance-windows))
+
+(defun my/split-four-windows ()
+  (interactive)
+  (delete-other-windows)
+  (split-window-right)
+  (split-window-below)
+  (other-window 2)
+  (split-window-below)
+  (balance-windows))
+
+(defun my/split-six-windows ()
+  (interactive)
+  (my/split-three-windows)
+  (split-window-below)
+  (other-window 2)
+  (split-window-below)
+  (other-window 2)
+  (split-window-below)
+  (other-window 1))
+
+(global-set-key (kbd "C-x 3") 'my/split-three-windows)
+(global-set-key (kbd "C-x 4") 'my/split-four-windows)
+(global-set-key (kbd "C-x 6") 'my/split-six-windows)
 
 (provide 'init-window)

@@ -1,9 +1,3 @@
-;;; package --- python configs
-;;; Commentary:
-;;; Contains my python configs
-
-;;; Code:
-
 (use-package python
   :mode ("\\.py" . python-mode)
   :init (setq python-shell-interpreter "/usr/local/bin/python3")
@@ -18,8 +12,8 @@
     ;; (add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
     ;;flycheck-python-flake8-executable "/usr/local/bin/flake8"
     :bind (:map elpy-mode-map
-	      ("M-." . elpy-goto-definition)
-	      ("M-," . pop-tag-mark)))
+	        ("M-." . elpy-goto-definition)
+	        ("M-," . pop-tag-mark)))
   (elpy-enable))
 
 (use-package pip-requirements
@@ -67,7 +61,6 @@
             (message (concat "Setting virtualenv to " pyenv-current-version))))))))
 
 (add-hook 'after-init-hook 'pyenv-init)
-;; (add-hook 'projectile-after-switch-project-hook 'pyenv-activate-current-project)
 
 (provide 'lang-python)
 ;;; base-python.el ends here

@@ -1,5 +1,3 @@
-;;; ruby config
-
 (use-package inf-ruby
   :ensure t
   :defer t

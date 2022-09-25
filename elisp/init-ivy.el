@@ -36,9 +36,28 @@
 	 ("C-c c f" . counsel-fzf)
 	 ("C-c c g" . counsel-git)))
 
+(use-package avy
+  :ensure t
+  :bind (("<f4>" . avy-goto-line)
+         ("<f3>" . avy-goto-char-timer)))
+
+(use-package link-hint
+  :ensure t
+  :defer 5
+  :bind
+  ("C-c l p" . link-hint-open-link-at-point)
+  ("C-c l v" . link-hint-copy-link-at-point)
+  ("C-c l o" . link-hint-open-link)
+  ("C-c l c" . link-hint-copy-link)
+  ("C-c l i" . org-insert-link)
+  ("C-c l s" . org-store-link))
+
+;; (use-package ivy-pass
+;;   :ensure t)
+
 ;; posframe
-(use-package posframe
-  :ensure t)
+;; (use-package posframe
+;;   :ensure t)
 
 ;; (use-package ivy-posframe
 ;;   :ensure t
@@ -106,26 +125,4 @@
 ;; 	    (ivy-rich-file-last-modified-time (:face font-lock-comment-face))))) ; return the last modified time of the file
 ;; 	))
 
-
-;;; avy
-(use-package avy
-  :ensure t)
-;; (kmacro-start-macro-or-insert-counter) default <f3>
-;; (kmacro-end-or-call-macro) default <f4>
-
-(use-package link-hint
-  :ensure t
-  :defer 5
-  :bind
-  ("C-c l p" . link-hint-open-link-at-point)
-  ("C-c l v" . link-hint-copy-link-at-point)
-  ("C-c l o" . link-hint-open-link)
-  ("C-c l c" . link-hint-copy-link)
-  ("C-c l i" . org-insert-link)
-  ("C-c l s" . org-store-link))
-
-(use-package ivy-pass
-  :ensure t)
-
 (provide 'init-ivy)
-
