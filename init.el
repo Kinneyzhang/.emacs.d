@@ -47,7 +47,7 @@
 ;;(require 'lang-python)
 ;;(require 'lang-ruby)
 ;;(require 'lang-javascript)
-;;(require 'lang-web)
+(require 'lang-web)
 (require 'lang-c)
 ;;(require 'lang-php)
 (require 'lang-elisp)
@@ -55,3 +55,4 @@
 ;;(require 'init-pdf)
 (require 'init-sql)
 (require 'init-hack)
+(require 'init-mine)

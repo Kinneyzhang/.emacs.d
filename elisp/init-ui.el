@@ -19,6 +19,7 @@
 (setq-default cursor-type 'box) ;变光标, setq-default设置全局
 
 ;; theme
+;; (load-theme 'tsdh-light t)
 (load-theme 'doom-material t)
 
 ;; Fonts

@@ -7,3 +7,6 @@
 [submodule "site-lisp/netease-cloud-music"]
 	path = site-lisp/netease-cloud-music
 	url = https://github.com/SpringHan/netease-cloud-music.el.git
+[submodule "color-rg"]
+	path = site-lisp/color-rg
+	url = git@github.com:manateelazycat/color-rg.git

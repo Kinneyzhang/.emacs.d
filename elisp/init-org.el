@@ -27,19 +27,13 @@
     (setq org-directory "~/GTD/")
     ;; (setq org-agenda-files '("~/GTD/org/"))
     (setq org-src-fontify-natively t)
-    (setq org-agenda-window-setup 'current-window)
-    ))
+    (setq org-agenda-window-setup 'current-window))
+  (add-hook 'org-mode-hook 'valign-mode))
 
 (use-package org-src
   :hook ((org-mode . (lambda ()
-                       "Beautify Org Checkbox Symbol"
-		       (local-set-key (kbd "C-c o e") 'org-edit-src-code)
-		       (local-set-key (kbd "C-c o i") 'org-insert-src-block)))
-         (org-indent-mode . (lambda()
-                              ;; WORKAROUND: Prevent text moving around while using brackets
-                              ;; @see https://github.com/seagle0128/.emacs.d/issues/88
-                              (make-variable-buffer-local 'show-paren-mode)
-                              (setq show-paren-mode nil))))
+		               (local-set-key (kbd "C-c o e") 'org-edit-src-code)
+		               (local-set-key (kbd "C-c o i") 'org-insert-src-block))))
   :custom
   (org-src-fontify-natively t)
   (org-src-tab-acts-natively t)
@@ -51,11 +45,11 @@
     "Insert a `SRC-CODE-TYPE' type source code block in org-mode."
     (interactive
      (let ((src-code-types
-	    '("emacs-lisp" "rust" "python" "C" "shell" "java" "js" "clojure" "C++" "css"
-	      "calc" "asymptote" "dot" "gnuplot" "lilypond" "mscgen"
-	      "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
-	      "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
-	      "scheme" "sqlite" "html")))
+	        '("emacs-lisp" "rust" "python" "C" "shell" "java" "js" "clojure" "C++" "css"
+	          "calc" "asymptote" "dot" "gnuplot" "lilypond" "mscgen"
+	          "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
+	          "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
+	          "scheme" "sqlite" "html")))
        (list (ido-completing-read "Source code type: " src-code-types))))
     (save-excursion
       (newline-and-indent)

@@ -37,14 +37,16 @@
   (interactive)
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
-    (async-shell-command "cd c:/Users/26289/Hackings/md-wiki/ && sh ./deploy.sh")))
+    (async-shell-command "cd c:/Users/26289/Hackings/md-wiki/ && sh ./deploy.sh")
+    (switch-to-buffer "*Async Shell Command*")))
 
 (defun gk/deploy-blog ()
   "Deploy geekblog."
   (interactive)
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
-    (async-shell-command "cd c:/Users/26289/geekblog/ && sh ./deploy.sh")))
+    (async-shell-command "cd c:/Users/26289/geekblog/ && sh ./deploy.sh")
+    (switch-to-buffer "*Async Shell Command*")))
 
 (defun gk/deploy-langc ()
   "Deploy geekblog."
@@ -58,7 +60,8 @@
   (interactive)
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
-    (async-shell-command "cd C:/Users/26289/gknows && git add . && git commit -m 'update' && git push")))
+    (async-shell-command "cd C:/Users/26289/gknows && git add . && git commit -m 'update' && git push")
+    (switch-to-buffer "*Async Shell Command*")))
 
 (defun gk/pull-all ()
   (interactive)
@@ -202,27 +205,6 @@
 
 (global-set-key (kbd "C-c t t") 'my/insert-current-time)
 (global-set-key (kbd "C-c t d") 'my/insert-current-date)
-;;--------------------------------------------------------------------
-(defvar my-mood-diary-file "~/iCloud/blog_site/org/include/diary.org")
-(defun my/mood-diary-quick-capture ()
-  (interactive)
-  (find-file my-mood-diary-file)
-  (with-current-buffer (buffer-name)
-    (goto-char (point-min))
-    (re-search-forward "-----")
-    (previous-line)
-    (end-of-line)
-    (insert "\n-----\n**")
-    (backward-char)
-    (my/insert-current-time)
-    (forward-char)
-    (insert "\n\n")))
-(defun my/habit-recording ()
-  (interactive)
-  (find-file "~/iCloud/program_org/habit-recording-2020.org"))
-(global-set-key (kbd "C-c m d") 'my/mood-diary-quick-capture)
-(global-set-key (kbd "C-c m h") 'my/habit-recording)
-
 ;;-------------------------------------------------------------------
 ;; generate qrcode
 (setq lexical-binding t)

@@ -1,6 +1,3 @@
-;; (use-package twidget
-;;   :load-path "~/iCloud/hack/twidget/")
-
 ;; (use-package roam-block
 ;;   :load-path "~/iCloud/hack/roam-block/"
 ;;   :init (setq roam-block-home '("~/iCloud/TEMP/")
@@ -30,18 +27,17 @@
 ;;   ;; (add-hook 'window-configuration-change-hook #'roam-block-set-margins)
 ;;   )
 
-;;(use-package burly
-;;  :quelpa (burly :fetcher github :repo "alphapapa/burly.el"))
+(use-package company-english-helper
+  :load-path "~/GitRepo/company-english-helper")
 
-;; emacsclient
-;; (require 'server)
-;; (unless (server-running-p) (server-start))
+(use-package color-rg
+  :load-path "~/.emacs.d/site-lisp/color-rg")
 
-;; (use-package emacs-everywhere
-;;   :ensure t)
+(use-package promise
+  :ensure t)
 
-;; (use-package netease-cloud-music
-;;   :load-path "~/.config/emacs/site-lisp/netease-cloud-music/")
+(use-package twidget
+  :load-path "~/Hackings/twidget")
 
 (setq js-indent-level 2)
 (setq css-indent-offset 2)
@@ -56,6 +52,12 @@
   (md-wiki-gen-site-force-meta)
   (gk/deploy-wiki))
 
+(use-package mygtd
+  :load-path "~/Hackings/mygtd"
+  :config
+  (mygtd-mode 1)
+  (define-key mygtd-mode-map (kbd "C-c m d") #'mygtd-daily-show))
+
 (use-package md-wiki
   :load-path "~/Hackings/md-wiki"
   :config
@@ -67,7 +69,11 @@
   (bind-key (kbd "C-c w ]") #'md-wiki-gen-site-force-meta-and-wiki)
   (bind-key (kbd "C-c w o") #'md-wiki-tree-edit)
   (bind-key (kbd "C-c w d") #'md-wiki-show-diff)
-  (bind-key (kbd "C-c w b") #'md-wiki-browse-page))
+  (bind-key (kbd "C-c w b") #'md-wiki-browse-page)
+  (bind-key (kbd "C-c w B") #'md-wiki-browse-curr-page)
+  (bind-key (kbd "C-c w I") #'md-wiki-render-index)
+  (bind-key (kbd "C-c w c") #'md-wiki-page-capture)
+  (setq md-wiki-bookmark-list '("习惯培养" "费曼学习法")))
 
 (use-package python
   :ensure nil
@@ -112,11 +118,6 @@
   (org-roam-db-autosync-mode)
   ;; If using org-roam-protocol
   (require 'org-roam-protocol))
-
-(use-package mygtd
-  :load-path "~/Hackings/mygtd"
-  :config
-  (setq mygtd-dir "~/mygtd-org"))
 
 (use-package slime
   :ensure t
@@ -189,9 +190,13 @@
          ("C-c r u" . gkroam-show-unlinked)
          ("C-c r t" . gkroam-toggle-brackets)
          ("C-c r p" . gkroam-toggle-prettify)
-         ("C-c r R" . gkroam-rebuild-caches)))
+         ("C-c r R" . gkroam-rebuild-caches)
+         ("C-c r b" . gkroam-open-bootstrap)))
   :config
-  (setq org-startup-folded nil))
+  (setq org-startup-folded nil)
+  (defun gkroam-open-bootstrap ()
+    (interactive)    
+    (gkroam-find "bootstrap")))
 
 
 (use-package elisp-demos
@@ -237,8 +242,18 @@
 (use-package prescient
   :ensure t
   :config (prescient-persist-mode))
-(use-package ivy-prescient :ensure t :config (ivy-prescient-mode))
-(use-package company-prescient :ensure t :config (company-prescient-mode))
+
+(use-package ivy-prescient
+  :ensure t
+  :config
+  (ivy-prescient-mode)
+  ;; Second, overwrite ivy-prescient-re-builder by ivy--regex-plus)
+  ;; To handle the error when use counsel-rg in Windows
+  (setf (alist-get 'counsel-rg ivy-re-builders-alist) #'ivy--regex-plus))
+
+(use-package company-prescient
+  :ensure t
+  :config (company-prescient-mode))
 
 (use-package awesome-pair
   :load-path "~/.emacs.d/site-lisp/awesome-pair"
@@ -718,10 +733,12 @@ Return the errors parsed with the error patterns of CHECKER."
   :ensure t
   :defer 5
   :mode (("README\\.md\\'" . gfm-mode)
-	 ("\\.md\\'" . markdown-mode)
-	 ("\\.markdown\\'" . markdown-mode))
+	     ("\\.md\\'" . markdown-mode)
+	     ("\\.markdown\\'" . markdown-mode))
   :init
-  (setq markdown-command "markdown_py"))
+  (setq markdown-command "markdown_py")
+  :config
+  (add-hook 'markdown-mode-hook 'valign-mode))
 
 (use-package exec-path-from-shell
   :defer 5
