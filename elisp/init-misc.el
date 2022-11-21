@@ -27,6 +27,20 @@
 ;;   ;; (add-hook 'window-configuration-change-hook #'roam-block-set-margins)
 ;;   )
 
+(use-package nov
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+  (with-no-warnings
+    (defun my-nov-content-unique-identifier (content)
+      "Return the the unique identifier for CONTENT."
+      (when-let* ((name (nov-content-unique-identifier-name content))
+                  (selector (format "package>metadata>identifier[id='%s']"
+                                    (regexp-quote name)))
+                  (id (car (esxml-node-children (esxml-query selector content)))))
+        (intern id)))
+    (advice-add #'nov-content-unique-identifier :override #'my-nov-content-unique-identifier)))
+
 (use-package company-english-helper
   :load-path "~/GitRepo/company-english-helper")
 
