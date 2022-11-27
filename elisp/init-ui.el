@@ -28,22 +28,31 @@
 
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("Consolas" "Source Code Pro for Powerline")
+  (cl-loop for font in '("Source Code Pro" "Consolas")
            when (font-installed-p font)
            return (set-face-attribute 'default nil
                                       :font font
                                       :height (cond ((eq system-type 'darwin) 130)
-                                                    ((eq system-type 'windows-nt) 100)
+                                                    ((eq system-type 'windows-nt) 90)
                                                     (t 100))))
   ;; Specify font for all unicode characters
   (cl-loop for font in '("Symbola" "Symbol")
            when (font-installed-p font)
            return (set-fontset-font t 'unicode font nil 'append))
   ;; Specify font for Chinese characters
-  (cl-loop for font in '("思源宋体" "思源黑体" "仿宋" "微软雅黑")
+  (cl-loop for font in '("思源宋体" "思源黑体" "宋体" "仿宋" "微软雅黑")
            when (font-installed-p font)
            return (dolist (charset '(kana han hangul cjk-misc bopomofo))
                     (set-fontset-font t charset font))))
+
+;; (font-face-attributes "思源宋体")
+
+;; (set-face-font )
+
+;; (face-attribute 'default :height)
+;; (face-attribute 'default :font)
+
+;; (font-face-attributes (face-attribute 'default :font))
 
 ;; (set-fontset-font t '(#x4e00 . #x9fff) font)
 ;; (when window-system

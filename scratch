@@ -21,8 +21,4 @@ either be an Org date like \"2011-07-24\" or a delta like \"+2d\"."
   (interactive "P")
   (org--deadline-or-schedule arg 'scheduled time))
 
-
-- 测试任务执行细节1
-- 测试任务执行细节2
-- 测试任务执行细节3
-- 测试任务执行细节4
+(/ 10000000000 540000)

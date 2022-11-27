@@ -14,12 +14,12 @@
 (setq org-agenda-custom-commands
       '(("d" "Daily Agenda"
          ((agenda "" ((org-agenda-span 'day)
-		      (org-super-agenda-groups
+		              (org-super-agenda-groups
                        '((:name "Daily Agenda"
                                 :time-grid t
-		      		:habit t
+		      		            :habit t
                                 :order 1)
-		      	 (:name "Due Today"
+		      	         (:name "Due Today"
                                 :deadline today
                                 :order 2)
                          (:name "Overdue"
@@ -28,49 +28,49 @@
                          (:name "Due Soon"
                                 :deadline future
                                 :order 4)
-			 (:name "Important!"
-				:priority "A"
-				:order 5)
-		      	 (:discard (:anything t))))))
-	  (alltodo "" ((org-agenda-overriding-header "")
-		       (org-super-agenda-groups
-			'((:name "Weekly rewards"
-				 :tag "#reward")
-			  (:discard (:anything t))))))
-	  (alltodo "" ((org-agenda-overriding-header "")
-		       (org-super-agenda-groups
-			'((:name "Important!"
-				 :priority "A")
-			  (:name "handly todo"
-				 :and (:category ("Task") :date nil :not (:habit t)))
-			  (:discard (:anything t)))))))
-	 ((org-agenda-files '("~/GTD/Todo.org"))))
+			             (:name "Important!"
+				                :priority "A"
+				                :order 5)
+		      	         (:discard (:anything t))))))
+	      (alltodo "" ((org-agenda-overriding-header "")
+		               (org-super-agenda-groups
+			            '((:name "Weekly rewards"
+				                 :tag "#reward")
+			              (:discard (:anything t))))))
+	      (alltodo "" ((org-agenda-overriding-header "")
+		               (org-super-agenda-groups
+			            '((:name "Important!"
+				                 :priority "A")
+			              (:name "handly todo"
+				                 :and (:category ("Task") :date nil :not (:habit t)))
+			              (:discard (:anything t)))))))
+	     ((org-agenda-files '("~/GTD/Todo.org"))))
         ;; ("p" "Project Review"
         ;;  ((alltodo "" ((org-agenda-overriding-header "Project Review")
-	;; 	       (org-agenda-skip-function 'jethro/org-agenda-skip-all-siblings-but-first)
-	;; 	       (org-super-agenda-groups
-	;; 		'((:name "Active Projects"
-	;; 			 :and (:category "Project" :not (:tag "#archive")))
-	;; 		  (:discard (:anything t)))))))
+	    ;; 	       (org-agenda-skip-function 'jethro/org-agenda-skip-all-siblings-but-first)
+	    ;; 	       (org-super-agenda-groups
+	    ;; 		'((:name "Active Projects"
+	    ;; 			 :and (:category "Project" :not (:tag "#archive")))
+	    ;; 		  (:discard (:anything t)))))))
         ;;  ((org-agenda-files '("~/GTD/project.org"))))
-	("i" "Inbox Agenda"
-	 ((alltodo "" ((org-agenda-overriding-header "Inbox Review")
-		       (org-super-agenda-groups
-			'((:name "Need to handle:"
-				 :category "Inbox"))))))
-	 ((org-agenda-files '("~/GTD/Inbox.org"))))
-	("s" "Someday/Maybe Agenda"
-	 ((alltodo "" ((org-agenda-overriding-header "Someday/Maybe")
-		       (org-super-agenda-groups
-			'((:name "动漫/电影"
+	    ("i" "Inbox Agenda"
+	     ((alltodo "" ((org-agenda-overriding-header "Inbox Review")
+		               (org-super-agenda-groups
+			            '((:name "Need to handle:"
+				                 :category "Inbox"))))))
+	     ((org-agenda-files '("~/GTD/Inbox.org"))))
+	    ("s" "Someday/Maybe Agenda"
+	     ((alltodo "" ((org-agenda-overriding-header "Someday/Maybe")
+		               (org-super-agenda-groups
+			            '((:name "动漫/电影"
                                  :tag "#animation")
                           (:name "书籍/阅读"
-				 :tag "#book")
+				                 :tag "#book")
                           (:name "Emacs/Elisp"
-				 :tag "#emacs")
+				                 :tag "#emacs")
                           (:name "好物待购"
-				 :tag "#buy"))))))
-	 ((org-agenda-files '("~/GTD/Someday.org"))))))
+				                 :tag "#buy"))))))
+	     ((org-agenda-files '("~/GTD/Someday.org"))))))
 
 (defun jethro/org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."

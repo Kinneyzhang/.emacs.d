@@ -1,45 +1,47 @@
-;; (use-package roam-block
-;;   :load-path "~/iCloud/hack/roam-block/"
-;;   :init (setq roam-block-home '("~/iCloud/TEMP/")
-;;               roam-block-ref-highlight t
-;;               roam-block-embed-highlight t)
-;;   :bind
-;;   (:map roam-block-mode-map
-;;         (("C-c b d" . roam-block-delete-block)
-;;          ("C-c b r s" . roam-block-ref-store)
-;;          ("C-c b r i" . roam-block-ref-insert)
-;;          ("C-c b r d" . roam-block-ref-delete)
-;;          ("C-c b r t" . roam-block-ref-highlight-toggle)
-;;          ("C-c b e s" . roam-block-embed-store)
-;;          ("C-c b e i" . roam-block-embed-insert)
-;;          ("C-c b e t" . roam-block-embed-highlight-toggle)))
-;;   :config
-;;   (roam-block-mode 1)
-;;   ;; (defun roam-block-set-margins ()
-;;   ;;   "Set window margins for buffer window which roam-block works on."
-;;   ;;   (dolist (win (window-list))
-;;   ;;     (let* ((buf (window-buffer win))
-;;   ;;            (file (buffer-file-name buf)))
-;;   ;;       (when (roam-block-work-on buf)
-;;   ;;         (unless (car (window-margins win))
-;;   ;;           (set-window-margins win 1 1))))))
-;;   ;; (add-hook 'post-command-hook #'roam-block-set-margins)
-;;   ;; (add-hook 'window-configuration-change-hook #'roam-block-set-margins)
-;;   )
+(define-minor-mode centaur-read-mode
+  "Minor Mode for better reading experience."
+  :init-value nil
+  :group centaur
+  (if centaur-read-mode
+      (progn
+        (and (fboundp 'olivetti-mode) (olivetti-mode 1))
+        (and (fboundp 'mixed-pitch-mode) (mixed-pitch-mode 1))
+        (text-scale-set +2))
+    (progn
+      (and (fboundp 'olivetti-mode) (olivetti-mode -1))
+      (and (fboundp 'mixed-pitch-mode) (mixed-pitch-mode -1))
+      (text-scale-set 0))))
 
 (use-package nov
-  :ensure t
+  :mode ("\\.epub\\'" . nov-mode)
+  :hook (nov-mode . my-nov-setup)
+  :init
+  (setq nov-unzip-program (executable-find "C:/Users/26289/Apps/GnuWin32/bin/unzip"))
+  (defun my-nov-setup ()
+    "Setup `nov-mode' for better reading experience."
+    (visual-line-mode 1)
+    (centaur-read-mode)
+    (face-remap-add-relative 'variable-pitch :family "Times New Roman" :height 1.5))
   :config
-  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
   (with-no-warnings
+    ;; WORKAROUND: errors while opening `nov' files with Unicode characters
+    ;; @see https://github.com/wasamasa/nov.el/issues/63
     (defun my-nov-content-unique-identifier (content)
       "Return the the unique identifier for CONTENT."
-      (when-let* ((name (nov-content-unique-identifier-name content))
-                  (selector (format "package>metadata>identifier[id='%s']"
-                                    (regexp-quote name)))
-                  (id (car (esxml-node-children (esxml-query selector content)))))
-        (intern id)))
-    (advice-add #'nov-content-unique-identifier :override #'my-nov-content-unique-identifier)))
+      (let* ((name (nov-content-unique-identifier-name content))
+             (selector (format "package>metadata>identifier[id='%s']"
+                               (regexp-quote name)))
+             (id (car (esxml-node-children (esxml-query selector content)))))
+        (and id (intern id))))
+    (advice-add #'nov-content-unique-identifier :override #'my-nov-content-unique-identifier))
+
+  ;; Fix encoding issue on Windows
+  (when (eq system-type 'windows-nt)
+    (setq process-coding-system-alist
+          (cons `(,nov-unzip-program . (gbk . gbk))
+                process-coding-system-alist))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package company-english-helper
   :load-path "~/GitRepo/company-english-helper")
@@ -70,23 +72,23 @@
   :load-path "~/Hackings/mygtd"
   :config
   (mygtd-mode 1)
-  (define-key mygtd-mode-map (kbd "C-c m d") #'mygtd-daily-show))
+  (define-key mygtd-mode-map (kbd "C-c m d") 'mygtd-daily-show))
 
 (use-package md-wiki
   :load-path "~/Hackings/md-wiki"
   :config
   (setq md-wiki-tree-file "~/Hackings/md-wiki/config/mdwiki.org")
   (setq md-wiki-diff-file "~/Hackings/md-wiki/config/mdwiki-diff.el")
-  (bind-key (kbd "C-c w f") #'md-wiki-page-edit)
-  (bind-key (kbd "C-c w p") #'md-wiki-gen-site)
-  (bind-key (kbd "C-c w [") #'md-wiki-gen-site-force-nav-and-wiki)
-  (bind-key (kbd "C-c w ]") #'md-wiki-gen-site-force-meta-and-wiki)
-  (bind-key (kbd "C-c w o") #'md-wiki-tree-edit)
-  (bind-key (kbd "C-c w d") #'md-wiki-show-diff)
-  (bind-key (kbd "C-c w b") #'md-wiki-browse-page)
-  (bind-key (kbd "C-c w B") #'md-wiki-browse-curr-page)
-  (bind-key (kbd "C-c w I") #'md-wiki-render-index)
-  (bind-key (kbd "C-c w c") #'md-wiki-page-capture)
+  (bind-key (kbd "C-c w f") 'md-wiki-page-edit)
+  (bind-key (kbd "C-c w p") 'md-wiki-gen-site)
+  (bind-key (kbd "C-c w [") 'md-wiki-gen-site-force-nav-and-wiki)
+  (bind-key (kbd "C-c w ]") 'md-wiki-gen-site-force-meta-and-wiki)
+  (bind-key (kbd "C-c w o") 'md-wiki-tree-edit)
+  (bind-key (kbd "C-c w d") 'md-wiki-show-diff)
+  (bind-key (kbd "C-c w b") 'md-wiki-browse-page)
+  (bind-key (kbd "C-c w B") 'md-wiki-browse-curr-page)
+  (bind-key (kbd "C-c w I") 'md-wiki-render-index)
+  (bind-key (kbd "C-c w c") 'md-wiki-page-capture)
   (setq md-wiki-bookmark-list '("习惯培养" "费曼学习法")))
 
 (use-package python
@@ -150,8 +152,8 @@
 
 (unbind-key (kbd "<f3>") global-map)
 (unbind-key (kbd "<f4>") global-map)
-(global-set-key (kbd "<f7>") #'kmacro-start-macro-or-insert-counter)
-(global-set-key (kbd "<f8>") #'kmacro-end-or-call-macro)
+(global-set-key (kbd "<f7>") 'kmacro-start-macro-or-insert-counter)
+(global-set-key (kbd "<f8>") 'kmacro-end-or-call-macro)
 (use-package avy
   :ensure t
   :bind (("<f4>" . avy-goto-line)
@@ -215,7 +217,7 @@
 
 (use-package elisp-demos
   :ensure t
-  :config (advice-add 'describe-function-1 :after #'elisp-demos-advice-describe-function-1))
+  :config (advice-add 'describe-function-1 :after 'elisp-demos-advice-describe-function-1))
 
 (use-package toc-org
   :ensure t
@@ -248,8 +250,8 @@
 ;;   (setq bm-cycle-all-buffers t)
 ;;   (setq-default bm-buffer-persistence t)
 ;;   (add-hook 'after-init-hook 'bm-repository-load)
-;;   (add-hook 'kill-buffer-hook #'bm-buffer-save)
-;;   (add-hook 'kill-emacs-hook #'(lambda nil
+;;   (add-hook 'kill-buffer-hook 'bm-buffer-save)
+;;   (add-hook 'kill-emacs-hook '(lambda nil
 ;;                                  (bm-buffer-save-all)
 ;;                                  (bm-repository-save))))
 
@@ -263,7 +265,7 @@
   (ivy-prescient-mode)
   ;; Second, overwrite ivy-prescient-re-builder by ivy--regex-plus)
   ;; To handle the error when use counsel-rg in Windows
-  (setf (alist-get 'counsel-rg ivy-re-builders-alist) #'ivy--regex-plus))
+  (setf (alist-get 'counsel-rg ivy-re-builders-alist) 'ivy--regex-plus))
 
 (use-package company-prescient
   :ensure t
@@ -651,8 +653,8 @@ specified.  Select the current line if the LINES prefix is zero."
   (setq company-minimum-prefix-length 2)
   (global-company-mode t)
   (with-eval-after-load 'company
-    (define-key company-active-map (kbd "\C-n") #'company-select-next)
-    (define-key company-active-map (kbd "\C-p") #'company-select-previous)
+    (define-key company-active-map (kbd "\C-n") 'company-select-next)
+    (define-key company-active-map (kbd "\C-p") 'company-select-previous)
     (define-key company-active-map (kbd "M-n") nil)
     (define-key company-active-map (kbd "M-p") nil)))
 
@@ -662,7 +664,7 @@ specified.  Select the current line if the LINES prefix is zero."
   :init (setq yas-snippet-dirs `(,(concat user-emacs-directory "snippets")))
   :config
   (yas-reload-all)
-  (add-hook 'prog-mode-hook #'yas-minor-mode))
+  (add-hook 'prog-mode-hook 'yas-minor-mode))
 
 (use-package smartparens
   :ensure t

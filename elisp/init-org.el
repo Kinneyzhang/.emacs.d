@@ -27,7 +27,8 @@
     (setq org-directory "~/GTD/")
     ;; (setq org-agenda-files '("~/GTD/org/"))
     (setq org-src-fontify-natively t)
-    (setq org-agenda-window-setup 'current-window))
+    (setq org-agenda-window-setup 'current-window)
+    (setq org-agenda-files '("~/GTD/Todo.org" "~/GTD/Todo.org" "~/GTD/Inbox.org" "~/GTD/Someday.org" "~/GTD/Project.org")))
   (add-hook 'org-mode-hook 'valign-mode))
 
 (use-package org-src
@@ -86,15 +87,17 @@
 
 (setq org-confirm-babel-evaluate nil)
 
-(setq org-capture-templates
-      '(("i" "inbox" entry (file "~/GTD/Inbox.org")
-	 "* TODO %?" :clock-resume t)
-	("t" "task" entry (file "~/GTD/Todo.org")
-	 "* TODO %?" :clock-resume t)
-	("s" "someday" entry (file "~/GTD/Someday.org")
-	 "* TODO %?" :clock-resume t)
-	("a" "appointment" entry (file "~/GTD/Todo.org")
-	 "* APPT %?")))
+;; (setq org-capture-templates
+;;       '(("i" "inbox" entry (file "~/GTD/Inbox.org")
+;; 	     "* TODO %?" :clock-resume t)
+;; 	    ("t" "task" entry (file "~/GTD/Todo.org")
+;; 	     "* TODO %?" :clock-resume t)
+;; 	    ("s" "someday" entry (file "~/GTD/Someday.org")
+;; 	     "* TODO %?" :clock-resume t)
+;; 	    ("a" "appointment" entry (file "~/GTD/Todo.org")
+;; 	     "* APPT %?")))
+
+(setq org-capture-templates nil)
 
 ;;; =========================================================================
 ;; other package and config

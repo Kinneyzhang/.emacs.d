@@ -18,7 +18,7 @@
       scroll-conservatively 10000)
 
 (setq-default tab-width 4)
-(setq-default cursor-type '(bar . 3))
+(setq-default cursor-type 'bar)
 
 (defun my/move-to-window-bottom ()
   (interactive)
