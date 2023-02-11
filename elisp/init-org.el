@@ -264,4 +264,7 @@ INCLUDE-LINKED is passed to `org-display-inline-images'."
 	  (holiday-float 6 0 3 "父亲节")
 	  (holiday-float 11 4 4 "感恩节"))))
 
+(use-package valign
+  :ensure t)
+
 (provide 'init-org)

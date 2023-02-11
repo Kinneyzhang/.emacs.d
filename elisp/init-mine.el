@@ -8,7 +8,10 @@
   :ensure t)
 
 (use-package mygtd
-  :load-path "~/iCloud/hack/mygtd")
+  :load-path "~/iCloud/hack/mygtd"
+  :config
+  (setq mygtd-db-file "~/iCloud/hack/mygtd/mygtd.db")
+  (global-set-key (kbd "C-c m d") #'mygtd-daily-show))
 
 (use-package md-wiki
   :load-path "~/iCloud/hack/md-wiki"
@@ -70,5 +73,14 @@
   (defun gkroam-bootstrap ()
     (interactive)
     (gkroam-find "bootstrap")))
+
+(use-package color-rg
+  :load-path "~/.config/emacs/site-lisp/color-rg")
+
+;; (defun my/color-rg-search-input ()
+;;   (interactive)
+;;   (minibuffer-with-setup-hook
+;;       (lambda () (insert "thing-at-point"))
+;;     (color-rg-search-input)))
 
 (provide 'init-mine)

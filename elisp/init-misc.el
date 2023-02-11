@@ -1,18 +1,13 @@
-(use-package helpful
-  :ensure t
-  :bind (("C-h f" . helpful-callable)
-         ("C-h v" . helpful-variable)
-         ("C-h k" . helpful-key)
-         ("C-c C-d" . helpful-at-point)))
-
 (use-package prescient
   :ensure t
   :config
   (prescient-persist-mode))
+
 (use-package ivy-prescient
   :ensure t
   :config
   (ivy-prescient-mode))
+
 (use-package company-prescient
   :ensure t
   :config
