@@ -1,3 +1,27 @@
+;; (use-package eaf
+;;   :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
+;;   :custom
+;;   (eaf-browser-continue-where-left-off t)
+;;   (eaf-browser-enable-adblocker t)
+;;   (browse-url-browser-function 'eaf-open-browser)
+;;   :config
+;;   (defalias 'browse-web #'eaf-open-browser)
+;;   ;; (eaf-bind-key scroll_up "C-n" eaf-pdf-viewer-keybinding)
+;;   ;; (eaf-bind-key scroll_down "C-p" eaf-pdf-viewer-keybinding)
+;;   ;; (eaf-bind-key take_photo "p" eaf-camera-keybinding)
+;;   ;; (eaf-bind-key nil "M-q" eaf-browser-keybinding)
+;;   (require 'eaf-browser)
+;;   )
+
+(use-package popweb
+  :load-path "~/.emacs.d/site-lisp/popweb/"
+  :config
+  (use-package popweb-dict
+    :load-path "~/.emacs.d/site-lisp/popweb/extension/dict/")
+  (setq popweb-url-web-window-size-use-absolute t)
+  (setq popweb-url-web-window-width-scale 0.8)
+  (setq popweb-url-web-window-height-scale 0.45))
+
 (define-minor-mode centaur-read-mode
   "Minor Mode for better reading experience."
   :init-value nil
@@ -33,7 +57,7 @@
                                (regexp-quote name)))
              (id (car (esxml-node-children (esxml-query selector content)))))
         (and id (intern id))))
-    (advice-add #'nov-content-unique-identifier :override #'my-nov-content-unique-identifier))
+    (advice-add 'nov-content-unique-identifier :override 'my-nov-content-unique-identifier))
 
   ;; Fix encoding issue on Windows
   (when (eq system-type 'windows-nt)
@@ -70,9 +94,9 @@
 
 (use-package mygtd
   :load-path "~/Hackings/mygtd"
-  :config
-  (mygtd-mode 1)
-  (define-key mygtd-mode-map (kbd "C-c m d") 'mygtd-daily-show))
+  :config (global-set-key "\C-cmd" (lambda ()
+                                     (interactive)
+                                     (mygtd-daily-show mygtd-daily-date))))
 
 (use-package md-wiki
   :load-path "~/Hackings/md-wiki"

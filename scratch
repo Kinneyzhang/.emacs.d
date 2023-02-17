@@ -21,4 +21,4 @@ either be an Org date like \"2011-07-24\" or a delta like \"+2d\"."
   (interactive "P")
   (org--deadline-or-schedule arg 'scheduled time))
 
-(/ 10000000000 540000)
+(+ 570 1363 1968 388 104 215 86 130 578 234 496 154 364 362 158 631 412 44 556 390 310)

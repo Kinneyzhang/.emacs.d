@@ -10,3 +10,6 @@
 [submodule "color-rg"]
 	path = site-lisp/color-rg
 	url = git@github.com:manateelazycat/color-rg.git
+[submodule "site-lisp/websocket-bridge"]
+	path = site-lisp/websocket-bridge
+	url = git@github.com:ginqi7/websocket-bridge.git

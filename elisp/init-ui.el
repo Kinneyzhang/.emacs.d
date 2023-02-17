@@ -40,7 +40,7 @@
            when (font-installed-p font)
            return (set-fontset-font t 'unicode font nil 'append))
   ;; Specify font for Chinese characters
-  (cl-loop for font in '("思源宋体" "思源黑体" "宋体" "仿宋" "微软雅黑")
+  (cl-loop for font in '("思源黑体" "思源宋体" "宋体" "仿宋" "微软雅黑")
            when (font-installed-p font)
            return (dolist (charset '(kana han hangul cjk-misc bopomofo))
                     (set-fontset-font t charset font))))

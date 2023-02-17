@@ -35,6 +35,7 @@
 
 (require 'init-utils)
 (require 'init-ui)
+(require 'gk-english)
 (require 'init-ivy)
 (require 'init-hydra)
 (require 'init-better)
