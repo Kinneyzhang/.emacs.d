@@ -1,0 +1,13 @@
+* Ego Base
++ [[elisp:(ego-base-gknows-open "TodoList")][待办列表]]
++ [[elisp:(ego-base-gknows-open "习惯记录")][习惯记录]]
++ [[elisp:(ego-base-gknows-open "ego补完计划")][EGO补完计划]]
+
+* All Recent Focus
++ 阅读《金字塔原理》
++ 诵读 [[elisp:(ego-base-gknows-open "苏轼")][东坡诗词]]
+
+* What Should I Do
++ 感觉对原本很感兴趣的东西失去兴趣的时候怎么办？
+看看自己的状态吧，是不是没有精力，去休息吧，精力充沛的时候就不会这么想了。如果精力充沛的时候还是没有兴趣，那便是真的失去了。这时再看看这些事情对自己是否重要，重要的话，就列入计划中，用时间管理的技巧来督促自己去折腾。
+

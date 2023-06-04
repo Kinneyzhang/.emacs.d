@@ -16,7 +16,13 @@
     (setq org-directory "~/GTD/")
     ;; (setq org-agenda-files '("~/GTD/org/"))
     (setq org-src-fontify-natively t)
-    (setq org-agenda-window-setup 'current-window)))
+    (setq org-agenda-window-setup 'current-window))
+  (eval-after-load 'org-mode
+    (progn
+      (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1)))
+      (add-hook 'org-mode-hook (lambda () (valign-mode 1)))
+      (add-hook 'org-mode-hook (lambda ()
+                                 (electric-indent-local-mode -1))))))
 
 (use-package org-src
   :hook ((org-mode . (lambda ()

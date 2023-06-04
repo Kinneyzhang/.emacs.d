@@ -28,9 +28,6 @@
 (setq org-image-actual-width nil)
 (setq show-trailing-whitespace t)
 
-(eval-after-load 'org-mode
-  (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1))))
-
 (setq ad-redefinition-action 'accept) ;; 在执行程序的时候，不需要确认
 (setq org-confirm-babel-evaluate nil) ;; 设定文档中需要执行的程序类型，以下设置了R，python，latex和emcas-lisp
 (setq exec-path-from-shell-check-startup-files nil)
@@ -99,6 +96,7 @@
   (setq search-web-engines
 	'(("腾讯视频" "https://v.qq.com/x/search/?q=%s" nil)
 	  ("Google" "http://www.google.com/search?q=%s" nil)
+          ("Baidu" "https://www.baidu.com/s?wd=%s" nil)
 	  ("Youtube" "http://www.youtube.com/results?search_query=%s" nil)
 	  ("Bilibili" "https://search.bilibili.com/all?keyword=%s" nil)
           ("Zhihu" "https://www.zhihu.com/search?type=content&q=%s" nil)

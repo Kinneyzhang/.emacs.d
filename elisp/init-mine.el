@@ -1,3 +1,21 @@
+(use-package rich-text
+  :load-path "~/EmacsLisp/rich-text"
+  :config
+  (use-package selected :ensure t)
+  (rich-text-mode 1))
+
+(use-package mind-wave
+  :load-path "~/.config/emacs/site-lisp/mind-wave")
+
+(defun mind-wave-new-file-and-chat ()
+  (interactive)
+  (let* ((dir (expand-file-name "mind-wave" user-emacs-directory))
+         (file (expand-file-name "1.chat" dir))
+         (buf (find-file-noselect file)))
+    (switch-to-buffer buf)
+    (mind-wave-chat-ask)))
+(global-set-key "\C-c\C-j" 'mind-wave-new-file-and-chat)
+
 (use-package emacsql
   :ensure t)
 
@@ -8,7 +26,7 @@
   :ensure t)
 
 (use-package mygtd
-  :load-path "~/iCloud/hack/mygtd"
+  :load-path "~/EmacsLisp/mygtd"
   :config
   (setq mygtd-db-file "~/iCloud/hack/mygtd/mygtd.db")
   (global-set-key (kbd "C-c m d") #'mygtd-daily-show))
@@ -76,6 +94,15 @@
 
 (use-package color-rg
   :load-path "~/.config/emacs/site-lisp/color-rg")
+
+(use-package xnote
+  :load-path "~/iCloud/hack/xnote/")
+
+(use-package zksummary
+  :load-path "~/zksummary"
+  :config
+  (setq zksummary-db-file "~/ego/zksummary.db")
+  (global-set-key "\C-css" #'zksummary-daily-show-curr-week))
 
 ;; (defun my/color-rg-search-input ()
 ;;   (interactive)

@@ -12,14 +12,15 @@
 (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;; 加载高亮模式
 (setq initial-frame-alist (quote ((fullscreen . maximized)))) ;;启动最大化窗口
 (setq inhibit-compacting-font-caches t)
-(setq-default cursor-type 'bar) ;; 光标样式
+(setq-default cursor-type '(bar . 3)) ;; 光标样式
 
 ;;; theme
 (use-package doom-themes
   :ensure t)
 
 ;; (load-theme 'doom-material t)
-(load-theme 'tsdh-light t)
+;; (load-theme 'tsdh-light t)
+(load-theme 'leuven t)
 
 ;;; Fonts
 
@@ -29,7 +30,7 @@
 
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("Source Code Variable"
+  (cl-loop for font in '("Source Code Pro for Powerline"
                          "Fira Code"
                          "Menlo" "SF"
                          "Monaco Mono" "Hack"
@@ -39,9 +40,9 @@
            return (set-face-attribute
                    'default nil
                    :font font
-                   :height (cond ((eq system-type 'darwin) 125)
+                   :height (cond ((eq system-type 'darwin) 160)
                                  ((eq system-type 'windows-nt) 110)
-                                 (t 100))))
+                                 (t 110))))
   ;; Specify font for all unicode characters
   (cl-loop for font in '("Symbola" "Apple Color Emoji" "Symbol")
            when (font-installed-p font)

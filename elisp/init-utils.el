@@ -1,5 +1,5 @@
 ;; (use-package vterm
-;;   :ensure t)
+;;  :ensure t)
 
 ;; (use-package vterm-toggle
 ;;   :ensure t
@@ -120,6 +120,13 @@
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
     (async-shell-command "cd ~/geekblog/ && ./deploy.sh")))
+
+(defun gk/deploy-egodb ()
+  "Deploy geekblog."
+  (interactive)
+  (let* ((buf-name "\\*Async Shell Command Egodb\\*")
+         (display-buffer-alist `((,buf-name display-buffer-no-window))))
+    (async-shell-command "cd ~/.config/emacs/ego-db && sh ./deploy.sh")))
 
 (defun gk/deploy-langc ()
   "Deploy geekblog."

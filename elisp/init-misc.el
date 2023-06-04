@@ -1,3 +1,23 @@
+;; (use-package lsp-bridge
+;;   :load-path "~/.config/emacs/site-lisp/lsp-bridge/"
+;;   :config
+  
+;;   (global-lsp-bridge-mode))
+
+;;; eww
+(setq eww-search-prefix "https://cn.bing.com/search?q=emacs&search=&form=QBLH&sp=-1&lq=0&pq=")
+
+;;; w3m
+(setq w3m-search-engine-alist
+      '(("bing" "https://cn.bing.com/search?q=emacs&search=&form=QBLH&sp=-1&lq=0&pq=%s")))
+(setq w3m-search-default-engine "bing")
+
+;;; epub setup
+(setq nov-unzip-program (executable-find "bsdtar")
+      nov-unzip-args '("-xC" directory "-f" filename))
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+(setq nov-text-width 70)
+
 (use-package prescient
   :ensure t
   :config
@@ -50,7 +70,7 @@ specified.  Select the current line if the LINES prefix is zero."
   (find-file (concat user-emacs-directory "init.el"))
   (with-current-buffer "init.el"
     (read-only-mode)))
-(global-set-key (kbd "<f1>") 'open-my-init-file)
+;; (global-set-key (kbd "<f1>") 'open-my-init-file)
 
 ;; (use-package magit
 ;;   :defer t
@@ -74,8 +94,10 @@ specified.  Select the current line if the LINES prefix is zero."
 (use-package yasnippet
   :ensure t
   :defer t
-  :init (setq yas-snippet-dirs `(,(concat user-emacs-directory "snippets")))
+  :init (setq yas-snippet-dirs
+              `(,(concat user-emacs-directory "snippets")))
   :config
+  (yas-global-mode 1)
   (yas-reload-all)
   (add-hook 'prog-mode-hook #'yas-minor-mode)
   (add-hook 'org-mode-hook #'yas-minor-mode)

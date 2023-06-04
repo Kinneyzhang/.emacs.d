@@ -36,10 +36,10 @@
 	 ("C-c c f" . counsel-fzf)
 	 ("C-c c g" . counsel-git)))
 
-(use-package avy
-  :ensure t
-  :bind (("<f4>" . avy-goto-line)
-         ("<f3>" . avy-goto-char-timer)))
+;; (use-package avy
+;;   :ensure t
+;;   :bind (("<f4>" . avy-goto-line)
+;;          ("<f3>" . avy-goto-char-timer)))
 
 (use-package link-hint
   :ensure t

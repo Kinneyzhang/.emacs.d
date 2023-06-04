@@ -2,6 +2,7 @@
   :mode ("\\.py" . python-mode)
   :init (setq python-shell-interpreter "/usr/local/bin/python3")
   :config
+  (setq python-indent-offset 2)
   (use-package elpy
     :defer 5
     :ensure t

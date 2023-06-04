@@ -4,8 +4,10 @@
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
 
-(setq package-archives '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ("gnu-cn"   . "http://mirrors.cloud.tencent.com/elpa/gnu/")))
+(setq package-archives
+      '(("gnu" . "https://mirrors.ustc.edu.cn/elpa/gnu/")
+        ("melpa" . "https://mirrors.ustc.edu.cn/elpa/melpa/")
+        ("nongnu" . "https://mirrors.ustc.edu.cn/elpa/nongnu/")))
 
 (package-initialize)
 ;; (toggle-debug-on-error)
@@ -25,11 +27,13 @@
       user-full-name "Kinneyzhang")
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
+(add-to-list 'load-path "/Users/geekinney/EmacsLisp/")
+(load-file "/Users/geekinney/EmacsLisp/ego-index.el")
+(load-file "/Users/geekinney/EmacsLisp/ego-reward.el")
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (defvar icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 (defvar site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
-(defvar emacs-site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
 
 (require 'init-submodule)
 (require 'init-better)
@@ -43,6 +47,7 @@
 (require 'init-dired)
 (require 'init-hydra)
 (require 'init-mine)
+(require 'init-music)
 
 ;; (require 'init-pdf)
 ;; (require 'lang-python)
