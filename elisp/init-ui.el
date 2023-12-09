@@ -19,6 +19,8 @@
 (setq-default cursor-type 'box) ;变光标, setq-default设置全局
 
 ;; theme
+(use-package material-theme
+  :ensure t)
 (load-theme 'material t)
 
 ;; Fonts

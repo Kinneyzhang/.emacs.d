@@ -47,8 +47,8 @@
 ;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd-cmds.el")
 ;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd-project.el")
 ;; (load-file "c:/Users/26289/Hackings/myGTD/mygtd.el")
-(add-to-list 'load-path "c:/Users/26289/Hackings/myGTD/")
-(require 'mygtd)
+;; (add-to-list 'load-path "c:/Users/26289/Hackings/myGTD/")
+;; (require 'mygtd)
 
 (use-package slime
   :ensure t
@@ -59,11 +59,11 @@
   ;; 需要根据功能单独加载，其中 slime-fancy 会自动加载流行的包，一般情况下只加载 slime-fancy 即可
   (setq slime-contribs '(slime-fancy)))
 
-(use-package tree-sitter
-  :ensure t)
+;; (use-package tree-sitter
+;;   :ensure t)
 
-(use-package tree-sitter-langs
-  :ensure t)
+;; (use-package tree-sitter-langs
+;;   :ensure t)
 
 (unbind-key (kbd "<f3>") global-map)
 (unbind-key (kbd "<f4>") global-map)
@@ -97,34 +97,33 @@
 ;; (use-package gtd
 ;;   :load-path "~/Emacs/gtd-mode")
 
-(use-package gkroam
-  :load-path "~/Hackings/gkroam"
-  :hook (after-init . gkroam-mode)
-  :init
-  (setq gkroam-root-dir "~/gknows/")
-  (setq gkroam-show-brackets-p nil
-        gkroam-prettify-page-p t
-        gkroam-title-height 200
-        gkroam-use-default-filename t
-        gkroam-window-margin 4)
-  :bind
-  (:map gkroam-mode-map
-        (("C-c r g" . gkroam-update)
-         ("C-c r d" . gkroam-daily)
-         ("C-c r D" . gkroam-delete)
-         ("C-c r f" . gkroam-find)
-         ("C-c r c" . gkroam-capture)
-         ("C-c r e" . gkroam-link-edit)
-         ("C-c r n" . gkroam-dwim)
-         ("C-c r i" . gkroam-insert)
-         ("C-c r I" . gkroam-index)
-         ("C-c r u" . gkroam-show-unlinked)
-         ("C-c r t" . gkroam-toggle-brackets)
-         ("C-c r p" . gkroam-toggle-prettify)
-         ("C-c r R" . gkroam-rebuild-caches)))
-  :config
-  (setq org-startup-folded nil))
-
+;; (use-package gkroam
+;;   :load-path "~/Hackings/gkroam"
+;;   :hook (after-init . gkroam-mode)
+;;   :init
+;;   (setq gkroam-root-dir "~/gknows/")
+;;   (setq gkroam-show-brackets-p nil
+;;         gkroam-prettify-page-p t
+;;         gkroam-title-height 200
+;;         gkroam-use-default-filename t
+;;         gkroam-window-margin 4)
+;;   :bind
+;;   (:map gkroam-mode-map
+;;         (("C-c r g" . gkroam-update)
+;;          ("C-c r d" . gkroam-daily)
+;;          ("C-c r D" . gkroam-delete)
+;;          ("C-c r f" . gkroam-find)
+;;          ("C-c r c" . gkroam-capture)
+;;          ("C-c r e" . gkroam-link-edit)
+;;          ("C-c r n" . gkroam-dwim)
+;;          ("C-c r i" . gkroam-insert)
+;;          ("C-c r I" . gkroam-index)
+;;          ("C-c r u" . gkroam-show-unlinked)
+;;          ("C-c r t" . gkroam-toggle-brackets)
+;;          ("C-c r p" . gkroam-toggle-prettify)
+;;          ("C-c r R" . gkroam-rebuild-caches)))
+;;   :config
+;;   (setq org-startup-folded nil))
 
 (use-package elisp-demos
   :ensure t

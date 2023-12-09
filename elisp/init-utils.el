@@ -452,23 +452,23 @@ Version 2019-11-04"
 (define-key dired-mode-map (kbd "<C-return>") 'xah-open-in-external-app)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Daily page to blog
-(defvar gk-blog-page-dir "c:/Users/26289/geekblog")
-
-(defun gk-daily-page-to-blog ()
-  (interactive)
-  (let* ((title (format-time-string "%b %d, %Y"))
-         (file (expand-file-name (gkroam--get-page title) gkroam-root-dir))
-         content)
-    (with-current-buffer (find-file-noselect file)
-      (save-excursion
-        (goto-char (point-min))
-        (if (re-search-forward (concat "^#\\+TITLE: " title) nil t)
-            (setq content (string-trim (buffer-substring-no-properties
-                                        (1+ (point)) (point-max))))
-          (user-error "Dismatched daily page title, please check!"))))))
-
-(gk-daily-page-to-blog)
-
+;;(defvar gk-blog-page-dir "c:/Users/26289/geekblog")
+;;
+;;(defun gk-daily-page-to-blog ()
+;;  (interactive)
+;;  (let* ((title (format-time-string "%b %d, %Y"))
+;;         (file (expand-file-name (gkroam--get-page title) gkroam-root-dir))
+;;         content)
+;;    (with-current-buffer (find-file-noselect file)
+;;      (save-excursion
+;;        (goto-char (point-min))
+;;        (if (re-search-forward (concat "^#\\+TITLE: " title) nil t)
+;;            (setq content (string-trim (buffer-substring-no-properties
+;;                                        (1+ (point)) (point-max))))
+;;          (user-error "Dismatched daily page title, please check!"))))))
+;;
+;;(gk-daily-page-to-blog)
+;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (provide 'init-utils)
 ;; ;;; init-utils.el ends here
