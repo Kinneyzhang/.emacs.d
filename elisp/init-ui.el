@@ -15,8 +15,8 @@
   (add-to-list 'default-frame-alist '(ns-appearance . light)))
 
 (setq hi-lock-file-patterns-policy #'(lambda (dummy) t)) ;;加载高亮模式
-(setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗
-(setq-default cursor-type 'box) ;变光标, setq-default设置全局
+(setq initial-frame-alist (quote ((fullscreen . maximized)))) ;;启动最大化窗
+(setq-default cursor-type '(bar . 4)) ;变光标, setq-default设置全局
 
 ;; theme
 (use-package material-theme
