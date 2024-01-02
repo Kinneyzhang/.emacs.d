@@ -32,14 +32,23 @@
 	 ("C-c c c" . counsel-org-capture)
 	 ("C-c c t" . counsel-load-theme)
 	 ("C-c c b" . counsel-bookmark)
-	 ("C-c c r" . counsel-rg)
+	 ("C-c c r" . color-rg-search-input)
 	 ("C-c c f" . counsel-fzf)
-	 ("C-c c g" . counsel-git)))
+	 ("C-c c g" . counsel-git)
+         ("C-c c a" . counsel-osx-app)))
 
-(use-package avy
-  :ensure t
-  :bind (("<f4>" . avy-goto-line)
-         ("<f3>" . avy-goto-char-timer)))
+(defun my-open-recorder ()
+  (interactive)
+  (shell-command
+   (format "open %s"
+           (cdr (assoc "Piezo" (counsel-osx-app-list))))))
+
+(global-set-key (kbd "C-c r r") #'my-open-recorder)
+
+;; (use-package avy
+;;   :ensure t
+;;   :bind (("<f4>" . avy-goto-line)
+;;          ("<f3>" . avy-goto-char-timer)))
 
 (use-package link-hint
   :ensure t

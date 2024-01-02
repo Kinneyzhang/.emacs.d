@@ -13,10 +13,18 @@
     (setq org-src-fontify-natively t)
     ;; how the source code edit buffer is displayed
     (setq org-src-window-setup 'current-window)
-    (setq org-directory "~/GTD/")
+    (setq org-directory "~/ego/")
     ;; (setq org-agenda-files '("~/GTD/org/"))
     (setq org-src-fontify-natively t)
-    (setq org-agenda-window-setup 'current-window)))
+    (setq org-agenda-window-setup 'current-window))
+  (eval-after-load 'org-mode
+    (progn
+      (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1)))
+      ;; (add-hook 'org-mode-hook (lambda () (valign-mode 1)))
+      (add-hook 'org-mode-hook (lambda ()
+                                 (electric-indent-local-mode -1)))
+      (define-key org-mode-map "\M-p" #'org-move-item-up)
+      (define-key org-mode-map "\M-n" #'org-move-item-down))))
 
 (use-package org-src
   :hook ((org-mode . (lambda ()
@@ -165,7 +173,7 @@ INCLUDE-LINKED is passed to `org-display-inline-images'."
 	      ("CANCELLED" :foreground "grey" :weight bold)
 	      ("DEFFERED" :foreground "grey" :weight bold))))
 
-(setq org-log-done 'time)
+(setq org-log-done nil)
 (setq org-log-into-drawer t)
 (setq org-log-state-notes-insert-after-drawers nil)
 
@@ -263,5 +271,8 @@ INCLUDE-LINKED is passed to `org-display-inline-images'."
 	  (holiday-float 5 0 2 "母亲节")
 	  (holiday-float 6 0 3 "父亲节")
 	  (holiday-float 11 4 4 "感恩节"))))
+
+;; (use-package valign
+;;   :ensure t)
 
 (provide 'init-org)

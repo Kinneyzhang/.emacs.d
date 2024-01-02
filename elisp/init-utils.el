@@ -1,5 +1,5 @@
 ;; (use-package vterm
-;;   :ensure t)
+;;  :ensure t)
 
 ;; (use-package vterm-toggle
 ;;   :ensure t
@@ -108,35 +108,30 @@
 ;;; deploy functions
 
 (defun gk/deploy-wiki ()
-  "Deploy geekblog."
   (interactive)
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
     (async-shell-command "cd ~/iCloud/hack/md-wiki && git add . && git commit -m 'update' && git push")))
 
-(defun gk/deploy-blog ()
-  "Deploy geekblog."
+(defun gk/deploy-egodb ()
   (interactive)
-  (let ((display-buffer-alist
-         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
-    (async-shell-command "cd ~/geekblog/ && ./deploy.sh")))
+  (let* ((buf-name "\\*Async Shell Command Egodb\\*")
+         (display-buffer-alist `((,buf-name display-buffer-no-window))))
+    (async-shell-command "cd ~/.emacs.d/ego-db && sh ./deploy.sh")))
 
 (defun gk/deploy-langc ()
-  "Deploy geekblog."
   (interactive)
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
     (async-shell-command "cd ~/iCloud/LangC/ && git add . && git commit -m 'update' && git push")))
 
 (defun gk/deploy-gknows ()
-  "Deploy geekblog."
   (interactive)
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
     (async-shell-command "cd ~/gknows/ && git add . && git commit -m 'update' && git push")))
 
 (defun gk/deploy-mygtd ()
-  "Deploy geekblog."
   (interactive)
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
@@ -159,7 +154,7 @@
 (defun print-symbol-∮ ()
   "print qjf"
   (interactive)
-  (insert "∮")∮)
+  (insert "∮"))
 (global-set-key (kbd "C-c s q j f") 'print-symbol-∮)
 
 (defun print-symbol-ρ ()
