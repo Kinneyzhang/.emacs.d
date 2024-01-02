@@ -31,7 +31,7 @@
 
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("Source Code Pro for Powerline"
+  (cl-loop for font in '("Source Code Pro"
                          "Fira Code"
                          "Menlo" "SF"
                          "Monaco Mono" "Hack"
@@ -41,7 +41,7 @@
            return (set-face-attribute
                    'default nil
                    :font font
-                   :height (cond ((eq system-type 'darwin) 160)
+                   :height (cond ((eq system-type 'darwin) 140)
                                  ((eq system-type 'windows-nt) 110)
                                  (t 110))))
   ;; Specify font for all unicode characters
@@ -51,7 +51,7 @@
   ;; Specify font for Chinese characters
   (cl-loop for font in
            '("Source Han Serif SC"
-             "Source Han Sans SC VF"
+             "Source Han Sans SC"
              "WenQuanYi Micro Hei"
              "Microsoft Yahei")
            when (font-installed-p font)

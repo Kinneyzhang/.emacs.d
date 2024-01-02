@@ -44,7 +44,7 @@
 (require 'init-hydra)
 (require 'init-mine)
 (require 'init-music)
-
+(require 'lang)
 ;; (require 'init-pdf)
 ;; (require 'lang-python)
 ;; (require 'lang-web)
