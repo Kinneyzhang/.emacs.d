@@ -44,8 +44,6 @@
         ("t" . ,(flowedit-shorthand-para "/待办事项/todo.org"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(use-package company-english-helper
-  :load-path "~/.emacs.d/site-lisp/company-english-helper")
 
 (use-package rich-text
   :load-path "~/PARA/RESOURCE/Emacs/pkgs/rich-text"

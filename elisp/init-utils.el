@@ -20,6 +20,12 @@
 
 ;;-----------------------------------------------
 
+(use-package emacsql
+  :ensure t)
+
+(use-package valign
+  :ensure t)
+
 ;; count words
 (defvar wc-regexp-chinese-char-and-punc
   (rx (category chinese)))
