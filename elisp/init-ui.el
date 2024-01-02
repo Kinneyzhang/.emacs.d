@@ -19,7 +19,7 @@
   :ensure t)
 
 ;; (load-theme 'doom-material t)
-(load-theme 'tsdh-light t)
+(load-theme 'doom-material t)
 
 ;;; Fonts
 

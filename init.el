@@ -24,6 +24,7 @@
       auto-window-vscroll nil
       user-full-name "Kinneyzhang")
 
+(add-to-list 'exec-path "/opt/homebrew/bin/")
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
