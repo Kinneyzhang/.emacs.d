@@ -47,6 +47,7 @@ bookmarks
 launch_emacs.sh
 org-clock-save.el
 projectile-bookmarks.eld
+projects
 var
 gk-habit
 games
@@ -64,6 +65,10 @@ notebook
 ncm-playlist
 elisp/custom.el
 server
-mygtd
 mdwiki-diff.el
 org-persist
+multisession
+mind-wave
+mygtd
+rich-text.db
+.proj

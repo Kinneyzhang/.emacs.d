@@ -1,16 +1,3 @@
-;; (use-package lsp-bridge
-;;   :load-path "~/.emacs.d/site-lisp/lsp-bridge/"
-;;   :config
-  
-;;   (global-lsp-bridge-mode))
-
-;; (use-package lsp-java
-;;   :ensure t
-;;   :config
-;;   (add-hook 'java-mode-hook #'lsp))
-;; (use-package lsp-ui
-;;   :ensure t)
-
 (use-package projectile
   :ensure t
   :config (projectile-mode 1)
