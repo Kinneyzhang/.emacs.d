@@ -1,0 +1,5 @@
+;;; -*- lisp-data -*-
+(("/Users/geekinney/.emacs.d/")
+ ("/Users/geekinney/geekblog/")
+ ("~/geekblog/")
+ ("~/.emacs.d/"))

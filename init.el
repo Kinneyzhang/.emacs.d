@@ -21,15 +21,12 @@
 (setq package-enable-at-startup nil
       file-name-handler-alist nil
       message-log-max 16384
-      gc-cons-threshold most-positive-fixnum
+      gc-cons-threshold 800000
       gc-cons-percentage 0.6
       auto-window-vscroll nil
       user-full-name "Kinneyzhang")
 
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
-(add-to-list 'load-path "/Users/geekinney/EmacsLisp/")
-(load-file "/Users/geekinney/EmacsLisp/ego-index.el")
-(load-file "/Users/geekinney/EmacsLisp/ego-reward.el")
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (defvar icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
@@ -54,3 +51,4 @@
 ;; (require 'lang-web)
 ;; (require 'lang-clojure)
 ;; (require 'lang-rust)
+(put 'narrow-to-region 'disabled nil)

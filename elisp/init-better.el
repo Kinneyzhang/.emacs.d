@@ -12,9 +12,10 @@
 (setq recentf-max-menu-items 10)
 (global-hl-line-mode -1)
 (show-paren-mode 1)
+(setq delete-by-moving-to-trash t)
 
 (setq scroll-step 1
-      scroll-margin 1
+      scroll-margin 0
       scroll-conservatively 10000)
 
 (fset 'yes-or-no-p 'y-or-n-p) ;; 用y/s代替yes/no
@@ -53,10 +54,12 @@
 ;;Highlight parens when inside it
 (define-advice show-paren-function (:around (fn) fix-show-paren-function)
   "Highlight enclosing parens."
-  (cond ((looking-at-p "\\s(") (funcall fn))
+  (cond ((looking-at-p "\\s(")
+         (funcall fn))
 	(t (save-excursion
 	     (ignore-errors (backward-up-list))
 	     (funcall fn)))))
+
 
 ;; indent buffer
 (setq-default indent-tabs-mode nil)
@@ -94,7 +97,8 @@
   :ensure t
   :init
   (setq search-web-engines
-	'(("腾讯视频" "https://v.qq.com/x/search/?q=%s" nil)
+	'(("LeetCode" "https://leetcode.cn/search/?q=%s" nil)
+          ("腾讯视频" "https://v.qq.com/x/search/?q=%s" nil)
 	  ("Google" "http://www.google.com/search?q=%s" nil)
           ("Baidu" "https://www.baidu.com/s?wd=%s" nil)
 	  ("Youtube" "http://www.youtube.com/results?search_query=%s" nil)

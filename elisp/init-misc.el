@@ -1,8 +1,30 @@
 ;; (use-package lsp-bridge
-;;   :load-path "~/.config/emacs/site-lisp/lsp-bridge/"
+;;   :load-path "~/.emacs.d/site-lisp/lsp-bridge/"
 ;;   :config
   
 ;;   (global-lsp-bridge-mode))
+
+;; (use-package lsp-java
+;;   :ensure t
+;;   :config
+;;   (add-hook 'java-mode-hook #'lsp))
+;; (use-package lsp-ui
+;;   :ensure t)
+
+(use-package projectile
+  :ensure t
+  :config (projectile-mode 1)
+  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+  ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (setq projectile-project-search-path "~/PARA"))
+
+(use-package bm
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c b m") #'bm-toggle)
+  (global-set-key (kbd "C-c b n") #'bm-next)
+  (global-set-key (kbd "C-c b n") #'bm-previous)
+  (global-set-key (kbd "<f5>") #'bm-show))
 
 ;;; eww
 (setq eww-search-prefix "https://cn.bing.com/search?q=emacs&search=&form=QBLH&sp=-1&lq=0&pq=")
@@ -70,6 +92,7 @@ specified.  Select the current line if the LINES prefix is zero."
   (find-file (concat user-emacs-directory "init.el"))
   (with-current-buffer "init.el"
     (read-only-mode)))
+
 ;; (global-set-key (kbd "<f1>") 'open-my-init-file)
 
 ;; (use-package magit
@@ -122,6 +145,9 @@ specified.  Select the current line if the LINES prefix is zero."
 	 ("\\.md\\'" . markdown-mode)
 	 ("\\.markdown\\'" . markdown-mode))
   :init
-  (setq markdown-command "markdown_py"))
+  (setq markdown-command "markdown_py")
+  (defface markdown-table-face '((t)) "")
+  :config
+  (add-hook 'markdown-mode-hook #'valign-mode))
 
 (provide 'init-misc)

@@ -15,12 +15,14 @@
 (setq-default cursor-type '(bar . 3)) ;; 光标样式
 
 ;;; theme
-(use-package doom-themes
-  :ensure t)
+;; (use-package monokai-pro-theme
+;;   :ensure t)
 
+(use-package doom-themes
+  :ensure t
+  :config (load-theme 'doom-one-light t))
 ;; (load-theme 'doom-material t)
 ;; (load-theme 'tsdh-light t)
-(load-theme 'leuven t)
 
 ;;; Fonts
 

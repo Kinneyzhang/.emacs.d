@@ -49,7 +49,8 @@
 (pretty-hydra-define hydra-launch
   (:color amaranth :exit t)
   ("Goto website"
-   (("x e" (browse-url "http://ergoemacs.org/emacs/emacs.html") "XahEmacs")
+   (("w y" (browse-url "https://yiyan.baidu.com/" "文心一言"))
+    ("x e" (browse-url "http://ergoemacs.org/emacs/emacs.html") "XahEmacs")
     ("b l" (browse-url "https://www.bilibili.com") "Bilibili")
     ("d b" (browse-url "https://www.douban.com") "Douban")
     ("d d" (browse-url "https://dida365.com/webapp/#q/all/today") "TickTick")
@@ -58,7 +59,7 @@
     ("e l" (browse-url "https://www.gnu.org/software/emacs/manual/html_mono/elisp.html") "Elisp")
     ("g o" (browse-url "https://www.google.com") "Google")
     ("g t" (browse-url "https://www.github.com") "Github")
-    ("m p" (browse-url "http://www.melpa.org/#/") "Melpa")
+    ("m p" (browse-url "https://docs.qq.com/sheet/DY21qQ0pBeWp2eU50") "My Plan")
     ("v 2" (browse-url "https://www.v2ex.com") "V2EX")
     ("y t" (browse-url "https://www.youtube.com") "YouTube")
     ("f d" (browse-url "https://feedly.com/i/latest") "Feedly")
