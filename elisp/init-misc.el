@@ -22,10 +22,13 @@
 (setq w3m-search-default-engine "bing")
 
 ;;; epub setup
-(setq nov-unzip-program (executable-find "bsdtar")
-      nov-unzip-args '("-xC" directory "-f" filename))
-(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-(setq nov-text-width 70)
+(use-package nov
+  :ensure t
+  :config
+  (setq nov-text-width 70)
+  (setq nov-unzip-program (executable-find "bsdtar")
+        nov-unzip-args '("-xC" directory "-f" filename))
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
 
 (use-package prescient
   :ensure t
@@ -127,7 +130,6 @@ specified.  Select the current line if the LINES prefix is zero."
 
 (use-package markdown-mode
   :ensure t
-  :defer 5
   :mode (("README\\.md\\'" . gfm-mode)
 	 ("\\.md\\'" . markdown-mode)
 	 ("\\.markdown\\'" . markdown-mode))

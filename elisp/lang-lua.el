@@ -1,4 +1,4 @@
 (use-package lua-mode
   :ensure t)
 
-(provide 'lang)
+(provide 'lang-lua)

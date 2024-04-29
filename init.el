@@ -19,13 +19,14 @@
 (setq package-enable-at-startup nil
       file-name-handler-alist nil
       message-log-max 16384
-      gc-cons-threshold 800000
+      gc-cons-threshold 99999999999
       gc-cons-percentage 0.6
       auto-window-vscroll nil
       user-full-name "Kinneyzhang")
 
 (add-to-list 'exec-path "/opt/homebrew/bin/")
 (add-to-list 'load-path (concat user-emacs-directory "elisp"))
+(load-file "/Users/geekinney/IPARA/3-RESOURCES/emacs/init.el")
 
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (defvar icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
@@ -44,9 +45,9 @@
 (require 'init-hydra)
 (require 'init-mine)
 (require 'init-music)
-(require 'lang)
+(require 'lang-lua)
+(require 'lang-rust)
 ;; (require 'init-pdf)
 ;; (require 'lang-python)
 ;; (require 'lang-web)
 ;; (require 'lang-clojure)
-;; (require 'lang-rust)
