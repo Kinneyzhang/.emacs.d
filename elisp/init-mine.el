@@ -7,15 +7,6 @@
     (mind-wave-chat-ask)))
 (global-set-key "\C-c\C-j" 'mind-wave-new-file-and-chat)
 
-(use-package emacsql
-  :ensure t)
-
-(use-package emacsql-sqlite
-  :ensure t)
-
-(use-package db
-  :ensure t)
-
 (use-package color-rg
   :load-path "~/.emacs.d/site-lisp/color-rg")
 

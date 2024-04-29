@@ -20,9 +20,6 @@
 
 ;;-----------------------------------------------
 
-(use-package emacsql
-  :ensure t)
-
 (use-package valign
   :ensure t)
 
