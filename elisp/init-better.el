@@ -26,9 +26,9 @@
 (prefer-coding-system 'utf-8)
 
 (require 'dired-x)
-(setq dired-omit-files
-      (concat "\\.SynologyWorkingDirectory\\|^_.+\\|" dired-omit-files))
-(add-hook 'dired-mode-hook 'dired-omit-mode)
+;; (setq dired-omit-files
+;;       (concat "\\.SynologyWorkingDirectory\\|^_.+\\|" dired-omit-files))
+;; (add-hook 'dired-mode-hook 'dired-omit-mode)
 
 (setq bookmark-save-flag 1)
 (setq org-image-actual-width nil)

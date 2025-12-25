@@ -35,18 +35,12 @@
 (defun gk-enlarge-window ()
   "Enlarge current window horizontally by 10 columns left and right."
   (interactive)
-  (other-window -1)
-  (shrink-window-horizontally 10)
-  (other-window 1)
-  (enlarge-window-horizontally 10))
+  (window-resize (selected-window) 10 t))
 
 (defun gk-shrink-window ()
   "Shrink current window horizontally by 10 columns left and right."
   (interactive)
-  (other-window -1)
-  (enlarge-window-horizontally 10)
-  (other-window 1)
-  (shrink-window-horizontally 10))
+  (window-resize (selected-window) -10 t))
 
 (global-set-key (kbd "C-x }") #'gk-enlarge-window)
 (global-set-key (kbd "C-x {") #'gk-shrink-window)

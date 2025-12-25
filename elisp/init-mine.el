@@ -12,14 +12,8 @@
 
 (eval-when-compile
   (require 'cl-lib)) ;;; 整个文件 byte compile 就行了，没有必要显式调用 `byte-compile`
-(add-hook 'post-gc-hook ;; post gc hook 內容要小，以防极端情况产生 dead loop
-          (let ((--gcs-done -1))
-            (lambda ()
-              (when (/= --gcs-done gcs-done)
-                (redraw-frame)
-                (setq --gcs-done gcs-done)))))
 
-(defun PREFIX/runtime-info-string ()
+(defun my/runtime-info-string ()
   (format-spec "%N GC (%ts total): %M VM, %hh runtime"
                `((?N . ,(format "%d%s"
                                 gcs-done
@@ -39,42 +33,43 @@
                                 (/ (time-to-seconds (time-since before-init-time))
                                    3600.0))))))
 
-(setq frame-title-format '("" default-directory "  "
-                           (:eval (PREFIX/runtime-info-string))))
+(setq frame-title-format
+      '("" default-directory "  "
+        (:eval (prefix/runtime-info-string))))
 
 ;; 不需要显式调用 gc 或 redraw-frame。
 
 ;;;;; set and map in elisp
 
-(defun set-make ()
-  (make-hash-table :test 'equal))
-(defun set-empty-p (set)
-  (hash-table-empty-p set))
-(defun set-count (set)
-  (hash-table-count set))
-(defun set-add (set el)
-  (puthash el t set))
-(defun set-member (set el)
-  (gethash el set nil))
-(defun set-list (set)
-  (hash-table-keys set))
-(defun set-remove (set el)
-  (remhash el set))
+;; (defun set-make ()
+;;   (make-hash-table :test 'equal))
+;; (defun set-empty-p (set)
+;;   (hash-table-empty-p set))
+;; (defun set-count (set)
+;;   (hash-table-count set))
+;; (defun set-add (set el)
+;;   (puthash el t set))
+;; (defun set-member (set el)
+;;   (gethash el set nil))
+;; (defun set-list (set)
+;;   (hash-table-keys set))
+;; (defun set-remove (set el)
+;;   (remhash el set))
 
-(defun map-make ()
-  (make-hash-table))
-(defun map-empty-p (map)
-  (hash-table-empty-p map))
-(defun map-count (map)
-  (hash-table-count map))
-(defun map-set (map key value)
-  (puthash key value map))
-(defun map-get (map key)
-  (gethash key map nil))
-(defun map-remove (map key)
-  (remhash key map))
-(defun map-list (map)
-  (cl-mapcan #'list (hash-table-keys map)
-             (hash-table-values map)))
+;; (defun map-make ()
+;;   (make-hash-table))
+;; (defun map-empty-p (map)
+;;   (hash-table-empty-p map))
+;; (defun map-count (map)
+;;   (hash-table-count map))
+;; (defun map-set (map key value)
+;;   (puthash key value map))
+;; (defun map-get (map key)
+;;   (gethash key map nil))
+;; (defun map-remove (map key)
+;;   (remhash key map))
+;; (defun map-list (map)
+;;   (cl-mapcan #'list (hash-table-keys map)
+;;              (hash-table-values map)))
 
 (provide 'init-mine)

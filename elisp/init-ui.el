@@ -1,7 +1,7 @@
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
-(tool-bar-mode -1)
 (fringe-mode 0)
+(tool-bar-mode 0)
 (display-time-mode -1)
 (global-hl-line-mode -1)
 (global-display-line-numbers-mode -1)
@@ -21,7 +21,10 @@
 (use-package doom-themes
   :ensure t)
 
-(load-theme 'tsdh-light t)
+(use-package material-theme
+  :ensure t)
+
+(load-theme 'material t)
 
 ;;; Fonts
 
@@ -31,12 +34,15 @@
 
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("Source Code Pro for Powerline"
-                         "Fira Code"
-                         "Menlo" "SF"
-                         "Monaco Mono" "Hack"
-                         "DejaVu Sans Mono"
-                         "Consolas")
+  (cl-loop for font in '("JetBrains Mono"
+                         "Source Code Pro for Powerline"
+                         ;; "Menlo"
+                         ;; "LXGW WenKai Mono"
+                         ;; "SF"
+                         ;; "Monaco Mono" "Hack"
+                         ;; "DejaVu Sans Mono"
+                         ;; "Consolas"
+                         )
            when (font-installed-p font)
            return (set-face-attribute
                    'default nil
@@ -50,12 +56,16 @@
            return (set-fontset-font t 'unicode font nil 'append))
   ;; Specify font for Chinese characters
   (cl-loop for font in
-           '("Source Han Serif SC"
-             "Source Han Sans SC"
-             "WenQuanYi Micro Hei"
-             "Microsoft Yahei")
+           '("JuZhenXinFang"
+             ;; 聚珍新仿
+             ;; "Microsoft Yahei"
+             ;; "Source Han Sans SC"
+             ;; "Source Han Serif SC"
+             ;; "WenQuanYi Micro Hei"
+             )
            when (font-installed-p font)
-           return (dolist (charset '(kana han hangul cjk-misc bopomofo))
+           return (dolist (charset
+                           '(kana han hangul cjk-misc bopomofo))
                     (set-fontset-font t charset font))))
 
 (use-package all-the-icons
@@ -63,15 +73,15 @@
 
 ;;; modeline
 
-(use-package powerline
-  :ensure t
-  :config
-  (powerline-default-theme))
+;; (use-package powerline
+;;   :ensure t
+;;   :config
+;;   (powerline-default-theme))
 
-(use-package spaceline
-  :ensure t
-  :config
-  (spaceline-spacemacs-theme))
+;; (use-package spaceline
+;;   :ensure t
+;;   :config
+;;   (spaceline-spacemacs-theme))
 
 ;; colorful dired-mode
 

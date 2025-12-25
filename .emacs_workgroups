@@ -1,0 +1,190 @@
+#s(wg-session "KA91BL1HEN0-3YPWVA" nil nil
+              (~pickel!~ (3 nil 2 frame-list 1 (c) 0 (c))
+                         (c 1 2 3 c 0 1 3) 0)
+              "/Users/geekinney/.emacs.d/.emacs_workgroups" "1.2.1"
+              (#s(wg-workgroup "KAA1D7KBF3V0-1NB619" "rust-learn" t
+                               nil
+                               #s(wg-wconfig "KAA1D7KBI210-1NB673" nil
+                                             ((fullscreen)) 0 25 159
+                                             43 nil 15
+                                             #s(wg-wtree nil nil
+                                                         (0 1 159 43)
+                                                         (#s(wg-wtree
+                                                             nil t
+                                                             (0 1 70
+                                                                43)
+                                                             (#s(wg-win
+                                                                 nil
+                                                                 nil
+                                                                 (0 1
+                                                                    70
+                                                                    34)
+                                                                 3292
+                                                                 3054
+                                                                 0 nil
+                                                                 t nil
+                                                                 "KAA1D7KBDBB0-1NB5TK")
+                                                                #s(wg-win
+                                                                   nil
+                                                                   nil
+                                                                   (0
+                                                                    34
+                                                                    70
+                                                                    43)
+                                                                   158
+                                                                   158
+                                                                   0
+                                                                   nil
+                                                                   nil
+                                                                   nil
+                                                                   "KAA1D7KBEE00-1NB5VO")))
+                                                            #s(wg-win
+                                                               nil nil
+                                                               (70 1
+                                                                   159
+                                                                   43)
+                                                               :max 1
+                                                               0 nil
+                                                               nil nil
+                                                               "KAA1D7KBEZB0-1NB5XS"))))
+                               nil nil nil nil)
+                 #s(wg-workgroup "KICA50IB340-1TZY7I" "peg-src-read" t
+                                 nil
+                                 #s(wg-wconfig "KICA50IC8J0-1TZYBS"
+                                               nil ((fullscreen)) 0 25
+                                               159 43 nil 15
+                                               #s(wg-wtree nil nil
+                                                           (0 1 160 43)
+                                                           (#s(wg-win
+                                                               nil nil
+                                                               (0 1 80
+                                                                  43)
+                                                               12243
+                                                               10574 0
+                                                               nil nil
+                                                               nil
+                                                               "KICA50IAUT0-1TZY26")
+                                                              #s(wg-win
+                                                                 nil
+                                                                 nil
+                                                                 (80 1
+                                                                     160
+                                                                     43)
+                                                                 :max
+                                                                 1 0
+                                                                 nil t
+                                                                 t
+                                                                 "KICA50IB1A0-1TZY47"))))
+                                 nil nil nil nil)
+                 #s(wg-workgroup "KNH19339DRZ0-17Q9K6"
+                                 "block-merge-think" t nil
+                                 #s(wg-wconfig "KNH19339EL80-17Q9PK"
+                                               nil
+                                               ((fullscreen
+                                                 . maximized))
+                                               0 25 143 41 nil 15
+                                               #s(wg-wtree nil t
+                                                           (0 1 144 41)
+                                                           (#s(wg-wtree
+                                                               nil nil
+                                                               (0 1
+                                                                  144
+                                                                  27)
+                                                               (#s(wg-win
+                                                                   nil
+                                                                   nil
+                                                                   (0
+                                                                    1
+                                                                    51
+                                                                    27)
+                                                                   1937
+                                                                   1722
+                                                                   0
+                                                                   nil
+                                                                   nil
+                                                                   nil
+                                                                   "KNH19339DF40-17Q9CH")
+                                                                  #s(wg-win
+                                                                     nil
+                                                                     nil
+                                                                     (51
+                                                                      1
+                                                                      144
+                                                                      27)
+                                                                     15147
+                                                                     14382
+                                                                     0
+                                                                     nil
+                                                                     t
+                                                                     nil
+                                                                     "KNH19339DLY0-17Q9EL")))
+                                                              #s(wg-win
+                                                                 nil
+                                                                 nil
+                                                                 (0 27
+                                                                    144
+                                                                    41)
+                                                                 217 1
+                                                                 0 nil
+                                                                 nil
+                                                                 nil
+                                                                 "KNH19339DQE0-17Q9GP"))))
+                                 nil nil nil nil))
+              (#s(wg-buf "KNH19339DQE0-17Q9GP" "*pop-buffer-insert*"
+                         nil 217 1
+                         ((major-mode . fundamental-mode)
+                          (mark-ring 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 217)
+                          nil nil nil nil nil nil)
+                         nil nil)
+                 #s(wg-buf "KNH19339DF40-17Q9CH" "etml-tests.el"
+                           "/Users/geekinney/IPARA/3-RESOURCES/emacs/config/tests/etml-tests.el"
+                           1937 2289
+                           ((major-mode . emacs-lisp-mode)
+                            (mark-ring 2356 1594 1594 1558 1664 2356
+                                       2356 2356 2289 2280 1954 1936
+                                       1556 1568 2206 2289)
+                            nil nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KNH19339DLY0-17Q9EL" "block-utils.el"
+                           "/Users/geekinney/IPARA/3-RESOURCES/emacs/config/github/emacs-block/block-utils.el"
+                           15147 15092
+                           ((major-mode . emacs-lisp-mode)
+                            (mark-ring 15134 15067 15109 15123 15093
+                                       14857 14912 14768 14972 14579
+                                       14766 14578 14578 14576 14926
+                                       15092)
+                            nil nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KICA50IAUT0-1TZY26" "peg.el"
+                           "/usr/local/Cellar/emacs-plus@30/30.1/share/emacs/30.1/lisp/progmodes/peg.el"
+                           12243 nil
+                           ((major-mode . emacs-lisp-mode) nil nil nil
+                            nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KICA50IB1A0-1TZY47" "peg-src-tests.el"
+                           "/Users/geekinney/IPARA/3-RESOURCES/emacs/config/github/peg-plus/peg-src-tests.el"
+                           526 526
+                           ((major-mode . emacs-lisp-mode) nil nil nil
+                            nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KAA1D7KBEE00-1NB5VO" "main.rs<learn_rust>"
+                           "/Users/geekinney/IPARA/3-RESOURCES/rust/learn_rust/src/main.rs"
+                           158 279
+                           ((major-mode . rust-mode)
+                            (mark-ring 253 216 187 194 169 141 141 141
+                                       141 115 86 36 36 36 11 24)
+                            nil nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KAA1D7KBEZB0-1NB5XS" "*compilation*" nil 1
+                           1
+                           ((major-mode . fundamental-mode) nil nil
+                            nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KAA1D7KBDBB0-1NB5TK" "basic.rs"
+                           "/Users/geekinney/IPARA/3-RESOURCES/rust/learn_rust/src/basic.rs"
+                           3292 17
+                           ((major-mode . rust-mode)
+                            (mark-ring 16 8 26 80 1 80 80 13 8 80 80
+                                       21 78 67 13 3292)
+                            nil nil nil nil nil nil)
+                           nil nil)))

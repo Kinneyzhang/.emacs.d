@@ -19,15 +19,14 @@
 (setq package-enable-at-startup nil
       file-name-handler-alist nil
       message-log-max 16384
-      gc-cons-threshold 99999999999
+      gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6
       auto-window-vscroll nil
       user-full-name "Kinneyzhang")
 
-(add-to-list 'exec-path "/opt/homebrew/bin/")
-(add-to-list 'load-path (concat user-emacs-directory "elisp"))
-(load-file "/Users/geekinney/IPARA/3-RESOURCES/emacs/init.el")
+(use-package dash :ensure t)
 
+(add-to-list 'load-path (concat user-emacs-directory "elisp"))
 (setq custom-file (expand-file-name (concat user-emacs-directory "elisp/custom.el")))
 (defvar icloud-directory (expand-file-name "~/Library/Mobile Documents/com~apple~CloudDocs/"))
 (defvar site-lisp (expand-file-name (concat user-emacs-directory "site-lisp/")))
@@ -36,18 +35,26 @@
 (require 'init-better)
 (require 'init-utils)
 (require 'init-ui)
+
+(add-to-list 'exec-path "/opt/homebrew/bin/")
+
 (require 'init-key)
 (require 'init-ivy)
 (require 'init-window)
 (require 'init-misc)
 (require 'init-org)
 (require 'init-dired)
-(require 'init-hydra)
+;; (require 'init-hydra)
 (require 'init-mine)
 (require 'init-music)
 (require 'lang-lua)
 (require 'lang-rust)
+(require 'lang-lisp)
 ;; (require 'init-pdf)
 ;; (require 'lang-python)
 ;; (require 'lang-web)
 ;; (require 'lang-clojure)
+(put 'erase-buffer 'disabled nil)
+
+(load-file "/Users/geekinney/IPARA/3-RESOURCES/emacs/config/init.el")
+(require 'init)

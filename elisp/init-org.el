@@ -1,6 +1,6 @@
 ;; init-org.el
 (use-package org
-  :bind (("C-c a" . org-agenda))
+  ;; :bind (("C-c a" . org-agenda))
   :config
   (progn
     ;; when opening a org file, don't collapse headings

@@ -1,9 +1,9 @@
-(use-package projectile
-  :ensure t
-  :config (projectile-mode 1)
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-  ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (setq projectile-project-search-path "~/PARA"))
+;; (use-package projectile
+;;   :ensure t
+;;   :config (projectile-mode 1)
+;;   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
+;;   ;; (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+;;   (setq projectile-project-search-path "~/PARA"))
 
 (use-package bm
   :ensure t
@@ -25,7 +25,7 @@
 (use-package nov
   :ensure t
   :config
-  (setq nov-text-width 70)
+  (setq nov-text-width 90)
   (setq nov-unzip-program (executable-find "bsdtar")
         nov-unzip-args '("-xC" directory "-f" filename))
   (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode)))
@@ -127,16 +127,5 @@ specified.  Select the current line if the LINES prefix is zero."
   :ensure t
   :config
   (global-hungry-delete-mode))
-
-(use-package markdown-mode
-  :ensure t
-  :mode (("README\\.md\\'" . gfm-mode)
-	 ("\\.md\\'" . markdown-mode)
-	 ("\\.markdown\\'" . markdown-mode))
-  :init
-  (setq markdown-command "markdown_py")
-  (defface markdown-table-face '((t)) "")
-  :config
-  (add-hook 'markdown-mode-hook #'valign-mode))
 
 (provide 'init-misc)

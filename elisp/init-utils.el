@@ -20,8 +20,7 @@
 
 ;;-----------------------------------------------
 
-(use-package valign
-  :ensure t)
+(global-set-key (kbd "C-c e") #'eval-expression)
 
 ;; count words
 (defvar wc-regexp-chinese-char-and-punc
@@ -142,251 +141,251 @@
 
 ;;; print symbol
 
-(defun print-symbol-τ ()
-  "print to"
-  (interactive)
-  (insert "τ"))
-(global-set-key (kbd "C-c s t o") 'print-symbol-τ)
+;; (defun print-symbol-τ ()
+;;   "print to"
+;;   (interactive)
+;;   (insert "τ"))
+;; (global-set-key (kbd "C-c s t o") 'print-symbol-τ)
 
-(defun print-symbol-∂ ()
-  "print round"
-  (interactive)
-  (insert "∂"))
-(global-set-key (kbd "C-c s r d") 'print-symbol-∂)
+;; (defun print-symbol-∂ ()
+;;   "print round"
+;;   (interactive)
+;;   (insert "∂"))
+;; (global-set-key (kbd "C-c s r d") 'print-symbol-∂)
 
-(defun print-symbol-∮ ()
-  "print qjf"
-  (interactive)
-  (insert "∮"))
-(global-set-key (kbd "C-c s q j f") 'print-symbol-∮)
+;; (defun print-symbol-∮ ()
+;;   "print qjf"
+;;   (interactive)
+;;   (insert "∮"))
+;; (global-set-key (kbd "C-c s q j f") 'print-symbol-∮)
 
-(defun print-symbol-ρ ()
-  "print ru"
-  (interactive)
-  (insert "ρ"))
-(global-set-key (kbd "C-c s r u") 'print-symbol-ρ)
+;; (defun print-symbol-ρ ()
+;;   "print ru"
+;;   (interactive)
+;;   (insert "ρ"))
+;; (global-set-key (kbd "C-c s r u") 'print-symbol-ρ)
 
-(defun print-symbol-± ()
-  "print plus and minus"
-  (interactive)
-  (insert "±"))
-(global-set-key (kbd "C-c s p m") 'print-symbol-±)
+;; (defun print-symbol-± ()
+;;   "print plus and minus"
+;;   (interactive)
+;;   (insert "±"))
+;; (global-set-key (kbd "C-c s p m") 'print-symbol-±)
 
-(defun print-symbol-⊥ ()
-  "print perpendicular to"
-  (interactive)
-  (insert "⊥"))
-(global-set-key (kbd "C-c s p t") 'print-symbol-⊥)
+;; (defun print-symbol-⊥ ()
+;;   "print perpendicular to"
+;;   (interactive)
+;;   (insert "⊥"))
+;; (global-set-key (kbd "C-c s p t") 'print-symbol-⊥)
 
-(defun print-symbol-ʃ ()
-  "print jifen"
-  (interactive)
-  (insert "ʃ"))
-(global-set-key (kbd "C-c s j f") 'print-symbol-ʃ)
+;; (defun print-symbol-ʃ ()
+;;   "print jifen"
+;;   (interactive)
+;;   (insert "ʃ"))
+;; (global-set-key (kbd "C-c s j f") 'print-symbol-ʃ)
 
-(defun print-symbol-≥ ()
-  "print more and equal"
-  (interactive)
-  (insert "≥"))
-(global-set-key (kbd "C-c s m e") 'print-symbol-≥)
+;; (defun print-symbol-≥ ()
+;;   "print more and equal"
+;;   (interactive)
+;;   (insert "≥"))
+;; (global-set-key (kbd "C-c s m e") 'print-symbol-≥)
 
-(defun print-symbol-≤ ()
-  "print less and equal"
-  (interactive)
-  (insert "≤"))
-(global-set-key (kbd "C-c s l e") 'print-symbol-≤)
+;; (defun print-symbol-≤ ()
+;;   "print less and equal"
+;;   (interactive)
+;;   (insert "≤"))
+;; (global-set-key (kbd "C-c s l e") 'print-symbol-≤)
 
-(defun print-symbol-≠ ()
-  "print Inequality"
-  (interactive)
-  (insert "≠"))
-(global-set-key (kbd "C-c s i e") 'print-symbol-≠)
+;; (defun print-symbol-≠ ()
+;;   "print Inequality"
+;;   (interactive)
+;;   (insert "≠"))
+;; (global-set-key (kbd "C-c s i e") 'print-symbol-≠)
 
-(defun print-symbol-∃ ()
-  "print existence"
-  (interactive)
-  (insert "∃"))
-(global-set-key (kbd "C-c s e x") 'print-symbol-∃)
+;; (defun print-symbol-∃ ()
+;;   "print existence"
+;;   (interactive)
+;;   (insert "∃"))
+;; (global-set-key (kbd "C-c s e x") 'print-symbol-∃)
 
-(defun print-symbol-∀ ()
-  "print Arbitrary"
-  (interactive)
-  (insert "∀"))
-(global-set-key (kbd "C-c s a b") 'print-symbol-∀)
+;; (defun print-symbol-∀ ()
+;;   "print Arbitrary"
+;;   (interactive)
+;;   (insert "∀"))
+;; (global-set-key (kbd "C-c s a b") 'print-symbol-∀)
 
-(defun print-symbol-⊆ ()
-  "print contained"
-  (interactive)
-  (insert "⊆"))
-(global-set-key (kbd "C-c s c t") 'print-symbol-⊆)
+;; (defun print-symbol-⊆ ()
+;;   "print contained"
+;;   (interactive)
+;;   (insert "⊆"))
+;; (global-set-key (kbd "C-c s c t") 'print-symbol-⊆)
 
-(defun print-symbol-∈ ()
-  "print Belong"
-  (interactive)
-  (insert "∈"))
-(global-set-key (kbd "C-c s b l") 'print-symbol-∈)
+;; (defun print-symbol-∈ ()
+;;   "print Belong"
+;;   (interactive)
+;;   (insert "∈"))
+;; (global-set-key (kbd "C-c s b l") 'print-symbol-∈)
 
-(defun print-symbol-∞ ()
-  "print Infinit"
-  (interactive)
-  (insert "∞"))
-(global-set-key (kbd "C-c s i f") 'print-symbol-∞)
+;; (defun print-symbol-∞ ()
+;;   "print Infinit"
+;;   (interactive)
+;;   (insert "∞"))
+;; (global-set-key (kbd "C-c s i f") 'print-symbol-∞)
 
-(defun print-symbol-ξ ()
-  "print ksi"
-  (interactive)
-  (insert "ξ"))
-(global-set-key (kbd "C-c s k s") 'print-symbol-ξ)
+;; (defun print-symbol-ξ ()
+;;   "print ksi"
+;;   (interactive)
+;;   (insert "ξ"))
+;; (global-set-key (kbd "C-c s k s") 'print-symbol-ξ)
 
-(defun print-symbol-η ()
-  "print eta"
-  (interactive)
-  (insert "η"))
-(global-set-key (kbd "C-c s e t") 'print-symbol-η)
+;; (defun print-symbol-η ()
+;;   "print eta"
+;;   (interactive)
+;;   (insert "η"))
+;; (global-set-key (kbd "C-c s e t") 'print-symbol-η)
 
-(defun print-symbol-ε ()
-  "print Epsilon"
-  (interactive)
-  (insert "ε"))
-(global-set-key (kbd "C-c s e p") 'print-symbol-ε)
+;; (defun print-symbol-ε ()
+;;   "print Epsilon"
+;;   (interactive)
+;;   (insert "ε"))
+;; (global-set-key (kbd "C-c s e p") 'print-symbol-ε)
 
-(defun print-symbol-α ()
-  "print Alpha"
-  (interactive)
-  (insert "α"))
-(global-set-key (kbd "C-c s a p") 'print-symbol-α)
+;; (defun print-symbol-α ()
+;;   "print Alpha"
+;;   (interactive)
+;;   (insert "α"))
+;; (global-set-key (kbd "C-c s a p") 'print-symbol-α)
 
-(defun print-symbol-β ()
-  "print Beta"
-  (interactive)
-  (insert "β"))
-(global-set-key (kbd "C-c s b t") 'print-symbol-β)
+;; (defun print-symbol-β ()
+;;   "print Beta"
+;;   (interactive)
+;;   (insert "β"))
+;; (global-set-key (kbd "C-c s b t") 'print-symbol-β)
 
-(defun print-symbol-γ ()
-  "print Gamma"
-  (interactive)
-  (insert "γ"))
-(global-set-key (kbd "C-c s g m") 'print-symbol-γ)
+;; (defun print-symbol-γ ()
+;;   "print Gamma"
+;;   (interactive)
+;;   (insert "γ"))
+;; (global-set-key (kbd "C-c s g m") 'print-symbol-γ)
 
-(defun print-symbol-λ ()
-  "print lambda"
-  (interactive)
-  (insert "λ"))
-(global-set-key (kbd "C-c s l d") 'print-symbol-λ)
+;; (defun print-symbol-λ ()
+;;   "print lambda"
+;;   (interactive)
+;;   (insert "λ"))
+;; (global-set-key (kbd "C-c s l d") 'print-symbol-λ)
 
-(defun print-symbol-θ ()
-  "print Theta"
-  (interactive)
-  (insert "θ"))
-(global-set-key (kbd "C-c s t t") 'print-symbol-θ)
+;; (defun print-symbol-θ ()
+;;   "print Theta"
+;;   (interactive)
+;;   (insert "θ"))
+;; (global-set-key (kbd "C-c s t t") 'print-symbol-θ)
 
-(defun print-symbol-ζ ()
-  "print Zeta"
-  (interactive)
-  (insert "ζ"))
-(global-set-key (kbd "C-c s z t") 'print-symbol-ζ)
+;; (defun print-symbol-ζ ()
+;;   "print Zeta"
+;;   (interactive)
+;;   (insert "ζ"))
+;; (global-set-key (kbd "C-c s z t") 'print-symbol-ζ)
 
-(defun print-symbol-Δ ()
-  "print Delte"
-  (interactive)
-  (insert "Δ"))
-(global-set-key (kbd "C-c s d t") 'print-symbol-Δ)
+;; (defun print-symbol-Δ ()
+;;   "print Delte"
+;;   (interactive)
+;;   (insert "Δ"))
+;; (global-set-key (kbd "C-c s d t") 'print-symbol-Δ)
 
-(defun print-symbol-μ ()
-  "print Mu"
-  (interactive)
-  (insert "μ"))
-(global-set-key (kbd "C-c s m u ") 'print-symbol-μ)
+;; (defun print-symbol-μ ()
+;;   "print Mu"
+;;   (interactive)
+;;   (insert "μ"))
+;; (global-set-key (kbd "C-c s m u ") 'print-symbol-μ)
 
-(defun print-symbol-π ()
-  "print Pi"
-  (interactive)
-  (insert "π"))
-(global-set-key (kbd "C-c s p i") 'print-symbol-π)
+;; (defun print-symbol-π ()
+;;   "print Pi"
+;;   (interactive)
+;;   (insert "π"))
+;; (global-set-key (kbd "C-c s p i") 'print-symbol-π)
 
-(defun print-symbol-σ ()
-  "print Sigma"
-  (interactive)
-  (insert "σ"))
-(global-set-key (kbd "C-c s s m") 'print-symbol-σ)
+;; (defun print-symbol-σ ()
+;;   "print Sigma"
+;;   (interactive)
+;;   (insert "σ"))
+;; (global-set-key (kbd "C-c s s m") 'print-symbol-σ)
 
-(defun print-symbol-Σ ()
-  "print upper Sigma"
-  (interactive)
-  (insert "Σ"))
-(global-set-key (kbd "C-c s u s m") 'print-symbol-Σ)
+;; (defun print-symbol-Σ ()
+;;   "print upper Sigma"
+;;   (interactive)
+;;   (insert "Σ"))
+;; (global-set-key (kbd "C-c s u s m") 'print-symbol-Σ)
 
-(defun print-symbol-ρ ()
-  "print Rho"
-  (interactive)
-  (insert "ρ"))
-(global-set-key (kbd "C-c s r h") 'print-symbol-ρ)
+;; (defun print-symbol-ρ ()
+;;   "print Rho"
+;;   (interactive)
+;;   (insert "ρ"))
+;; (global-set-key (kbd "C-c s r h") 'print-symbol-ρ)
 
-(defun print-symbol-ψ ()
-  "print Psi"
-  (interactive)
-  (insert "ψ"))
-(global-set-key (kbd "C-c s p s") 'print-symbol-ψ)
+;; (defun print-symbol-ψ ()
+;;   "print Psi"
+;;   (interactive)
+;;   (insert "ψ"))
+;; (global-set-key (kbd "C-c s p s") 'print-symbol-ψ)
 
-(defun print-symbol-φ ()
-  "print Phi"
-  (interactive)
-  (insert "φ"))
-(global-set-key (kbd "C-c s p h") 'print-symbol-φ)
+;; (defun print-symbol-φ ()
+;;   "print Phi"
+;;   (interactive)
+;;   (insert "φ"))
+;; (global-set-key (kbd "C-c s p h") 'print-symbol-φ)
 
-(defun print-symbol-Φ ()
-  "print upper Phi"
-  (interactive)
-  (insert "Φ"))
-(global-set-key (kbd "C-c s u p h") 'print-symbol-Φ)
+;; (defun print-symbol-Φ ()
+;;   "print upper Phi"
+;;   (interactive)
+;;   (insert "Φ"))
+;; (global-set-key (kbd "C-c s u p h") 'print-symbol-Φ)
 
-(defun print-symbol-ω ()
-  "print lower Omiga"
-  (interactive)
-  (insert "ω"))
-(global-set-key (kbd "C-c s l o g") 'print-symbol-ω)
+;; (defun print-symbol-ω ()
+;;   "print lower Omiga"
+;;   (interactive)
+;;   (insert "ω"))
+;; (global-set-key (kbd "C-c s l o g") 'print-symbol-ω)
 
-(defun print-symbol-Ω ()
-  "print upper Omiga"
-  (interactive)
-  (insert "Ω"))
-(global-set-key (kbd "C-c s u o g") 'print-symbol-Ω)
+;; (defun print-symbol-Ω ()
+;;   "print upper Omiga"
+;;   (interactive)
+;;   (insert "Ω"))
+;; (global-set-key (kbd "C-c s u o g") 'print-symbol-Ω)
 
-;;=================================================================
-(defun print-symbol-◉ ()
-  (interactive)
-  (insert "◉"))
-(global-set-key (kbd "C-c s t d") 'print-symbol-◉)
+;; ;;=================================================================
+;; (defun print-symbol-◉ ()
+;;   (interactive)
+;;   (insert "◉"))
+;; (global-set-key (kbd "C-c s t d") 'print-symbol-◉)
 
-(defun print-symbol-● ()
-  (interactive)
-  (insert "●"))
-(global-set-key (kbd "C-c s s d") 'print-symbol-●) ;;solid dot
+;; (defun print-symbol-● ()
+;;   (interactive)
+;;   (insert "●"))
+;; (global-set-key (kbd "C-c s s d") 'print-symbol-●) ;;solid dot
 
-(defun print-symbol-○ ()
-  (interactive)
-  (insert "○"))
-(global-set-key (kbd "C-c s h d") 'print-symbol-○) ;;hollow dot
+;; (defun print-symbol-○ ()
+;;   (interactive)
+;;   (insert "○"))
+;; (global-set-key (kbd "C-c s h d") 'print-symbol-○) ;;hollow dot
 
-(defun print-symbol-× ()
-  (interactive)
-  (insert "×"))
-(global-set-key (kbd "C-c s c h") 'print-symbol-×) ;;cross
+;; (defun print-symbol-× ()
+;;   (interactive)
+;;   (insert "×"))
+;; (global-set-key (kbd "C-c s c h") 'print-symbol-×) ;;cross
 
-(defun print-symbol-★ ()
-  (interactive)
-  (insert "★"))
-(global-set-key (kbd "C-c s 1") 'print-symbol-★)
+;; (defun print-symbol-★ ()
+;;   (interactive)
+;;   (insert "★"))
+;; (global-set-key (kbd "C-c s 1") 'print-symbol-★)
 
-(defun print-symbol-√ ()
-  (interactive)
-  (insert "√"))
-(global-set-key (kbd "C-c s g h") 'print-symbol-√)
+;; (defun print-symbol-√ ()
+;;   (interactive)
+;;   (insert "√"))
+;; (global-set-key (kbd "C-c s g h") 'print-symbol-√)
 
-(defun print-symbol-❤ ()
-  (interactive)
-  (insert "❤"))
-(global-set-key (kbd "C-c s t m") 'print-symbol-❤)
+;; (defun print-symbol-❤ ()
+;;   (interactive)
+;;   (insert "❤"))
+;; (global-set-key (kbd "C-c s t m") 'print-symbol-❤)
 
 (use-package grab-mac-link
   :ensure t

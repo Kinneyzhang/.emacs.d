@@ -1,8 +1,11 @@
 (use-package elisp-demos
   :ensure t
   :config
-  (advice-add 'describe-function-1
-              :after #'elisp-demos-advice-describe-function-1))
+  ;; (advice-add 'describe-function-1
+  ;;             :after #'elisp-demos-advice-describe-function-1)
+  (advice-remove 'describe-function-1
+                 #'elisp-demos-advice-describe-function-1)
+  )
 
 (use-package slime
   :ensure t
@@ -18,4 +21,4 @@
   :config
   (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
 
-(provide 'init-lisp)
+(provide 'lang-lisp)
