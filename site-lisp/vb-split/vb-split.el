@@ -34,13 +34,13 @@
 
 (defun vb-info-str-lst (info-type)
   (with-current-buffer (get-file-buffer vb-info-str-file)
-    (let ((specific-regexp (concat "^-+" info-type "-+$"))
+    (let ((specific-regexp (concat "^* " info-type))
           beg end lst)
       (save-excursion
         (goto-char (point-min))
         (when (re-search-forward specific-regexp nil t)
           (setq beg (1+ (point)))
-          (if (re-search-forward "^-+" nil t)
+          (if (re-search-forward "^*" nil t)
               (setq end (line-beginning-position))
             (setq end (point-max)))))
       (setq lst (split-string
@@ -83,4 +83,11 @@
                         (reverse table-data)))
           (insert (format "* %s\n" info-type))
           (vb-org-table-create table-data))
-        (read-only-mode 1)))))
+        (read-only-mode 1)
+        (message "info-str length: %s" (length str-lst))))
+    (switch-to-buffer (find-file-noselect vb-result-file))
+    (goto-char (point-min))
+    (re-search-forward (concat "^* " info-type) nil t)
+    (recenter-top-bottom 0)))
+
+(provide 'vb-split)
