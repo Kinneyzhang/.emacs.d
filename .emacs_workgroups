@@ -1,0 +1,370 @@
+#s(wg-session "KAM1ATDFDS50-163JQS" nil nil
+              (~pickel!~ (3 nil 2 frame-list 1 (c) 0 (c))
+                         (c 1 2 3 c 0 1 3) 0)
+              "c:/Users/26289/.emacs.d/.emacs_workgroups" "1.2.1"
+              (#s(wg-workgroup "KAM1ATE58E60-1647K7" "rust-learn" t
+                               nil
+                               #s(wg-wconfig "KAM1ATE58YM0-1647QJ" nil
+                                             ((fullscreen . maximized))
+                                             (+ -12) (+ -12) 182 44
+                                             nil 30
+                                             #s(wg-wtree nil nil
+                                                         (0 1 183 45)
+                                                         (#s(wg-win
+                                                             nil nil
+                                                             (0 1 92
+                                                                45)
+                                                             :max 6261
+                                                             0 nil t
+                                                             nil
+                                                             "KAM1ATE58870-1647CI")
+                                                            #s(wg-wtree
+                                                               nil t
+                                                               (92 1
+                                                                   183
+                                                                   45)
+                                                               (#s(wg-win
+                                                                   nil
+                                                                   nil
+                                                                   (92
+                                                                    1
+                                                                    183
+                                                                    9)
+                                                                   286
+                                                                   286
+                                                                   0
+                                                                   nil
+                                                                   nil
+                                                                   nil
+                                                                   "KAM1ATE58BK0-1647EM")
+                                                                  #s(wg-win
+                                                                     nil
+                                                                     nil
+                                                                     (92
+                                                                      9
+                                                                      183
+                                                                      45)
+                                                                     1
+                                                                     1
+                                                                     0
+                                                                     nil
+                                                                     nil
+                                                                     nil
+                                                                     "KAM1ATE58D60-1647GQ"))))))
+                               nil nil nil nil)
+                 #s(wg-workgroup "KHF34M12DS0-8P52XS" "软件设计哲学" t
+                                 nil
+                                 #s(wg-wconfig "KHF34M133Z0-8P534V"
+                                               nil
+                                               ((fullscreen
+                                                 . maximized))
+                                               (+ -12) (+ -12) 182 54
+                                               nil 30
+                                               #s(wg-wtree nil nil
+                                                           (0 1 183 55)
+                                                           (#s(wg-win
+                                                               nil nil
+                                                               (0 1 92
+                                                                  55)
+                                                               15301
+                                                               15223 0
+                                                               nil t
+                                                               nil
+                                                               "KHF34M128K0-8P52SG")
+                                                              #s(wg-win
+                                                                 nil
+                                                                 nil
+                                                                 (92 1
+                                                                     183
+                                                                     55)
+                                                                 2946
+                                                                 2116
+                                                                 0 nil
+                                                                 nil
+                                                                 nil
+                                                                 "KHF34M12BZ0-8P52UH"))))
+                                 nil nil nil nil)
+                 #s(wg-workgroup "KIB1BFYHCZZ0-1VVDWH" "peg-src-read"
+                                 t nil
+                                 #s(wg-wconfig "KIB1BFYHDKP0-1VVE49"
+                                               nil
+                                               ((fullscreen
+                                                 . maximized))
+                                               (+ -12) (+ -12) 182 55
+                                               nil 30
+                                               #s(wg-wtree nil nil
+                                                           (0 0 183 55)
+                                                           (#s(wg-win
+                                                               nil nil
+                                                               (0 0 92
+                                                                  55)
+                                                               10733
+                                                               10226 0
+                                                               nil nil
+                                                               nil
+                                                               "KIB1BFYHCVQ0-1VVDQW")
+                                                              #s(wg-win
+                                                                 nil
+                                                                 nil
+                                                                 (92 0
+                                                                     183
+                                                                     55)
+                                                                 :max
+                                                                 1 0
+                                                                 nil t
+                                                                 nil
+                                                                 "KIB1BFYHCZ00-1VVDT0"))))
+                                 nil nil nil nil)
+                 #s(wg-workgroup "KL48PTKMJ20-2TOI62" "青海参数比对" t
+                                 nil
+                                 #s(wg-wconfig "KL48PTKN6V0-2TOID8"
+                                               nil
+                                               ((fullscreen
+                                                 . maximized))
+                                               (+ -12) (+ -12) 182 54
+                                               nil 30
+                                               #s(wg-wtree nil nil
+                                                           (0 1 183 55)
+                                                           (#s(wg-win
+                                                               nil nil
+                                                               (0 1 92
+                                                                  55)
+                                                               8564
+                                                               5767 0
+                                                               nil t
+                                                               nil
+                                                               "KL48PTKLU80-2TOI0Q")
+                                                              #s(wg-win
+                                                                 nil
+                                                                 nil
+                                                                 (92 1
+                                                                     183
+                                                                     55)
+                                                                 3043
+                                                                 1 0
+                                                                 nil
+                                                                 nil
+                                                                 nil
+                                                                 "KL48PTKMHF0-2TOI2R"))))
+                                 nil nil nil nil)
+                 #s(wg-workgroup "KM22LU6PR50-3SAHTY" "ekp-test" t nil
+                                 #s(wg-wconfig "KM22LU7DTH0-3SAI1S"
+                                               nil
+                                               ((fullscreen
+                                                 . maximized))
+                                               (+ -12) (+ -12) 182 54
+                                               nil 30
+                                               #s(wg-wtree nil nil
+                                                           (0 1 183 55)
+                                                           (#s(wg-wtree
+                                                               nil t
+                                                               (0 1 76
+                                                                  55)
+                                                               (#s(wg-win
+                                                                   nil
+                                                                   nil
+                                                                   (0
+                                                                    1
+                                                                    76
+                                                                    27)
+                                                                   2520
+                                                                   1995
+                                                                   0
+                                                                   nil
+                                                                   nil
+                                                                   nil
+                                                                   "KM22LU6OXD0-3SAHML")
+                                                                  #s(wg-win
+                                                                     nil
+                                                                     nil
+                                                                     (0
+                                                                      27
+                                                                      76
+                                                                      55)
+                                                                     75937
+                                                                     75764
+                                                                     0
+                                                                     nil
+                                                                     nil
+                                                                     nil
+                                                                     "KM22LU6PMC0-3SAHOM")))
+                                                              #s(wg-win
+                                                                 nil
+                                                                 nil
+                                                                 (76 1
+                                                                     183
+                                                                     55)
+                                                                 5392
+                                                                 4077
+                                                                 0 nil
+                                                                 t nil
+                                                                 "KM22LU6POI0-3SAHQN"))))
+                                 nil nil nil nil)
+                 #s(wg-workgroup "KPEKXP1K1S0-1QZWFL" "etml-flex-test"
+                                 t nil
+                                 #s(wg-wconfig "KPEKXP1KO30-1QZWMZ"
+                                               nil
+                                               ((fullscreen
+                                                 . maximized))
+                                               (+ -12) (+ -12) 182 54
+                                               nil 30
+                                               #s(wg-wtree nil nil
+                                                           (0 1 183 55)
+                                                           (#s(wg-win
+                                                               nil nil
+                                                               (0 1 92
+                                                                  55)
+                                                               2329
+                                                               1141 0
+                                                               nil t
+                                                               nil
+                                                               "KPEKXP1JWP0-1QZW88")
+                                                              #s(wg-wtree
+                                                                 nil t
+                                                                 (92 1
+                                                                     183
+                                                                     55)
+                                                                 (#s(wg-win
+                                                                     nil
+                                                                     nil
+                                                                     (92
+                                                                      1
+                                                                      183
+                                                                      28)
+                                                                     1
+                                                                     1
+                                                                     0
+                                                                     nil
+                                                                     nil
+                                                                     nil
+                                                                     "KPEKXP1JZ80-1QZWA9")
+                                                                    #s(wg-win
+                                                                       nil
+                                                                       nil
+                                                                       (92
+                                                                        28
+                                                                        183
+                                                                        55)
+                                                                       30241
+                                                                       29142
+                                                                       0
+                                                                       nil
+                                                                       nil
+                                                                       nil
+                                                                       "KPEKXP1K0W0-1QZWCA"))))))
+                                 nil nil nil nil))
+              (#s(wg-buf "KPEKXP1JZ80-1QZWA9" "*elog*" nil 1 1
+                         ((major-mode . fundamental-mode)
+                          (mark-ring 1 1) nil nil nil nil nil nil)
+                         nil nil)
+                 #s(wg-buf "KPEKXP1K0W0-1QZWCA" "etml-flex.el"
+                           "c:/Users/26289/IPARA/3-RESOURCES/emacs/config/github/ETML/etml-flex.el"
+                           30241 621
+                           ((major-mode . emacs-lisp-mode)
+                            (mark-ring 621 621 34415 29184 30241 29876
+                                       30408)
+                            nil nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KPEKXP1JWP0-1QZW88" "etml-flex-tests.el"
+                           "c:/Users/26289/IPARA/3-RESOURCES/emacs/config/tests/etml-flex-tests.el"
+                           2329 1173
+                           ((major-mode . emacs-lisp-mode)
+                            (mark-ring 1166 924 864 2364 1166 2355
+                                       1494 1931 1494 2329 2162 2304
+                                       2329)
+                            nil nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KM22LU6PMC0-3SAHOM" "*Messages*" nil 75937
+                           76146
+                           ((major-mode . messages-buffer-mode)
+                            (mark-ring 76157 75537 75530 75528 75533
+                                       75528 75532 75544 75544 75528
+                                       75544 75528 75533 75537 75544
+                                       75937)
+                            nil nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KM22LU6OXD0-3SAHML" "ekp-tests.el"
+                           "c:/Users/26289/IPARA/3-RESOURCES/emacs/config/elisp/emacs-kp/ekp-tests.el"
+                           2520 2220
+                           ((major-mode . emacs-lisp-mode)
+                            (mark-ring 2186 2462 2461 2402 2347 2347
+                                       2347 2347 2347 2347 2347 2347
+                                       2043 2016 2347 2520)
+                            nil nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KM22LU6POI0-3SAHQN" "ekp.el"
+                           "c:/Users/26289/IPARA/3-RESOURCES/emacs/config/elisp/emacs-kp/ekp.el"
+                           5392 5015
+                           ((major-mode . emacs-lisp-mode)
+                            (mark-ring 5001 5026 5002 4968 5184 5167
+                                       5096 5088 4957 4952 4942 5038
+                                       5011 5011 5011 5392)
+                            nil nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KL48PTKMHF0-2TOI2R" "ba_ta_parameter.sql"
+                           "d:/Asiainfo/青海基线/qinghai_doc/02-系统设计/信息管理/PD-SD参数/20250529/ba_ta_parameter.sql"
+                           3043 1807
+                           ((major-mode . sql-mode)
+                            (mark-ring 1832 3043) nil nil nil nil nil
+                            nil)
+                           nil nil)
+                 #s(wg-buf "KL48PTKLU80-2TOI0Q" "04-xg-sd_new.sql"
+                           "d:/Asiainfo/青海基线/qinghai_doc/11-参数倒换/01-计费参数倒换/param/04-xg-sd_new.sql"
+                           8564 7835
+                           ((major-mode . sql-mode)
+                            (mark-ring 8044 8443 8564) nil nil nil nil
+                            nil nil)
+                           nil nil)
+                 #s(wg-buf "KIB1BFYHCVQ0-1VVDQW" "peg.el"
+                           "c:/Users/26289/Apps/emacs-30.1/share/emacs/30.1/lisp/progmodes/peg.el"
+                           10733 10733
+                           ((major-mode . emacs-lisp-mode) nil nil nil
+                            nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KIB1BFYHCZ00-1VVDT0" "peg-src-tests.el"
+                           "c:/Users/26289/IPARA/3-RESOURCES/emacs/config/github/peg-plus/peg-src-tests.el"
+                           526 526
+                           ((major-mode . emacs-lisp-mode) nil nil nil
+                            nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KHF34M12BZ0-8P52UH" "软件设计哲学.org"
+                           "c:/Users/26289/IPARA/3-RESOURCES/CS/软件设计哲学.org"
+                           2946 2427
+                           ((major-mode . org-mode)
+                            (mark-ring 2442 2920 2912 2900 2900 2912
+                                       2845 2813 2771 2771 2753 2740
+                                       2728 2712 2712 2946)
+                            nil nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KHF34M128K0-8P52SG" "ch05.md"
+                           "c:/Users/26289/IPARA/3-RESOURCES/CS/A-Philosophy-of-Software-Design-zh/docs/ch05.md"
+                           15301 20266
+                           ((major-mode . markdown-mode)
+                            (mark-ring 14946 14941 14946 14961 14892
+                                       14978 14917 14908 14892 14740
+                                       14961 14946 14867 14824 14892
+                                       15301)
+                            nil nil nil nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KAM1ATE58BK0-1647EM" "main.rs"
+                           "c:/Users/26289/IPARA/3-RESOURCES/rust/learn_rust/src/main.rs"
+                           286 nil
+                           ((major-mode . rust-mode) nil nil nil nil
+                            nil nil nil)
+                           nil nil)
+                 #s(wg-buf "KAM1ATE58D60-1647GQ" "*compilation*" nil 1
+                           1
+                           ((major-mode . compilation-mode)
+                            (mark-ring 1) nil nil nil nil nil nil)
+                           (wg-deserialize-compilation-mode-buffer
+                            ("c:/Users/26289/IPARA/3-RESOURCES/rust/learn_rust/"
+                             ("cargo run " compilation-mode nil nil)))
+                           nil)
+                 #s(wg-buf "KAM1ATE58870-1647CI" "basic.rs"
+                           "c:/Users/26289/IPARA/3-RESOURCES/rust/learn_rust/src/basic.rs"
+                           6619 248
+                           ((major-mode . rust-mode)
+                            (mark-ring 273 488 272 273 456 544 6619
+                                       6619)
+                            nil nil nil nil nil nil)
+                           nil nil)))

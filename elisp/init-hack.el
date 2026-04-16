@@ -56,9 +56,6 @@
 
 ;; (gkroam-file-content "Aug 26, 2022")
 
-(defun md-wiki-content-replace-or-insert ()
-  )
-
 (defun gkroam-to-gkwiki (roam-title wiki-title)
   (let ((roam-content (gkroam-file-content roam-title))
         (wiki-file (md-wiki-page-file wiki-title)))

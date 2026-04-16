@@ -1,2 +1,4 @@
+(11) Emacs Chinaᛝhttps://emacs-china.org/ᛡ19.0
 Geekinney's Blogᛝhttps://geekinney.com/ᛡ4.0
 Loginᛝhttp://10.19.29.192:20000/aicas/login?service=http%3A%2F%2F10.19.29.192%3A20000%2Facam%2Fᛡ1.5
+github.comᛝhttps://github.com/login/oauth/authorize?client_id=7bc9dd2bad6f20e99ab5&redirect_uri=https%3A%2F%2Femacs-china.org%2Fauth%2Fgithub%2Fcallback&response_type=code&scope=user%3Aemail&state=ca466616f1cd01bcd94ff19124d0a180e9ef4473716d813eᛡ1.5

@@ -1,0 +1,80 @@
+;; This buffer is for text that is not saved, and for Lisp evaluation.
+;; To create a file, visit it with <open> and enter text in its buffer.
+
+(require 'zkutil)
+
+(defun split-block (string regexp)
+  (let ((start 0)
+        result)
+    (while (string-match regexp string start)
+      (let* ((lst (match-data 0))
+             (beg (nth 0 lst))
+             (end (nth 1 lst))
+             block)
+        (if (string-match regexp string end)
+            (setq end (1- (nth 0 (match-data 0))))
+          (setq end (length string)))
+        (setq block (substring string beg end))
+        (setq result (append result (list block)))
+        (setq start end)))
+    result))
+
+(defun rewrite-to-file (file string)
+  (with-current-buffer (find-file-noselect file)
+    (erase-buffer)
+    (insert string)
+    (save-buffer)))
+
+;; (defun sxv8-write-jd-base-tables ()
+;;   (let* ((all-jd-table-file "c:/Users/26289/Asiainfo/陕西V8/信管环境搭建/create-jd-tables.sql")
+;;          (base-jd-table-file "c:/Users/26289/Asiainfo/陕西V8/信管环境搭建/create-jd-base-tables.sql")
+;;          (string (file-contents all-jd-table-file))
+;;          (lst (split-block string "^create table .+"))
+;;          (seq (seq-filter (lambda (str)
+;;                             (string-match "^create table .+[^0-9]$" str))
+;;                           lst))
+;;          (content (string-join seq "\n\n")))
+;;     (rewrite-to-file base-jd-table-file content)))
+
+(defun string-match-get (regexp string num)
+  (save-match-data
+    (when (string-match regexp string)
+      (match-string-no-properties num string))))
+
+(defvar sxv8-jd-base-file "c:/Users/26289/Asiainfo/陕西V8/信管环境搭建/create-jd-base-tables.sql")
+(defvar sxv8-create-jd-all-sub-file "c:/Users/26289/Asiainfo/陕西V8/信管环境搭建/create-jd-all-sub-tables.sql")
+(defvar sxv8-drop-jd-all-sub-file "c:/Users/26289/Asiainfo/陕西V8/信管环境搭建/drop-jd-all-sub-tables.sql")
+
+(defun sxv8-get-jd-base-tables ()
+  (let* ((string (file-contents sxv8-jd-base-file))
+         (lst (split-block string "^create table.+")))
+    (mapcar (lambda (base-sql)
+              (string-match-get "create table JD\\.\\(.+\\)*$" base-sql 1))
+            lst)))
+
+;; (sxv8-get-jd-base-tables)
+
+(defun sxv8-create-all-jd-tables-by-base ()
+  (let* ((base-file sxv8-jd-base-file)
+         (res-create-file sxv8-create-jd-all-sub-file)
+         (res-drop-file sxv8-drop-jd-all-sub-file)
+         (string (file-contents base-file))
+         (lst (split-block string "^create table.+"))
+         (suffix-seq (seq-map #'zk/num-to-str (number-sequence 1 12)))
+         base-table-name table-name
+         create-sqls drop-sqls)
+    (dolist (base-sql lst)
+      (setq base-table-name (string-match-get "create table JD\\.\\(.+\\) (.*$" base-sql 1))
+      (when base-table-name
+        (dolist (month suffix-seq)
+          (setq table-name (concat base-table-name "_" month))
+          (setq create-sqls
+                (concat create-sqls (replace-regexp-in-string
+                                     (regexp-quote base-table-name) table-name base-sql t)
+                        "\n"))
+          (setq drop-sqls
+                (concat drop-sqls (format "drop table jd.%s cascade constraints;" table-name) "\n")))))
+    (rewrite-to-file res-create-file create-sqls)
+    (rewrite-to-file res-drop-file drop-sqls)))
+
+(sxv8-create-all-jd-tables-by-base)

@@ -3,9 +3,9 @@
   :ensure t
   :diminish (ivy-mode . "")
   :bind (("C-x b" . ivy-switch-buffer)
-	 ("C-x C-f" . counsel-find-file)
-	 ("C-c v" . ivy-push-view)
-	 ("C-c V" . ivy-pop-view))
+	     ("C-x C-f" . counsel-find-file)
+	     ("C-c v" . ivy-push-view)
+	     ("C-c V" . ivy-pop-view))
   :config
   (ivy-mode 1)
   ;; add ‘recentf-mode’ and bookmarks to ‘ivy-switch-buffer’.
@@ -13,13 +13,14 @@
   ;; number of result lines to display
   (setq ivy-height 12)
   ;; does not count candidates
+  ;; (setq ivy-count-format "%-4d ")
   (setq ivy-count-format "")
   ;; no regexp by default
   (setq ivy-initial-inputs-alist nil)
   ;; configure regexp engine.
   (setq ivy-re-builders-alist
-	;; allow input not in order
-	'((t . ivy--regex-ignore-order))))
+	    ;; allow input not in order
+	    '((t . ivy--regex-ignore-order))))
 
 (use-package swiper
   :ensure t
@@ -28,13 +29,12 @@
 (use-package counsel
   :ensure t
   :bind (("M-x" . counsel-M-x)
-	 ("C-x C-f" . counsel-find-file)
-	 ("C-c c c" . counsel-org-capture)
-	 ("C-c c t" . counsel-load-theme)
-	 ("C-c c b" . counsel-bookmark)
-	 ("C-c c r" . counsel-rg)
-	 ("C-c c f" . counsel-fzf)
-	 ("C-c c g" . counsel-git)))
+	     ("C-x C-f" . counsel-find-file)
+	     ("C-c c c" . counsel-org-capture)
+	     ("C-c c t" . counsel-load-theme)
+	     ("C-c c b" . counsel-bookmark)
+	     ("C-c c f" . counsel-fzf)
+	     ("C-c c g" . counsel-git)))
 
 ;; posframe
 (use-package posframe

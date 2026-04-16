@@ -1,3 +1,4 @@
+
 ;;; includes some basic settings, theme, modeline, neotree and some ui library.
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -7,9 +8,6 @@
 (setq display-time-default-load-average t)
 (display-time-mode -1)
 
-;;光标行高亮
-(global-hl-line-mode 1)
-
 (when (featurep 'ns)
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
   (add-to-list 'default-frame-alist '(ns-appearance . light)))
@@ -18,8 +16,13 @@
 (setq initial-frame-alist (quote ((fullscreen . maximized))));;启动最大化窗
 
 ;; theme
-;; (load-theme 'tsdh-light t)
-(load-theme 'monokai-pro t)
+(use-package material-theme
+  :ensure t)
+
+(use-package doom-themes
+  :ensure t)
+
+(load-theme 'material t)
 
 ;; Fonts
 (defun font-installed-p (font-name)
@@ -28,22 +31,32 @@
 
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("Source Code Pro" "Consolas")
+  (cl-loop for font in '("Fira Code"
+                         "Source Code Pro"
+                         "Cascadia Code SemiLight"
+                         "FangSongCode"
+                         "SF Mono"
+                         "Consolas")
            when (font-installed-p font)
            return (set-face-attribute 'default nil
                                       :font font
-                                      :height (cond ((eq system-type 'darwin) 130)
-                                                    ((eq system-type 'windows-nt) 90)
-                                                    (t 100))))
+                                      :height (cond ((eq system-type 'darwin) 150)
+                                                    ((eq system-type 'windows-nt) 100)
+                                                    (t 300))))
   ;; Specify font for all unicode characters
-  (cl-loop for font in '("Symbola" "Symbol")
+  (cl-loop for font in '("Segoe UI Emoji" "Symbola" "Symbol")
            when (font-installed-p font)
            return (set-fontset-font t 'unicode font nil 'append))
   ;; Specify font for Chinese characters
-  (cl-loop for font in '("思源黑体" "思源宋体" "宋体" "仿宋" "微软雅黑")
+  (cl-loop for font in
+           '("聚珍新仿" "Noto Serif CJK SC"
+             "思源宋体" "思源黑体" "微软雅黑"
+             "宋体" "仿宋" "字语青梅硬笔")
            when (font-installed-p font)
            return (dolist (charset '(kana han hangul cjk-misc bopomofo))
                     (set-fontset-font t charset font))))
+
+;; (set-fontset-font t 'unicode (font-spec :family "Segoe UI Emoji") nil 'append)
 
 ;; (font-face-attributes "思源宋体")
 
@@ -88,7 +101,7 @@
 
 (global-set-key (kbd "M-C-8") (lambda () (interactive) (sanityinc/adjust-opacity nil -2)))
 (global-set-key (kbd "M-C-9") (lambda () (interactive) (sanityinc/adjust-opacity nil 2)))
-(global-set-key (kbd "M-C-7") (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
+(global-set-key (kbd "M-C-0") (lambda () (interactive) (modify-frame-parameters nil `((alpha . 100)))))
 ;;==================================================
 
 (use-package powerline

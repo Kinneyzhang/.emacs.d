@@ -9,4 +9,7 @@
 (use-package ob-rust
   :ensure t)
 
+;; (use-package rustic
+;;   :ensure t)
+
 (provide 'lang-rust)

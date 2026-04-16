@@ -1,0 +1,156 @@
+create index JD.IDX_INST_I_PRICE_DISCOUNT_01 on JD.I_PRICE_DISCOUNT_01 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_02 on JD.I_PRICE_DISCOUNT_02 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_03 on JD.I_PRICE_DISCOUNT_03 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_04 on JD.I_PRICE_DISCOUNT_04 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_05 on JD.I_PRICE_DISCOUNT_05 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_06 on JD.I_PRICE_DISCOUNT_06 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_07 on JD.I_PRICE_DISCOUNT_07 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_08 on JD.I_PRICE_DISCOUNT_08 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_09 on JD.I_PRICE_DISCOUNT_09 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_10 on JD.I_PRICE_DISCOUNT_10 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_11 on JD.I_PRICE_DISCOUNT_11 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );
+create index JD.IDX_INST_I_PRICE_DISCOUNT_12 on JD.I_PRICE_DISCOUNT_12 (INST_ID)
+  tablespace TS_VB_BASE_IND
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+	pctincrease 0
+  );

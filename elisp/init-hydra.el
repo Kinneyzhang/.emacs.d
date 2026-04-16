@@ -91,7 +91,10 @@
     ("v t" vterm "vterm")
     )))
 
-;; (setq eww-search-prefix "https://www.baidu.com/s?wd=")
+(use-package eww
+  :ensure nil
+  :config
+  (setq eww-search-prefix "http://cn.bing.com/search?q="))
 
 (provide 'init-hydra)
 

@@ -45,23 +45,27 @@
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
 ;; My own functions
-(defun gk-enlarge-window ()
-  "Enlarge current window horizontally by 10 columns left and right."
-  (interactive)
-  (other-window -1)
-  (shrink-window-horizontally 10)
-  (other-window 1)
-  (enlarge-window-horizontally 10))
+;; (defun gk-enlarge-window ()
+;;   "Enlarge current window horizontally by 10 columns left and right."
+;;   (interactive)
+;;   (other-window -1)
+;;   (shrink-window-horizontally 10)
+;;   (other-window 1)
+;;   (enlarge-window-horizontally 10))
 
-(defun gk-shrink-window ()
-  "Shrink current window horizontally by 10 columns left and right."
-  (interactive)
-  (other-window -1)
-  (enlarge-window-horizontally 10)
-  (other-window 1)
-  (shrink-window-horizontally 10))
+;; (defun gk-shrink-window ()
+;;   "Shrink current window horizontally by 10 columns left and right."
+;;   (interactive)
+;;   (other-window -1)
+;;   (enlarge-window-horizontally 10)
+;;   (other-window 1)
+;;   (shrink-window-horizontally 10))
 
-(global-set-key (kbd "C-x }") #'gk-enlarge-window)
-(global-set-key (kbd "C-x {") #'gk-shrink-window)
+;; (global-set-key (kbd "C-x }") #'gk-enlarge-window)
+;; (global-set-key (kbd "C-x {") #'gk-shrink-window)
+
+(use-package windresize
+  :ensure t
+  :bind ("C-c ;" . windresize))
 
 (provide 'init-window)

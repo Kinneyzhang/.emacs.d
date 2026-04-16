@@ -1,3 +1,4 @@
+
 ;; (use-package eaf
 ;;   :load-path "~/.emacs.d/site-lisp/emacs-application-framework"
 ;;   :custom
@@ -13,14 +14,107 @@
 ;;   (require 'eaf-browser)
 ;;   )
 
-(use-package popweb
-  :load-path "~/.emacs.d/site-lisp/popweb/"
-  :config
-  (use-package popweb-dict
-    :load-path "~/.emacs.d/site-lisp/popweb/extension/dict/")
-  (setq popweb-url-web-window-size-use-absolute t)
-  (setq popweb-url-web-window-width-scale 0.8)
-  (setq popweb-url-web-window-height-scale 0.45))
+;; (use-package meow
+;;   :ensure t
+;;   :config
+;;   ;; (meow-setup)
+;;   (meow-global-mode 1))
+
+;; (use-package undo-tree
+;;   :ensure t
+;;   :config
+;;   (global-undo-tree-mode 1)
+;;   :bind (("C-/" . undo-tree-undo)
+;;          ("C-M-/" . undo-tree-redo)))
+
+(defvar my-ideas-file "~/geekblog/content/moments.md")
+
+(defun quick-open-file (&optional file)
+  (interactive)
+  (find-file my-ideas-file))
+
+(global-set-key (kbd "<f4>") #'quick-open-file)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(eval-when-compile
+  (require 'cl-lib)) ;;; 整个文件 byte compile 就行了，没有必要显式调用 `byte-compile`
+
+(add-hook 'post-gc-hook ;; post gc hook 內容要小，以防极端情况产生 dead loop
+          (let ((--gcs-done -1))
+            (lambda ()
+              (when (/= --gcs-done gcs-done)
+                (redraw-frame)
+                (setq --gcs-done gcs-done)))))
+
+(defun PREFIX/runtime-info-string ()
+  (format-spec "%N GC (%ts total): %M VM, %hh runtime"
+               `((?N . ,(format "%d%s"
+                                gcs-done
+                                (pcase (mod gcs-done 10)
+                                  (1 "st")
+                                  (2 "nd")
+                                  (3 "rd")
+                                  (_ "th"))))
+                 (?t . ,(round gc-elapsed))
+                 (?M . ,(cl-loop for memory = (memory-limit) then (/ memory 1024.0)
+                                 for mem-unit across "KMGT"
+                                 when (< memory 1024)
+                                 return (format "%.1f%c"
+                                                memory
+                                                mem-unit)))
+                 (?h . ,(format "%.1f"
+                                (/ (time-to-seconds (time-since before-init-time))
+                                   3600.0))))))
+
+(setq frame-title-format '("" default-directory "  "
+                           (:eval (PREFIX/runtime-info-string))))
+
+;; 不需要显式调用 gc 或 redraw-frame。
+
+;; (use-package beacon
+;;   :ensure t
+;;   :config (beacon-mode 1))
+
+;; (use-package awesome-tab
+;;   :load-path "~/.emacs.d/site-lisp/awesome-tab"
+;;   :config
+;;   (setq awesome-tab-display-icon nil)
+;;   (setq awesome-tab-height 100)
+;;   (setq awesome-tab-show-tab-index t)
+;;   (setq awesome-tab-label-fixed-length 0)
+;;   (awesome-tab-mode 1))
+
+(defvar ebooks-dir "~/ebooks")
+
+(defvar ebooks-alist
+  '(("Building a Second Brain" . "Building a Second Brain.epub")
+    ("学会提问" . "学会提问12版.epub")))
+
+(defun ebooks-open ()
+  (interactive)
+  (let* ((display-buffer-alist '(("\\*Async Shell Command\\*" display-buffer-no-window)))
+         (ebook (completing-read "Choose a ebook: " ebooks-alist nil t))
+         (filename (cdr (assoc ebook ebooks-alist)))
+         (file (expand-file-name filename ebooks-dir)))
+    (message "%s" (concat "ebook-viewer " (shell-quote-argument file)))
+    (async-shell-command (concat "ebook-viewer " (shell-quote-argument file)))))
+
+;; (use-package zksummary
+;;   :load-path "c:/Users/26289/Hackings/zksummary"
+;;   :config
+;;   (setq zksummary-db-file "~/ego/zksummary.db")
+;;   (setq zksummary-window-width 60)
+;;   (global-set-key "\C-css" #'zksummary-daily-show-curr-week))
+
+;; (use-package popweb
+;;   :load-path "~/.emacs.d/site-lisp/popweb/"
+;;   :config
+;;   (use-package popweb-dict
+;;     :load-path "~/.emacs.d/site-lisp/popweb/extension/dict/")
+;;   (setq popweb-url-web-window-size-use-absolute t)
+;;   (setq popweb-url-web-window-width-scale 0.8)
+;;   (setq popweb-url-web-window-height-scale 0.45))
 
 (define-minor-mode centaur-read-mode
   "Minor Mode for better reading experience."
@@ -47,6 +141,7 @@
     (centaur-read-mode)
     (face-remap-add-relative 'variable-pitch :family "Times New Roman" :height 1.5))
   :config
+  (setq nov-text-width 80)
   (with-no-warnings
     ;; WORKAROUND: errors while opening `nov' files with Unicode characters
     ;; @see https://github.com/wasamasa/nov.el/issues/63
@@ -65,55 +160,50 @@
           (cons `(,nov-unzip-program . (gbk . gbk))
                 process-coding-system-alist))))
 
+(use-package org-remark
+  :bind (;; :bind keyword also implicitly defers org-remark itself.
+         ;; Keybindings before :map is set for global-map.
+         ("C-c n m" . org-remark-mark)
+         ("C-c n l" . org-remark-mark-line)
+         :map org-remark-mode-map
+         ("C-c n o" . org-remark-open)
+         ("C-c n ]" . org-remark-view-next)
+         ("C-c n [" . org-remark-view-prev)
+         ("C-c n r" . org-remark-remove)
+         ("C-c n d" . org-remark-delete))
+  ;; Alternative way to enable `org-remark-global-tracking-mode' in
+  ;; `after-init-hook'.
+  ;; :hook (after-init . org-remark-global-tracking-mode)
+  :init
+  ;; It is recommended that `org-remark-global-tracking-mode' be
+  ;; enabled when Emacs initializes. Alternatively, you can put it to
+  ;; `after-init-hook' as in the comment above
+  (org-remark-global-tracking-mode +1)
+  :config
+  ;; (use-package org-remark-info :after info :config (org-remark-info-mode +1))
+  ;; (use-package org-remark-eww  :after eww  :config (org-remark-eww-mode +1))
+  (use-package org-remark-nov  :after nov  :config (org-remark-nov-mode +1)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (use-package company-english-helper
   :load-path "~/GitRepo/company-english-helper")
 
 (use-package color-rg
-  :load-path "~/.emacs.d/site-lisp/color-rg")
+  :load-path "~/.emacs.d/site-lisp/color-rg"
+  :bind ("C-c c r" . color-rg-search-input))
 
 (use-package promise
   :ensure t)
 
-(use-package twidget
-  :load-path "~/Hackings/twidget")
-
 (setq js-indent-level 2)
 (setq css-indent-offset 2)
 
-(defun md-wiki-gen-site-force-nav-and-wiki ()
-  (interactive)
-  (md-wiki-gen-site-force-nav)
-  (gk/deploy-wiki))
-
-(defun md-wiki-gen-site-force-meta-and-wiki ()
-  (interactive)
-  (md-wiki-gen-site-force-meta)
-  (gk/deploy-wiki))
-
-(use-package mygtd
-  :load-path "~/Hackings/mygtd"
-  :config (global-set-key "\C-cmd" (lambda ()
-                                     (interactive)
-                                     (mygtd-daily-show mygtd-daily-date))))
-
-(use-package md-wiki
-  :load-path "~/Hackings/md-wiki"
-  :config
-  (setq md-wiki-tree-file "~/Hackings/md-wiki/config/mdwiki.org")
-  (setq md-wiki-diff-file "~/Hackings/md-wiki/config/mdwiki-diff.el")
-  (bind-key (kbd "C-c w f") 'md-wiki-page-edit)
-  (bind-key (kbd "C-c w p") 'md-wiki-gen-site)
-  (bind-key (kbd "C-c w [") 'md-wiki-gen-site-force-nav-and-wiki)
-  (bind-key (kbd "C-c w ]") 'md-wiki-gen-site-force-meta-and-wiki)
-  (bind-key (kbd "C-c w o") 'md-wiki-tree-edit)
-  (bind-key (kbd "C-c w d") 'md-wiki-show-diff)
-  (bind-key (kbd "C-c w b") 'md-wiki-browse-page)
-  (bind-key (kbd "C-c w B") 'md-wiki-browse-curr-page)
-  (bind-key (kbd "C-c w I") 'md-wiki-render-index)
-  (bind-key (kbd "C-c w c") 'md-wiki-page-capture)
-  (setq md-wiki-bookmark-list '("习惯培养" "费曼学习法")))
+;; (use-package mygtd
+;;   :load-path "~/Hackings/mygtd"
+;;   :config (global-set-key "\C-cmd" (lambda ()
+;;                                      (interactive)
+;;                                      (mygtd-daily-show mygtd-daily-date))))
 
 (use-package python
   :ensure nil
@@ -178,10 +268,11 @@
 (unbind-key (kbd "<f4>") global-map)
 (global-set-key (kbd "<f7>") 'kmacro-start-macro-or-insert-counter)
 (global-set-key (kbd "<f8>") 'kmacro-end-or-call-macro)
-(use-package avy
-  :ensure t
-  :bind (("<f4>" . avy-goto-line)
-         ("<f3>" . avy-goto-char-timer)))
+
+;; (use-package avy
+;;   :ensure t
+;;   :bind (("<f4>" . avy-goto-line)
+;;          ("<f3>" . avy-goto-char-timer)))
 
 (use-package sql-indent
   :ensure t
@@ -206,39 +297,6 @@
 ;; (use-package gtd
 ;;   :load-path "~/Emacs/gtd-mode")
 
-(use-package gkroam
-  :load-path "~/Hackings/gkroam"
-  :hook (after-init . gkroam-mode)
-  :init
-  (setq gkroam-root-dir "~/gknows/")
-  (setq gkroam-show-brackets-flag nil
-        gkroam-prettify-page-flag t
-        gkroam-title-height 200
-        gkroam-use-default-filename t
-        gkroam-window-margin 4)
-  :bind
-  (:map gkroam-mode-map
-        (("C-c r g" . gkroam-update)
-         ("C-c r d" . gkroam-daily)
-         ("C-c r D" . gkroam-delete)
-         ("C-c r f" . gkroam-find)
-         ("C-c r c" . gkroam-capture)
-         ("C-c r e" . gkroam-link-edit)
-         ("C-c r n" . gkroam-dwim)
-         ("C-c r i" . gkroam-insert)
-         ("C-c r I" . gkroam-index)
-         ("C-c r u" . gkroam-show-unlinked)
-         ("C-c r t" . gkroam-toggle-brackets)
-         ("C-c r p" . gkroam-toggle-prettify)
-         ("C-c r R" . gkroam-rebuild-caches)
-         ("C-c r b" . gkroam-open-bootstrap)))
-  :config
-  (setq org-startup-folded nil)
-  (defun gkroam-open-bootstrap ()
-    (interactive)    
-    (gkroam-find "bootstrap")))
-
-
 (use-package elisp-demos
   :ensure t
   :config (advice-add 'describe-function-1 :after 'elisp-demos-advice-describe-function-1))
@@ -248,9 +306,9 @@
   :config
   (if (require 'toc-org nil t)
       (progn
-	(add-hook 'org-mode-hook 'toc-org-mode)
-	;; enable in markdown, too
-	(add-hook 'markdown-mode-hook 'toc-org-mode))
+	    (add-hook 'org-mode-hook 'toc-org-mode)
+	    ;; enable in markdown, too
+	    (add-hook 'markdown-mode-hook 'toc-org-mode))
     (warn "toc-org not found")))
 
 ;; (use-package pp-html
@@ -299,33 +357,33 @@
   :load-path "~/.emacs.d/site-lisp/awesome-pair"
   :config
   (dolist (hook (list
-		 'c-mode-common-hook
-		 'c-mode-hook
-		 'c++-mode-hook
-		 'java-mode-hook
-		 'haskell-mode-hook
-		 'emacs-lisp-mode-hook
-		 'lisp-interaction-mode-hook
-		 'lisp-mode-hook
-		 'maxima-mode-hook
-		 'ielm-mode-hook
-		 'sh-mode-hook
-		 'makefile-gmake-mode-hook
-		 'php-mode-hook
-		 'python-mode-hook
-		 'js-mode-hook
-		 'go-mode-hook
-		 'qml-mode-hook
-		 'jade-mode-hook
-		 'css-mode-hook
-		 'ruby-mode-hook
-		 'coffee-mode-hook
-		 'rust-mode-hook
-		 'qmake-mode-hook
-		 'lua-mode-hook
-		 'swift-mode-hook
+		         'c-mode-common-hook
+		         'c-mode-hook
+		         'c++-mode-hook
+		         'java-mode-hook
+		         'haskell-mode-hook
+		         'emacs-lisp-mode-hook
+		         'lisp-interaction-mode-hook
+		         'lisp-mode-hook
+		         'maxima-mode-hook
+		         'ielm-mode-hook
+		         'sh-mode-hook
+		         'makefile-gmake-mode-hook
+		         'php-mode-hook
+		         'python-mode-hook
+		         'js-mode-hook
+		         'go-mode-hook
+		         'qml-mode-hook
+		         'jade-mode-hook
+		         'css-mode-hook
+		         'ruby-mode-hook
+		         'coffee-mode-hook
+		         'rust-mode-hook
+		         'qmake-mode-hook
+		         'lua-mode-hook
+		         'swift-mode-hook
                  'clojure-mode-hook
-		 'minibuffer-inactive-mode-hook))
+		         'minibuffer-inactive-mode-hook))
     (add-hook hook '(lambda () (awesome-pair-mode 1))))
 
   (define-key awesome-pair-mode-map (kbd "(") 'awesome-pair-open-round)
@@ -352,253 +410,6 @@
   (define-key awesome-pair-mode-map (kbd "M-n") 'awesome-pair-jump-right)
   (define-key awesome-pair-mode-map (kbd "M-:") 'awesome-pair-jump-out-pair-and-newline))
 
-
-(defun print-symbol-τ ()
-  "print to"
-  (interactive)
-  (insert "τ"))
-(global-set-key (kbd "C-c s t o") 'print-symbol-τ)
-
-(defun print-symbol-∂ ()
-  "print round"
-  (interactive)
-  (insert "∂"))
-(global-set-key (kbd "C-c s r d") 'print-symbol-∂)
-
-(defun print-symbol-∮ ()
-  "print qjf"
-  (interactive)
-  (insert "∮")∮)
-(global-set-key (kbd "C-c s q j f") 'print-symbol-∮)
-
-(defun print-symbol-ρ ()
-  "print ru"
-  (interactive)
-  (insert "ρ"))
-(global-set-key (kbd "C-c s r u") 'print-symbol-ρ)
-
-(defun print-symbol-± ()
-  "print plus and minus"
-  (interactive)
-  (insert "±"))
-(global-set-key (kbd "C-c s p m") 'print-symbol-±)
-
-(defun print-symbol-⊥ ()
-  "print perpendicular to"
-  (interactive)
-  (insert "⊥"))
-(global-set-key (kbd "C-c s p t") 'print-symbol-⊥)
-
-(defun print-symbol-ʃ ()
-  "print jifen"
-  (interactive)
-  (insert "ʃ"))
-(global-set-key (kbd "C-c s j f") 'print-symbol-ʃ)
-
-(defun print-symbol-≥ ()
-  "print more and equal"
-  (interactive)
-  (insert "≥"))
-(global-set-key (kbd "C-c s m e") 'print-symbol-≥)
-
-(defun print-symbol-≤ ()
-  "print less and equal"
-  (interactive)
-  (insert "≤"))
-(global-set-key (kbd "C-c s l e") 'print-symbol-≤)
-
-(defun print-symbol-≠ ()
-  "print Inequality"
-  (interactive)
-  (insert "≠"))
-(global-set-key (kbd "C-c s i e") 'print-symbol-≠)
-
-(defun print-symbol-∃ ()
-  "print existence"
-  (interactive)
-  (insert "∃"))
-(global-set-key (kbd "C-c s e x") 'print-symbol-∃)
-
-(defun print-symbol-∀ ()
-  "print Arbitrary"
-  (interactive)
-  (insert "∀"))
-(global-set-key (kbd "C-c s a b") 'print-symbol-∀)
-
-(defun print-symbol-⊆ ()
-  "print contained"
-  (interactive)
-  (insert "⊆"))
-(global-set-key (kbd "C-c s c t") 'print-symbol-⊆)
-
-(defun print-symbol-∈ ()
-  "print Belong"
-  (interactive)
-  (insert "∈"))
-(global-set-key (kbd "C-c s b l") 'print-symbol-∈)
-
-(defun print-symbol-∞ ()
-  "print Infinit"
-  (interactive)
-  (insert "∞"))
-(global-set-key (kbd "C-c s i f") 'print-symbol-∞)
-
-(defun print-symbol-ξ ()
-  "print ksi"
-  (interactive)
-  (insert "ξ"))
-(global-set-key (kbd "C-c s k s") 'print-symbol-ξ)
-
-(defun print-symbol-η ()
-  "print eta"
-  (interactive)
-  (insert "η"))
-(global-set-key (kbd "C-c s e t") 'print-symbol-η)
-
-(defun print-symbol-ε ()
-  "print Epsilon"
-  (interactive)
-  (insert "ε"))
-(global-set-key (kbd "C-c s e p") 'print-symbol-ε)
-
-(defun print-symbol-α ()
-  "print Alpha"
-  (interactive)
-  (insert "α"))
-(global-set-key (kbd "C-c s a p") 'print-symbol-α)
-
-(defun print-symbol-β ()
-  "print Beta"
-  (interactive)
-  (insert "β"))
-(global-set-key (kbd "C-c s b t") 'print-symbol-β)
-
-(defun print-symbol-γ ()
-  "print Gamma"
-  (interactive)
-  (insert "γ"))
-(global-set-key (kbd "C-c s g m") 'print-symbol-γ)
-
-(defun print-symbol-λ ()
-  "print lambda"
-  (interactive)
-  (insert "λ"))
-(global-set-key (kbd "C-c s l d") 'print-symbol-λ)
-
-(defun print-symbol-θ ()
-  "print Theta"
-  (interactive)
-  (insert "θ"))
-(global-set-key (kbd "C-c s t t") 'print-symbol-θ)
-
-(defun print-symbol-ζ ()
-  "print Zeta"
-  (interactive)
-  (insert "ζ"))
-(global-set-key (kbd "C-c s z t") 'print-symbol-ζ)
-
-(defun print-symbol-Δ ()
-  "print Delte"
-  (interactive)
-  (insert "Δ"))
-(global-set-key (kbd "C-c s d t") 'print-symbol-Δ)
-
-(defun print-symbol-μ ()
-  "print Mu"
-  (interactive)
-  (insert "μ"))
-(global-set-key (kbd "C-c s m u ") 'print-symbol-μ)
-
-(defun print-symbol-π ()
-  "print Pi"
-  (interactive)
-  (insert "π"))
-(global-set-key (kbd "C-c s p i") 'print-symbol-π)
-
-(defun print-symbol-σ ()
-  "print Sigma"
-  (interactive)
-  (insert "σ"))
-(global-set-key (kbd "C-c s s m") 'print-symbol-σ)
-
-(defun print-symbol-Σ ()
-  "print upper Sigma"
-  (interactive)
-  (insert "Σ"))
-(global-set-key (kbd "C-c s u s m") 'print-symbol-Σ)
-
-(defun print-symbol-ρ ()
-  "print Rho"
-  (interactive)
-  (insert "ρ"))
-(global-set-key (kbd "C-c s r h") 'print-symbol-ρ)
-
-(defun print-symbol-ψ ()
-  "print Psi"
-  (interactive)
-  (insert "ψ"))
-(global-set-key (kbd "C-c s p s") 'print-symbol-ψ)
-
-(defun print-symbol-φ ()
-  "print Phi"
-  (interactive)
-  (insert "φ"))
-(global-set-key (kbd "C-c s p h") 'print-symbol-φ)
-
-(defun print-symbol-Φ ()
-  "print upper Phi"
-  (interactive)
-  (insert "Φ"))
-(global-set-key (kbd "C-c s u p h") 'print-symbol-Φ)
-
-(defun print-symbol-ω ()
-  "print lower Omiga"
-  (interactive)
-  (insert "ω"))
-(global-set-key (kbd "C-c s l o g") 'print-symbol-ω)
-
-(defun print-symbol-Ω ()
-  "print upper Omiga"
-  (interactive)
-  (insert "Ω"))
-(global-set-key (kbd "C-c s u o g") 'print-symbol-Ω)
-
-;;=================================================================
-(defun print-symbol-◉ ()
-  (interactive)
-  (insert "◉"))
-(global-set-key (kbd "C-c s t d") 'print-symbol-◉)
-
-(defun print-symbol-● ()
-  (interactive)
-  (insert "●"))
-(global-set-key (kbd "C-c s s d") 'print-symbol-●) ;;solid dot
-
-(defun print-symbol-○ ()
-  (interactive)
-  (insert "○"))
-(global-set-key (kbd "C-c s h d") 'print-symbol-○) ;;hollow dot
-
-(defun print-symbol-× ()
-  (interactive)
-  (insert "×"))
-(global-set-key (kbd "C-c s c h") 'print-symbol-×) ;;cross
-
-(defun print-symbol-★ ()
-  (interactive)
-  (insert "★"))
-(global-set-key (kbd "C-c s 1") 'print-symbol-★)
-
-(defun print-symbol-√ ()
-  (interactive)
-  (insert "√"))
-(global-set-key (kbd "C-c s g h") 'print-symbol-√)
-
-(defun print-symbol-❤ ()
-  (interactive)
-  (insert "❤"))
-(global-set-key (kbd "C-c s t m") 'print-symbol-❤)
-
 (global-set-key (kbd "C-x -") 'split-window-below)
 (global-set-key (kbd "C-x /") 'split-window-right)
 
@@ -617,12 +428,13 @@
 
 (global-set-key (kbd "C-c C-/") 'comment-or-uncomment-region)
 
-(global-set-key (kbd "M-\/") 'set-mark-command)
+(global-set-key (kbd "M-/") 'set-mark-command)
+(global-set-key (kbd "M-SPC") 'set-mark-command)
 
 ;;代码缩进
 (add-hook 'prog-mode-hook '(lambda ()
-			     (local-set-key (kbd "C-M-\\")
-					    'indent-region-or-buffer)))
+			                 (local-set-key (kbd "C-M-\\")
+					                        'indent-region-or-buffer)))
 
 ;; 延迟加载
 (with-eval-after-load 'dired
@@ -655,13 +467,6 @@ specified.  Select the current line if the LINES prefix is zero."
     (end-of-line)
     (set-mark (point))
     (beginning-of-line (1+ lines))))
-
-(defun open-my-init-file()
-  (interactive)
-  (find-file (concat user-emacs-directory "init.el"))
-  (with-current-buffer "init.el"
-    (read-only-mode)))
-(global-set-key (kbd "<f1>") 'open-my-init-file)
 
 (use-package magit
   :defer t
@@ -709,22 +514,22 @@ specified.  Select the current line if the LINES prefix is zero."
   (progn
     (define-fringe-bitmap 'my-flycheck-fringe-indicator
       (vector #b00000000
-	      #b00000000
-	      #b00000000
-	      #b00000000
-	      #b00000000
-	      #b00000000
-	      #b00000000
-	      #b00011100
-	      #b00111110
-	      #b00111110
-	      #b00111110
-	      #b00011100
-	      #b00000000
-	      #b00000000
-	      #b00000000
-	      #b00000000
-	      #b00000000))
+	          #b00000000
+	          #b00000000
+	          #b00000000
+	          #b00000000
+	          #b00000000
+	          #b00000000
+	          #b00011100
+	          #b00111110
+	          #b00111110
+	          #b00111110
+	          #b00011100
+	          #b00000000
+	          #b00000000
+	          #b00000000
+	          #b00000000
+	          #b00000000))
 
     (flycheck-define-error-level 'error
       :severity 2
@@ -765,8 +570,6 @@ Return the errors parsed with the error patterns of CHECKER."
                sanitized-output checker buffer)))
   (advice-add 'flycheck-parse-output :override 'flycheck-parse-output-1))
 
-
-
 ;; markdown and preview
 
 (use-package markdown-mode
@@ -778,7 +581,9 @@ Return the errors parsed with the error patterns of CHECKER."
   :init
   (setq markdown-command "markdown_py")
   :config
-  (add-hook 'markdown-mode-hook 'valign-mode))
+  ;; Don't like the background of markdown table.
+  (add-hook 'markdown-mode-hook #'valign-mode)
+  (defface markdown-table-face '((t)) ""))
 
 (use-package exec-path-from-shell
   :defer 5
@@ -806,25 +611,25 @@ Return the errors parsed with the error patterns of CHECKER."
   :config
   ;; `S' can show the time of sunrise and sunset on Calendar
   (setq calendar-location-name "Chengdu"
-	calendar-latitude 30.67
-	calendar-longitude 104.06)
+	    calendar-latitude 30.67
+	    calendar-longitude 104.06)
   ;; Holidays
   (setq calendar-mark-holidays-flag nil)
   (setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
   (setq cal-china-x-general-holidays
-	'((holiday-lunar 1 15 "元宵节")
-	  (holiday-lunar 7 7 "七夕节")
-	  (holiday-fixed 3 8 "妇女节")
-	  (holiday-fixed 3 12 "植树节")
-	  (holiday-fixed 5 4 "青年节")
-	  (holiday-fixed 6 1 "儿童节")
-	  (holiday-fixed 9 10 "教师节")))
+	    '((holiday-lunar 1 15 "元宵节")
+	      (holiday-lunar 7 7 "七夕节")
+	      (holiday-fixed 3 8 "妇女节")
+	      (holiday-fixed 3 12 "植树节")
+	      (holiday-fixed 5 4 "青年节")
+	      (holiday-fixed 6 1 "儿童节")
+	      (holiday-fixed 9 10 "教师节")))
   (setq holiday-other-holidays
-	'((holiday-fixed 2 14 "情人节")
-	  (holiday-fixed 4 1 "愚人节")
-	  (holiday-fixed 12 25 "圣诞节")
-	  (holiday-float 5 0 2 "母亲节")
-	  (holiday-float 6 0 3 "父亲节")
-	  (holiday-float 11 4 4 "感恩节"))))
+	    '((holiday-fixed 2 14 "情人节")
+	      (holiday-fixed 4 1 "愚人节")
+	      (holiday-fixed 12 25 "圣诞节")
+	      (holiday-float 5 0 2 "母亲节")
+	      (holiday-float 6 0 3 "父亲节")
+	      (holiday-float 11 4 4 "感恩节"))))
 
 (provide 'init-misc)

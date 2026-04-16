@@ -1,29 +1,17 @@
 ;;; init-utils
 
+(use-package sicp
+  :ensure t)
+
+(defun kill-current-path ()
+  (interactive)
+  (kill-new (buffer-file-name)))
+
 (defun gk-set-window-margins ()
   (interactive)
   (let* ((margin (string-to-number
                   (completing-read "Input margin: " nil))))
     (set-window-margins (selected-window) margin margin)))
-
-(defvar gk-chinese-weekdays '("周一" "周二" "周三" "周四" "周五" "周六" "周日"))
-(defvar gk-english-weekdays '("Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun"))
-(defun gk-convert-weekday-to-english ()
-  (interactive)
-  (let ((file "~/GTD/Todo.org")
-        (regexp (string-join
-                 (mapcar (lambda (e)
-                           (s-wrap e "\\(" "\\)"))
-                         gk-chinese-weekdays)
-                 "\\|")))
-    (with-current-buffer (find-file-noselect file)
-      (goto-char (point-min))
-      (while (re-search-forward regexp nil t)
-        (let* ((weekday (match-string-no-properties 0))
-               (pos (seq-position gk-chinese-weekdays weekday))
-               (eng-weekday (nth pos gk-english-weekdays)))
-          (message "%s" eng-weekday)
-          (replace-match eng-weekday t))))))
 
 (defun gk/deploy-mygtd ()
   "Deploy geekblog."
@@ -31,14 +19,6 @@
   (let ((display-buffer-alist
          '(("\\*Async Shell Command\\*" display-buffer-no-window))))
     (async-shell-command "cd c:/Users/26289/Hackings/mygtd && git add . && git commit -m 'update' && git push")))
-
-(defun gk/deploy-wiki ()
-  "Deploy geekblog."
-  (interactive)
-  (let ((display-buffer-alist
-         '(("\\*Async Shell Command\\*" display-buffer-no-window))))
-    (async-shell-command "cd c:/Users/26289/Hackings/md-wiki/ && sh ./deploy.sh")
-    (switch-to-buffer "*Async Shell Command*")))
 
 (defun gk/deploy-blog ()
   "Deploy geekblog."
@@ -84,13 +64,8 @@
   :ensure nil
   :hook (after-init . winner-mode))
 
-(use-package aggressive-indent
-  :ensure t
-  :config
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode))
-
-(use-package package-lint
-  :ensure t)
+;; (use-package package-lint
+;;   :ensure t)
 
 ;; (use-package vterm
 ;;   :ensure t)
@@ -118,14 +93,14 @@
   (interactive "fvideo path: \nfnew item name (eg. exam.mp4, exam.gif) : ")
   (let ((video-format (cadr (split-string (file-name-nondirectory new) "\\."))))
     (if (string= video-format "gif")
-	(progn
-	  (shell-command
-	   (concat "ffmpeg -i " video " -r 5 " new))
-	  (message "%s convert to %s successfully!" video new))
+	    (progn
+	      (shell-command
+	       (concat "ffmpeg -i " video " -r 5 " new))
+	      (message "%s convert to %s successfully!" video new))
       (progn
-	(shell-command
-	 (concat "ffmpeg -i " video " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " new))
-	(message "%s compress and convert to %s successfully!" video new)))))
+	    (shell-command
+	     (concat "ffmpeg -i " video " -vcodec libx264 -b:v 5000k -minrate 5000k -maxrate 5000k -bufsize 4200k -preset fast -crf 20 -y -acodec libmp3lame -ab 128k " new))
+	    (message "%s compress and convert to %s successfully!" video new)))))
 
 (use-package quelpa
   :ensure t
@@ -159,7 +134,7 @@
           (progn
             (if (eq major-mode 'org-mode) ; 去掉 org 文件的 OPTIONS（以#+開頭）
                 (setq v-buffer-string (replace-regexp-in-string "^#\\+.+" ""
-								(buffer-substring-no-properties (point-min) (point-max))))
+								                                (buffer-substring-no-properties (point-min) (point-max))))
               (setq v-buffer-string (buffer-substring-no-properties (point-min) (point-max))))
             (replace-regexp-in-string (format "^ *%s *.+" comment-start) "" v-buffer-string)))
                                         ; 把註解行刪掉（不把註解算進字數）。
@@ -195,16 +170,21 @@
 ;;----------------------------------------------------------------------
 (defun my/insert-current-time ()
   "Insert the current time"
-  (interactive "*")
+  (interactive)
   (insert (format-time-string "%Y-%m-%d %H:%M:%S" (current-time))))
 
 (defun my/insert-current-date ()
   "Insert the current time"
-  (interactive "*")
+  (interactive)
   (insert (format-time-string "%b %d, %Y" (current-time))))
+
+(defun my/insert-uuid ()
+  (interactive)
+  (insert (org-id-uuid)))
 
 (global-set-key (kbd "C-c t t") 'my/insert-current-time)
 (global-set-key (kbd "C-c t d") 'my/insert-current-date)
+(global-set-key (kbd "C-c t u") 'my/insert-uuid)
 ;;-------------------------------------------------------------------
 ;; generate qrcode
 (setq lexical-binding t)
@@ -260,10 +240,10 @@ Return a new buffer or BUF with the code in it."
   :ensure t
   :defer t)
 
-(use-package which-key
-  :ensure t
-  :hook (after-init . which-key-mode)
-  :init (setq which-key-idle-delay 0.5))
+;; (use-package which-key
+;;   :ensure t
+;;   :hook (after-init . which-key-mode)
+;;   :init (setq which-key-idle-delay 0.5))
 
 ;;google translate
 ;; (use-package go-translate
@@ -275,7 +255,7 @@ Return a new buffer or BUF with the code in it."
   :ensure t
   :defer 5
   :bind (("C-c y y" . youdao-dictionary-search-at-point+)
-  	 ("C-c y i" . youdao-dictionary-search-from-input))
+  	     ("C-c y i" . youdao-dictionary-search-from-input))
   :init
   (setq url-automatic-caching t))
 
@@ -290,24 +270,25 @@ Return a new buffer or BUF with the code in it."
   :ensure t
   :init
   (setq search-web-engines
-	'(("腾讯视频" "https://v.qq.com/x/search/?q=%s" nil)
-	  ("Google" "http://www.google.com/search?q=%s" nil)
-	  ("Youtube" "http://www.youtube.com/results?search_query=%s" nil)
-	  ("Bilibili" "https://search.bilibili.com/all?keyword=%s" nil)
+	    '(("Leetcode" "https://leetcode.cn/search/?q=%s" nil)
+          ("Bing" "https://cn.bing.com/search?q=%s" nil)
+          ("腾讯视频" "https://v.qq.com/x/search/?q=%s" nil)
+          ("Baidu" "https://www.baidu.com/s?wd=%s" nil)
+	      ("Google" "http://www.google.com/search?q=%s" nil)
+	      ("Youtube" "http://www.youtube.com/results?search_query=%s" nil)
+	      ("Bilibili" "https://search.bilibili.com/all?keyword=%s" nil)
           ("Zhihu" "https://www.zhihu.com/search?type=content&q=%s" nil)
-	  ("Stackoveflow" "http://stackoverflow.com/search?q=%s" nil)
-	  ("Sogou" "https://www.sogou.com/web?query=%s" nil)
-	  ("Github" "https://github.com/search?q=%s" nil)
-	  ("Melpa" "https://melpa.org/#/?q=%s" nil)
-	  ("Emacs-China" "https://emacs-china.org/search?q=%s" nil)
-	  ("EmacsWiki" "https://www.emacswiki.org/emacs/%s" nil)
-	  ("Wiki-zh" "https://zh.wikipedia.org/wiki/%s" nil)
-	  ("Wiki-en" "https://en.wikipedia.org/wiki/%s" nil)
-	  ))
+	      ("Stackoveflow" "http://stackoverflow.com/search?q=%s" nil)
+	      ("Github" "https://github.com/search?q=%s" nil)
+	      ("Melpa" "https://melpa.org/#/?q=%s" nil)
+	      ("Emacs-China" "https://emacs-china.org/search?q=%s" nil)
+	      ("EmacsWiki" "https://www.emacswiki.org/emacs/%s" nil)
+	      ("Wiki-zh" "https://zh.wikipedia.org/wiki/%s" nil)
+	      ("Wiki-en" "https://en.wikipedia.org/wiki/%s" nil)))
   :bind (("C-c w u" . browse-url)
-	 ("C-c w w" . search-web)
-	 ("C-c w p" . search-web-at-point)
-	 ("C-c w r" . search-web-region)))
+	     ("C-c w w" . search-web)
+	     ("C-c w p" . search-web-at-point)
+	     ("C-c w r" . search-web-region)))
 
 ;; use xwidget-webkit
 ;; (setq browse-url-browser-function 'xwidget-webkit-browse-url)
@@ -316,7 +297,6 @@ Return a new buffer or BUF with the code in it."
 ;;   (xwidget-webkit-browse-url url args))
 ;;(define-key xwidget-webkit-mode-map (kbd "C-c w c") 'xwidget-webkit-copy-selection-as-kill)
 ;;(define-key xwidget-webkit-mode-map (kbd "C-c w k") 'xwidget-webkit-current-url-message-kill)
-
 
 (use-package browse-at-remote
   :ensure t
@@ -337,12 +317,6 @@ Return a new buffer or BUF with the code in it."
 (use-package password-generator
   :ensure t)
 
-(defun file-contents (filename)
-  (interactive "fFind file: ")
-  (with-temp-buffer
-    (insert-file-contents filename) ;; 先将文件内容插入临时buffer，再读取内容
-    (buffer-substring-no-properties (point-min) (point-max))))
-
 (defun chunyang-scratch-save ()
   (ignore-errors
     (with-current-buffer "*scratch*"
@@ -352,8 +326,8 @@ Return a new buffer or BUF with the code in it."
   (let ((f (concat user-emacs-directory "scratch")))
     (when (file-exists-p f)
       (with-current-buffer "*scratch*"
-	(erase-buffer)
-	(insert-file-contents f)))))
+	    (erase-buffer)
+	    (insert-file-contents f)))))
 
 (add-hook 'kill-emacs-hook #'chunyang-scratch-save)
 (add-hook 'after-init-hook #'chunyang-scratch-restore)
@@ -373,34 +347,34 @@ Return a new buffer or BUF with the code in it."
 (defun my/personal-summary (x)
   (interactive "swhich type of summary (w->week | m->month | y->year): ")
   (let* ((year (format-time-string "%Y"))
-	 (month (format-time-string "%m"))
-	 (week (format-time-string "%W"))
-	 (week-file (concat "~/iCloud/program_org/" year "-week-summary-" week ".org"))
-	 (month-file (concat "~/iCloud/program_org/" year "-month-summary-" month ".org"))
-	 (year-file (concat "~/iCloud/program_org/" year "-year-summary.org"))
-	 (org-head
-	  (concat "#+DATE: " (format-time-string "%F") "\n"
-		  "#+CATEGORY: 总结
+	     (month (format-time-string "%m"))
+	     (week (format-time-string "%W"))
+	     (week-file (concat "~/iCloud/program_org/" year "-week-summary-" week ".org"))
+	     (month-file (concat "~/iCloud/program_org/" year "-month-summary-" month ".org"))
+	     (year-file (concat "~/iCloud/program_org/" year "-year-summary.org"))
+	     (org-head
+	      (concat "#+DATE: " (format-time-string "%F") "\n"
+		          "#+CATEGORY: 总结
 #+STARTUP: showall
 #+OPTIONS: toc:nil H:2 num:0
 #+HTML_HEAD: <link rel=\"stylesheet\" type=\"text/css\" href=\"https://geekinney.com/assets/css/light.css\"/>\n
 ")))
     (with-temp-buffer
       (cond ((string= x "w")
-	     (insert (concat "#+TITLE: " year "年" week "周总结\n"))
-	     (insert org-head)
-	     (insert "* 本周总结\n* 下周规划")
-	     (write-file week-file))
-	    ((string= x "m")
-	     (insert (concat "#+TITLE: " year "年" month "月总结\n"))
-	     (insert org-head)
-	     (insert "* 本月总结\n* 下月规划")
-	     (write-file month-file))
-	    ((string= x "y")
-	     (insert (concat "#+TITLE: " year "年度总结\n"))
-	     (insert org-head)
-	     (insert "* 年度总结\n* 明年规划")
-	     (write-file year-file))))))
+	         (insert (concat "#+TITLE: " year "年" week "周总结\n"))
+	         (insert org-head)
+	         (insert "* 本周总结\n* 下周规划")
+	         (write-file week-file))
+	        ((string= x "m")
+	         (insert (concat "#+TITLE: " year "年" month "月总结\n"))
+	         (insert org-head)
+	         (insert "* 本月总结\n* 下月规划")
+	         (write-file month-file))
+	        ((string= x "y")
+	         (insert (concat "#+TITLE: " year "年度总结\n"))
+	         (insert org-head)
+	         (insert "* 年度总结\n* 明年规划")
+	         (write-file year-file))))))
 
 (defun xah-open-in-external-app (&optional @fname)
   "Open the current file or dired marked files in external app.
@@ -410,36 +384,282 @@ URL `http://ergoemacs.org/emacs/emacs_dired_open_file_in_ext_apps.html'
 Version 2019-11-04"
   (interactive)
   (let* (($file-list
-	  (if @fname
-	      (progn (list @fname))
-	    (if (string-equal major-mode "dired-mode")
-		(dired-get-marked-files)
-	      (list (buffer-file-name)))))
-	 ($do-it-p (if (<= (length $file-list) 5)
-		       t
-		     (y-or-n-p "Open more than 5 files? "))))
+	      (if @fname
+	          (progn (list @fname))
+	        (if (string-equal major-mode "dired-mode")
+		        (dired-get-marked-files)
+	          (list (buffer-file-name)))))
+	     ($do-it-p (if (<= (length $file-list) 5)
+		               t
+		             (y-or-n-p "Open more than 5 files? "))))
     (when $do-it-p
       (cond
        ((string-equal system-type "windows-nt")
-	(mapc
-	 (lambda ($fpath)
-	   (w32-shell-execute "open" $fpath))
-	 $file-list))
+	    (mapc
+	     (lambda ($fpath)
+	       (w32-shell-execute "open" $fpath))
+	     $file-list))
        ((string-equal system-type "darwin")
-	(mapc
-	 (lambda ($fpath)
-	   (shell-command
-	    (concat "open " (shell-quote-argument $fpath))))
-	 $file-list))
+	    (mapc
+	     (lambda ($fpath)
+	       (shell-command
+	        (concat "open " (shell-quote-argument $fpath))))
+	     $file-list))
        ((string-equal system-type "gnu/linux")
-	(mapc
-	 (lambda ($fpath) (let ((process-connection-type nil))
-			    (start-process "" nil "xdg-open" $fpath)))
-	 $file-list))))))
+	    (mapc
+	     (lambda ($fpath) (let ((process-connection-type nil))
+			                (start-process "" nil "xdg-open" $fpath)))
+	     $file-list))))))
 
 (require 'dired)
 (define-key dired-mode-map (kbd "<C-return>") 'xah-open-in-external-app)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun print-symbol-τ ()
+  "print to"
+  (interactive)
+  (insert "τ"))
+(global-set-key (kbd "C-c s t o") 'print-symbol-τ)
+
+(defun print-symbol-∂ ()
+  "print round"
+  (interactive)
+  (insert "∂"))
+(global-set-key (kbd "C-c s r d") 'print-symbol-∂)
+
+(defun print-symbol-∮ ()
+  "print qjf"
+  (interactive)
+  (insert "∮")∮)
+(global-set-key (kbd "C-c s q j f") 'print-symbol-∮)
+
+(defun print-symbol-ρ ()
+  "print ru"
+  (interactive)
+  (insert "ρ"))
+(global-set-key (kbd "C-c s r u") 'print-symbol-ρ)
+
+(defun print-symbol-± ()
+  "print plus and minus"
+  (interactive)
+  (insert "±"))
+(global-set-key (kbd "C-c s p m") 'print-symbol-±)
+
+(defun print-symbol-⊥ ()
+  "print perpendicular to"
+  (interactive)
+  (insert "⊥"))
+(global-set-key (kbd "C-c s p t") 'print-symbol-⊥)
+
+(defun print-symbol-ʃ ()
+  "print jifen"
+  (interactive)
+  (insert "ʃ"))
+(global-set-key (kbd "C-c s j f") 'print-symbol-ʃ)
+
+(defun print-symbol-≥ ()
+  "print more and equal"
+  (interactive)
+  (insert "≥"))
+(global-set-key (kbd "C-c s m e") 'print-symbol-≥)
+
+(defun print-symbol-≤ ()
+  "print less and equal"
+  (interactive)
+  (insert "≤"))
+(global-set-key (kbd "C-c s l e") 'print-symbol-≤)
+
+(defun print-symbol-≠ ()
+  "print Inequality"
+  (interactive)
+  (insert "≠"))
+(global-set-key (kbd "C-c s i e") 'print-symbol-≠)
+
+(defun print-symbol-∃ ()
+  "print existence"
+  (interactive)
+  (insert "∃"))
+(global-set-key (kbd "C-c s e x") 'print-symbol-∃)
+
+(defun print-symbol-∀ ()
+  "print Arbitrary"
+  (interactive)
+  (insert "∀"))
+(global-set-key (kbd "C-c s a b") 'print-symbol-∀)
+
+(defun print-symbol-⊆ ()
+  "print contained"
+  (interactive)
+  (insert "⊆"))
+(global-set-key (kbd "C-c s c t") 'print-symbol-⊆)
+
+(defun print-symbol-∈ ()
+  "print Belong"
+  (interactive)
+  (insert "∈"))
+(global-set-key (kbd "C-c s b l") 'print-symbol-∈)
+
+(defun print-symbol-∞ ()
+  "print Infinit"
+  (interactive)
+  (insert "∞"))
+(global-set-key (kbd "C-c s i f") 'print-symbol-∞)
+
+(defun print-symbol-ξ ()
+  "print ksi"
+  (interactive)
+  (insert "ξ"))
+(global-set-key (kbd "C-c s k s") 'print-symbol-ξ)
+
+(defun print-symbol-η ()
+  "print eta"
+  (interactive)
+  (insert "η"))
+(global-set-key (kbd "C-c s e t") 'print-symbol-η)
+
+(defun print-symbol-ε ()
+  "print Epsilon"
+  (interactive)
+  (insert "ε"))
+(global-set-key (kbd "C-c s e p") 'print-symbol-ε)
+
+(defun print-symbol-α ()
+  "print Alpha"
+  (interactive)
+  (insert "α"))
+(global-set-key (kbd "C-c s a p") 'print-symbol-α)
+
+(defun print-symbol-β ()
+  "print Beta"
+  (interactive)
+  (insert "β"))
+(global-set-key (kbd "C-c s b t") 'print-symbol-β)
+
+(defun print-symbol-γ ()
+  "print Gamma"
+  (interactive)
+  (insert "γ"))
+(global-set-key (kbd "C-c s g m") 'print-symbol-γ)
+
+(defun print-symbol-λ ()
+  "print lambda"
+  (interactive)
+  (insert "λ"))
+(global-set-key (kbd "C-c s l d") 'print-symbol-λ)
+
+(defun print-symbol-θ ()
+  "print Theta"
+  (interactive)
+  (insert "θ"))
+(global-set-key (kbd "C-c s t t") 'print-symbol-θ)
+
+(defun print-symbol-ζ ()
+  "print Zeta"
+  (interactive)
+  (insert "ζ"))
+(global-set-key (kbd "C-c s z t") 'print-symbol-ζ)
+
+(defun print-symbol-Δ ()
+  "print Delte"
+  (interactive)
+  (insert "Δ"))
+;; (global-set-key (kbd "C-c s d t") 'print-symbol-Δ)
+
+(defun print-symbol-μ ()
+  "print Mu"
+  (interactive)
+  (insert "μ"))
+(global-set-key (kbd "C-c s m u ") 'print-symbol-μ)
+
+(defun print-symbol-π ()
+  "print Pi"
+  (interactive)
+  (insert "π"))
+(global-set-key (kbd "C-c s p i") 'print-symbol-π)
+
+(defun print-symbol-σ ()
+  "print Sigma"
+  (interactive)
+  (insert "σ"))
+(global-set-key (kbd "C-c s s m") 'print-symbol-σ)
+
+(defun print-symbol-Σ ()
+  "print upper Sigma"
+  (interactive)
+  (insert "Σ"))
+(global-set-key (kbd "C-c s u s m") 'print-symbol-Σ)
+
+(defun print-symbol-ρ ()
+  "print Rho"
+  (interactive)
+  (insert "ρ"))
+(global-set-key (kbd "C-c s r h") 'print-symbol-ρ)
+
+(defun print-symbol-ψ ()
+  "print Psi"
+  (interactive)
+  (insert "ψ"))
+(global-set-key (kbd "C-c s p s") 'print-symbol-ψ)
+
+(defun print-symbol-φ ()
+  "print Phi"
+  (interactive)
+  (insert "φ"))
+(global-set-key (kbd "C-c s p h") 'print-symbol-φ)
+
+(defun print-symbol-Φ ()
+  "print upper Phi"
+  (interactive)
+  (insert "Φ"))
+(global-set-key (kbd "C-c s u p h") 'print-symbol-Φ)
+
+(defun print-symbol-ω ()
+  "print lower Omiga"
+  (interactive)
+  (insert "ω"))
+(global-set-key (kbd "C-c s l o g") 'print-symbol-ω)
+
+(defun print-symbol-Ω ()
+  "print upper Omiga"
+  (interactive)
+  (insert "Ω"))
+(global-set-key (kbd "C-c s u o g") 'print-symbol-Ω)
+
+;;=================================================================
+(defun print-symbol-◉ ()
+  (interactive)
+  (insert "◉"))
+(global-set-key (kbd "C-c s t d") 'print-symbol-◉)
+
+(defun print-symbol-● ()
+  (interactive)
+  (insert "●"))
+(global-set-key (kbd "C-c s s d") 'print-symbol-●) ;;solid dot
+
+(defun print-symbol-○ ()
+  (interactive)
+  (insert "○"))
+(global-set-key (kbd "C-c s h d") 'print-symbol-○) ;;hollow dot
+
+(defun print-symbol-× ()
+  (interactive)
+  (insert "×"))
+(global-set-key (kbd "C-c s c h") 'print-symbol-×) ;;cross
+
+(defun print-symbol-★ ()
+  (interactive)
+  (insert "★"))
+(global-set-key (kbd "C-c s 1") 'print-symbol-★)
+
+(defun print-symbol-√ ()
+  (interactive)
+  (insert "√"))
+(global-set-key (kbd "C-c s g h") 'print-symbol-√)
+
+(defun print-symbol-❤ ()
+  (interactive)
+  (insert "❤"))
+(global-set-key (kbd "C-c s t m") 'print-symbol-❤)
 
 (provide 'init-utils)
 ;; ;;; init-utils.el ends here

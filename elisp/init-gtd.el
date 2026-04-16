@@ -44,7 +44,11 @@
 			              (:name "handly todo"
 				                 :and (:category ("Task") :date nil :not (:habit t)))
 			              (:discard (:anything t)))))))
-	     ((org-agenda-files '("~/GTD/Todo.org"))))
+	     ((org-agenda-files
+           `(,(gkroam--get-page "PARA[Project]")
+             ,(gkroam--get-page "PARA[Area]")
+             ,(gkroam--get-page "PARA[Resource]")
+             ,(gkroam--get-page "PARA[Archive]")))))
         ;; ("p" "Project Review"
         ;;  ((alltodo "" ((org-agenda-overriding-header "Project Review")
 	    ;; 	       (org-agenda-skip-function 'jethro/org-agenda-skip-all-siblings-but-first)
@@ -58,33 +62,38 @@
 		               (org-super-agenda-groups
 			            '((:name "Need to handle:"
 				                 :category "Inbox"))))))
-	     ((org-agenda-files '("~/GTD/Inbox.org"))))
-	    ("s" "Someday/Maybe Agenda"
-	     ((alltodo "" ((org-agenda-overriding-header "Someday/Maybe")
-		               (org-super-agenda-groups
-			            '((:name "动漫/电影"
-                                 :tag "#animation")
-                          (:name "书籍/阅读"
-				                 :tag "#book")
-                          (:name "Emacs/Elisp"
-				                 :tag "#emacs")
-                          (:name "好物待购"
-				                 :tag "#buy"))))))
-	     ((org-agenda-files '("~/GTD/Someday.org"))))))
+	     ((org-agenda-files
+           `(,(gkroam--get-page "PARA[Project]")
+             ,(gkroam--get-page "PARA[Area]")
+             ,(gkroam--get-page "PARA[Resource]")
+             ,(gkroam--get-page "PARA[Archive]")))))
+	    ;; ("s" "Someday/Maybe Agenda"
+	    ;;  ((alltodo "" ((org-agenda-overriding-header "Someday/Maybe")
+		;;                (org-super-agenda-groups
+		;; 	            '((:name "动漫/电影"
+        ;;                          :tag "#animation")
+        ;;                   (:name "书籍/阅读"
+		;; 		                 :tag "#book")
+        ;;                   (:name "Emacs/Elisp"
+		;; 		                 :tag "#emacs")
+        ;;                   (:name "好物待购"
+		;; 		                 :tag "#buy"))))))
+	    ;;  ((org-agenda-files '("~/GTD/Someday.org"))))
+        ))
 
 (defun jethro/org-agenda-skip-all-siblings-but-first ()
   "Skip all but the first non-done entry."
   (let (should-skip-entry)
     (unless (or (org-current-is-todo)
-		(not (org-get-scheduled-time (point))))
+		        (not (org-get-scheduled-time (point))))
       (setq should-skip-entry t)) ;; 当前是不是TODO且当前有scheduled time才设置跳过
     (save-excursion
       (while (and (not should-skip-entry) (org-goto-sibling t))
-	(when (org-current-is-todo)
-	  (setq should-skip-entry t)))) ;; 在当不跳过且走到兄弟节点时循环，如何当前为TODO则跳过。
+	    (when (org-current-is-todo)
+	      (setq should-skip-entry t)))) ;; 在当不跳过且走到兄弟节点时循环，如何当前为TODO则跳过。
     (when should-skip-entry
       (or (outline-next-heading)
-	  (goto-char (point-max))))))
+	      (goto-char (point-max))))))
 
 (defun jethro/org-agenda-skip-all-children-but-heading ()
   "Skip all but heading entry."

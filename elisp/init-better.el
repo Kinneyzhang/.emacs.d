@@ -13,12 +13,14 @@
 ;;(add-hook 'prog-mode-hook 'display-line-numbers-mode);;显示行号
 (set-display-table-slot standard-display-table 'wrap ?\ )
 (show-paren-mode 1)
-(setq scroll-step 1
-      scroll-margin 1
-      scroll-conservatively 10000)
+(setq scroll-conservatively 10000)
+
+(setq org-link-elisp-confirm-function nil)
+(setq delete-by-moving-to-trash t)
 
 (setq-default tab-width 4)
-(setq-default cursor-type 'bar)
+(setq-default cursor-type '(bar . 5))
+(setq-default cursor-type 'box)
 
 (defun my/move-to-window-bottom ()
   (interactive)
@@ -28,18 +30,34 @@
   (interactive)
   (move-to-window-line 0))
 
+;;; ignore shown in dired
+(require 'dired-x)
+;; (setq dired-omit-files
+;;       (concat "\\.trash\\|^_.+\\|desktop\\.ini\\|\\.SynologyWorkingDirectory\\|\\.para-fold\\|" dired-omit-files))
+;; (add-hook 'dired-mode-hook 'dired-omit-mode)
+;; (remove-hook 'dired-mode-hook 'dired-omit-mode)
+
 (global-set-key (kbd "<f5>") #'my/move-to-window-bottom)
 (global-set-key (kbd "<f6>") #'my/move-to-window-top)
 
+(use-package helpful
+  :ensure t
+  :config
+  (global-set-key (kbd "C-h f") #'helpful-function)
+  (global-set-key (kbd "C-h k") #'helpful-key))
+
 (fset 'yes-or-no-p 'y-or-n-p);;用y/s代替yes/no
 
-(setq bookmark-file-coding-system 'utf-8)
-(setq magit-git-output-coding-system 'utf-8)
 (setq bookmark-save-flag 1)
 (setq org-image-actual-width nil)
 (setq show-trailing-whitespace t)
+
 (prefer-coding-system 'utf-8)
-(setq buffer-file-coding-system 'utf-8-dos)
+(setq buffer-file-coding-system 'utf-8)
+(setq default-process-coding-system '(utf-8-dos . utf-8-unix))
+(set-terminal-coding-system 'utf-8)
+;;; using them in let, but don't set it globally
+;; coding-system-for-read coding-system-for-write
 
 (eval-after-load 'org-mode
   (add-hook 'org-mode-hook (lambda () (toggle-truncate-lines -1))))
@@ -75,9 +93,9 @@
 (define-advice show-paren-function (:around (fn) fix-show-paren-function)
   "Highlight enclosing parens."
   (cond ((looking-at-p "\\s(") (funcall fn))
-	(t (save-excursion
-	     (ignore-errors (backward-up-list))
-	     (funcall fn)))))
+	    (t (save-excursion
+	         (ignore-errors (backward-up-list))
+	         (funcall fn)))))
 
 ;; indent buffer
 (setq-default indent-tabs-mode nil)
@@ -90,24 +108,24 @@
   (interactive)
   (save-excursion
     (if (region-active-p)
-	(progn
-	  (indent-region (region-beginning) (region-end))
-	  (message "Indent selected region."))
+	    (progn
+	      (indent-region (region-beginning) (region-end))
+	      (message "Indent selected region."))
       (progn
-	(indent-buffer)
-	(message "Indent buffer.")))))
+	    (indent-buffer)
+	    (message "Indent buffer.")))))
 
 ;;better code company
 (setq hippie-expand-try-function-list '(try-expand-debbrev
-					try-expand-debbrev-all-buffers
-					try-expand-debbrev-from-kill
-					try-complete-file-name-partially
-					try-complete-file-name
-					try-expand-all-abbrevs
-					try-expand-list
-					try-expand-line
-					try-complete-lisp-symbol-partially
-					try-complete-lisp-symbol))
+					                    try-expand-debbrev-all-buffers
+					                    try-expand-debbrev-from-kill
+					                    try-complete-file-name-partially
+					                    try-complete-file-name
+					                    try-expand-all-abbrevs
+					                    try-expand-list
+					                    try-expand-line
+					                    try-complete-lisp-symbol-partially
+					                    try-complete-lisp-symbol))
 
 (defun my/split-three-windows ()
   (interactive)
@@ -155,5 +173,11 @@
   (split-window-below)
   (split-window-right)
   (balance-windows))
+
+(defun dired-file-name-at-point-interactive ()
+  (interactive)
+  (kill-new (file-truename (dired-file-name-at-point))))
+
+(bind-key "P" #'dired-file-name-at-point-interactive 'dired-mode-map)
 
 (provide 'init-better)
