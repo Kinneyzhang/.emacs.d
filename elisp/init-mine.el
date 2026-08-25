@@ -1,3 +1,5 @@
+;; -*- lexical-binding: nil; -*-
+
 (defun mind-wave-new-file-and-chat ()
   (interactive)
   (let* ((dir (expand-file-name "mind-wave" user-emacs-directory))
@@ -35,7 +37,7 @@
 
 (setq frame-title-format
       '("" default-directory "  "
-        (:eval (prefix/runtime-info-string))))
+        (:eval (my/runtime-info-string))))
 
 ;; 不需要显式调用 gc 或 redraw-frame。
 

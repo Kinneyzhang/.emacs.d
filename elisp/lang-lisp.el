@@ -1,3 +1,5 @@
+;; -*- lexical-binding: nil; -*-
+
 (use-package elisp-demos
   :ensure t
   :config

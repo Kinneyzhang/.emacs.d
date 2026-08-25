@@ -1,3 +1,5 @@
+;; -*- lexical-binding: nil; -*-
+
 (defun xah-open-in-external-app (&optional @fname)
   "Open the current file or dired marked files in external app.
 The app is chosen from your OS's preference.

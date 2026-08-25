@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: nil; -*-
 ;;; include ivy avy counsel swiper and some packages using them.
 (use-package ivy
   :ensure t

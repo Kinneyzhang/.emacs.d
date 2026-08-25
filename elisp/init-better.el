@@ -1,3 +1,4 @@
+;;; -*- lexical-binding: nil; -*-
 ;;; some better defaults
 (setq inhibit-startup-message t) ;; 不显示启动信息
 (setq ring-bell-function 'ignore) ;; 消除滑动到底部或顶部时的声音
@@ -86,6 +87,7 @@
 
 (use-package which-key
   :ensure t
+  :diminish which-key-mode
   :hook (after-init . which-key-mode)
   :init (setq which-key-idle-delay 0.5))
 

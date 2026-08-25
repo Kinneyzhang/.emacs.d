@@ -1,3 +1,5 @@
+;; -*- lexical-binding: nil; -*-
+
 ;; (use-package vterm
 ;;  :ensure t)
 
@@ -399,6 +401,24 @@
          (last-day-of-month
           (calendar-last-day-of-month month year)))
     (= day last-day-of-month)))
+
+;;; Runtime data files are loaded as Emacs Lisp, so make their binding
+;;; dialect explicit without changing the configuration's legacy semantics.
+(defun my/ensure-dynamic-binding-cookie (file)
+  "Add an explicit dynamic-binding cookie to generated Lisp FILE.
+
+Only the first two lines are inspected because that is where Emacs
+recognizes file-local variables.  Existing files are left untouched."
+  (when (and (stringp file) (file-readable-p file))
+    (with-temp-buffer
+      (insert-file-contents file)
+      (unless (save-excursion
+                (goto-char (point-min))
+                (re-search-forward "lexical-binding[ \t]*:" (line-end-position 2) t))
+        (goto-char (point-min))
+        (insert ";; -*- lexical-binding: nil; -*-\n")
+        (let ((coding-system-for-write buffer-file-coding-system))
+          (write-region (point-min) (point-max) file nil 'silent))))))
 
 (provide 'init-utils)
 ;; ;;; init-utils.el ends here

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: nil; -*-
+
 (use-package rust-mode
   :ensure t
   :config

@@ -1,8 +1,12 @@
+;; -*- lexical-binding: nil; -*-
 ;; Add export PATH="/path/to/code/cask/bin:$PATH" by Package.el.
 ;; This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
+
+(setq package-enable-at-startup nil)
+(setq package-quickstart nil)
 
 (setq package-archives
       '(("gnu" . "https://mirrors.ustc.edu.cn/elpa/gnu/")

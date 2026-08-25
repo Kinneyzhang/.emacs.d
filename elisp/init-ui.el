@@ -1,3 +1,5 @@
+;; -*- lexical-binding: nil; -*-
+
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (fringe-mode 0)
@@ -34,7 +36,8 @@
 
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("JetBrains Mono"
+  (cl-loop for font in '("PragmataPro"
+                         "JetBrains Mono"
                          "Source Code Pro for Powerline"
                          ;; "Menlo"
                          ;; "LXGW WenKai Mono"
@@ -47,7 +50,7 @@
            return (set-face-attribute
                    'default nil
                    :font font
-                   :height (cond ((eq system-type 'darwin) 150)
+                   :height (cond ((eq system-type 'darwin) 135)
                                  ((eq system-type 'windows-nt) 110)
                                  (t 110))))
   ;; Specify font for all unicode characters
@@ -56,7 +59,8 @@
            return (set-fontset-font t 'unicode font nil 'append))
   ;; Specify font for Chinese characters
   (cl-loop for font in
-           '("JuZhenXinFang"
+           '("LXGW WenKai Mono"
+             ;; "JuZhenXinFang"
              ;; 聚珍新仿
              ;; "Microsoft Yahei"
              ;; "Source Han Sans SC"

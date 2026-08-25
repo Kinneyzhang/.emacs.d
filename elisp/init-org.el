@@ -1,3 +1,4 @@
+;; -*- lexical-binding: nil; -*-
 ;; init-org.el
 (use-package org
   ;; :bind (("C-c a" . org-agenda))

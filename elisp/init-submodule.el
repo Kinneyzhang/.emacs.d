@@ -1,3 +1,5 @@
+;; -*- lexical-binding: nil; -*-
+
 (use-package auto-save
   :load-path "~/.emacs.d/site-lisp/auto-save"
   :config

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: nil; -*-
+
 ;; (use-package projectile
 ;;   :ensure t
 ;;   :config (projectile-mode 1)
@@ -33,6 +35,11 @@
 (use-package prescient
   :ensure t
   :config
+  (defun my/prescient-ensure-save-cookie (&rest _)
+    "Keep Prescient's generated save file explicit about dynamic binding."
+    (my/ensure-dynamic-binding-cookie prescient-save-file))
+  (my/prescient-ensure-save-cookie)
+  (advice-add 'prescient--save :after #'my/prescient-ensure-save-cookie)
   (prescient-persist-mode))
 
 (use-package ivy-prescient
